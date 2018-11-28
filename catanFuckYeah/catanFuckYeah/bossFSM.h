@@ -16,13 +16,13 @@ private:
 #define TX(x) (static_cast<void (genericFSM::* )(genericEvent *)>(&bossFSM::x)) //casteo a funcion, por visual
 
 	const fsmCell fsmTable[6][7] = {
-	//	   INPUT_EVENT								DONE								OUT	 							QUIT							CLOSE_DISPLAY					 NETWORKING_EVENT							TIMER_EVENT
-	{ { START_MENU,TX(sendToStartMenu)},{ WAITING_CONNECTION,TX(newEstablisher) },{ START_MENU,TX(stMnError) },		{ START_MENU,TX(endStMn) },		{ START_MENU,TX(endStMn) },		  { START_MENU,TX(doNothing) },				 { START_MENU,TX(refreshStMn) } },				//START_MENU
-	{ { WAITING_CONNECTION,TX(sendToInnerFSM)},{ HANDSHAKING,TX(newHandshaking) },{ START_MENU,TX() },{ START_MENU,TX(verdsp) },			  { WAITING_CONNECTION,TX(end2) },{ WAITING_CONNECTION,TX(fijarsesierror) },{ WAITING_CONNECTION,TX(refresh) } },	//WAITING_CONNECTION
-	{ { HANDSHAKING,TX(mandar) },		{ PLAYING,TX(verdespues) },			  { START_MENU,TX(verdespues) },{ WAITING_TO_QUIT,TX(verdsp) },		  { HANDSHAKING,TX(end2) },		  { HANDSHAKING,TX(mandar) },				{ HANDSHAKING,TX(mandar) } },			//HANDSHAKING
-	{ { PLAYING,TX(mandar) },			{ REMATCH,TX(avisarquiengano) },	  { START_MENU,TX(verdesp) },	{ WAITING_TO_QUIT,TX(verdsp) },		  { PLAYING,TX(end2) },			  { PLAYING,TX(mandar) },					{ PLAYING,TX(mandar) } },				//PLAYING
-	{ { REMATCH,TX(mandar) },			{ HANDSHAKING,TX(verdesp) },		  { START_MENU,TX(verdesp) },	{ WAITING_TO_QUIT,TX(mandogameover) },{ REMATCH,TX(end2) },			  { REMATCH,TX(mandar) },					{ REMATCH,TX(mandar) } },				//REMATCH
-	{ { WAITING_TO_QUIT,TX(mandar) },	{ START_MENU,TX(xqllegoack) },		  { START_MENU,TX(xqerror) },	{ WAITING_TO_QUIT,TX(nada) },		  { WAITING_TO_QUIT,TX(end2) },	  { WAITING_TO_QUIT,TX(mandar) },			{ WAITING_TO_QUIT,TX(mandar) } }		//WAITING_TO_QUIT
+	//	   INPUT_EVENT								DONE								OUT	 								QUIT							CLOSE_DISPLAY					 NETWORKING_EVENT							TIMER_EVENT
+	{ { START_MENU,TX(sendToStartMenu)},{ WAITING_CONNECTION,TX(newEstablisher) },{ START_MENU,TX(stMnError) },			{ START_MENU,TX(closeStMn) },		{ START_MENU,TX(closeStMn) },		  { START_MENU,TX(doNothing) },				 { START_MENU,TX(refreshStMn) } },				//START_MENU
+	{ { WAITING_CONNECTION,TX(sendQuitController)},{ HANDSHAKING,TX(newHandshaking) },{ START_MENU,TX(newStMn) },		{ START_MENU,TX(newStMn) },		{ WAITING_CONNECTION,TX(closeWaiting) },{ WAITING_CONNECTION,TX(doNothing) },  { WAITING_CONNECTION,TX(refreshWait) } },	//WAITING_CONNECTION
+	{ { HANDSHAKING,TX(sendQuitController) },		{ PLAYING,TX(newGame) },		  { START_MENU,TX(closeConnection) },{ WAITING_TO_QUIT,TX(finishHandshaking) },		  { HANDSHAKING,TX(closeHandshaking) },	{ HANDSHAKING,TX(sendToNetwFSM) },	{ HANDSHAKING,TX(sendTimerEv) } },			//HANDSHAKING
+	{ { PLAYING,TX(sendInputEv) },			{ REMATCH,TX(verdesp) },		  { START_MENU,TX(closeConnection) },	{ WAITING_TO_QUIT,TX(finishGame) },		  { PLAYING,TX(closeGame) },			  { PLAYING,TX(sendNetwEv) },					{ PLAYING,TX(sendTimerEv) } },				//PLAYING
+	{ { REMATCH,TX(sendInputEv) },			{ HANDSHAKING,TX(verdesp) },		  { START_MENU,TX(closeConnection) },	{ WAITING_TO_QUIT,TX(sendGameOver) },{ REMATCH,TX(closeRematch) },			  { REMATCH,TX(sendNetwEv) },					{ REMATCH,TX(sendTimerEv) } },				//REMATCH
+	{ { WAITING_TO_QUIT,TX(sendInputEv) },	{ START_MENU,TX(newStMn) },		  { START_MENU,TX(newStMn) },	{ WAITING_TO_QUIT,TX(doNothing) },		  { WAITING_TO_QUIT,TX(close) },	  { WAITING_TO_QUIT,TX(sendNetwEv) },			{ WAITING_TO_QUIT,TX(sendTimerEv) } }		//WAITING_TO_QUIT
 	};
 
 	//The action routines for the FSM
@@ -30,14 +30,33 @@ private:
 	void sendToStartMenu(genericEvent * ev);
 	void newEstablisher(genericEvent * ev);
 	void stMnError(genericEvent * ev);			//startMenuError
-	void endStMn(genericEvent * ev);
+	void closeStMn(genericEvent * ev);
 	void refreshStMn(genericEvent * ev);
-	void sendToInnerFSM(genericEvent * ev);
+	void sendQuitController(genericEvent * ev);
 	void newHandshaking(genericEvent * ev);
+	void newStMn(genericEvent * ev);
+	void closeWaiting(genericEvent * ev);
+	void refreshWait(genericEvent * ev);
+	void newGame(genericEvent * ev);
+	void closeConnection(genericEvent * ev);
+	void finishHandshaking(genericEvent * ev);
+	void closeHandshaking(genericEvent * ev);
+	void sendToNetwFSM(genericEvent * ev);
+	void sendTimerEv(genericEvent * ev);
+	void sendInputEv(genericEvent * ev);
+	void finishGame(genericEvent * ev);
+	void closeGame(genericEvent * ev);
+	void sendNetwEv(genericEvent * ev);
+	void sendGameOver(genericEvent * ev);
+	void closeRematch(genericEvent * ev);
 	void(genericEvent * ev);
 	void(genericEvent * ev);
 	void(genericEvent * ev);
-	void(genericEvent * ev);
+
+
+
+
+
 	void doNothing(genericEvent * ev) {}
 
 	genericFSM * innerFSM;
