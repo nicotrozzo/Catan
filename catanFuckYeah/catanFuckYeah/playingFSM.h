@@ -90,7 +90,7 @@ private:
 
 #define TX(x) (static_cast<void (genericFSM::* )(genericEvent *)>(&bossFSM::x)) //casteo a funcion, por visual
 
-	const fsmCell fsmTable[3][2] = {
+	const fsmCell fsmTable[2][2] = {
 	//	   PACKAGE							USER_INPUT									
 	{ { WAIT_USER,TX(error) },		    { WAIT_OPPONENT, TX(sendMyCards) } },	//WAIT_MY_USER
 	{ { WAIT_OPPONENT,TX(sendPackage)}, { WAIT_OPPONENT,TX(error) },			//WAIT_OPPONENT
@@ -99,9 +99,8 @@ private:
 	//The action routines for the FSM
 
 	void error(genericEvent * ev);
-	void sendCards(genericEvent * ev);
-	void sendCardsToOpponent(genericEvent * ev);
-	void moveRobber(genericEvent * ev);
+	void sendMyCards(genericEvent * ev);
+	void sendPackage(genericEvent * ev);
 
 	//expectedevent
 public:
@@ -115,12 +114,18 @@ private:
 
 #define TX(x) (static_cast<void (genericFSM::* )(genericEvent *)>(&bossFSM::x)) //casteo a funcion, por visual
 
-	const fsmCell fsmTable[3][2] = {
+	/*const fsmCell fsmTable[3][2] = {
 		//	   OK							ROBBER_MOVE								MY_CARDS									MY_CARDS_AND_WAIT									
 		{ { WAIT_USER,TX(error) },		 { WAIT_USER,TX(error) },			{ WAIT_ROBBMOVE,TX(sendCardsToOpponent) },	{ WAIT_ROBBCARDS,TX(sendCardsToOpponent) } },	//WAIT_OPP_CARDS
 		{ { WAIT_ROBBMOVE,TX(sendCards)},{ WAIT_ROBBCARDS,TX(error) },		{ WAIT_ROBBCARDS,TX(error) },				{ WAIT_ROBBCARDS,TX(error) } },					//WAIT_ROBBCARDS
 		{ { WAIT_ROBBMOVE,TX(error) },	 { WAIT_ROBBMOVE,TX(moveRobber) },	{ WAIT_ROBBMOVE,TX(error) },				{ WAIT_ROBBMOVE,TX(error) } }					//WAIT_ROBBMOVE
-	};
+	};*/
+
+	const fsmCell fsmTable[2][2] = {
+		//	   PACKAGE							USER_INPUT									
+		{ { WAIT_USER,TX(error) },		    { WAIT_OPPONENT, TX(sendMyCards) } },	//WAIT_MY_USER
+		{ { WAIT_OPPONENT,TX(sendPackage)}, { WAIT_OPPONENT,TX(error) },			//WAIT_OPPONENT
+		};
 
 	//The action routines for the FSM
 

@@ -25,13 +25,13 @@ void playingFSM::sendDices(genericEvent * ev)
 	//}
 }
 
-void playingFSM::prepareRobber(genericEvent * ev)
+void playingFSM::prepareRobber(genericEvent * ev)		//VER DE QUE ACA PIDA ELEGIR LAS CARTAS A DESCARTAR ¿Y DONDE COLOCAR EL ROBBER?
 {
 	expectedPackages.clear();
 	expectedPackages = {ROBBER_CARDS, ROBBER_MOVE};
 	/*if(catanGame->myplayer->cardsCount() > 7)
 	{
-		robberfsm = new robberFSM(WAIT_USER);
+		robberfsm = new myRobberFSM(WAIT_OPPCARDS);
 	}
 	else if(catanGame->otherplayer->cardsCount() > 7)
 	{
