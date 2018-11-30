@@ -2,10 +2,8 @@
 #include "eventHandling.h"
 #include "networkingEvents.h"
 #include "connector.h"
-//connector
-//emitir eventos de networking,  
 
-class  netwEmisor
+class netwEmisor
 {
 public:
 	netwEmisor(connector * );
@@ -16,6 +14,7 @@ private:
 	void sendTrade(networkingEventTypes header, int ownResCount, string ownRes, int oppResCount, string oppRes);
 };
 
+
 class netwEventGenerator : public eventGenerator
 {
 public:
@@ -25,19 +24,7 @@ private:
 	connector * establishedConnector;
 	genericEvent * getNetwEv(string message);
 	bool emptyPackage(networkingEventTypes header);
-
 };	
-
-netwEventGenerator::netwEventGenerator(connector *establishedConnector_)
-{
-	establishedConnector = establishedConnector_;
-}
-
-genericEvent* netwEventGenerator::getEvent()
-{
-	establishedConnector->receive()
-
-}
 
 
 

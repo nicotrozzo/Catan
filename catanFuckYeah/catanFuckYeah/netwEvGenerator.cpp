@@ -41,6 +41,11 @@ sendTrade(networkingEventTypes header, int ownResCount, string ownRes, int oppRe
 	}
 }
 
+netwEventGenerator::netwEventGenerator(connector * connect)
+{
+	establishedConnector = connect;
+}
+
 genericEvent * netwEvGenerator::getEvent(void)
 {
 	genericEvent * ret = nullptr;
