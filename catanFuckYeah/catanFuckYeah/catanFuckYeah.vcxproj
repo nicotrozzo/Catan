@@ -126,8 +126,9 @@
     <ClCompile Include="eventHandling.cpp" />
     <ClCompile Include="genericFSM.cpp" />
     <ClCompile Include="handShakingFSM.cpp" />
-    <ClCompile Include="inputEventGenerators.cpp" />
+    <ClCompile Include="inputEventGenerator.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="netwEmisor.cpp" />
     <ClCompile Include="netwEvGenerator.cpp" />
     <ClCompile Include="networkingEvents.cpp" />
     <ClCompile Include="networkingFSM.cpp" />
@@ -147,7 +148,8 @@
     <ClInclude Include="genericFSM.h" />
     <ClInclude Include="handShakingFSM.h" />
     <ClInclude Include="Header.h" />
-    <ClInclude Include="inputEventGenerators.h" />
+    <ClInclude Include="inputEventGenerator.h" />
+    <ClInclude Include="netwEmisor.h" />
     <ClInclude Include="netwEvGenerator.h" />
     <ClInclude Include="networkingEvents.h" />
     <ClInclude Include="observer.h" />
