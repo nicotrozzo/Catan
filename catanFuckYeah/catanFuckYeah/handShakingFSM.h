@@ -32,7 +32,7 @@ private:
 	//			 NEXT							INVALID_EVENT													SKIP                  
 	{ { WAIT_NAME_REQUEST_S,TX(saveName) },	{ WAIT_NAME_S,TX(error) }	},			//WAIT_NAME_S				//{ WAIT_NAME,TX(error) } },					
 	{ { WAIT_NAME_ACK_S,TX(sendName) },		{ WAIT_NAME_REQUEST_S,TX(error) } },	//WAIT_NAME_REQUEST_S		//{ WAIT_NAME_REQUEST,TX(error) } },	
-	{ { MAP_ACK_S,TX(sendMap) },				{ WAIT_NAME_ACK_S,TX(error) } },		//WAIT_NAME_ACK_S			//{ WAIT_NAME_ACK,TX(error) } },		
+	{ { MAP_ACK_S,TX(sendMap) },				{ WAIT_NAME_ACK_S,TX(error) } },	//WAIT_NAME_ACK_S			//{ WAIT_NAME_ACK,TX(error) } },		
 	{ { CIRC_TOK_ACK_S,TX(sendTokens) },		{ MAP_ACK_S,TX(error) } },			//MAP_ACK_S				//{ MAP,TX(error) } },				
 	{ { WAIT_START_ACK_S,TX(sendStart) },		{ CIRC_TOK_ACK_S,TX(error) } },		//CIRC_TOK_ACK_S			//{ CIRC_TOK,TX(error) } },			
 	{ { WAIT_START_ACK_S,TX(endHandshaking) },{ WAIT_START_ACK_S,TX(error) } },		//WAIT_START_ACK_S		//{ CIRC_TOK,TX(error) } }			 
