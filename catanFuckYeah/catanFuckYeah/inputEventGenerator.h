@@ -29,17 +29,7 @@ public:
 	genericEvent * getEvent(void);
 
 private:
-	queue<inputEv*> eventQueue;
+	queue<genericEvent*> eventQueue;
 	ALLEGRO_EVENT_QUEUE * allegroQueue;
 };
 
-inputEventGenerator::inputEventGenerator() : allegroQueue(nullptr)
-{
-	bool error = true;
-	allegroQueue = al_create_event_queue();
-	if (allegroQueue != NULL)
-	{
-		al_register_event_source(allegroQueue, al_get_mouse_event_source());
-		
-	}
-}

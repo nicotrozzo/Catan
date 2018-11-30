@@ -50,7 +50,7 @@ void bossFSM::sendQuitController(genericEvent * ev)
 void bossFSM::newHandshaking(genericEvent * ev)
 {
 
-	innerFSM = new ->getConnector()
+	//innerFSM = establisher->getConnector()
 	//hacer cosas de cambio de estado
 	//crear/attachear/arrancar generador de eventos de timer de 2,5 minutos
 	//evGen.detach(innerFSM);
