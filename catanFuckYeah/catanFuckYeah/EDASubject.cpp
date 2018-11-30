@@ -15,7 +15,7 @@ EDASubject::detach(observer * observerPtr)
 void
 EDASubject::notifyAllObservers(void)
 {
-	list <observer * > :: iterator it;
+	list<observer * > :: iterator it;
 	for (it = listOfObservers.begin(); it != listOfObservers.end(); it++)
 		(*it)->update();
 }

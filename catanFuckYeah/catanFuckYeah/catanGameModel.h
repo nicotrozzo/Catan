@@ -5,6 +5,10 @@ class catanGameModel : public EDASubject
 {
 public:
 	catanGameModel();
+
 	~catanGameModel();
+
+private:
+	
 };
 

@@ -15,6 +15,6 @@ protected:
 	void notifyAllObservers(void);
 
 private:
-	list <observer * > listOfObservers;
+	list<observer * > listOfObservers;
 
 };
