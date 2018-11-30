@@ -79,7 +79,7 @@ public:
 	robberMovePckg(string move);
 	unsigned char getNewRobberPos();
 private:
-	unsigned char newPos;
+	unsigned char newPos;		//es unsigned har ya que va en un hexagono
 };
 
 class buildPckg : public networkingEv

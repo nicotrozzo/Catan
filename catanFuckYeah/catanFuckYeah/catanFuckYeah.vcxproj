@@ -119,6 +119,8 @@
     <ClCompile Include="bossFSM.cpp" />
     <ClCompile Include="bossFSMEvents.cpp" />
     <ClCompile Include="catanGameModel.cpp" />
+    <ClCompile Include="catanMapModel.cpp" />
+    <ClCompile Include="catanPlayerModel.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="connectionEstablisher.cpp" />
     <ClCompile Include="connector.cpp" />
@@ -140,6 +142,8 @@
     <ClInclude Include="bossFSM.h" />
     <ClInclude Include="bossFSMEvents.h" />
     <ClInclude Include="catanGameModel.h" />
+    <ClInclude Include="catanMapModel.h" />
+    <ClInclude Include="catanPlayerModel.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="connectionEstablisher.h" />
     <ClInclude Include="connector.h" />
@@ -147,7 +151,6 @@
     <ClInclude Include="eventHandling.h" />
     <ClInclude Include="genericFSM.h" />
     <ClInclude Include="handShakingFSM.h" />
-    <ClInclude Include="Header.h" />
     <ClInclude Include="inputEventGenerator.h" />
     <ClInclude Include="netwEmisor.h" />
     <ClInclude Include="netwEvGenerator.h" />

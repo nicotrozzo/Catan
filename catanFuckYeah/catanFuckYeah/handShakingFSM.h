@@ -8,7 +8,7 @@
 class handShakingFSM : public genericFSM
 {
 public:
-	//handShakingFSM(string playerName) { game = new catanGameSetter; info2send = playerName; //la primera informacion que tendra que mandar fuera de un header sera el nombre del jugador propio }
+	//handShakingFSM(string playerName) { game = new catanGameSetter; game->setMyPlayerName(playerName); info2send = playerName; //la primera informacion que tendra que mandar fuera de un header sera el nombre del jugador propio }
 	//virtual catanGame * getCatanGame(void) = 0; 
 	networkingEventTypes getExpectedPackage() { return expectedPackage; }
 

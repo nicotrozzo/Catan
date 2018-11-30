@@ -38,15 +38,15 @@ private:
 #define TX(x) (static_cast<void (genericFSM::* )(genericEvent *)>(&bossFSM::x)) //casteo a funcion, por visual
 
 	const fsmCell fsmTable[8][6] = {	
-	//			OK								CANCEL								ROBBER								BUILD 									TRADE					UNEXPECTED_EVENT					
-	{ { WAITING_DICES,TX(sendPass) },	  { MY_TURN,TX(nada) },				 { MY_ROBBER,TX(prepareMyRobber) },  { BUILDING,TX(mandoconstruccion) },	{ PREPARE_TRADE,TX(verdesp) },	{ MY_TURN,TX(error) } },		 //MY_TURN
-	{ { BUILDING,TX(JFSDJFLtHJS) },		  { MY_TURN,TX(cancelOperation) },   { BUILDING,TX(error) },		   { MY_TURN,TX(confirmOperation) },	{ BUILDING,TX(error) },			{ BUILDING,TX(error) } },		 //BUILDING
-	{ { PREPARE_TRADE,TX(OfferOrconfirm)},{ MY_TURN,TX(cancelOpSepararcasos) },{ PREPARE_TRADE,TX(error) },		{ PREPARE_TRADE,TX(error) },			{ MY_TURN,TX(verdesp) },	{ PREPARE_TRADE,TX(error) } },			//PREPARE_TRADE
-	{ { MY_ROBBER,TX(sendToRobber) },	  { MY_TURN,TX(verdesp) },			 { MY_ROBBER,TX(sendToRobber) },   { MY_ROBBER,TX(error) },				{ MY_ROBBER,TX(error) },		{ MY_ROBBER,TX(error) } },		 //MY_ROBBER
-	{ { OPP_TURN,TX(sendDices) },		  { WAITING_DICES,TX(error) },		 { WAITING_DICES,TX(error) },	   { WAITING_DICES,TX(error) },			{ WAITING_DICES,TX(error) },	{ WAITING_DICES,TX(error) } },	 //WAITING_DICES
-	{ { OPP_TURN,TX(moveRobber) },		  { OPP_ROBBER ,TX(verdesp)},		 { OPP_ROBBER,TX(sendToRobberFSM)},{ OPP_ROBBER,TX(error) },			{ OPP_ROBBER,TX(error) },		{ OPP_ROBBER,TX(error) } },		 //OPP_ROBBER
-	{ {	MY_TURN,TX(changeTurn) },		  { OPP_TURN,TX(error) },			 { OPP_ROBBER,TX(prepareOppRobber) }, { OPP_TURN,TX(validate),				{ WAITING_ANSWER,TX(sendTradeOffer) },{ OPP_TURN,TX(error) } } },//OPP_TURN
-	{ { OPP_TURN,TX(sendAnswer) },		  { OPP_TURN,TX(sendAnswer2) },		 { WAITING_ANSWER,TX(error) },	   { WAITING_ANSWER,TX(error) },		{ WAITING_ANSWER,TX(error) },	{ WAITING_ANSWER,TX(error) } }	 //WAITING_ANSWER
+	//			OK								CANCEL								ROBBER								BUILD 									TRADE							UNEXPECTED_EVENT					
+	{ { WAITING_DICES,TX(sendPass) },	  { MY_TURN,TX(nada) },				 { MY_ROBBER,TX(prepareMyRobber) },  { BUILDING,TX(mandoconstruccion) },{ PREPARE_TRADE,TX(verdesp) },			{ MY_TURN,TX(error) } },		 //MY_TURN
+	{ { BUILDING,TX(JFSDJFLtHJS) },		  { MY_TURN,TX(cancelOperation) },   { BUILDING,TX(error) },		   { MY_TURN,TX(confirmOperation) },	{ BUILDING,TX(error) },					{ BUILDING,TX(error) } },		 //BUILDING
+	{ { PREPARE_TRADE,TX(OfferOrconfirm)},{ MY_TURN,TX(cancelOpSepararcasos) },{ PREPARE_TRADE,TX(error) },		{ PREPARE_TRADE,TX(error) },		{ MY_TURN,TX(verdesp) },				{ PREPARE_TRADE,TX(error) } },   //PREPARE_TRADE
+	{ { MY_ROBBER,TX(sendToRobber) },	  { MY_TURN,TX(verdesp) },			 { MY_ROBBER,TX(sendToRobber) },   { MY_ROBBER,TX(error) },				{ MY_ROBBER,TX(error) },				{ MY_ROBBER,TX(error) } },		 //MY_ROBBER
+	{ { OPP_TURN,TX(sendDices) },		  { WAITING_DICES,TX(error) },		 { WAITING_DICES,TX(error) },	   { WAITING_DICES,TX(error) },			{ WAITING_DICES,TX(error) },			{ WAITING_DICES,TX(error) } },	 //WAITING_DICES
+	{ { OPP_TURN,TX(moveRobber) },		  { OPP_ROBBER ,TX(verdesp)},		 { OPP_ROBBER,TX(sendToRobberFSM)},{ OPP_ROBBER,TX(error) },			{ OPP_ROBBER,TX(error) },				{ OPP_ROBBER,TX(error) } },		 //OPP_ROBBER
+	{ {	MY_TURN,TX(changeTurn) },		  { OPP_TURN,TX(error) },			 { OPP_ROBBER,TX(prepareOppRobber) }, { OPP_TURN,TX(validate),			{ WAITING_ANSWER,TX(sendTradeOffer) },	{ OPP_TURN,TX(error) } } },		 //OPP_TURN
+	{ { OPP_TURN,TX(sendAnswer) },		  { OPP_TURN,TX(sendAnswer2) },		 { WAITING_ANSWER,TX(error) },	   { WAITING_ANSWER,TX(error) },		{ WAITING_ANSWER,TX(error) },			{ WAITING_ANSWER,TX(error) } }	 //WAITING_ANSWER
 	};
 
 	//The action routines for the FSM

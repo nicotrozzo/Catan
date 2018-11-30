@@ -9,28 +9,30 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="Archivos de recursos">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="Archivos de origen\MVC">
+      <UniqueIdentifier>{fb1f0aaa-d123-45f6-9c87-8291b680bb56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\MVC">
+      <UniqueIdentifier>{813a6877-2474-4d6d-8cfa-c990c9160f18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\NETWORKING">
+      <UniqueIdentifier>{e393bbb6-5030-442b-9705-8a938d73a0f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen\NETWORKING">
+      <UniqueIdentifier>{df4a17f2-ef9a-4928-b65f-1a4c227f2594}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen\GUI">
+      <UniqueIdentifier>{63b1595f-45be-4b1f-b814-77251ba95663}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\GUI">
+      <UniqueIdentifier>{c4431124-68c1-46a8-a7df-9ae1af1c9827}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="allegro.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
     <ClCompile Include="bossFSM.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="bossFSMEvents.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="Client.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="connectionEstablisher.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="connector.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="eventHandling.cpp">
@@ -45,39 +47,57 @@
     <ClCompile Include="main.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="networkingFSM.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
     <ClCompile Include="playingFSM.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="Server.cpp">
+    <ClCompile Include="inputEventGenerator.cpp">
       <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="catanGameModel.cpp">
+      <Filter>Archivos de origen\MVC</Filter>
+    </ClCompile>
+    <ClCompile Include="catanMapModel.cpp">
+      <Filter>Archivos de origen\MVC</Filter>
+    </ClCompile>
+    <ClCompile Include="catanPlayerModel.cpp">
+      <Filter>Archivos de origen\MVC</Filter>
+    </ClCompile>
+    <ClCompile Include="EDASubject.cpp">
+      <Filter>Archivos de origen\MVC</Filter>
+    </ClCompile>
+    <ClCompile Include="Client.cpp">
+      <Filter>Archivos de origen\NETWORKING</Filter>
+    </ClCompile>
+    <ClCompile Include="connectionEstablisher.cpp">
+      <Filter>Archivos de origen\NETWORKING</Filter>
+    </ClCompile>
+    <ClCompile Include="connector.cpp">
+      <Filter>Archivos de origen\NETWORKING</Filter>
     </ClCompile>
     <ClCompile Include="netwEvGenerator.cpp">
-      <Filter>Archivos de origen</Filter>
+      <Filter>Archivos de origen\NETWORKING</Filter>
     </ClCompile>
     <ClCompile Include="networkingEvents.cpp">
-      <Filter>Archivos de origen</Filter>
+      <Filter>Archivos de origen\NETWORKING</Filter>
+    </ClCompile>
+    <ClCompile Include="networkingFSM.cpp">
+      <Filter>Archivos de origen\NETWORKING</Filter>
+    </ClCompile>
+    <ClCompile Include="Server.cpp">
+      <Filter>Archivos de origen\NETWORKING</Filter>
+    </ClCompile>
+    <ClCompile Include="allegro.cpp">
+      <Filter>Archivos de origen\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="netwEmisor.cpp">
+      <Filter>Archivos de origen\NETWORKING</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="allegro.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="bossFSM.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="bossFSMEvents.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="Client.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="connectionEstablisher.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="connector.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="eventHandling.h">
@@ -89,20 +109,50 @@
     <ClInclude Include="handShakingFSM.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="Header.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="networkingEvents.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="playingFSM.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="Server.h">
+    <ClInclude Include="inputEventGenerator.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="netwEvGenerator.h">
+    <ClInclude Include="observer.h">
       <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="catanGameModel.h">
+      <Filter>Archivos de encabezado\MVC</Filter>
+    </ClInclude>
+    <ClInclude Include="catanMapModel.h">
+      <Filter>Archivos de encabezado\MVC</Filter>
+    </ClInclude>
+    <ClInclude Include="catanPlayerModel.h">
+      <Filter>Archivos de encabezado\MVC</Filter>
+    </ClInclude>
+    <ClInclude Include="EDASubject.h">
+      <Filter>Archivos de encabezado\MVC</Filter>
+    </ClInclude>
+    <ClInclude Include="connectionEstablisher.h">
+      <Filter>Archivos de encabezado\NETWORKING</Filter>
+    </ClInclude>
+    <ClInclude Include="Client.h">
+      <Filter>Archivos de encabezado\NETWORKING</Filter>
+    </ClInclude>
+    <ClInclude Include="Server.h">
+      <Filter>Archivos de encabezado\NETWORKING</Filter>
+    </ClInclude>
+    <ClInclude Include="netwEvGenerator.h">
+      <Filter>Archivos de encabezado\NETWORKING</Filter>
+    </ClInclude>
+    <ClInclude Include="networkingEvents.h">
+      <Filter>Archivos de encabezado\NETWORKING</Filter>
+    </ClInclude>
+    <ClInclude Include="netwEmisor.h">
+      <Filter>Archivos de encabezado\NETWORKING</Filter>
+    </ClInclude>
+    <ClInclude Include="connector.h">
+      <Filter>Archivos de encabezado\NETWORKING</Filter>
+    </ClInclude>
+    <ClInclude Include="allegro.h">
+      <Filter>Archivos de encabezado\GUI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
