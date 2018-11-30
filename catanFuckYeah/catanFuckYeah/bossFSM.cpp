@@ -5,6 +5,7 @@
 
 bossFSM::bossFSM() : genericFSM(&fsmTable[0][0], 6, 7, START_MENU) 
 {
+	//evGen.attach(quitController);
 	//innerFSM = new startMenuFSM();	//esta fsm debe crear en su constructor el display		
 }
 
@@ -17,8 +18,10 @@ void bossFSM::sendToStartMenu(genericEvent * ev)
 void bossFSM::newEstablisher(genericEvent * ev)
 {
 	//startMenuFSM->getDisplay()
+	//detach;
 	//delete innerFSM;
 	//innerFSM = new connectionEstablisher;
+	//atach;
 	//poner a alguien a mirar el boton de quit (fsm?)
 }
 
@@ -48,18 +51,22 @@ void bossFSM::newHandshaking(genericEvent * ev)
 {
 	//hacer cosas de cambio de estado
 	//crear/attachear/arrancar generador de eventos de timer de 2,5 minutos
+	//evGen.detach(innerFSM);
 	//delete innerFSM;
 	//innerFSM = new handShakingFSM();
+	//evGen.attach(innerFSM);
 }
 
 void bossFSM::newStMn(genericEvent * ev)
 {
 	//innerFSM = new startMenuFSM;
+	//evGen.attach(innerFSM);
 }
 
 void bossFSM::closeWaiting(genericEvent * ev)
 {
 	//destruir mas cosas si hace falta
+	evGen.detach(innerFSM);
 	delete innerFSM;
 }
 
@@ -70,10 +77,12 @@ void bossFSM::refreshWait(genericEvent * ev)
 
 void bossFSM::newGame(genericEvent * ev)
 {
+	//catanGame game = static_cast<handShakingFSM>(innerFSM)->getCatanGame();
+	evGen.detach(innerFSM);
 	//delete innerFSM;
-	//innerFSM = new playingFSM;
+	//innerFSM = new playingFSM(game);
 	//quitController->updatePosition(PLAYING);
-
+	evGen.attach(innerFSM);
 }
 
 void bossFSM::closeConnection(genericEvent * ev)

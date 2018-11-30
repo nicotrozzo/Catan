@@ -63,12 +63,13 @@ class networkingEv : public genericEvent
 public:
 	networkingEv(networkingEventTypes header_);
 	eventTypes getType(void) { return NETWORKING_EVENT; }
-	networkingEventTypes getHeader();
-	bool getError();
+	networkingEventTypes getHeader() { return header; }
+	bool getError() { return error; }
 private:
 	networkingEventTypes header;
-	bool error;
 	bool validHeader(char);
+protected:
+	bool error;			//en caso que este mal formado el paquete o sea un header invalido
 };
 
 class timerEv : public genericEvent

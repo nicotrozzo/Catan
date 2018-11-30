@@ -39,19 +39,20 @@ private:
 
 	const fsmCell fsmTable[8][6] = {	
 	//			OK								CANCEL								ROBBER								BUILD 									TRADE					UNEXPECTED_EVENT					
-	{ { WAITING_DICES,TX(sendPass) },	  { MY_TURN,TX(nada) },				 { MY_ROBBER,TX(prepareRobber) },  { BUILDING,TX(mandoconstruccion) },	{ PREPARE_TRADE,TX(verdesp) },	{ MY_TURN,TX(error) } },		 //MY_TURN
+	{ { WAITING_DICES,TX(sendPass) },	  { MY_TURN,TX(nada) },				 { MY_ROBBER,TX(prepareMyRobber) },  { BUILDING,TX(mandoconstruccion) },	{ PREPARE_TRADE,TX(verdesp) },	{ MY_TURN,TX(error) } },		 //MY_TURN
 	{ { BUILDING,TX(JFSDJFLtHJS) },		  { MY_TURN,TX(cancelOperation) },   { BUILDING,TX(error) },		   { MY_TURN,TX(confirmOperation) },	{ BUILDING,TX(error) },			{ BUILDING,TX(error) } },		 //BUILDING
 	{ { PREPARE_TRADE,TX(OfferOrconfirm)},{ MY_TURN,TX(cancelOpSepararcasos) },{ PREPARE_TRADE,TX(error) },		{ PREPARE_TRADE,TX(error) },			{ MY_TURN,TX(verdesp) },	{ PREPARE_TRADE,TX(error) } },			//PREPARE_TRADE
 	{ { MY_ROBBER,TX(sendToRobber) },	  { MY_TURN,TX(verdesp) },			 { MY_ROBBER,TX(sendToRobber) },   { MY_ROBBER,TX(error) },				{ MY_ROBBER,TX(error) },		{ MY_ROBBER,TX(error) } },		 //MY_ROBBER
 	{ { OPP_TURN,TX(sendDices) },		  { WAITING_DICES,TX(error) },		 { WAITING_DICES,TX(error) },	   { WAITING_DICES,TX(error) },			{ WAITING_DICES,TX(error) },	{ WAITING_DICES,TX(error) } },	 //WAITING_DICES
 	{ { OPP_TURN,TX(moveRobber) },		  { OPP_ROBBER ,TX(verdesp)},		 { OPP_ROBBER,TX(sendToRobberFSM)},{ OPP_ROBBER,TX(error) },			{ OPP_ROBBER,TX(error) },		{ OPP_ROBBER,TX(error) } },		 //OPP_ROBBER
-	{ {	MY_TURN,TX(changeTurn) },		  { OPP_TURN,TX(error) },			 { OPP_ROBBER,TX(prepareRobber) }, { OPP_TURN,TX(validate),				{ WAITING_ANSWER,TX(sendTradeOffer) },{ OPP_TURN,TX(error) } } },//OPP_TURN
+	{ {	MY_TURN,TX(changeTurn) },		  { OPP_TURN,TX(error) },			 { OPP_ROBBER,TX(prepareOppRobber) }, { OPP_TURN,TX(validate),				{ WAITING_ANSWER,TX(sendTradeOffer) },{ OPP_TURN,TX(error) } } },//OPP_TURN
 	{ { OPP_TURN,TX(sendAnswer) },		  { OPP_TURN,TX(sendAnswer2) },		 { WAITING_ANSWER,TX(error) },	   { WAITING_ANSWER,TX(error) },		{ WAITING_ANSWER,TX(error) },	{ WAITING_ANSWER,TX(error) } }	 //WAITING_ANSWER
 	};
 
 	//The action routines for the FSM
 	void sendDices(genericEvent * ev);
-	void prepareRobber(genericEvent * ev);
+	void prepareMyRobber(genericEvent * ev);
+	void prepareOppRobber(genericEvent * ev);
 	void error(genericEvent * ev);
 	void sendToRobberFSM(genericEvent * ev);
 	void sendTradeOffer(genericEvent * ev);
@@ -90,17 +91,18 @@ private:
 
 #define TX(x) (static_cast<void (genericFSM::* )(genericEvent *)>(&bossFSM::x)) //casteo a funcion, por visual
 
-	const fsmCell fsmTable[2][2] = {
-	//	   PACKAGE							USER_INPUT									
-	{ { WAIT_USER,TX(error) },		    { WAIT_OPPONENT, TX(sendMyCards) } },	//WAIT_MY_USER
-	{ { WAIT_OPPONENT,TX(sendPackage)}, { WAIT_OPPONENT,TX(error) },			//WAIT_OPPONENT
+	const fsmCell fsmTable[2][3] = {
+	//	   PACKAGE							ACCEPT_CLICK						CARD_CLICK									
+	{ { WAIT_USER,TX(error) },		    { WAIT_OPPONENT, TX(sendMyCards) }, { WAIT_MY_USER,TX(takeCard) } },	//WAIT_MY_USER
+	{ { WAIT_OPPONENT,TX(sendPackage)}, { WAIT_OPPONENT,TX(error) },		{ WAIT_OPPONENT,TX(error) } },		//WAIT_OPPONENT
 	};
 
 	//The action routines for the FSM
 
 	void error(genericEvent * ev);
 	void sendMyCards(genericEvent * ev);
-	void sendPackage(genericEvent * ev);
+	void savePackage(genericEvent * ev);
+	void takeCard(genericEvent * ev);
 
 	//expectedevent
 public:
@@ -114,26 +116,23 @@ private:
 
 #define TX(x) (static_cast<void (genericFSM::* )(genericEvent *)>(&bossFSM::x)) //casteo a funcion, por visual
 
-	/*const fsmCell fsmTable[3][2] = {
-		//	   OK							ROBBER_MOVE								MY_CARDS									MY_CARDS_AND_WAIT									
-		{ { WAIT_USER,TX(error) },		 { WAIT_USER,TX(error) },			{ WAIT_ROBBMOVE,TX(sendCardsToOpponent) },	{ WAIT_ROBBCARDS,TX(sendCardsToOpponent) } },	//WAIT_OPP_CARDS
-		{ { WAIT_ROBBMOVE,TX(sendCards)},{ WAIT_ROBBCARDS,TX(error) },		{ WAIT_ROBBCARDS,TX(error) },				{ WAIT_ROBBCARDS,TX(error) } },					//WAIT_ROBBCARDS
-		{ { WAIT_ROBBMOVE,TX(error) },	 { WAIT_ROBBMOVE,TX(moveRobber) },	{ WAIT_ROBBMOVE,TX(error) },				{ WAIT_ROBBMOVE,TX(error) } }					//WAIT_ROBBMOVE
-	};*/
-
-	const fsmCell fsmTable[2][2] = {
-		//	   PACKAGE							USER_INPUT									
-		{ { WAIT_USER,TX(error) },		    { WAIT_OPPONENT, TX(sendMyCards) } },	//WAIT_MY_USER
-		{ { WAIT_OPPONENT,TX(sendPackage)}, { WAIT_OPPONENT,TX(error) },			//WAIT_OPPONENT
+	const fsmCell fsmTable[2][3] = {
+		//	   PACKAGE							ACCEPT_CLICKK							CARD_ROBBER_CLICK									
+		{ { WAIT_MY_USER,TX(savePackage)}, { WAIT_OPPONENT_ANSWER,TX(error) },		{ WAIT_OPPONENT_ANSWER,TX(error) } },	//WAIT_OPPONENT_ANSWER
+		{ { WAIT_MY_USER,TX(error) },	   { WAIT_OPPONENT_ANSWER,TX(sendMyMove) }, { WAIT_MY_ANSWER,TX(checkMyMove) } }	//WAIT_MY_USER
 		};
 
 	//The action routines for the FSM
 
+	void savePackage(genericEvent * ev);
+	void sendMyMove(genericEvent * ev);
+	void checkMyMove(genericEvent * ev);
 	void error(genericEvent * ev);
-	void sendCards(genericEvent * ev);
+	void seveCards(genericEvent * ev);
 	void sendCardsToOpponent(genericEvent * ev);
 	void moveRobber(genericEvent * ev);
 	int oppDiscard;
+	//paquete a enviar
 public:
 	myRobberFSM(stateTypes initState);
 };

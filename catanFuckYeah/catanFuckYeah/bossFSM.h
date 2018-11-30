@@ -49,17 +49,10 @@ private:
 	void sendNetwEv(genericEvent * ev);
 	void sendGameOver(genericEvent * ev);
 	void closeRematch(genericEvent * ev);
-	void(genericEvent * ev);
-	void(genericEvent * ev);
-	void(genericEvent * ev);
-
-
-
-
-
 	void doNothing(genericEvent * ev) {}
 
 	genericFSM * innerFSM;
+	mainEventGenerator& evGen;
 public:
 	bossFSM();	//crear fsm chica, display (en fsm chica), atachear fsm chica como fuente de eventos
 };
