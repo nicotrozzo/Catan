@@ -118,9 +118,11 @@
     <ClCompile Include="allegro.cpp" />
     <ClCompile Include="bossFSM.cpp" />
     <ClCompile Include="bossFSMEvents.cpp" />
+    <ClCompile Include="catanGameModel.cpp" />
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="connectionEstablisher.cpp" />
     <ClCompile Include="connector.cpp" />
+    <ClCompile Include="EDASubject.cpp" />
     <ClCompile Include="eventHandling.cpp" />
     <ClCompile Include="genericFSM.cpp" />
     <ClCompile Include="handShakingFSM.cpp" />
@@ -137,9 +139,11 @@
     <ClInclude Include="allegro.h" />
     <ClInclude Include="bossFSM.h" />
     <ClInclude Include="bossFSMEvents.h" />
+    <ClInclude Include="catanGameModel.h" />
     <ClInclude Include="Client.h" />
     <ClInclude Include="connectionEstablisher.h" />
     <ClInclude Include="connector.h" />
+    <ClInclude Include="EDASubject.h" />
     <ClInclude Include="eventHandling.h" />
     <ClInclude Include="genericFSM.h" />
     <ClInclude Include="handShakingFSM.h" />
@@ -148,6 +152,7 @@
     <ClInclude Include="netwEmisor.h" />
     <ClInclude Include="netwEvGenerator.h" />
     <ClInclude Include="networkingEvents.h" />
+    <ClInclude Include="observer.h" />
     <ClInclude Include="playingFSM.h" />
     <ClInclude Include="Server.h" />
   </ItemGroup>
