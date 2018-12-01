@@ -1,12 +1,13 @@
 #pragma once
 #include "EDASubject.h"
 #include "bossFSMEvents.h"
+#include "catanMapModel.h"
+#include "catanPlayerModel.h"
 
 class catanGameModel : public EDASubject
 {
 public:
 	catanGameModel();
-	~catanGameModel();
 	bool dicesThrown(unsigned int diceValue);	//modifica informacion del juego, cambia de turno
 	bool construction(networkingEventTypes type, string coords);				//devuelve false si la construccion no es valida, PUEDE MODIFICAR GAME OVER
 	bool playersTrade(string currentPlayerCards, string otherPlayerCards);		//devuelve false con trueque invalido
@@ -19,7 +20,8 @@ public:
 	//bool waitingCards();
 	//catanPlayer getCurrentPlayer();
 	//catanPlayer getOtherPlayer();
-	bool gameOver();	//true si termino el juego, llamar despues de construccion!!!!!!!!
+	bool gameOver();	//true si termino el juego, llamar despues de construccion!!!!!!!!(pregunta a cada jugador cuantos puntos tiene)
+	~catanGameModel();
 protected:
 	//bool waitingCards;
 	//bool waitingToAccept;
@@ -28,10 +30,11 @@ protected:
 	catanMapModel map;
 };
 
-class catanGameModelSetter : public catanGameModel
+class catanGameModelSetup : public catanGameModel
 {
 public:
-	setMyName(string name) {}
+	setMyName(string name) { player1->setName(name); }
 	setOppName(string name) { player2->setName(name); }
-	
+	setMap(string map_) { map = map_ };
+	string getMap() { return map.getMapInString(); }
 };

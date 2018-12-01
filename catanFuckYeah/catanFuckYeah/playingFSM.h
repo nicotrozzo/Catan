@@ -94,7 +94,7 @@ private:
 	const fsmCell fsmTable[2][3] = {
 	//	   PACKAGE							ACCEPT_CLICK						CARD_CLICK									
 	{ { WAIT_USER,TX(error) },		    { WAIT_OPPONENT, TX(sendMyCards) }, { WAIT_MY_USER,TX(takeCard) } },	//WAIT_MY_USER
-	{ { WAIT_OPPONENT,TX(sendPackage)}, { WAIT_OPPONENT,TX(error) },		{ WAIT_OPPONENT,TX(error) } },		//WAIT_OPPONENT
+	{ { WAIT_OPPONENT,TX(savePackage)}, { WAIT_OPPONENT,TX(error) },		{ WAIT_OPPONENT,TX(error) } },		//WAIT_OPPONENT
 	};
 
 	//The action routines for the FSM
@@ -117,7 +117,7 @@ private:
 #define TX(x) (static_cast<void (genericFSM::* )(genericEvent *)>(&bossFSM::x)) //casteo a funcion, por visual
 
 	const fsmCell fsmTable[2][3] = {
-		//	   PACKAGE							ACCEPT_CLICKK							CARD_ROBBER_CLICK									
+		//	   PACKAGE							ACCEPT_CLICK							CARD_ROBBER_CLICK									
 		{ { WAIT_MY_USER,TX(savePackage)}, { WAIT_OPPONENT_ANSWER,TX(error) },		{ WAIT_OPPONENT_ANSWER,TX(error) } },	//WAIT_OPPONENT_ANSWER
 		{ { WAIT_MY_USER,TX(error) },	   { WAIT_OPPONENT_ANSWER,TX(sendMyMove) }, { WAIT_MY_ANSWER,TX(checkMyMove) } }	//WAIT_MY_USER
 		};
@@ -132,7 +132,7 @@ private:
 	void sendCardsToOpponent(genericEvent * ev);
 	void moveRobber(genericEvent * ev);
 	int oppDiscard;
-	//paquete a enviar
+	int packageToSend    //paquete a enviar
 public:
 	myRobberFSM(stateTypes initState);
 };

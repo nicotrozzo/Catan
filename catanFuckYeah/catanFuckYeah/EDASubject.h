@@ -1,6 +1,7 @@
 #pragma once
 #include "observer.h"
 #include <list>
+using namespace std;
 
 class EDASubject
 {

@@ -110,7 +110,8 @@ list<networkingEv> playingFSM::getExpectedPackages()
 
 oppRobberFSM::oppRobberFSM(stateTypes initState) : genericFSM(&fsmTable[0][0], 3, 2, initState)
 {
-
+	//expectedPackage = ? ; porque a priori no sabria si tengo que espara input por la seleccion de cartas o solo mandar ack y espera respuesta del otro
+	//deberia arrancar en wait_user y que ahi me fij si tengo que descartar cartas o no
 }
 
 void oppRobberFSM::error(genericEvent * ev)
@@ -119,55 +120,65 @@ void oppRobberFSM::error(genericEvent * ev)
 	//borrar lo que haya que borrar
 }
 
-void oppRobberFSM::saveCards(genericEvent * ev)
+void oppRobberFSM::savePackage(genericEvent * ev)	//manda robber cards o robber move del oponente al modelo
 {
-	//mandar robber cards del oponente al modelo
+	if (ev->getHeader() == ROBBER_CARDS)
+	{
+		catanGameModel->discardOtherPlayer(static_cast<robberCardsPckg *>(ev)->getCards());
+	}
+	else if (ev->getHeader() == ROBBER_MOVE)
+	{
+		catanGame->robberMoved(static_cast<robberMovePckg *>(ev)->getNewRobberPos());
+	}
 }
 
-void oppRobberFSM::sendCardsToOpponent(genericEvent * ev)
+void oppRobberFSM::sendMyCards(genericEvent * ev)
 {
 	//mandar robber cards propias al oponente
+	new 
 }
 
-void oppRobberFSM::moveRobber(genericEvent * ev)
-{
-	//mandar robber move al modelo
-}
 
 
 
 void myRobberFSM::savePackage(genericEvent * ev)		//manda al modelo ack o cantidad de cartas seleccionadas
 {
-	if (ev->getDescription() == ACK)
+	if (ev->getHeader() == ACK)
 	{
-		catanGame->otherPlayer->cardsSelected(0);
+		catanGameModel->otherPlayer->discardOtherPlayer("");
 	}
-	else if (ev->getDescription() == ROBBER_CARDS)
+	else if (ev->getHeader() == ROBBER_CARDS)
 	{
-		catanGame->otherPlayer->cardsSelected(ver como devuelve el unwrapper la cantidad de cartas seleccionadas);
+		catanGameModel->otherPlayer->discardOtherPlayer(static_cast<robberCardsPckg *>(ev)->getCards());
 	}
 }
 
 void myRobberFSM::checkMyMove(genericEvent * ev)
 {
 	//el modelo se va a encargar de habilitar o deshabilitar los controllers para seleccionar las cartas o el robber
-	if (ev->getDescription() == ROBBER_SELECTED)
+	if (ev->getDescription() == ROBBER_SELECTED)	//esperar eventos de input
 	{
-		catanGame->myPlayer->changeRobberPosition(ev->additionalInfo);
-		packageToSend = ROBBER_MOVE;
+		catanGame->myPlayer->robberMoved(ev->additionalInfo);
+		packageToSend = ev;
 	}
 	else if (ev->getDescription() == CARD_SELECTED)
 	{
 		catanGame->myPlayer->selectCard(ev->additionalInfo);
-		packageToSend = ROBBER_CARDS;
+		packageToSend = ev;
 	}
 }
 
 void myRobberFSM::sendMyMove(genericEvent * ev)
 {
+	//podria checkear que el evento sea el tick y no ack....
 	//mandar al empaquetador de paquetes el packageToSend presente y que este como tiene acceso al modelo vea la cantidad de cartas seleccionadas para poder armar el paquete
-	if (packageToSend == ROBBER_MOVE)
+	if (packageToSend->getDescription() == ROBBER_MOVE)
 	{
-		//crear evento de "done" para salir de robberFSM
+		//crear evento de "ok" para salir de robberFSM
+		new robberMovePckg(packageToSend->additionalInfo);		//mando el paquete a la otra maquina
+	}
+	else if (packageToSend->getDescription() == ROBBER_CARDS)
+	{
+		new robberCardsPckg(packageToSend->additionalInfo);		//mando el paquete a la otra maquina
 	}
 }
