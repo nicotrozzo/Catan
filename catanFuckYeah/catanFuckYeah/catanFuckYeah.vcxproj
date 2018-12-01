@@ -126,6 +126,7 @@
     <ClCompile Include="connector.cpp" />
     <ClCompile Include="EDASubject.cpp" />
     <ClCompile Include="eventHandling.cpp" />
+    <ClCompile Include="gameEventGenerator.cpp" />
     <ClCompile Include="genericFSM.cpp" />
     <ClCompile Include="handShakingFSM.cpp" />
     <ClCompile Include="inputEventGenerator.cpp" />
@@ -149,6 +150,8 @@
     <ClInclude Include="connector.h" />
     <ClInclude Include="EDASubject.h" />
     <ClInclude Include="eventHandling.h" />
+    <ClInclude Include="gameDefines.h" />
+    <ClInclude Include="gameEventGenerator.h" />
     <ClInclude Include="genericFSM.h" />
     <ClInclude Include="handShakingFSM.h" />
     <ClInclude Include="inputEventGenerator.h" />

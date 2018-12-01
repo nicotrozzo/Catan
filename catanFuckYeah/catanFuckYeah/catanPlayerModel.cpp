@@ -1,8 +1,9 @@
+
 #include "catanPlayerModel.h"
 
 cards::cards()
 {
-	stone = 0;
+	ore = 0;
 	wool = 0;
 	wheat = 0;
 	wood = 0;

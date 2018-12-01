@@ -1,13 +1,139 @@
 #include "catanMapModel.h"
 
-
-
+/*Calcula el mapa random*/
 catanMapModel::catanMapModel()
 {
-
+	vector<resource>allResources({ {WOOD,3}, {BRICK,3}, {ORE,3}, {WHEAT,3}, {WOOL,3}, {DESSERT,1} });
+	array<unsigned char, HEX_COUNT - 1> allCircularTokens = { 2,3,3,4,4,5,5,6,6,8,8,9,9,10,10,11,11,12 };
+	array<unsigned char, NUMBER_OF_OCEAN_PIECES> allOceanPieces = { WOOD,BRICK,ORE,WHEAT,WOOL,DESSERT };
+	int resRandNum;							//RECORDAR SRAND EN EL MAIN!!!!!!!!!!!!!!!!
+	int tokenRandNum;
+	int oceanRandNum;
+	srand(time(NULL));
+	bool written;			//indica si ya se encontro en la lista entera lo que se buscaba en cada iteracion
+	for (int i = 0; i < HEX_COUNT; i++)					//calculo random del mapa
+	{
+		resRandNum = rand() % NUMBER_OF_RESOURCES;
+		tokenRandNum = rand() % (HEX_COUNT - 1);
+		written = false;
+		for (int j = 0; (j < NUMBER_OF_RESOURCES) && !written; j++)
+		{
+			if (allResources[(resRandNum + j) % NUMBER_OF_RESOURCES].resCount > 0)
+			{
+				hexagons[i].hexResource = allResources[(resRandNum + j) % NUMBER_OF_RESOURCES].res;
+				allResources[(resRandNum + j) % NUMBER_OF_RESOURCES].resCount--;
+				written = true;
+			}
+		}
+		if (hexagons[i].hexResource != DESSERT)
+		{
+			written = false;
+			for (int j = 0; (j < (HEX_COUNT - 1)) && !written; j++)
+			{
+				if (allCircularTokens[(tokenRandNum + j) % (HEX_COUNT - 1)] != 0)
+				{
+					hexagons[i].circularToken = allCircularTokens[(tokenRandNum + j) % (HEX_COUNT - 1)];
+					allCircularTokens[(tokenRandNum + j) % (HEX_COUNT - 1)] = 0;
+					written = true;
+				}
+			}
+		}
+		else
+		{
+			hexagons[i].circularToken = 7;
+		}
+	}
+	for (int i = 0; i < NUMBER_OF_OCEAN_PIECES; i++)
+	{
+		written = false;
+		oceanRandNum = rand() % NUMBER_OF_OCEAN_PIECES;
+		for (int j = 0; (j < NUMBER_OF_OCEAN_PIECES) && !written; j++)
+		{
+			if ((allOceanPieces[(oceanRandNum + j) % (NUMBER_OF_OCEAN_PIECES)] != '0'))
+			{
+				oceanPieces += allOceanPieces[(oceanRandNum + j) % (NUMBER_OF_OCEAN_PIECES)];
+				allOceanPieces[(oceanRandNum + j) % (NUMBER_OF_OCEAN_PIECES)] = '0';
+				written = true;
+			}
+		}
+	}
 }
 
-catanMapModel::catanMapModel(string map)
+string catanMapModel::getMap(void)
+{
+	string mapToReturn;
+	for (int i = 0; i < NUMBER_OF_OCEAN_PIECES; i++)
+	{
+		mapToReturn += oceanPieces[i];
+	}
+	for (int i = 0; i < HEX_COUNT; i++)
+	{
+		mapToReturn += hexagons[i].hexResource;
+	}
+	return mapToReturn;
+}
+
+/*Devuelve 7 en el lugar del robber, hay que modificarlo despues*/
+string catanMapModel::getCircularTokens(void)
+{
+	string circTokToReturn;
+	for (int i = 0; i < HEX_COUNT; i++)
+	{
+		circTokToReturn += hexagons[i].circularToken;
+	}
+}
+
+bool catanMapModel::setMap(string map_)
+{
+	bool ret = false;
+	bool error = false;
+	map <unsigned char, unsigned char> allResources = { {WOOD,0}, {BRICK,0}, {ORE,0}, {WHEAT,0}, {WOOL,0}, {DESSERT,0} };
+	size_t found = map_.find_first_not_of(RESOURCES_STR);
+	if (found == string::npos)
+	{
+		oceanPieces.clear();	//borra lo que haya como piezas de mar
+		for (int i = 0; (i < NUMBER_OF_OCEAN_PIECES + HEX_COUNT) && !ret; i++)
+		{
+			if (i < NUMBER_OF_OCEAN_PIECES)
+			{
+				oceanPieces[i] = map_[i];
+			}
+			else
+			{
+				hexagons[i].hexResource = map_[i];
+			}
+		}
+		found = oceanPieces.find_first_not_of(RESOURCES_STR);
+		if (found != string::npos)
+		{
+			for (int i = 0; (i < HEX_COUNT) && !error; i++)	//valida hexagonos
+			{
+				if (allResources.find(map_[i]) != allResources.end())
+				{
+					if (map_[i] == DESSERT)
+					{
+						error = (allResources[map_[i]]) > 1 ? true : false;
+					}
+					else if (allResources[map_[i]] > 3)
+					{
+						error = true;					//si se pasa de 3 uno que no sea un desierto hay error
+					}
+				}
+				else
+				{
+					error = true;;
+				}
+			}
+			if (!error)
+			{
+				ret = true;
+			}
+		}
+	}
+	return ret;
+}
+
+bool catanMapModel::setCircularTokens(string circTokens)
 {
 
 }
@@ -45,12 +171,12 @@ bool catanMapModel::adjacentToLongRoad(string vertex, char player)
 	bool ret = false;
 	list<string>::iterator it;
 	list<string>::iterator end;
-	if (player == 1)
+	if (player == '1')
 	{
 		it = p1LongRoads.begin();
 		end = p1LongRoads.end();
 	}
-	else if (player == 2)
+	else if (player == '2')
 	{
 		it = p2LongRoads.begin();
 		end = p2LongRoads.end();
@@ -62,36 +188,137 @@ bool catanMapModel::adjacentToLongRoad(string vertex, char player)
 	return ret;
 }
 
-/*bool catanMapModel::freeVertex(string vertex)
-{
-	bool ret = true;
-	list<string>::iterator it;
-	for (it = p1UsedVertexList.begin(); (it != p1UsedVertexList.end()) && ret; it++)
-	{
-		if (!(it->compare(vertex)))
-		{
-			ret = false;
-		}
-	}
-	for (it = p2UsedVertexList.begin(); (it != p2UsedVertexList.end()) && ret; it++)
-	{
-		if (!(it->compare(vertex)))
-		{
-			ret = false;
-		}
-	}
-	return ret;
-}*/
-
-
 bool catanMapModel::checkAvailableRoad(string edge, char player)
 {
 	bool ret = false;
-	if (freeEdge(edge))
+	if (existingEdge(edge))
 	{
-		if ((adjacentToOwnBuilding(edge, player)) || (adjacentToOwnRoad(edge, player)))		//contiguo a vertices propios o a un road propio
+		if (freeEdge(edge))
 		{
-			ret = true;
+			if ((p1UsedVertexList.size() == 2) && (p1SimpleRoads.size() == 1))//capaz analizar ademas cuando tiene 1 settllement y 1 road
+			{
+				list<string>::iterator it = ++p1UsedVertexList.begin();
+				if (vertexAdjacentToRoad(*it, edge)) //el road debe ser adyacente al segundo settlement construido
+				{
+					ret = true;
+				}
+			}
+			else if ((p2UsedVertexList.size() == 2) && (p2SimpleRoads.size() == 1))
+			{
+				list<string>::iterator it = ++p2UsedVertexList.begin();
+				if (vertexAdjacentToRoad(*it, edge)) //el road debe ser adyacente al segundo settlement construido
+				{
+					ret = true;
+				}
+			}
+			else if ((adjacentToOwnBuilding(edge, player)) || (adjacentToOwnRoad(edge, player)))		//contiguo a vertices propios o a un road propio
+			{
+				ret = true;
+			}
+		}
+	}
+
+	return ret;
+}
+
+bool catanMapModel::buildRoad(string edge, char player)
+{
+	bool ret = false;
+	if ((checkAvailableRoad(edge, player)) && ((player == '1') || (player == '2')))
+	{
+		ret = true;
+		list<string>::iterator it;
+		for (it = hiddenRoads.begin(); it != hiddenRoads.end(); it++)	//si era un hiddenRoad, pasara a ser uno simple o long, se borra de la lista de hidden
+		{
+			if (!it->compare(edge))
+			{
+				hiddenRoads.erase(it);
+				break;									//consideramos necesario un break ya que se encontro lo buscado en la lista y fue eliminado
+			}
+		}
+		if (adjacentToOwnBuilding(edge, player))	//si es simple road
+		{
+			if (player == '1')
+			{
+				p1SimpleRoads.push_back(edge);
+			}
+			else
+			{
+				p2SimpleRoads.push_back(edge);
+			}
+		}
+		else	//sino es long road
+		{
+			if (player == '1')
+			{
+				p1LongRoads.push_back(edge);
+			}
+			else
+			{
+				p2LongRoads.push_back(edge);
+			}
+		}
+	}
+	return ret;
+}
+
+bool catanMapModel::buildSettlement(string vertex, char player)
+{
+	bool ret = false;
+	if (checkAvailableSettlement(vertex, player) && ((player == '1') || (player == '2')))
+	{
+		ret = true;		//construccion valida
+		list<string>::iterator it;
+		for (it = allEdges.begin(); it != allEdges.end(); it++)	//marca como hiddenRoad a todos los vertices adyacentes al settlement que sera construido
+		{
+			if (vertexAdjacentToRoad(vertex, *it))
+			{
+				hiddenRoads.push_back(*it);
+			}
+		}
+		for (it = p1SimpleRoads.begin(); it != p1SimpleRoads.end(); it++)	//actualiza la lista de longRoads del jugador 1, y los que encuentra los saca de la lista de hiddenRoads
+		{
+			if (vertexAdjacentToRoad(vertex, *it))	//si un longRoad es adyacente al nuevo settlement, pasa a ser simpleRoad NO HACE FALTA ESTE COMMENT
+			{
+				//p1SimpleRoads.push_back(*it);	//YA ESTA EN SIMPLE
+				//p1LongRoads.erase(it);     //CREEMOS QUE NO ES NECESARIO BORRAR DE LAS LONG
+				hiddenRoads.remove(*it);
+			}
+		}
+		for (it = p2SimpleRoads.begin(); it != p2SimpleRoads.end(); it++)	//actualiza la lista de longRoads del jugador 2, y en los hiddenRoads quedan los que deben quedar
+		{
+			if (vertexAdjacentToRoad(vertex, *it))	//si un longRoad es adyacente al nuevo settlement, pasa a ser simpleRoad
+			{
+				//p2SimpleRoads.push_back(*it);
+				//p2LongRoads.erase(it);
+				hiddenRoads.remove(*it);
+			}
+		}
+		if (player == '1')
+		{
+			p1UsedVertexList.push_back(vertex);
+		}
+		else
+		{
+			p2UsedVertexList.push_back(vertex);
+		}
+	}
+	return ret;
+}
+
+bool catanMapModel::buildCity(string vertex, char player)
+{
+	bool ret = false;
+	if (checkAvailableCity(vertex, player) && ((player == '1') || (player == '2')))
+	{
+		ret = true;
+		if (player == '1')
+		{
+			p1Cities.push_back(vertex);
+		}
+		else
+		{
+			p2Cities.push_back(vertex);
 		}
 	}
 	return ret;
@@ -125,17 +352,17 @@ bool catanMapModel::adjacentToOwnBuilding(string edge, char player)
 	bool ret = false;
 	list<string>::iterator it;
 	list<string>::iterator end;
-	if (player == 1)
+	if (player == '1')
 	{
 		it = p1UsedVertexList.begin();
 		end = p1UsedVertexList.end();
 	}
-	else if (player == 2)
+	else if (player == '2')
 	{
 		it = p2UsedVertexList.begin();
 		end = p2UsedVertexList.end();
 	}
-	for ( ; (it != end) && !ret ; it++)
+	for (; (it != end) && !ret; it++)
 	{
 		ret = vertexAdjacentToRoad(*it, edge);
 	}
@@ -148,28 +375,28 @@ bool catanMapModel::adjacentToOwnRoad(string edge, char player)
 	//comparar el eje pedido con todos los roads del jugador
 	list<string>::iterator it;
 	list<string>::iterator end;
-	if (player == 1)
+	if (player == '1')
 	{
 		it = p1SimpleRoads.begin();
 		end = p1SimpleRoads.end();
 	}
-	else if (player == 2)
+	else if (player == '2')
 	{
 		it = p2SimpleRoads.begin();
 		end = p2SimpleRoads.end();
 	}
-	for (; (it != end) && !ret ; it++)
+	for (; (it != end) && !ret; it++)
 	{
-		ret = adjacentRoads(edge,*it);
+		ret = adjacentRoads(edge, *it);
 	}
 	if (!ret)
 	{
-		if (player == 1)
+		if (player == '1')
 		{
 			it = p1LongRoads.begin();
 			end = p1LongRoads.end();
 		}
-		else if (player == 2)
+		else if (player == '2')
 		{
 			it = p2LongRoads.begin();
 			end = p2LongRoads.end();
@@ -184,18 +411,55 @@ bool catanMapModel::adjacentToOwnRoad(string edge, char player)
 
 bool catanMapModel::checkAvailableSettlement(string vertex, char player)
 {
+	bool validVertex = false;
 	bool ret = false;
-	if ((player == 1) || (player == 2))
+	if (existingVertex(vertex))
 	{
-		if (!adjacentToHiddenRoad(vertex))
+		validVertex = true;
+		if ((player == '1') || (player == '2'))
 		{
-			if (!adjacentToSimpleRoad(vertex))
+			if (!adjacentToHiddenRoad(vertex))
 			{
-				if (adjacentToLongRoad(vertex, player))
+				if (!adjacentToSimpleRoad(vertex))
 				{
-					ret = true;	//ACORDARSE AL PONER UN SETTLEMENT DE SACAR LOS LONG ROADS ADYACENTES DE LA LISTA
+					if (adjacentToLongRoad(vertex, player) || ((player == '1') && (p1UsedVertexList.size() < 2)) || ((player == '2') && (p2UsedVertexList.size() < 2)))
+					{
+						ret = true;
+					}
 				}
 			}
+		}
+	}
+	if (!validVertex)
+	{
+		ret = false;
+	}
+	return ret;
+}
+
+bool catanMapModel::existingVertex(string vertex)
+{
+	bool ret = false;
+	list<string>::iterator it;
+	for (it = allVertexes.begin(); (it != allVertexes.end()) && !ret; it++)
+	{
+		if (!it->compare(vertex))
+		{
+			ret = true;
+		}
+	}
+	return ret;
+}
+
+bool catanMapModel::existingEdge(string edge)
+{
+	bool ret = false;
+	list<string>::iterator it;
+	for (it = allEdges.begin(); (it != allEdges.end()) && !ret; it++)
+	{
+		if (!it->compare(edge))
+		{
+			ret = true;
 		}
 	}
 	return ret;
@@ -204,7 +468,7 @@ bool catanMapModel::checkAvailableSettlement(string vertex, char player)
 bool catanMapModel::checkAvailableCity(string vertex, char player)
 {
 	bool ret = false;
-	if (player == 1)
+	if (player == '1')
 	{
 		list<string>::iterator it;
 		for (it = p1UsedVertexList.begin(); (it != p1UsedVertexList.end()) && !ret; it++)		//itero para ver si ya hay settlement construido
@@ -223,7 +487,7 @@ bool catanMapModel::checkAvailableCity(string vertex, char player)
 			}
 		}
 	}
-	else if (player == 2)
+	else if (player == '2')
 	{
 		list<string>::iterator it;
 		for (it = p2UsedVertexList.begin(); (it != p2UsedVertexList.end()) && !ret; it++)		//itero para ver si ya hay settlement construido
@@ -253,7 +517,7 @@ bool catanMapModel::vertexAdjacentToRoad(string vertex, string road)
 	if (vertex.length() == 3)
 	{
 		matches = 0;
-		for (int i = 0; i < vertex.length(); i++)	
+		for (unsigned int i = 0; i < vertex.length(); i++)
 		{
 			size_t found = road.find(vertex[i]);	//busca caracter a caracter del vertice en el camino siendo evaluado	
 			if (found != string::npos)	//si lo encontro
@@ -281,10 +545,10 @@ bool catanMapModel::adjacentRoads(string road1, string road2)
 	list<string>::iterator it;
 	if (road1.length() == 2)
 	{
-		for (it = static_cast<list<string>>(allVertexes).begin(); (it != allVertexes.end()) && !ret; it++)
+		for (it = allVertexes.begin(); (it != allVertexes.end()) && !ret; it++)
 		{
 			matches = 0;
-			for (int i = 0; i < it->length(); i++)
+			for (unsigned int i = 0; i < it->length(); i++)
 			{
 				found = road1.find((*it)[i]);	//busca caracter a caracter del vertice siendo evaluado en el camino 
 				if (found != string::npos)				//si lo encontro
@@ -300,20 +564,20 @@ bool catanMapModel::adjacentRoads(string road1, string road2)
 	}
 	else if (road1.length() == 3)
 	{
-		for (it = static_cast<list<string>>(allVertexes).begin(); (it != allVertexes.end()) && !ret; it++)
+		for (it = allVertexes.begin(); (it != allVertexes.end()) && !ret; it++)
 		{
 			if (it->length() == 2)
 			{
 				found = road1.find(*it);
 				if (found == 0)
 				{
-					ret = vertexAdjacentToRoad(*it,road2);
+					ret = vertexAdjacentToRoad(*it, road2);
 				}
 			}
 			else
 			{
 				matches = 0;
-				for (int i = 0; i < it->length(); i++)
+				for (unsigned int i = 0; i < it->length(); i++)
 				{
 					size_t found = road1.find((*it)[i]);	//busca caracter a caracter del vertice siendo evaluado en el camino 
 					if (found != string::npos)				//si lo encontro

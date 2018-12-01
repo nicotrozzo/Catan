@@ -1,32 +1,45 @@
 #pragma once
 #include "EDASubject.h"
+#include <map>
+#include "gameDefines.h"
+#include <array>
+#include <vector>
+#include <ctime>
 
-class hexagon
+typedef struct
 {
 	unsigned char circularToken;
-	unsigned char resource;
-};
+	unsigned char hexResource;
+}hexagon;
 
-
+typedef struct 
+{
+	unsigned char res;
+	unsigned char resCount;
+}resource;
 
 class catanMapModel : public EDASubject
 {
 public:
 	catanMapModel();
-	catanMapModel(string map);
 	unsigned char getRobberPos() { return robberPos; }
-
+	void setRobberPos(unsigned char robberPos_) { robberPos = robberPos_; }
+	string getMap();
+	string getCircularTokens();
+	bool setMap(string map_);
+	bool setCircularTokens(string circTokens);
+	bool buildRoad(string edge, char player);
+	bool buildSettlement(string edge, char player);
+	bool buildCity(string vertex, char player);
 	//bool freeVertex(string vertex);
 	bool checkAvailableRoad(string edge, char player);	//devuelve true si el jugador indicado puede construir un camino en ese lado
 	bool checkAvailableSettlement(string vertex, char player);	//devuelve true si el vertice seleccionado es valido para la construccion de un settlementdeu
 	bool checkAvailableCity(string vertex, char player);	//devuelve true si el vertice seleccionado es valido para la construccion de una ciudad
-
-	//freevertex();
 	~catanMapModel();
 private:
 	unsigned char robberPos;
 	string oceanPieces;
-	list <hexagon> hexagons;
+	array <hexagon,HEX_COUNT> hexagons;
 	list <string> hiddenRoads;		//caminos que son contiguos a un vertice ocupado, pero que no estan ocupados
 	list <string> p1SimpleRoads;	//ejes construidos contiguos a un vertice ocupado por el jugador 1
 	list <string> p1LongRoads;		//ejes construidos, a una distancia mayor a 1 de un vertice ocupado por el jugador 1
@@ -39,12 +52,14 @@ private:
 	bool adjacentToLongRoad(string vertex, char player);
 	bool adjacentToHiddenRoad(string vertex);
 	bool adjacentToSimpleRoad(string vertex);
-	bool vertexAdjacentToRoad(string vertex, string it);
+	bool vertexAdjacentToRoad(string vertex, string road);
 	bool adjacentRoads(string road1, string road2);
 	bool adjacentToOwnBuilding(string edge, char player);
 	bool adjacentToOwnRoad(string edge, char player);
 	bool freeEdge(string edge);
-	const list< string > allVertexes = {
+	bool existingVertex(string vertex);
+	bool existingEdge(string edge);
+	list< string > allVertexes = {
 	"0A", "0B", "01C",
 	"05A", "0AB", "0BC", "1C",
 	"5AD", "3AB", "BCF", "1CG",
@@ -59,7 +74,7 @@ private:
 	"34Q", "3R", "3S"
 	};
 
-	const list< string > allEdges = {
+	list< string > allEdges = {
 			"0A5", "0AB", "0BA", "0BC", "0C", "1C0",
 			"5A", "AB", "BC", "1CG",
 			"5DA", "AD", "AE", "BE", "BF", "CF", "CG", "1GC",
