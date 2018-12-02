@@ -75,10 +75,17 @@ string catanMapModel::getMap(void)
 /*Devuelve 7 en el lugar del robber, hay que modificarlo despues*/
 string catanMapModel::getCircularTokens(void)
 {
-	string circTokToReturn = "";
+	string circTokToReturn = CIRCULAR_TOKENS_HEADER;		//CIRCULAR_TKENS_HEADER = "0x13"
 	for (int i = 0; i < HEX_COUNT; i++)
 	{
-		circTokToReturn += hexagons[i].circularToken;
+		if (hexagons[i].circularToken == 7)
+		{
+			circTokToReturn += 0;
+		}
+		else
+		{
+			circTokToReturn += hexagons[i].circularToken;
+		}
 	}
 	return circTokToReturn;
 }
@@ -447,20 +454,38 @@ resourceType catanMapModel::connectsToPort(string vertex)
 	return ret;
 }
 
+/*Devuelve para la pieza de mar pieceNum su vertice adyacente con la letra de mayor ASCII*/
 string catanMapModel::greater2CharVertex(unsigned int pieceNum)
 {
 	string ret;
+	ret += static_cast<char>(pieceNum + '0');	//en la primera posicion tiene el numero de la pieza
 	list<string>::iterator it;
-	for (it = allVertexes.begin(); it != allVertexes.end(); it++)
+	char maxAscii = 0;
+	char found = 0;
+	bool finished = false;
+	for (it = allVertexes.begin(); (it != allVertexes.end()) && !finished ; it++)
 	{
-		if((*it)[0] == pieceNum)	//si es una pieza de
+		if( ((*it)[0] == pieceNum) && (it->length()==2) )	//si es un vertice adyacente a esa pieza de mar
+		{
+			if ((*it)[1] > maxAscii)
+			{
+				maxAscii = (*it)[1];
+			}
+			found++;			
+			if (found == 2)	//si ya encontro los dos vertices de long 2 de esa pieza de mar, en maxAscii ya esta el mayor
+			{
+				finished = true;
+			}
+		}
 	}
+	ret += maxAscii;	//en la segunda posicion tiene la letra de mayor ASCII
 	return ret;
 }
 
 string catanMapModel::less2CharVertex(unsigned int pieceNum)
 {
 	string ret;
+	ret += static_cast<char>(pieceNum + '0');	//en la primera posicion tiene el numero de la pieza
 
 	return ret;
 }
@@ -468,6 +493,7 @@ string catanMapModel::less2CharVertex(unsigned int pieceNum)
 string catanMapModel::middleCharVertex(string vertex)
 {
 	string ret;
+
 	return ret;
 }
 

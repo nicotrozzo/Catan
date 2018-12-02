@@ -27,17 +27,18 @@ genericEvent * netwEventGenerator::getEvent(void)
 
 string netwEventGenerator::parseMessage(char * buf, size_t len)
 {
-	char * temp;
-	memcpy(temp, buf, len);
-	for (size_t i = 0; i < len; i++)
+	if (buf[0] == CIRCULAR_TOKENS)
 	{
-		if (temp[i] == 0)
+		for (size_t i = 0; i < len; i++)
 		{
-			temp[i] = '7';		//cambio el \0 a 7 en ascii representando al robber para poder manejarnos con string
+			if (buf[i] == 0)
+			{
+				buf[i] = 7;		//cambio el \0 a 7 representando al robber para poder manejarnos con string
+			}
 		}
 	}
-	temp[len] = '\0';
-	return string str(temp);
+	buf[len] = '\0';
+	return string str(buf);
 }
 
 genericEvent * netwEventGenerator::getNetwEv(string message)
