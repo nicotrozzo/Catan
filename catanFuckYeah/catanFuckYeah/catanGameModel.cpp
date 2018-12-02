@@ -18,19 +18,19 @@ bool catanGameModel::construction(networkingEventTypes type, string coords)
 	switch(type)
 	{
 	case ROAD:
-		if (map.checkAvailableRoad(coords, getCurrentPlayer().getPlayerNumber()))
+		if (map.buildRoad(coords, getCurrentPlayer().getPlayerNumber()))
 		{
 			ret = true;
 		}
 		break;
 	case SETTLEMENT:
-		if (map.checkAvailableSettlement(coords, getCurrentPlayer().getPlayerNumber()))
+		if (map.buildSettlement(coords, getCurrentPlayer().getPlayerNumber()))
 		{
 			ret = true;
 		}
 		break;
 	case CITY:
-		if (map.checkAvailableCity(coords, getCurrentPlayer().getPlayerNumber()))
+		if (map.buildCity(coords, getCurrentPlayer().getPlayerNumber()))
 		{
 			ret = true;
 		}
@@ -43,8 +43,8 @@ bool catanGameModel::validSelectedCards(string currentPlayerCards, string otherP
 {
 	bool ret = true;
 	string possibleRes = RESOURCES_STR;
-	unsigned int currentResCount[] = { brickCount = 0, woodCount = 0, woolCount = 0, oreCount = 0,  wheatCount = 0 };	//estan ordenados segun RESOURCES_STR
-	unsigned int otherResCount[] = { brickCount = 0, woodCount = 0, woolCount = 0, oreCount = 0,  wheatCount = 0 };
+	unsigned int currentResCount[] = { 0, 0, 0, 0, 0 };	//cada elemento representa un recurso
+	unsigned int otherResCount[] = { 0, 0, 0, 0, 0 };		
 	unsigned int * pCResCount = currentResCount, *pOResCount = otherResCount;
 	std::size_t currentPos = 0, otherPos = 0;
 	for (auto x : possibleRes)	//char
@@ -66,7 +66,7 @@ bool catanGameModel::validSelectedCards(string currentPlayerCards, string otherP
 		switch(x)
 		{
 		case 'L':
-			ret = ((*pCResCount > getCurrentPlayer().getCards().brick ? false : true) && (*pOResCount > getOtherPlayer().getCards().brick ? false : true));
+			ret = (( (*pCResCount > getCurrentPlayer().getCards().brick) ? false : true) && (*pOResCount > getOtherPlayer().getCards().brick ? false : true));
 			break;
 		case 'M':
 			ret = ((*pCResCount > getCurrentPlayer().getCards().wood ? false : true) && (*pOResCount > getOtherPlayer().getCards().wood ? false : true));

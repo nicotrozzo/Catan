@@ -9,7 +9,6 @@ catanMapModel::catanMapModel()
 	int resRandNum;							//RECORDAR SRAND EN EL MAIN!!!!!!!!!!!!!!!!
 	int tokenRandNum;
 	int oceanRandNum;
-	srand(time(NULL));
 	bool written;			//indica si ya se encontro en la lista entera lo que se buscaba en cada iteracion
 	for (int i = 0; i < HEX_COUNT; i++)					//calculo random del mapa
 	{
@@ -89,7 +88,7 @@ bool catanMapModel::setMap(string map_)
 	bool error = false;
 	map <unsigned char, unsigned char> allResources = { {WOOD,0}, {BRICK,0}, {ORE,0}, {WHEAT,0}, {WOOL,0}, {DESSERT,0} };
 	size_t found = map_.find_first_not_of(RESOURCES_STR);
-	if (found == string::npos)
+	if (found == string::npos)		//si todas las letras son algun recurso
 	{
 		oceanPieces.clear();	//borra lo que haya como piezas de mar
 		for (int i = 0; (i < NUMBER_OF_OCEAN_PIECES + HEX_COUNT) && !ret; i++)
@@ -121,7 +120,7 @@ bool catanMapModel::setMap(string map_)
 				}
 				else
 				{
-					error = true;;
+					error = true;
 				}
 			}
 			if (!error)
@@ -170,20 +169,19 @@ bool catanMapModel::adjacentToLongRoad(string vertex, char player)
 {
 	bool ret = false;
 	list<string>::iterator it;
-	list<string>::iterator end;
-	if (player == '1')
+	if (player == 1)
 	{
-		it = p1LongRoads.begin();
-		end = p1LongRoads.end();
+		for (it = p1LongRoads.begin() ; (it != p1LongRoads.end()) && !ret; it++)
+		{
+			ret = vertexAdjacentToRoad(vertex, *it);
+		}
 	}
-	else if (player == '2')
+	else if (player == 2)
 	{
-		it = p2LongRoads.begin();
-		end = p2LongRoads.end();
-	}
-	for (; (it != end) && !ret; it++)
-	{
-		ret = vertexAdjacentToRoad(vertex, *it);
+		for (it = p2LongRoads.begin(); (it != p2LongRoads.end()) && !ret; it++)
+		{
+			ret = vertexAdjacentToRoad(vertex, *it);
+		}
 	}
 	return ret;
 }
@@ -224,7 +222,7 @@ bool catanMapModel::checkAvailableRoad(string edge, char player)
 bool catanMapModel::buildRoad(string edge, char player)
 {
 	bool ret = false;
-	if ((checkAvailableRoad(edge, player)) && ((player == '1') || (player == '2')))
+	if ((checkAvailableRoad(edge, player)) && ((player == 1) || (player == 2)))
 	{
 		ret = true;
 		list<string>::iterator it;
@@ -238,7 +236,7 @@ bool catanMapModel::buildRoad(string edge, char player)
 		}
 		if (adjacentToOwnBuilding(edge, player))	//si es simple road
 		{
-			if (player == '1')
+			if (player == 1)
 			{
 				p1SimpleRoads.push_back(edge);
 			}
@@ -249,7 +247,7 @@ bool catanMapModel::buildRoad(string edge, char player)
 		}
 		else	//sino es long road
 		{
-			if (player == '1')
+			if (player == 1)
 			{
 				p1LongRoads.push_back(edge);
 			}
@@ -265,7 +263,7 @@ bool catanMapModel::buildRoad(string edge, char player)
 bool catanMapModel::buildSettlement(string vertex, char player)
 {
 	bool ret = false;
-	if (checkAvailableSettlement(vertex, player) && ((player == '1') || (player == '2')))
+	if (checkAvailableSettlement(vertex, player) && ((player == 1) || (player == 2)))
 	{
 		ret = true;		//construccion valida
 		list<string>::iterator it;
@@ -294,7 +292,7 @@ bool catanMapModel::buildSettlement(string vertex, char player)
 				hiddenRoads.remove(*it);
 			}
 		}
-		if (player == '1')
+		if (player == 1)
 		{
 			p1UsedVertexList.push_back(vertex);
 		}
@@ -309,10 +307,10 @@ bool catanMapModel::buildSettlement(string vertex, char player)
 bool catanMapModel::buildCity(string vertex, char player)
 {
 	bool ret = false;
-	if (checkAvailableCity(vertex, player) && ((player == '1') || (player == '2')))
+	if (checkAvailableCity(vertex, player) && ((player == 1) || (player == 2)))
 	{
 		ret = true;
-		if (player == '1')
+		if (player == 1)
 		{
 			p1Cities.push_back(vertex);
 		}
@@ -352,12 +350,12 @@ bool catanMapModel::adjacentToOwnBuilding(string edge, char player)
 	bool ret = false;
 	list<string>::iterator it;
 	list<string>::iterator end;
-	if (player == '1')
+	if (player == 1)
 	{
 		it = p1UsedVertexList.begin();
 		end = p1UsedVertexList.end();
 	}
-	else if (player == '2')
+	else if (player == 2)
 	{
 		it = p2UsedVertexList.begin();
 		end = p2UsedVertexList.end();
@@ -375,12 +373,12 @@ bool catanMapModel::adjacentToOwnRoad(string edge, char player)
 	//comparar el eje pedido con todos los roads del jugador
 	list<string>::iterator it;
 	list<string>::iterator end;
-	if (player == '1')
+	if (player == 1)
 	{
 		it = p1SimpleRoads.begin();
 		end = p1SimpleRoads.end();
 	}
-	else if (player == '2')
+	else if (player == 2)
 	{
 		it = p2SimpleRoads.begin();
 		end = p2SimpleRoads.end();
@@ -391,12 +389,12 @@ bool catanMapModel::adjacentToOwnRoad(string edge, char player)
 	}
 	if (!ret)
 	{
-		if (player == '1')
+		if (player == 1)
 		{
 			it = p1LongRoads.begin();
 			end = p1LongRoads.end();
 		}
-		else if (player == '2')
+		else if (player == 2)
 		{
 			it = p2LongRoads.begin();
 			end = p2LongRoads.end();
@@ -416,13 +414,13 @@ bool catanMapModel::checkAvailableSettlement(string vertex, char player)
 	if (existingVertex(vertex))
 	{
 		validVertex = true;
-		if ((player == '1') || (player == '2'))
+		if ((player == 1) || (player == 2))
 		{
 			if (!adjacentToHiddenRoad(vertex))
 			{
 				if (!adjacentToSimpleRoad(vertex))
 				{
-					if (adjacentToLongRoad(vertex, player) || ((player == '1') && (p1UsedVertexList.size() < 2)) || ((player == '2') && (p2UsedVertexList.size() < 2)))
+					if (adjacentToLongRoad(vertex, player) || ((player == 1) && (p1UsedVertexList.size() < 2)) || ((player == 2) && (p2UsedVertexList.size() < 2)))
 					{
 						ret = true;
 					}
@@ -468,7 +466,7 @@ bool catanMapModel::existingEdge(string edge)
 bool catanMapModel::checkAvailableCity(string vertex, char player)
 {
 	bool ret = false;
-	if (player == '1')
+	if (player == 1)
 	{
 		list<string>::iterator it;
 		for (it = p1UsedVertexList.begin(); (it != p1UsedVertexList.end()) && !ret; it++)		//itero para ver si ya hay settlement construido
@@ -487,7 +485,7 @@ bool catanMapModel::checkAvailableCity(string vertex, char player)
 			}
 		}
 	}
-	else if (player == '2')
+	else if (player == 2)
 	{
 		list<string>::iterator it;
 		for (it = p2UsedVertexList.begin(); (it != p2UsedVertexList.end()) && !ret; it++)		//itero para ver si ya hay settlement construido

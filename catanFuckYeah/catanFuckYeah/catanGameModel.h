@@ -12,7 +12,7 @@ public:
 	bool dicesThrown(unsigned int diceValue);	//modifica informacion del juego, cambia de turno
 	bool construction(networkingEventTypes type, string coords);				//devuelve false si la construccion no es valida, PUEDE MODIFICAR GAME OVER
 	bool playersTrade(string currentPlayerCards, string otherPlayerCards);		//devuelve false con trueque invalido
-	bool validTrade(string currentPlayerCards, string otherPlayerCards);		//checkea que la transaccion solicitada sea valida, en cuyo case devuelve true
+	bool validSelectedCards(string currentPlayerCards, string otherPlayerCards);		//checkea que la transaccion solicitada sea valida, en cuyo case devuelve true
 	bool bankTrade(string player, unsigned char  bankResource);		//devuelve false si la transaccion es invalida (ver lo de 2x1 y 3x1)
 	bool robberMoved(unsigned char hex);	//devuelve false si el lugar no es valido 
 	bool discardCurrentPlayer(string cards);	//devuelve false si era una cantidad invalida de cartas, o no tenia esas cartas
@@ -27,6 +27,7 @@ public:
 protected:
 	//bool waitingCards;
 	//bool waitingToAccept;
+	bool player1Playing;	//true si es el turno del jugador 1, false si es el turno del jugador 2
 	catanPlayerModel player1;
 	catanPlayerModel player2;
 	catanMapModel map;
