@@ -38,12 +38,12 @@ protected:
 class catanGameModelSetup : public catanGameModel
 {
 public:
-	setMyName(string name) { player1.setName(name); }
-	setOppName(string name) { player2.setName(name); }
+	void setMyName(string name) { player1.setName(name); }
+	void setOppName(string name) { player2.setName(name); }
 	void setMap(string map_) { map.setMap(map_); };
 	string getMap() { return map.getMap(); }
 	string getCircularTokens() { return map.getCircularTokens(); };
-	setStartingPlayer(char player);
+	void setStartingPlayer(char player);
 };
 
 

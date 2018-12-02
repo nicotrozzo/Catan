@@ -11,7 +11,7 @@ connector::connector()
 }
 
 /*Devuelve false si intento mandar el mensaje y no pudo*/
-bool connector::sendMessage(string msg)
+bool connector::sendMessage(const char * msg, size_t length_)
 {
 	bool ret = false;
 	boost::system::error_code error;
@@ -19,7 +19,7 @@ bool connector::sendMessage(string msg)
 
 	do
 	{
-		length = socket->write_some(boost::asio::buffer(msg, msg.size()), error);
+		length = socket->write_some(boost::asio::buffer(msg, length_), error);
 	} while ((error.value() == WSAEWOULDBLOCK));
 	
 	if (!error)

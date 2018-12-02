@@ -75,17 +75,10 @@ string catanMapModel::getMap(void)
 /*Devuelve 7 en el lugar del robber, hay que modificarlo despues*/
 string catanMapModel::getCircularTokens(void)
 {
-	string circTokToReturn = CIRCULAR_TOKENS_HEADER;		//CIRCULAR_TKENS_HEADER = "0x13"
+	string circTokToReturn;
 	for (int i = 0; i < HEX_COUNT; i++)
 	{
-		if (hexagons[i].circularToken == 7)
-		{
-			circTokToReturn += 0;
-		}
-		else
-		{
-			circTokToReturn += hexagons[i].circularToken;
-		}
+		circTokToReturn += hexagons[i].circularToken;
 	}
 	return circTokToReturn;
 }
@@ -372,7 +365,7 @@ map<resourceType,unsigned char> catanMapModel::getBankTradeCosts(unsigned char p
 	}
 	for ( ; it != end ; it++)
 	{
-		resourceBenefited = connectsToPort(temp);	
+		resourceBenefited = connectsToPort(*it);	
 		if (resourceBenefited)
 		{	
 			if (resourceBenefited != DESSERT)	
@@ -450,6 +443,13 @@ resourceType catanMapModel::connectsToPort(string vertex)
 			portVertex[3] = (i-1) + '0';
 			portVertex[3] += portVertex[2];
 		}
+		for (auto temp : portVertex)
+		{
+			if (vertex == temp)
+			{
+				ret = oceanPieces[i].getResource();
+			}
+		}
 	}
 	return ret;
 }
@@ -482,27 +482,73 @@ string catanMapModel::greater2CharVertex(unsigned int pieceNum)
 	return ret;
 }
 
+/*Devuelve para la pieza de mar pieceNum su vertice adyacente con la letra de menor ASCII*/
 string catanMapModel::less2CharVertex(unsigned int pieceNum)
 {
 	string ret;
 	ret += static_cast<char>(pieceNum + '0');	//en la primera posicion tiene el numero de la pieza
-
+	list<string>::iterator it;
+	char minAscii = 'Z';
+	char found = 0;
+	bool finished = false;
+	for (it = allVertexes.begin(); (it != allVertexes.end()) && !finished; it++)
+	{
+		if (((*it)[0] == pieceNum) && (it->length() == 2))	//si es un vertice adyacente a esa pieza de mar
+		{
+			if ((*it)[1] < minAscii)
+			{
+				minAscii = (*it)[1];
+			}
+			found++;
+			if (found == 2)	//si ya encontro los dos vertices de long 2 de esa pieza de mar, en minAscii ya esta el menor
+			{
+				finished = true;
+			}
+		}
+	}
+	ret += minAscii;	//en la segunda posicion tiene la letra de mayor ASCII
 	return ret;
 }
 
+/*VERTEX DEBE SER UN VERTICE DE DOS CARACTERES
+Devuelve el vertice que tiene los mismos caracteres que vertex con otra letra en el medio*/
 string catanMapModel::middleCharVertex(string vertex)
 {
 	string ret;
-
+	list<string>::iterator it;
+	bool done = false;
+	for (it = allVertexes.begin(); (it != allVertexes.end()) && !done; it++)
+	{
+		if (it->length() == 3)
+		{
+			if( ((*it)[0] == vertex[0]) && ((*it)[2] == vertex[1]))
+			{
+				ret = *it;
+				done = true;
+			}
+		}
+	}
 	return ret;
 }
 
+/*VERTEX DEBE SER UN VERTICE DE DOS CARACTERES
+Devuelve la tercera letra del vertice que comienza con los mismos dos caracteres que vertex*/
 char catanMapModel::thirdLetter(string vertex)
 {
-	string ret;
+	char ret = 0;
+	bool done = false;
+	list<string>::iterator it;
+	size_t found;
+	for (it = allVertexes.begin(); (it != allVertexes.end()) && !done ; it++)
+	{
+		found = it->find(vertex);
+		if (found != string::npos)	//si encontro la secuencia de caracteres de vertex, se queda con el tercer caracter
+		{
+			ret = (*it)[2];
+		}
+	}
 	return ret;
 }
-
 
 bool catanMapModel::freeEdge(string edge)
 {

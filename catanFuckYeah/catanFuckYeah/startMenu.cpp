@@ -1,4 +1,4 @@
-#include "allegro.h"
+#include "startMenu.h"
 
 dibujator::dibujator()
 {

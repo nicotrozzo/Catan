@@ -2,17 +2,14 @@
 #include "EDASubject.h"
 #include "gameDefines.h"
 
-class cards
+typedef struct 
 {
-public:
-	cards();
 	unsigned char ore;
 	unsigned char wood;
 	unsigned char wheat;
 	unsigned char wool;
 	unsigned char brick;
-	
-};
+}cards;
 
 
 class catanPlayerModel : public EDASubject
@@ -26,16 +23,12 @@ public:
 	void setName(string name);
 	string getName() { return nameIs; }
 	unsigned char getPlayerNumber() { return playerNumber; }
-	bool incResource (unsigned char amount, char resource);
-	bool decResource(unsigned char amount, char resource);
+	bool incResource ( unsigned char resource);
+	bool decResource( unsigned char resource);
 	~catanPlayerModel();
 private:
 	cards myCards;
 	unsigned char victoryPoints;
-	unsigned char playerNumber;
-	//list <string> roads;					DEJAMOS COMENTADO PORQUE VAMOS A VER DE HACER GRAFO EN MODELO MAPA
-	//list <string> city;
-	//list <string> settlements;
+	unsigned char playerNumber;	
 	string nameIs;
 };
-

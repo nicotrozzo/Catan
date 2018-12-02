@@ -161,14 +161,14 @@ bool catanGameModel::playersTrade(string currentPlayerCards, string otherPlayerC
 		{
 			while (ret != false)
 			{
-				ret = (getCurrentPlayer().decResource(1, x) && getOtherPlayer().incResource(1, x));
+				ret = (getCurrentPlayer().decResource(x) && getOtherPlayer().incResource(x));
 			}
 		}
 		for (auto x : otherPlayerCards)
 		{
 			while (ret != false)
 			{
-				ret = (getCurrentPlayer().incResource(1, x) && getOtherPlayer().decResource(1, x));
+				ret = (getCurrentPlayer().incResource(x) && getOtherPlayer().decResource(x));
 			}
 		}
 	}
@@ -205,7 +205,7 @@ bool catanGameModel::discardCurrentPlayer(string cards)
 		{
 			while (ret != false)
 			{
-				ret = getCurrentPlayer().decResource(1, x);
+				ret = getCurrentPlayer().decResource(x);
 			}
 		}
 	}
@@ -225,7 +225,7 @@ bool catanGameModel::discardOtherPlayer(string cards)
 		{
 			while (ret != false)
 			{
-				ret = getOtherPlayer().decResource(1, x);
+				ret = getOtherPlayer().decResource(x);
 			}
 		}
 	}
@@ -275,6 +275,20 @@ bool catanGameModel::gameOver()
 	return ret;
 }
 
+void catanGameModelSetup::setStartingPlayer(char player)
+{
+	if (player == 1)
+	{
+		player1Playing = true;
+	}
+	else
+	{
+		player1Playing = false;
+	}
+}
+
+
 catanGameModel::~catanGameModel()
 {
 }
+

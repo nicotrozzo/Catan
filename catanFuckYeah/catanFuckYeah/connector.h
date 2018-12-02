@@ -15,7 +15,7 @@ class connector
 public:
 	connector();							//init socket, io_handler, etc, ver tp6
 	virtual connectorType getType() = 0;	
-	bool sendMessage(string msg);			//Devuelve false si no pudo mandar el mensaje
+	bool sendMessage(const char* msg, size_t length);			//Devuelve false si no pudo mandar el mensaje
 	bool receiveMessage();					//Devuelve true si recibio un mensaje. Si recibe un mensaje, se pisa el anterior, cuidado
 	bool messagePresent();					//Preguntar con este metodo si hay un mensaje presente
 	char * getMessage();					//Pedir el mensaje, conviene primero preguntar si habia un mensaje

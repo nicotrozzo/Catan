@@ -86,13 +86,16 @@
     <ClCompile Include="Server.cpp">
       <Filter>Archivos de origen\NETWORKING</Filter>
     </ClCompile>
-    <ClCompile Include="allegro.cpp">
-      <Filter>Archivos de origen\GUI</Filter>
-    </ClCompile>
     <ClCompile Include="netwEmisor.cpp">
       <Filter>Archivos de origen\NETWORKING</Filter>
     </ClCompile>
     <ClCompile Include="gameEventGenerator.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="startMenu.cpp">
+      <Filter>Archivos de origen\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="playerViewer.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>
@@ -154,14 +157,20 @@
     <ClInclude Include="connector.h">
       <Filter>Archivos de encabezado\NETWORKING</Filter>
     </ClInclude>
-    <ClInclude Include="allegro.h">
-      <Filter>Archivos de encabezado\GUI</Filter>
-    </ClInclude>
     <ClInclude Include="gameDefines.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="gameEventGenerator.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="startMenu.h">
+      <Filter>Archivos de encabezado\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="playerViewer.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>
