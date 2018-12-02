@@ -50,7 +50,7 @@ catanMapModel::catanMapModel()
 		{
 			if ((allOceanPieces[(oceanRandNum + j) % (NUMBER_OF_OCEAN_PIECES)] != '0'))
 			{
-				oceanPieces += allOceanPieces[(oceanRandNum + j) % (NUMBER_OF_OCEAN_PIECES)];
+				oceanPieces[i].setResource(allOceanPieces[(oceanRandNum + j) % (NUMBER_OF_OCEAN_PIECES)]);
 				allOceanPieces[(oceanRandNum + j) % (NUMBER_OF_OCEAN_PIECES)] = '0';
 				written = true;
 			}
@@ -63,7 +63,7 @@ string catanMapModel::getMap(void)
 	string mapToReturn;
 	for (int i = 0; i < NUMBER_OF_OCEAN_PIECES; i++)
 	{
-		mapToReturn += oceanPieces[i];
+		mapToReturn += oceanPieces[i].getResource();
 	}
 	for (int i = 0; i < HEX_COUNT; i++)
 	{
@@ -88,21 +88,22 @@ bool catanMapModel::setMap(string map_)
 	bool error = false;
 	map <unsigned char, unsigned char> allResources = { {WOOD,0}, {BRICK,0}, {ORE,0}, {WHEAT,0}, {WOOL,0}, {DESSERT,0} };
 	size_t found = map_.find_first_not_of(RESOURCES_STR);
+	string oceanPiecesChars;
 	if (found == string::npos)		//si todas las letras son algun recurso
 	{
-		oceanPieces.clear();	//borra lo que haya como piezas de mar
 		for (int i = 0; (i < NUMBER_OF_OCEAN_PIECES + HEX_COUNT) && !ret; i++)
 		{
 			if (i < NUMBER_OF_OCEAN_PIECES)
 			{
-				oceanPieces[i] = map_[i];
+				oceanPieces[i].setResource(map_[i]);
+				oceanPiecesChars += map_[i];	//para verificar luego que esten todos los recursos en las oceanPieces
 			}
 			else
 			{
 				hexagons[i].hexResource = map_[i];
 			}
 		}
-		found = oceanPieces.find_first_not_of(RESOURCES_STR);
+		found = oceanPiecesChars.find_first_not_of(RESOURCES_STR);	//verifica que se hayan asignado todas piezas de mar distintas
 		if (found != string::npos)
 		{
 			for (int i = 0; (i < HEX_COUNT) && !error; i++)	//valida hexagonos
@@ -320,6 +321,59 @@ bool catanMapModel::buildCity(string vertex, char player)
 		}
 	}
 	return ret;
+}
+
+list<string> catanMapModel::getP1BuiltVertexes()
+{
+	return p1UsedVertexList;
+}
+
+list<string> catanMapModel::getP1Cities()
+{
+	return p1Cities;
+}
+
+list<string> catanMapModel::getP2BuiltVertexes()
+{
+	return p2UsedVertexList;
+}
+
+list<string> catanMapModel::getP2Cities()
+{
+	return p2Cities;
+}
+
+/*Devuelve un diccionario con el costo (2, 3 o 4) de cada recurso para el jugador
+El diccionario tiene las claves definidas en resourceType, menos DESSERT
+*/
+map<resourceType,unsigned char> catanMapModel::getP1BankTradeCosts()
+{
+	map<resourceType, unsigned char> ret = { {BRICK,4},{WOOD,4},{WOOL,4},{ORE,4},{WHEAT,4} };
+	resourceType resourceBenefited;
+	for (auto temp : p1UsedVertexList)
+	{
+		resourceBenefited = connectsToPort(temp);
+		if (resourceBenefited)
+		{	
+			if (resourceBenefited != DESSERT)
+			{
+				ret[resourceBenefited] =
+			}
+			else
+			{
+				for (auto mapIt : ret)
+				{
+					mapIt = {mapIt.}
+				}
+			}
+		}
+	}
+	return ret;
+}
+
+list<resourceCost> catanMapModel::getP2BankTradeCosts()
+{
+	return list<resourceCost>();
 }
 
 bool catanMapModel::freeEdge(string edge)
@@ -614,4 +668,28 @@ bool catanMapModel::adjacentRoads(string road1, string road2)
 catanMapModel::~catanMapModel()
 {
 
+}
+
+void oceanPiece::setResource(unsigned char resource_)
+{
+	resource = resource_;
+	switch (resource_)
+	{
+	case 'N': case 'P':	case 'M':
+		hasTwoPorts = false;
+		break;
+	case 'T': case 'O': case 'L':
+		hasTwoPorts = true;
+		break;
+	}
+}
+
+unsigned char oceanPiece::getResource()
+{
+	return resource;
+}
+
+bool oceanPiece::hasOnePort()
+{
+	return !hasTwoPorts;
 }

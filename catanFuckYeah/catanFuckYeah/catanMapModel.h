@@ -24,6 +24,22 @@ typedef struct
 	unsigned char resCount;
 }resource;
 
+typedef struct
+{
+
+}resourceCost;
+
+class oceanPiece
+{
+public:
+	bool hasOnePort();
+	void setResource(unsigned char resource_);
+	unsigned char getResource();
+private:
+	unsigned char resource;
+	bool hasTwoPorts;
+};
+
 class catanMapModel : public EDASubject
 {
 public:
@@ -42,6 +58,8 @@ public:
 	list<string> getP1Cities();			//devuelve todos los cities contruidos por el jugador 1
 	list<string> getP2BuiltVertexes();	
 	list<string> getP2Cities();			
+	vector<unsigned char> getP1BankTradeCosts();	//devuelve un vector con el costo (2, 3 o 4) de cada recurso para el jugador, ver documentacion de la definicion
+	vector<resourceCost> getP2BankTradeCosts();
 	bool checkAvailableRoad(string edge, char player);	//devuelve true si el jugador indicado puede construir un camino en ese lado
 	bool checkAvailableSettlement(string vertex, char player);	//devuelve true si el vertice seleccionado es valido para la construccion de un settlementdeu
 	bool checkAvailableCity(string vertex, char player);	//devuelve true si el vertice seleccionado es valido para la construccion de una ciudad
@@ -51,7 +69,7 @@ public:
 	~catanMapModel();
 private:
 	unsigned char robberPos;
-	string oceanPieces;
+	array <oceanPiece,NUMBER_OF_OCEAN_PIECES> oceanPieces;
 	array <hexagon,HEX_COUNT> hexagons;
 	list <string> hiddenRoads;		//caminos que son contiguos a un vertice ocupado, pero que no estan ocupados
 	list <string> p1SimpleRoads;	//ejes construidos contiguos a un vertice ocupado por el jugador 1
