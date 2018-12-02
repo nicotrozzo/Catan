@@ -12,6 +12,12 @@ typedef struct
 	unsigned char hexResource;
 }hexagon;
 
+typedef struct
+{
+	unsigned char letter;
+	unsigned char hexResource;
+}pepe;
+
 typedef struct 
 {
 	unsigned char res;
@@ -32,9 +38,16 @@ public:
 	bool buildSettlement(string edge, char player);
 	bool buildCity(string vertex, char player);
 	//bool freeVertex(string vertex);
+	list<string> getP1BuiltVertexes();	//devuelve todos los vertices ocupados por el jugador, tanto settlements como cities
+	list<string> getP1Cities();			//devuelve todos los cities contruidos por el jugador 1
+	list<string> getP2BuiltVertexes();	
+	list<string> getP2Cities();			
 	bool checkAvailableRoad(string edge, char player);	//devuelve true si el jugador indicado puede construir un camino en ese lado
 	bool checkAvailableSettlement(string vertex, char player);	//devuelve true si el vertice seleccionado es valido para la construccion de un settlementdeu
 	bool checkAvailableCity(string vertex, char player);	//devuelve true si el vertice seleccionado es valido para la construccion de una ciudad
+	
+	list<pepe> getSelectedHex(unsigned int diceValue);
+
 	~catanMapModel();
 private:
 	unsigned char robberPos;

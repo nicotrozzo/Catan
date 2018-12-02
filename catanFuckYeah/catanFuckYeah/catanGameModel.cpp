@@ -1,7 +1,7 @@
 #include "catanGameModel.h"
 #include "gameDefines.h"
 #include <cstring>
-#include <iterators.h>
+#include <iterator>
 
 catanGameModel::catanGameModel()
 {
@@ -9,7 +9,40 @@ catanGameModel::catanGameModel()
 
 bool catanGameModel::dicesThrown(unsigned int diceValue)
 {
-	return false;
+	//tiene que cambiar el jugador que esta jugando
+	//tiene que asignar recursos a los player que esten en el casillero que haya salido
+	bool ret = false;
+	list<string> vertex;
+	list<string> cities;
+	size_t found;
+	player1Playing = !player1Playing;
+	if (diceValue != 7)
+	{
+		list<pepe> hexagonos = map.getSelectedHex(diceValue);
+		vertex = map.getP1BuiltVertexes();
+		cities = map.getP1Cities();
+		for (auto y : hexagonos)
+		{
+			for (auto x : vertex)
+			{
+				found = x.find(y.letter);
+				if (found != string::npos)
+				{		
+					player1.incResource(1, y.hexResource);	//si tiene una construccion adyacente al hexagono
+				}
+			}
+			for (auto x : cities)
+			{
+				found = x.find(y.letter);
+				if (found != string::npos)
+				{
+					player1.incResource(1, y.hexResource);	//si tiene una construccion adyacente al hexagono
+				}
+			}
+		}
+	}
+	
+	return ret;
 }
 
 bool catanGameModel::construction(networkingEventTypes type, string coords)
@@ -131,7 +164,7 @@ bool catanGameModel::bankTrade(string player, unsigned char bankResource)	//play
 bool catanGameModel::robberMoved(unsigned char hex)
 {
 	bool ret = false;
-	if (hex != map.getRoberPos())
+	if (hex != map.getRobberPos())
 	{
 		map.setRobberPos(hex);
 		ret = true;
@@ -180,10 +213,38 @@ bool catanGameModel::discardOtherPlayer(string cards)
 }
 
 
+catanPlayerModel catanGameModel::getCurrentPlayer()
+{
+	catanPlayerModel * ret = nullptr;
+	if (player1Playing)
+	{
+		ret = &player1;
+	}
+	else
+	{
+		ret = &player2;
+	}
+	return *ret;
+}
+
+catanPlayerModel catanGameModel::getOtherPlayer()
+{
+	catanPlayerModel * ret = nullptr;
+	if (player1Playing)
+	{
+		ret = &player2;
+	}
+	else
+	{
+		ret = &player1;
+	}
+	return *ret;
+}
+
 bool catanGameModel::gameOver()
 {
 	bool ret = false;
-	if ((getCurrentPlayer().getVictoryPoints() == POINTS_TO_WIN) || ((getOtherPlayer().getVictoryPoints() == POINTS_TO_WIN))
+	if ((getCurrentPlayer().getVictoryPoints() == POINTS_TO_WIN) || (getOtherPlayer().getVictoryPoints() == POINTS_TO_WIN))
 	{
 		ret = true;
 	}

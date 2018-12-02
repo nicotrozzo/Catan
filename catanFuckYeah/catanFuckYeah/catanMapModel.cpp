@@ -507,6 +507,24 @@ bool catanMapModel::checkAvailableCity(string vertex, char player)
 	return ret;
 }
 
+list<pepe> catanMapModel::getSelectedHex(unsigned int diceValue)
+{
+	list<pepe> ret;
+	unsigned char letter = 'A';
+	if ((diceValue >= 2) && (diceValue <= 12))
+	{
+		for (auto x : hexagons)
+		{
+			if (x.circularToken == diceValue)
+			{
+				ret.push_back({ letter, x.hexResource });
+			}
+			letter++;
+		}
+	}
+	return ret;
+}
+
 /*Devuelve true si el vertice y el eje recibidos son adyacentes*/
 bool catanMapModel::vertexAdjacentToRoad(string vertex, string road)
 {
