@@ -34,9 +34,9 @@ class oceanPiece
 public:
 	bool hasOnePort();
 	void setResource(unsigned char resource_);
-	unsigned char getResource();
+	resourceType getResource();
 private:
-	unsigned char resource;
+	resourceType resource;
 	bool hasTwoPorts;
 };
 
@@ -58,8 +58,7 @@ public:
 	list<string> getP1Cities();			//devuelve todos los cities contruidos por el jugador 1
 	list<string> getP2BuiltVertexes();	
 	list<string> getP2Cities();			
-	vector<unsigned char> getP1BankTradeCosts();	//devuelve un vector con el costo (2, 3 o 4) de cada recurso para el jugador, ver documentacion de la definicion
-	vector<resourceCost> getP2BankTradeCosts();
+	map<resourceType,unsigned char> getBankTradeCosts(unsigned char player);	//Devuelve un diccionario con el costo (2, 3 o 4) de cada recurso para el jugador pedido
 	bool checkAvailableRoad(string edge, char player);	//devuelve true si el jugador indicado puede construir un camino en ese lado
 	bool checkAvailableSettlement(string vertex, char player);	//devuelve true si el vertice seleccionado es valido para la construccion de un settlementdeu
 	bool checkAvailableCity(string vertex, char player);	//devuelve true si el vertice seleccionado es valido para la construccion de una ciudad
@@ -80,6 +79,7 @@ private:
 	list <string> p2LongRoads;		//ejes construidos, a una distancia mayor a 1 de un vertice ocupado por el jugador 2
 	list <string> p2UsedVertexList;	//cuando un settlement se transforma en city sigue estando en esta lista	
 	list <string> p2Cities;
+	/*Metodos para chequeo de construcciones*/
 	bool adjacentToLongRoad(string vertex, char player);
 	bool adjacentToHiddenRoad(string vertex);
 	bool adjacentToSimpleRoad(string vertex);
@@ -90,6 +90,13 @@ private:
 	bool freeEdge(string edge);
 	bool existingVertex(string vertex);
 	bool existingEdge(string edge);
+	/*Metodos para buscar vertices con puerto*/
+	string greater2CharVertex(unsigned int pieceNum);
+	string less2CharVertex(unsigned int pieceNum);
+	string middleCharVertex(string vertex);
+	char thirdLetter(string vertex);
+
+	resourceType connectsToPort(string edge);
 	list< string > allVertexes = {
 	"0A", "0B", "01C",
 	"05A", "0AB", "0BC", "1C",

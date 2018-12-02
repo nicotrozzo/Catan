@@ -12,6 +12,7 @@ private:
 	connector * establishedConnector;
 	genericEvent * getNetwEv(string message);
 	bool emptyPackage(networkingEventTypes header);
+	string parseMessage(char * buf, size_t len);
 };	
 
 

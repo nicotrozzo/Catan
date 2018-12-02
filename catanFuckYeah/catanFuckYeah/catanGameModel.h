@@ -33,11 +33,18 @@ protected:
 	catanMapModel map;
 };
 
+
+/*SOLO LO TIENE FSM DE HANSHAKING*/
 class catanGameModelSetup : public catanGameModel
 {
 public:
-	setMyName(string name) { player1->setName(name); }
-	setOppName(string name) { player2->setName(name); }
-	setMap(string map_) { map = map_ };
-	string getMap() { return map.getMapInString(); }
+	setMyName(string name) { player1.setName(name); }
+	setOppName(string name) { player2.setName(name); }
+	void setMap(string map_) { map.setMap(map_); };
+	string getMap() { return map.getMap(); }
+	string getCircularTokens() { return map.getCircularTokens(); };
+	setStartingPlayer(char player);
 };
+
+
+

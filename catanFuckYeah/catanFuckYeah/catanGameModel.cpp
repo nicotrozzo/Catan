@@ -5,6 +5,7 @@
 
 catanGameModel::catanGameModel()
 {
+	//ver de poner quien arranca jugando
 }
 
 bool catanGameModel::dicesThrown(unsigned int diceValue)
@@ -12,13 +13,14 @@ bool catanGameModel::dicesThrown(unsigned int diceValue)
 	//tiene que cambiar el jugador que esta jugando
 	//tiene que asignar recursos a los player que esten en el casillero que haya salido
 	bool ret = false;
+	list<pepe> hexagonos;
 	list<string> vertex;
 	list<string> cities;
 	size_t found;
 	player1Playing = !player1Playing;
 	if (diceValue != 7)
 	{
-		list<pepe> hexagonos = map.getSelectedHex(diceValue);
+		hexagonos = map.getSelectedHex(diceValue);
 		vertex = map.getP1BuiltVertexes();
 		cities = map.getP1Cities();
 		for (auto y : hexagonos)
@@ -27,7 +29,7 @@ bool catanGameModel::dicesThrown(unsigned int diceValue)
 			{
 				found = x.find(y.letter);
 				if (found != string::npos)
-				{		
+				{
 					player1.incResource(1, y.hexResource);	//si tiene una construccion adyacente al hexagono
 				}
 			}
@@ -36,10 +38,32 @@ bool catanGameModel::dicesThrown(unsigned int diceValue)
 				found = x.find(y.letter);
 				if (found != string::npos)
 				{
-					player1.incResource(1, y.hexResource);	//si tiene una construccion adyacente al hexagono
+					player1.incResource(1, y.hexResource);	//si tiene una citi adyacente al hexagono le asigno un recurso mas
 				}
 			}
 		}
+		vertex = map.getP2BuiltVertexes();
+		cities = map.getP2Cities();
+		for (auto y : hexagonos)
+		{
+			for (auto x : vertex)
+			{
+				found = x.find(y.letter);
+				if (found != string::npos)
+				{
+					player2.incResource(1, y.hexResource);	//si tiene una construccion adyacente al hexagono
+				}
+			}
+			for (auto x : cities)
+			{
+				found = x.find(y.letter);
+				if (found != string::npos)
+				{
+					player2.incResource(1, y.hexResource);	//si tiene una citi adyacente al hexagono le asigno un recurso mas
+				}
+			}
+		}
+		ret = true;
 	}
 	
 	return ret;

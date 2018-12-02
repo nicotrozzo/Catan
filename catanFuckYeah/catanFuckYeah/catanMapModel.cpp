@@ -75,11 +75,12 @@ string catanMapModel::getMap(void)
 /*Devuelve 7 en el lugar del robber, hay que modificarlo despues*/
 string catanMapModel::getCircularTokens(void)
 {
-	string circTokToReturn;
+	string circTokToReturn = "";
 	for (int i = 0; i < HEX_COUNT; i++)
 	{
 		circTokToReturn += hexagons[i].circularToken;
 	}
+	return circTokToReturn;
 }
 
 bool catanMapModel::setMap(string map_)
@@ -346,24 +347,39 @@ list<string> catanMapModel::getP2Cities()
 /*Devuelve un diccionario con el costo (2, 3 o 4) de cada recurso para el jugador
 El diccionario tiene las claves definidas en resourceType, menos DESSERT
 */
-map<resourceType,unsigned char> catanMapModel::getP1BankTradeCosts()
+map<resourceType,unsigned char> catanMapModel::getBankTradeCosts(unsigned char player)
 {
 	map<resourceType, unsigned char> ret = { {BRICK,4},{WOOD,4},{WOOL,4},{ORE,4},{WHEAT,4} };
 	resourceType resourceBenefited;
-	for (auto temp : p1UsedVertexList)
+	list<string>::iterator it;
+	list<string>::iterator end;
+	if (player == 1)
 	{
-		resourceBenefited = connectsToPort(temp);
+		it = p1UsedVertexList.begin();
+		end = p1UsedVertexList.end();
+	}
+	else if (player == 2)
+	{
+		it = p2UsedVertexList.begin();
+		end = p2UsedVertexList.end();
+	}
+	for ( ; it != end ; it++)
+	{
+		resourceBenefited = connectsToPort(temp);	
 		if (resourceBenefited)
 		{	
-			if (resourceBenefited != DESSERT)
+			if (resourceBenefited != DESSERT)	
 			{
-				ret[resourceBenefited] =
+				ret[resourceBenefited] = 2;	//en ese recurso en especifico, tiene 2x1
 			}
-			else
+			else		//si devuelve DESSERT, tiene 3x1 en todo
 			{
 				for (auto mapIt : ret)
 				{
-					mapIt = {mapIt.}
+					if (mapIt.second == 4)
+					{
+						mapIt.second = 3;
+					}
 				}
 			}
 		}
@@ -371,10 +387,96 @@ map<resourceType,unsigned char> catanMapModel::getP1BankTradeCosts()
 	return ret;
 }
 
-list<resourceCost> catanMapModel::getP2BankTradeCosts()
+/*Verifica si un vertice se conecta a un puerto
+En caso que no lo haga, devuelve 0
+En caso que lo haga, devuelve el recurso beneficiado por el puerto
+En caso que sea un puerto de 3x1 en todos los recursos, devuelve DESSERT*/
+resourceType catanMapModel::connectsToPort(string vertex)
 {
-	return list<resourceCost>();
+	string portVertex[4];
+	resourceType ret = static_cast<resourceType>(0);
+	for (unsigned int i = 0 ; (i < 3) && !ret ; i++)
+	{
+		if (oceanPieces[i].hasOnePort())
+		{
+			portVertex[0] = greater2CharVertex(i);	//uno de los vertices con puerto es el de long 2, que tiene el numero de puerto y la letra mas grande
+			portVertex[1]= middleCharVertex(portVertex[0]);	//el otro vertice sera el que tiene los mismos caracteres que el anterior, pero con una letra en el medio
+		}
+		else
+		{
+			portVertex[0] = greater2CharVertex(i);	//uno de los vertices con puerto es el de long 2, que tiene el numero de puerto y la letra mas grande
+			portVertex[1] = portVertex[0];
+			portVertex[1] += thirdLetter(portVertex[0]);	//otro vertice sera el que tiene long 3 y comparte los primeros 2 caracteres con el anterior
+			portVertex[2] = less2CharVertex(i);		//otro vertice sera de long2, con el numero de puerto y la letra mas chica
+			if (i > 0)	//si no es la pieza 0
+			{
+				portVertex[3] = (i - 1) + '0';	//el ultimo vertice compartira los caracteres del anterior, y se le antepone el numero de la pieza anterior (i-1)
+				portVertex[3] += portVertex[2];
+			}
+			else		//si es la pieza 0
+			{
+				portVertex[3] = portVertex[2];
+				portVertex[3].insert(1, 1, '5');	//el ultimo vertice sera el "05A"
+			}
+		}
+		for(auto temp : portVertex)
+		{
+			if (vertex == temp)
+			{
+				ret = oceanPieces[i].getResource();
+			}
+		}
+	}
+	for (unsigned int i = 3; (i < NUMBER_OF_OCEAN_PIECES) && !ret; i++)
+	{
+		if (oceanPieces[i].hasOnePort())
+		{
+			portVertex[0] = less2CharVertex(i);
+			portVertex[1] = portVertex[0];
+			portVertex[1] += thirdLetter(portVertex[0]);
+		}
+		else
+		{
+			portVertex[0] = less2CharVertex(i);
+			portVertex[1] = middleCharVertex(portVertex[0]);
+			portVertex[2] = greater2CharVertex(i);
+			portVertex[3] = (i-1) + '0';
+			portVertex[3] += portVertex[2];
+		}
+	}
+	return ret;
 }
+
+string catanMapModel::greater2CharVertex(unsigned int pieceNum)
+{
+	string ret;
+	list<string>::iterator it;
+	for (it = allVertexes.begin(); it != allVertexes.end(); it++)
+	{
+		if((*it)[0] == pieceNum)	//si es una pieza de
+	}
+	return ret;
+}
+
+string catanMapModel::less2CharVertex(unsigned int pieceNum)
+{
+	string ret;
+
+	return ret;
+}
+
+string catanMapModel::middleCharVertex(string vertex)
+{
+	string ret;
+	return ret;
+}
+
+char catanMapModel::thirdLetter(string vertex)
+{
+	string ret;
+	return ret;
+}
+
 
 bool catanMapModel::freeEdge(string edge)
 {
@@ -424,7 +526,7 @@ bool catanMapModel::adjacentToOwnBuilding(string edge, char player)
 bool catanMapModel::adjacentToOwnRoad(string edge, char player)
 {
 	bool ret = false;
-	//comparar el eje pedido con todos los roads del jugador
+	//compara el eje pedido con todos los roads del jugador
 	list<string>::iterator it;
 	list<string>::iterator end;
 	if (player == 1)
@@ -672,7 +774,7 @@ catanMapModel::~catanMapModel()
 
 void oceanPiece::setResource(unsigned char resource_)
 {
-	resource = resource_;
+	resource = static_cast<resourceType>(resource_);
 	switch (resource_)
 	{
 	case 'N': case 'P':	case 'M':
@@ -684,7 +786,7 @@ void oceanPiece::setResource(unsigned char resource_)
 	}
 }
 
-unsigned char oceanPiece::getResource()
+resourceType oceanPiece::getResource()
 {
 	return resource;
 }

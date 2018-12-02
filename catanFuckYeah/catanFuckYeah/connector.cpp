@@ -15,11 +15,11 @@ bool connector::sendMessage(string msg)
 {
 	bool ret = false;
 	boost::system::error_code error;
-	size_t len = 0;
+	size_t length = 0;
 
 	do
 	{
-		len = socket->write_some(boost::asio::buffer(msg, msg.size()), error);
+		length = socket->write_some(boost::asio::buffer(msg, msg.size()), error);
 	} while ((error.value() == WSAEWOULDBLOCK));
 	
 	if (!error)
@@ -34,9 +34,8 @@ bool connector::receiveMessage()
 {
 	bool ret = false;
 	boost::system::error_code error;
-	char buf[512];
-	size_t len = 0;
-
+	len = 0;
+	messageRead = false;
 	do
 	{
 		len = socket->read_some(boost::asio::buffer(buf), error);
@@ -44,9 +43,7 @@ bool connector::receiveMessage()
 
 	if (!error)
 	{
-		buf[len] = '\0';
 		ret = true;				//avisa que recibio un mensaje
-		messageReceived = buf;	//guarda el mensaje recibido
 	}
 	return ret;
 }
@@ -54,7 +51,12 @@ bool connector::receiveMessage()
 
 bool connector::messagePresent()
 {
-	return (messageReceived.size() != 0) ? true : false;
+	bool ret = false;
+	if (!messageRead && len != 0)
+	{
+		ret = true;
+	}
+	return ret;
 }
 
 bool connector::isConnected()
@@ -63,11 +65,15 @@ bool connector::isConnected()
 }
 
 
-string connector::getMessage()
+char * connector::getMessage()
 {
-	string temp = messageReceived;
-	messageReceived.clear();
-	return temp;
+	messageRead = true;
+	return buf;
+}
+
+size_t connector::getMessageLenght()
+{
+	return len;
 }
 
 connector::~connector()

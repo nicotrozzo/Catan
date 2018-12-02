@@ -18,11 +18,26 @@ genericEvent * netwEventGenerator::getEvent(void)
 	{
 		if (establishedConnector->receiveMessage())
 		{
-			messageReceived = establishedConnector->getMessage();
+			messageReceived = parseMessage(establishedConnector->getMessage(), establishedConnector->getMessageLenght());
 			ret = getNetwEv(messageReceived);
 		}
 	}
 	return ret;
+}
+
+string netwEventGenerator::parseMessage(char * buf, size_t len)
+{
+	char * temp;
+	memcpy(temp, buf, len);
+	for (size_t i = 0; i < len; i++)
+	{
+		if (temp[i] == 0)
+		{
+			temp[i] = '7';		//cambio el \0 a 7 en ascii representando al robber para poder manejarnos con string
+		}
+	}
+	temp[len] = '\0';
+	return string str(temp);
 }
 
 genericEvent * netwEventGenerator::getNetwEv(string message)

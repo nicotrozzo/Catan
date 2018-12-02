@@ -18,14 +18,17 @@ public:
 	bool sendMessage(string msg);			//Devuelve false si no pudo mandar el mensaje
 	bool receiveMessage();					//Devuelve true si recibio un mensaje. Si recibe un mensaje, se pisa el anterior, cuidado
 	bool messagePresent();					//Preguntar con este metodo si hay un mensaje presente
-	string getMessage();					//Pedir el mensaje, conviene primero preguntar si habia un mensaje
+	char * getMessage();					//Pedir el mensaje, conviene primero preguntar si habia un mensaje
+	size_t getMessageLenght();
 	bool isConnected();
 	~connector();
 
 protected:
 	boost::asio::io_service*  IO_handler;
 	boost::asio::ip::tcp::socket* socket;
-	string messageReceived;
+	char buf[512];
+	bool messageRead;
 	bool connected;
+	size_t len;
 };
 
