@@ -66,7 +66,7 @@ private:
 	const fsmCell fsmTable[7][5] = {
 	//			DONE								CARDS									TICK							ROBBER?							ERROR	
 	{ { OPP_TURN,TX(oppTurnControllers)}, {PREPARE_TRADE,TX(tradeControllers)},{BUILDING,TX(buildControllers)},{MY_ROBBER,TX(myRobberControllers)},{MY_TURN,TX(error)} },		 //MY_TURN
-	{ { MY_TURN,TX(myTurnControllers) },	{,TX()},						   {BUILDING,},		{,TX()}											  ,{BUILDING,TX(error)} },		 //BUILDING
+	{ { MY_TURN,TX(myTurnControllers) },  {,TX()},						   {BUILDING,},		{,TX()}											  ,{BUILDING,TX(error)} },		 //BUILDING
 	{ { MY_TURN,TX(myTurnControllers) },  {,TX()}							  ,{PREPARE_TRADE,TX(netwYNControllers) },{,TX()},{PREPARE_TRADE,TX(error)} },   //PREPARE_TRADE
 	{ { MY_TURN,TX(myTurnControllers) },  {},{},{},{MY_ROBBER,TX(error)} },		 //MY_ROBBER
 	{ { MY_TURN,TX(myTurnControllers) },  {WAITING_PLAYER,TX(waitingControllers)},{},{OPP_ROBBER,TX(oppRobberControllers)},{OPP_TURN,TX(error)} },		 //OPP_TURN
