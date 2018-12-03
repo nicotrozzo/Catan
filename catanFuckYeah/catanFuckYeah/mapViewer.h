@@ -3,6 +3,9 @@ class mapViewer
 {
 public:
 	mapViewer();
+
 	~mapViewer();
+public:
+
 };
 
