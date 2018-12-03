@@ -121,9 +121,6 @@
     <ClInclude Include="inputEventGenerator.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="observer.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="catanGameModel.h">
       <Filter>Archivos de encabezado\MVC</Filter>
     </ClInclude>
@@ -192,6 +189,9 @@
     </ClInclude>
     <ClInclude Include="allegroInit.h">
       <Filter>Archivos de encabezado\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="observer.h">
+      <Filter>Archivos de encabezado\MVC</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
