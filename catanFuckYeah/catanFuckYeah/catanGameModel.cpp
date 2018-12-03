@@ -239,30 +239,30 @@ bool catanGameModel::discardOtherPlayer(string cards)
 
 catanPlayerModel catanGameModel::getCurrentPlayer()
 {
-	catanPlayerModel * ret = nullptr;
+	catanPlayerModel ret;
 	if (player1Playing)
 	{
-		ret = &player1;
+		ret = player1;
 	}
 	else
 	{
-		ret = &player2;
+		ret = player2;
 	}
-	return *ret;
+	return ret;
 }
 
 catanPlayerModel catanGameModel::getOtherPlayer()
 {
-	catanPlayerModel * ret = nullptr;
+	catanPlayerModel ret;
 	if (player1Playing)
 	{
-		ret = &player2;
+		ret = player2;
 	}
 	else
 	{
-		ret = &player1;
+		ret = player1;
 	}
-	return *ret;
+	return ret;
 }
 
 bool catanGameModel::gameOver()
