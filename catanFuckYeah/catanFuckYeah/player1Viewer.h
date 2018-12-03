@@ -14,10 +14,14 @@ public:
 private:
 	catanPlayerModel* player;
 	ALLEGRO_FONT * fontForVictoryPoints;
-	bool viewVictoryPoints();
-	bool viewNameIs();
-	bool viewResources();
-	bool viewLongestRoads();
-	bool viewAmountOfCards();
+	ALLEGRO_FONT * fontForName;
+	ALLEGRO_FONT * fontForResources;
+	ALLEGRO_FONT * fontForAmountOfCards;
+	bool ret;
+	void viewVictoryPoints();
+	void viewNameIs();
+	void viewResources();
+	void viewLongestRoads();
+	void viewAmountOfCards();
 };
 
