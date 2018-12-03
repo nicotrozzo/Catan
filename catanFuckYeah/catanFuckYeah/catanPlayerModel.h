@@ -25,6 +25,7 @@ public:
 	unsigned char getPlayerNumber() { return playerNumber; }
 	bool incResource ( unsigned char resource);
 	bool decResource( unsigned char resource);
+	int getWidth();
 	~catanPlayerModel();
 private:
 	cards myCards;

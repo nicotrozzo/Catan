@@ -24,27 +24,19 @@ void allegroInit::initializer()
 							{
 								if (al_init_ttf_addon())
 								{
-									if ((font = al_load_ttf_font("font\\scribish", 11, 0)) != NULL)
+									if ((queue = al_create_event_queue()) != NULL)
 									{
-										if ((queue = al_create_event_queue()) != NULL)
-										{
-											al_register_event_source(queue, al_get_keyboard_event_source());
-											al_register_event_source(queue, al_get_mouse_event_source());
-											initializationError = true;
-											return;
-										}
-										else
-										{
-											cout << "No se pudo crear la cola de eventos" << endl;
-										}
-										al_destroy_font(font);
-										cout << "No se pudo crear font" << endl;
+										al_register_event_source(queue, al_get_keyboard_event_source());
+										al_register_event_source(queue, al_get_mouse_event_source());
+										initializationError = true;
+										return;
 									}
 									else
 									{
-										cout << "No se pudo crear font" << endl;
+										cout << "No se pudo crear la cola de eventos" << endl;
 									}
-									al_shutdown_ttf_addon();
+									al_destroy_font(font);
+									cout << "No se pudo crear font" << endl;
 								}
 								else
 								{
