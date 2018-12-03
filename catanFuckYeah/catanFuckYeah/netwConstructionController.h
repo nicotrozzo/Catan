@@ -1,6 +1,7 @@
 #pragma once
 #include "EDANetworkingController.h"
 #include "networkingEvents.h"
+
 class netwConstructionController :	public EDANetworkingController
 {
 public:
@@ -10,7 +11,7 @@ public:
 	bool parseNetworkingEvent(networkingEv * package);
 	~netwConstructionController();
 private:
-	catanGameModel
 	bool expectsOnePackage;
+	bool buildingPackage(networkingEventTypes package);
 };
 
