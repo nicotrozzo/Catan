@@ -14,6 +14,7 @@ void player1Viewer::update()
 
 bool player1Viewer::viewVictoryPoints()
 {
+	bool ret = true;
 	unsigned char victoryPoints = player->getVictoryPoints();
 	string points = to_string(victoryPoints);
 	if ((fontForVictoryPoints = al_load_ttf_font("font\\scribish", 11, 0)) != NULL)
@@ -23,9 +24,10 @@ bool player1Viewer::viewVictoryPoints()
 	else
 	{
 		cout << "No se pudo crear font" << endl;
+		ret = false;
 	}
 	al_shutdown_ttf_addon();
-	return false;
+	return ret;
 }
 
 bool player1Viewer::viewNameIs()
