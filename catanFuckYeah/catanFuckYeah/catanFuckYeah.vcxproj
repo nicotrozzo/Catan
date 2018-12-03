@@ -122,7 +122,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="playerViewer.cpp" />
+    <ClCompile Include="allegroInit.cpp" />
+    <ClCompile Include="mapViewer.cpp" />
+    <ClCompile Include="player1Viewer.cpp" />
+    <ClCompile Include="player2Viewer.cpp" />
     <ClCompile Include="startMenu.cpp" />
     <ClCompile Include="bossFSM.cpp" />
     <ClCompile Include="bossFSMEvents.cpp" />
@@ -147,7 +150,10 @@
     <ClCompile Include="Server.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="playerViewer.h" />
+    <ClInclude Include="allegroInit.h" />
+    <ClInclude Include="mapViewer.h" />
+    <ClInclude Include="player1Viewer.h" />
+    <ClInclude Include="player2Viewer.h" />
     <ClInclude Include="startMenu.h" />
     <ClInclude Include="bossFSM.h" />
     <ClInclude Include="bossFSMEvents.h" />

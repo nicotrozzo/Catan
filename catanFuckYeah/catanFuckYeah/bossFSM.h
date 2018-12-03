@@ -5,8 +5,6 @@
 
 enum implStates : stateTypes { START_MENU, WAITING_CONNECTION, HANDSHAKING, PLAYING, REMATCH, WAITING_TO_QUIT };
 
-using namespace std;
-
 class bossFSM : public genericFSM
 {
 
@@ -53,6 +51,7 @@ private:
 
 	genericFSM * innerFSM;
 	mainEventGenerator& evGen;
+
 public:
 	bossFSM();	//crear fsm chica, display (en fsm chica), atachear fsm chica como fuente de eventos
 };

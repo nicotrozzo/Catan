@@ -27,27 +27,18 @@
     <Filter Include="Archivos de encabezado\GUI">
       <UniqueIdentifier>{c4431124-68c1-46a8-a7df-9ae1af1c9827}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archivos de origen\FSM">
+      <UniqueIdentifier>{dee5636f-df4b-47ee-a4cd-aa71768dcdf7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\FSM">
+      <UniqueIdentifier>{ef5554de-85c3-4835-b2bf-a45b52bc679c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="bossFSM.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="bossFSMEvents.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
     <ClCompile Include="eventHandling.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="genericFSM.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="handShakingFSM.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="playingFSM.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="inputEventGenerator.cpp">
@@ -95,27 +86,36 @@
     <ClCompile Include="startMenu.cpp">
       <Filter>Archivos de origen\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="playerViewer.cpp">
-      <Filter>Archivos de origen</Filter>
+    <ClCompile Include="mapViewer.cpp">
+      <Filter>Archivos de origen\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="player1Viewer.cpp">
+      <Filter>Archivos de origen\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="player2Viewer.cpp">
+      <Filter>Archivos de origen\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="bossFSM.cpp">
+      <Filter>Archivos de origen\FSM</Filter>
+    </ClCompile>
+    <ClCompile Include="bossFSMEvents.cpp">
+      <Filter>Archivos de origen\FSM</Filter>
+    </ClCompile>
+    <ClCompile Include="genericFSM.cpp">
+      <Filter>Archivos de origen\FSM</Filter>
+    </ClCompile>
+    <ClCompile Include="handShakingFSM.cpp">
+      <Filter>Archivos de origen\FSM</Filter>
+    </ClCompile>
+    <ClCompile Include="playingFSM.cpp">
+      <Filter>Archivos de origen\FSM</Filter>
+    </ClCompile>
+    <ClCompile Include="allegroInit.cpp">
+      <Filter>Archivos de origen\GUI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="bossFSM.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="bossFSMEvents.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="eventHandling.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="genericFSM.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="handShakingFSM.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="playingFSM.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="inputEventGenerator.h">
@@ -166,8 +166,32 @@
     <ClInclude Include="startMenu.h">
       <Filter>Archivos de encabezado\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="playerViewer.h">
-      <Filter>Archivos de encabezado</Filter>
+    <ClInclude Include="mapViewer.h">
+      <Filter>Archivos de encabezado\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="player1Viewer.h">
+      <Filter>Archivos de encabezado\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="player2Viewer.h">
+      <Filter>Archivos de encabezado\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="playingFSM.h">
+      <Filter>Archivos de encabezado\FSM</Filter>
+    </ClInclude>
+    <ClInclude Include="handShakingFSM.h">
+      <Filter>Archivos de encabezado\FSM</Filter>
+    </ClInclude>
+    <ClInclude Include="genericFSM.h">
+      <Filter>Archivos de encabezado\FSM</Filter>
+    </ClInclude>
+    <ClInclude Include="bossFSMEvents.h">
+      <Filter>Archivos de encabezado\FSM</Filter>
+    </ClInclude>
+    <ClInclude Include="bossFSM.h">
+      <Filter>Archivos de encabezado\FSM</Filter>
+    </ClInclude>
+    <ClInclude Include="allegroInit.h">
+      <Filter>Archivos de encabezado\GUI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

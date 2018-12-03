@@ -7,6 +7,7 @@ bossFSM::bossFSM() : genericFSM(&fsmTable[0][0], 6, 7, START_MENU)
 {
 	//evGen.attach(quitController);
 	//innerFSM = new startMenuFSM();	//esta fsm debe crear en su constructor el display		
+	
 }
 
 /*Action routines*/
@@ -105,7 +106,7 @@ void bossFSM::closeHandshaking(genericEvent * ev)
 void bossFSM::sendToNetwFSM(genericEvent * ev)
 {
 	//innerFSM->cycle(static_cast<networkingEv *>(ev)->getHeader()) //en realidad hay que mandarle todo el evento, capaz modificar el cycle de la fsm de handshaking para que haga getHeader en vez de getType
-																	//sino que el networking event tenga adentro otro evento con getType = getHeader;
+																//sino que el networking event tenga adentro otro evento con getType = getHeader;
 }
 
 void bossFSM::sendTimerEv(genericEvent * ev)

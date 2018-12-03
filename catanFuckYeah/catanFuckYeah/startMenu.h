@@ -1,17 +1,7 @@
 #pragma once
 
-#include <iostream>
 #include <string>
-#include <allegro5/allegro.h>
-#include <allegro5/allegro_image.h>
-#include <allegro5/allegro_primitives.h>
-#include <allegro5/allegro_font.h>
-#include <allegro5/allegro_ttf.h>
-
-#define DISPLAY_WIDHT	1642
-#define DISPLAY_HEIGHT	1000
-
-using namespace std;
+#include "allegroInit.h"
 
 class point
 {
@@ -41,19 +31,14 @@ class dibujator
 {
 public:
 	dibujator();
-	void menuInit();
 	bool menuImageLoad();
-	bool getInitializationError();
+
 	~dibujator();
 
 private:
 	ALLEGRO_BITMAP * menuBitmap;
 	ALLEGRO_BITMAP *playBitmap;
 	ALLEGRO_BITMAP *exitBitmap;
-	ALLEGRO_DISPLAY * display;
-	ALLEGRO_EVENT_QUEUE * queue;
-	ALLEGRO_EVENT event;
-	ALLEGRO_FONT * font;
-	bool initializationError;
+	allegroInit allInit;
 };
 

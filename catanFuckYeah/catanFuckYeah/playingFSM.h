@@ -3,7 +3,7 @@
 #include "genericFSM.h"
 #include "networkingEvents.h"
 
-enum netwStates : stateTypes { MY_TURN, BUILDING, PREPARE_TRADE , WAITING_REPLY, MY_ROBBER,  WAITING_DICES, OPP_ROBBER, OPP_TURN, WAITING_ANSWER  };
+enum netwStates : stateTypes { MY_TURN, BUILDING, PREPARE_TRADE , WAITING_REPLY, MY_ROBBER, OPP_ROBBER, OPP_TURN, WAITING_PLAYER  };
 
 enum netwFSMEvTypes : eventTypes {OK, DICES7, STAY, UNEXPECTED_EVENT};
 
@@ -37,7 +37,7 @@ private:
 
 #define TX(x) (static_cast<void (genericFSM::* )(genericEvent *)>(&bossFSM::x)) //casteo a funcion, por visual
 
-	const fsmCell fsmTable[8][6] = {	
+/*	const fsmCell fsmTable[8][6] = {	
 	//			OK								CANCEL								ROBBER								BUILD 									TRADE							UNEXPECTED_EVENT					
 	{ { WAITING_DICES,TX(sendPass) },	  { MY_TURN,TX(nada) },				 { MY_ROBBER,TX(prepareMyRobber) },  { BUILDING,TX(mandoconstruccion) },{ PREPARE_TRADE,TX(verdesp) },			{ MY_TURN,TX(error) } },		 //MY_TURN
 	{ { BUILDING,TX(JFSDJFLtHJS) },		  { MY_TURN,TX(cancelOperation) },   { BUILDING,TX(error) },		   { MY_TURN,TX(confirmOperation) },	{ BUILDING,TX(error) },					{ BUILDING,TX(error) } },		 //BUILDING
@@ -60,12 +60,26 @@ private:
 	void changeTurn(genericEvent * ev);
 	void validate(genericEvent * ev);
 	void doNothing(genericEvent * ev) {}
-
-	list<networkingEventTypes> expectedPackages;
+	
+	list<networkingEventTypes> expectedPackages;*/
 	genericFSM * robberfsm;
+	const fsmCell fsmTable[7][5] = {
+	//			DONE								CARDS									TICK							ROBBER?							ERROR	
+	{ { OPP_TURN,TX(oppTurnControllers)}, {PREPARE_TRADE,TX(tradeControllers)},{BUILDING,TX(buildControllers)},{MY_ROBBER,TX(myRobberControllers)},{MY_TURN,TX(error)} },		 //MY_TURN
+	{ { MY_TURN,TX(myTurnControllers) },	{,TX()},						   {BUILDING,},		{,TX()}											  ,{BUILDING,TX(error)} },		 //BUILDING
+	{ { MY_TURN,TX(myTurnControllers) },  {,TX()}							  ,{PREPARE_TRADE,TX(netwYNControllers) },{,TX()},{PREPARE_TRADE,TX(error)} },   //PREPARE_TRADE
+	{ { MY_TURN,TX(myTurnControllers) },  {},{},{},{MY_ROBBER,TX(error)} },		 //MY_ROBBER
+	{ { MY_TURN,TX(myTurnControllers) },  {WAITING_PLAYER,TX(waitingControllers)},{},{OPP_ROBBER,TX(oppRobberControllers)},{OPP_TURN,TX(error)} },		 //OPP_TURN
+	{ { OPP_TURN,TX(oppTurnControllers) },{OPP_ROBBER,TX()},{},{},{OPP_ROBBER,TX(error)} },												 //OPP_ROBBER
+	{ { OPP_TURN,TX(oppTurnControllers) },{},{},{},{WAITING_PLAYER,TX(error)} }	 //WAITING_PLAYER
+	};
+
+	std::list<EDAController *> inputControllerList;
+	std::list<EDAController *> networkingControllerList;
 public:
 	playingFSM();	//attachear modelo como generador de eventos
-	list<networkingEv> getExpectedPackages();
+	bool sendToInputControllers(inputEv *input);
+	bool sendToNetwControllers(networkingEv *netwPackage);
 };
 
 enum robberStates : stateTypes { WAIT_USER, WAIT_OPPONENT, WAIT_ROBBMOVE };
