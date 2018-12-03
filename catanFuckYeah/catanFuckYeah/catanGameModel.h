@@ -9,7 +9,7 @@ class catanGameModel : public EDASubject
 {
 public:
 	catanGameModel();
-	bool dicesThrown(unsigned int diceValue);	//modifica informacion del juego, cambia de turno
+	bool dicesThrown(unsigned char dice1, unsigned char dice2);	//modifica informacion del juego, cambia de turno
 	bool construction(networkingEventTypes type, string coords);				//devuelve false si la construccion no es valida, PUEDE MODIFICAR GAME OVER
 	bool playersTrade(string currentPlayerCards, string otherPlayerCards);		//devuelve false con trueque invalido
 	bool validSelectedCards(string currentPlayerCards, string otherPlayerCards);		//checkea que la transaccion solicitada sea valida, en cuyo case devuelve true
@@ -22,6 +22,8 @@ public:
 	//bool waitingCards();
 	catanPlayerModel getCurrentPlayer();
 	catanPlayerModel getOtherPlayer();
+	unsigned char getDice1() { return dice1; }
+	unsigned char getDice2() { return dice2; }
 	bool gameOver();	//true si termino el juego, llamar despues de construccion!!!!!!!!(pregunta a cada jugador cuantos puntos tiene)
 	~catanGameModel();
 protected:
@@ -29,6 +31,8 @@ protected:
 	//bool waitingToAccept;
 	bool player1Playing;	//true si es el turno del jugador 1, false si es el turno del jugador 2
 	catanPlayerModel player1;
+	unsigned char dice1;
+	unsigned char dice2;
 	catanPlayerModel player2;
 	catanMapModel map;
 };

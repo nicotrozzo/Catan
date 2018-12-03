@@ -5,22 +5,26 @@
 
 catanGameModel::catanGameModel()
 {
+	dice1 = 0;
+	dice2 = 0;
 	//ver de poner quien arranca jugando
 }
 
-bool catanGameModel::dicesThrown(unsigned int diceValue)
+bool catanGameModel::dicesThrown(unsigned char dice1, unsigned char dice2)
 {
 	//tiene que cambiar el jugador que esta jugando
 	//tiene que asignar recursos a los player que esten en el casillero que haya salido
+	this->dice1 = dice1;
+	this->dice2 = dice2;
 	bool ret = false;
 	list<pepe> hexagonos;
 	list<string> vertex;
 	list<string> cities;
 	size_t found;
 	player1Playing = !player1Playing;
-	if (diceValue != 7)
+	if ((dice1 + dice2) != 7)
 	{
-		hexagonos = map.getSelectedHex(diceValue);
+		hexagonos = map.getSelectedHex(dice1 + dice2);
 		vertex = map.getP1BuiltVertexes();
 		cities = map.getP1Cities();
 		for (auto y : hexagonos)
