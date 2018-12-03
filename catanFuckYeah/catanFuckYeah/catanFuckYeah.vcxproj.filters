@@ -113,12 +113,33 @@
     <ClCompile Include="allegroInit.cpp">
       <Filter>Archivos de origen\GUI</Filter>
     </ClCompile>
+    <ClCompile Include="inputActionButtonController.cpp">
+      <Filter>Archivos de origen\MVC</Filter>
+    </ClCompile>
+    <ClCompile Include="inputCardsController.cpp">
+      <Filter>Archivos de origen\MVC</Filter>
+    </ClCompile>
+    <ClCompile Include="inputEdgeAndVertexController.cpp">
+      <Filter>Archivos de origen\MVC</Filter>
+    </ClCompile>
+    <ClCompile Include="inputHexagonController.cpp">
+      <Filter>Archivos de origen\MVC</Filter>
+    </ClCompile>
+    <ClCompile Include="netwConstructionController.cpp">
+      <Filter>Archivos de origen\MVC</Filter>
+    </ClCompile>
+    <ClCompile Include="EDANetworkingController.cpp">
+      <Filter>Archivos de origen\MVC</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="eventHandling.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="inputEventGenerator.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="observer.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="catanGameModel.h">
@@ -190,8 +211,26 @@
     <ClInclude Include="allegroInit.h">
       <Filter>Archivos de encabezado\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="observer.h">
+    <ClInclude Include="EDAInputController.h">
       <Filter>Archivos de encabezado\MVC</Filter>
+    </ClInclude>
+    <ClInclude Include="EDANetworkingController.h">
+      <Filter>Archivos de encabezado\MVC</Filter>
+    </ClInclude>
+    <ClInclude Include="inputActionButtonController.h">
+      <Filter>Archivos de encabezado\MVC</Filter>
+    </ClInclude>
+    <ClInclude Include="inputCardsController.h">
+      <Filter>Archivos de encabezado\MVC</Filter>
+    </ClInclude>
+    <ClInclude Include="inputEdgeAndVertexController.h">
+      <Filter>Archivos de encabezado\MVC</Filter>
+    </ClInclude>
+    <ClInclude Include="inputHexagonController.h">
+      <Filter>Archivos de encabezado\MVC</Filter>
+    </ClInclude>
+    <ClInclude Include="netwConstructionController.h">
+      <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,10 +1,22 @@
 #include "playingFSM.h"
+#include "inputActionButtonController.h"
+#include "inputCardsController.h"
+#include "inputHexagonController.h"
+#include "inputEdgeAndVertexController.h"
 
-
-playingFSM::playingFSM(stateTypes initState) : genericFSM(&fsmTable[0][0], 8, 6, initState)
+playingFSM::playingFSM(bool iStart) : genericFSM(&fsmTable[0][0], 8, 6, iStart ? MY_TURN : OPP_TURN)
 {
-	expectedPackages = { DICES_ARE };
 	robberfsm = nullptr;
+	if (iStart)
+	{
+		inputControllerList.push_back(new inputEdgeAndVertexController);
+		inputControllerList.push_back(new inputActionButtonController); //capaz este no vaya, solo el primero para los primeros roads y settlements
+		//inputControllerList.push_back(new );
+	}
+	else
+	{
+		networkingControllerList.push_back(new netwConstructionController(SETTLEMENT));	//inicialmente espera 
+	}
 }
 
 /*ACTION ROUTINES FOR FSM*/

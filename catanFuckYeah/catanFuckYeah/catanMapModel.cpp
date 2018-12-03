@@ -3,7 +3,7 @@
 /*Calcula el mapa random*/
 catanMapModel::catanMapModel()
 {
-	vector<resource>allResources({ {WOOD,3}, {BRICK,3}, {ORE,3}, {WHEAT,3}, {WOOL,3}, {DESSERT,1} });
+	vector<resource>allResources({ {WOOD,4}, {BRICK,3}, {ORE,3}, {WHEAT,4}, {WOOL,4}, {DESSERT,1} });
 	array<unsigned char, HEX_COUNT - 1> allCircularTokens = { 2,3,3,4,4,5,5,6,6,8,8,9,9,10,10,11,11,12 };
 	array<unsigned char, NUMBER_OF_OCEAN_PIECES> allOceanPieces = { WOOD,BRICK,ORE,WHEAT,WOOL,DESSERT };
 	int resRandNum;							//RECORDAR SRAND EN EL MAIN!!!!!!!!!!!!!!!!
@@ -111,13 +111,16 @@ bool catanMapModel::setMap(string map_)
 			{
 				if (allResources.find(map_[i]) != allResources.end())
 				{
-					if (map_[i] == DESSERT)
+					switch (map_[i])
 					{
-						error = (allResources[map_[i]]) > 1 ? true : false;
-					}
-					else if (allResources[map_[i]] > 3)
-					{
-						error = true;					//si se pasa de 3 uno que no sea un desierto hay error
+					case DESSERT:
+						error = (allResources[map_[i]] > 1) ? true : false;
+						break;
+					case BRICK: case ORE:
+						error = (allResources[map_[i]] > 3) ? true : false;
+						break;
+					default:
+						error = (allResources[map_[i]] > 4) ? true : false;
 					}
 				}
 				else

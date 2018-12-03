@@ -2,6 +2,8 @@
 
 #include "genericFSM.h"
 #include "networkingEvents.h"
+#include "EDAInputController.h"
+#include <vector>
 
 enum netwStates : stateTypes { MY_TURN, BUILDING, PREPARE_TRADE , WAITING_REPLY, MY_ROBBER, OPP_ROBBER, OPP_TURN, WAITING_PLAYER  };
 
@@ -64,7 +66,7 @@ private:
 	list<networkingEventTypes> expectedPackages;*/
 	genericFSM * robberfsm;
 	const fsmCell fsmTable[7][5] = {
-	//			DONE								CARDS									TICK							ROBBER?							ERROR	
+	//			DONE(cambiar)								CARDS									TICK							ROBBER?							ERROR	
 	{ { OPP_TURN,TX(oppTurnControllers)}, {PREPARE_TRADE,TX(tradeControllers)},{BUILDING,TX(buildControllers)},{MY_ROBBER,TX(myRobberControllers)},{MY_TURN,TX(error)} },		 //MY_TURN
 	{ { MY_TURN,TX(myTurnControllers) },  {,TX()},						   {BUILDING,},		{,TX()}											  ,{BUILDING,TX(error)} },		 //BUILDING
 	{ { MY_TURN,TX(myTurnControllers) },  {,TX()}							  ,{PREPARE_TRADE,TX(netwYNControllers) },{,TX()},{PREPARE_TRADE,TX(error)} },   //PREPARE_TRADE
@@ -73,11 +75,11 @@ private:
 	{ { OPP_TURN,TX(oppTurnControllers) },{OPP_ROBBER,TX()},{},{},{OPP_ROBBER,TX(error)} },												 //OPP_ROBBER
 	{ { OPP_TURN,TX(oppTurnControllers) },{},{},{},{WAITING_PLAYER,TX(error)} }	 //WAITING_PLAYER
 	};
-
-	std::list<EDAController *> inputControllerList;
-	std::list<EDAController *> networkingControllerList;
+	//std::vector<> allControlers;
+	std::list<EDAInputController *> inputControllerList;
+	std::list<EDANetworkingController *> networkingControllerList;
 public:
-	playingFSM();	//attachear modelo como generador de eventos
+	playingFSM(bool iStart);	//recibe como parametro true si le toca empezar al jugador propio	//attachear modelo como generador de eventos
 	bool sendToInputControllers(inputEv *input);
 	bool sendToNetwControllers(networkingEv *netwPackage);
 };
