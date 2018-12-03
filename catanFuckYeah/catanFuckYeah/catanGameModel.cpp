@@ -30,7 +30,7 @@ bool catanGameModel::dicesThrown(unsigned int diceValue)
 				found = x.find(y.letter);
 				if (found != string::npos)
 				{
-					player1.incResource(1, y.hexResource);	//si tiene una construccion adyacente al hexagono
+					player1.incResource(y.hexResource);	//si tiene una construccion adyacente al hexagono
 				}
 			}
 			for (auto x : cities)
@@ -38,7 +38,7 @@ bool catanGameModel::dicesThrown(unsigned int diceValue)
 				found = x.find(y.letter);
 				if (found != string::npos)
 				{
-					player1.incResource(1, y.hexResource);	//si tiene una citi adyacente al hexagono le asigno un recurso mas
+					player1.incResource(y.hexResource);	//si tiene una citi adyacente al hexagono le asigno un recurso mas
 				}
 			}
 		}
@@ -51,7 +51,7 @@ bool catanGameModel::dicesThrown(unsigned int diceValue)
 				found = x.find(y.letter);
 				if (found != string::npos)
 				{
-					player2.incResource(1, y.hexResource);	//si tiene una construccion adyacente al hexagono
+					player2.incResource(y.hexResource);	//si tiene una construccion adyacente al hexagono
 				}
 			}
 			for (auto x : cities)
@@ -59,7 +59,7 @@ bool catanGameModel::dicesThrown(unsigned int diceValue)
 				found = x.find(y.letter);
 				if (found != string::npos)
 				{
-					player2.incResource(1, y.hexResource);	//si tiene una citi adyacente al hexagono le asigno un recurso mas
+					player2.incResource(y.hexResource);	//si tiene una citi adyacente al hexagono le asigno un recurso mas
 				}
 			}
 		}
