@@ -10,6 +10,7 @@ class player2Viewer
 {
 public:
 	player2Viewer(catanPlayerModel * player2);
+	void update();
 	~player2Viewer();
 private:
 	catanPlayerModel* player;
@@ -20,6 +21,6 @@ private:
 	void viewLongestRoad();
 	void viewAmountOfCards();
 	void viewVictoryPoints();
-	bool ret;
+	bool initOk;
 };
 

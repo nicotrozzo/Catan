@@ -4,7 +4,7 @@
 
 player1Viewer::player1Viewer(catanPlayerModel * player1)
 {
-	ret = false;
+	initOk = false;
 	player = player1;
 	if ((fontForVictoryPoints = al_load_ttf_font("font\\scribish", 55, 0)) != NULL)
 	{
@@ -14,7 +14,7 @@ player1Viewer::player1Viewer(catanPlayerModel * player1)
 			{
 				if ((fontForAmountOfCards = al_load_ttf_font("font\\scribish", 59, 0)) != NULL)
 				{
-					ret = true;
+					initOk = true;
 				}
 			}
 		}
@@ -23,7 +23,12 @@ player1Viewer::player1Viewer(catanPlayerModel * player1)
 
 void player1Viewer::update()
 {
-
+	viewAmountOfCards();
+	viewLongestRoads();
+	viewNameIs();
+	viewResources();
+	viewVictoryPoints();
+	al_flip_display();
 }
 
 void player1Viewer::viewVictoryPoints()

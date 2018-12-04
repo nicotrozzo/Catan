@@ -347,6 +347,22 @@ list<string> catanMapModel::getP2Cities()
 	return p2Cities;
 }
 
+list<string> catanMapModel::getP1Roads()
+{
+	list<string> ret = p1SimpleRoads;
+	list<string> temp = p1LongRoads;
+	ret.merge(temp);
+	return ret;
+}
+
+list<string> catanMapModel::getP2Roads()
+{
+	list<string> ret = p2SimpleRoads;
+	list<string> temp = p2LongRoads;
+	ret.merge(temp);
+	return ret;
+}
+
 /*Devuelve un diccionario con el costo (2, 3 o 4) de cada recurso para el jugador
 El diccionario tiene las claves definidas en resourceType, menos DESSERT
 */
