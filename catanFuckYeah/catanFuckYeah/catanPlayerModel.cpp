@@ -1,7 +1,7 @@
 #include "catanPlayerModel.h"
 
 
-catanPlayerModel::catanPlayerModel() : myCards({0,0,0,0,0})
+catanPlayerModel::catanPlayerModel() : myCards({ 0,0,0,0,0 })
 {
 	victoryPoints = 0;
 }
@@ -9,13 +9,13 @@ catanPlayerModel::catanPlayerModel() : myCards({0,0,0,0,0})
 
 void catanPlayerModel::setName(string name)
 {
-	 if (nameIs.length() == 0)
-	 { 
-		 nameIs = name.substr(0, MAX_NAME_LENGTH); 
-	 } 
+	if (nameIs.length() == 0)
+	{
+		nameIs = name.substr(0, MAX_NAME_LENGTH);
+	}
 }
 
-bool catanPlayerModel::incResource( unsigned char resource)
+bool catanPlayerModel::incResource(unsigned char resource)
 {
 	bool ret = true;
 	switch (resource)
@@ -41,7 +41,7 @@ bool catanPlayerModel::incResource( unsigned char resource)
 	return ret;
 }
 
-bool catanPlayerModel::decResource( unsigned char resource)
+bool catanPlayerModel::decResource(unsigned char resource)
 {
 	bool ret = true;
 	switch (resource)
@@ -56,7 +56,7 @@ bool catanPlayerModel::decResource( unsigned char resource)
 			ret = false;
 		}
 		break;
-	case WOOD:		
+	case WOOD:
 		if (myCards.wood > 0)
 		{
 			myCards.wood--;
@@ -105,4 +105,5 @@ bool catanPlayerModel::decResource( unsigned char resource)
 catanPlayerModel::~catanPlayerModel()
 {
 }
+
 

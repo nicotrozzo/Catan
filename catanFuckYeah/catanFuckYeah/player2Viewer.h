@@ -13,7 +13,7 @@ public:
 	void update();
 	~player2Viewer();
 private:
-	catanPlayerModel* player;
+	catanPlayerModel * player;
 	ALLEGRO_FONT * fontForVictoryPoints;
 	ALLEGRO_FONT * fontForName;
 	ALLEGRO_FONT * fontForAmountOfCards;
@@ -23,4 +23,5 @@ private:
 	void viewVictoryPoints();
 	bool initOk;
 };
+
 

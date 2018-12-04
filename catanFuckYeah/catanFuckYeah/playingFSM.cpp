@@ -90,12 +90,20 @@ void playingFSM::prepareOppRobber(genericEvent * ev)
 */
 
 
+void playingFSM::passControllers(genericEvent * ev)
+{
+	currentInputControllers.push_back(getNetworkingController(CTRL_DICES));
+}
+
 void playingFSM::oppTurnControllers(genericEvent * ev)
 {
 	currentInputControllers.clear();
+	currentNetworkingControllers.clear();
+	currentNetworkingControllers.push_back(getNetworkingController(CTRL_CONSTRUCTION));
+	currentNetworkingControllers.push_back(getNetworkingController(CTRL_BANKTRADE));
+	currentNetworkingControllers.push_back(getNetworkingController(CTRL_OFFERTRADE));
 	currentInputControllers.push_back(getInputController());
-
-
+	
 }
 
 void playingFSM::tradeControllers(genericEvent * ev)

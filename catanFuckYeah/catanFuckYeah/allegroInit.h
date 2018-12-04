@@ -10,7 +10,6 @@
 #define DISPLAY_HEIGHT	1000
 
 
-
 class allegroInit
 {
 public:
@@ -26,4 +25,3 @@ private:
 	ALLEGRO_FONT * font;
 	bool initializationOk;
 };
-

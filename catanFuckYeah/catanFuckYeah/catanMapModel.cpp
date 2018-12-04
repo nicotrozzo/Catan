@@ -1,9 +1,8 @@
 #include "catanMapModel.h"
 
-/*Calcula el mapa random*/
 catanMapModel::catanMapModel()
 {
-	vector<resource>allResources({ {WOOD,4}, {BRICK,3}, {ORE,3}, {WHEAT,4}, {WOOL,4}, {DESSERT,1} });
+	vector<resource>allResources({ { WOOD,4 },{ BRICK,3 },{ ORE,3 },{ WHEAT,4 },{ WOOL,4 },{ DESSERT,1 } });
 	array<unsigned char, HEX_COUNT - 1> allCircularTokens = { 2,3,3,4,4,5,5,6,6,8,8,9,9,10,10,11,11,12 };
 	array<unsigned char, NUMBER_OF_OCEAN_PIECES> allOceanPieces = { WOOD,BRICK,ORE,WHEAT,WOOL,DESSERT };
 	int resRandNum;							//RECORDAR SRAND EN EL MAIN!!!!!!!!!!!!!!!!
@@ -40,6 +39,7 @@ catanMapModel::catanMapModel()
 		else
 		{
 			hexagons[i].circularToken = 7;
+			robberPos = i + 'A';
 		}
 	}
 	for (int i = 0; i < NUMBER_OF_OCEAN_PIECES; i++)
@@ -87,7 +87,7 @@ bool catanMapModel::setMap(string map_)
 {
 	bool ret = false;
 	bool error = false;
-	map <unsigned char, unsigned char> allResources = { {WOOD,0}, {BRICK,0}, {ORE,0}, {WHEAT,0}, {WOOL,0}, {DESSERT,0} };
+	map <unsigned char, unsigned char> allResources = { { WOOD,0 },{ BRICK,0 },{ ORE,0 },{ WHEAT,0 },{ WOOL,0 },{ DESSERT,0 } };
 	size_t found = map_.find_first_not_of(RESOURCES_STR);
 	string oceanPiecesChars;
 	if (found == string::npos)		//si todas las letras son algun recurso
@@ -131,16 +131,17 @@ bool catanMapModel::setMap(string map_)
 			if (!error)
 			{
 				ret = true;
+				notifyAllObservers();
 			}
 		}
 	}
 	return ret;
 }
 
-bool catanMapModel::setCircularTokens(string circTokens)
+/*bool catanMapModel::setCircularTokens(string circTokens)
 {
-
-}
+	//si es valido, notifyAllObservers();
+}*/
 
 bool catanMapModel::adjacentToHiddenRoad(string vertex)
 {
@@ -176,7 +177,7 @@ bool catanMapModel::adjacentToLongRoad(string vertex, char player)
 	list<string>::iterator it;
 	if (player == 1)
 	{
-		for (it = p1LongRoads.begin() ; (it != p1LongRoads.end()) && !ret; it++)
+		for (it = p1LongRoads.begin(); (it != p1LongRoads.end()) && !ret; it++)
 		{
 			ret = vertexAdjacentToRoad(vertex, *it);
 		}
@@ -261,6 +262,7 @@ bool catanMapModel::buildRoad(string edge, char player)
 				p2LongRoads.push_back(edge);
 			}
 		}
+		notifyAllObservers();	//avisa que hubo un cambio
 	}
 	return ret;
 }
@@ -305,6 +307,7 @@ bool catanMapModel::buildSettlement(string vertex, char player)
 		{
 			p2UsedVertexList.push_back(vertex);
 		}
+		notifyAllObservers();	//avisa que cambio a quienes lo miran
 	}
 	return ret;
 }
@@ -323,6 +326,7 @@ bool catanMapModel::buildCity(string vertex, char player)
 		{
 			p2Cities.push_back(vertex);
 		}
+		notifyAllObservers();	//avisa que cambio
 	}
 	return ret;
 }
@@ -366,9 +370,9 @@ list<string> catanMapModel::getP2Roads()
 /*Devuelve un diccionario con el costo (2, 3 o 4) de cada recurso para el jugador
 El diccionario tiene las claves definidas en resourceType, menos DESSERT
 */
-map<resourceType,unsigned char> catanMapModel::getBankTradeCosts(unsigned char player)
+map<resourceType, unsigned char> catanMapModel::getBankTradeCosts(unsigned char player)
 {
-	map<resourceType, unsigned char> ret = { {BRICK,4},{WOOD,4},{WOOL,4},{ORE,4},{WHEAT,4} };
+	map<resourceType, unsigned char> ret = { { BRICK,4 },{ WOOD,4 },{ WOOL,4 },{ ORE,4 },{ WHEAT,4 } };
 	resourceType resourceBenefited;
 	list<string>::iterator it;
 	list<string>::iterator end;
@@ -382,12 +386,12 @@ map<resourceType,unsigned char> catanMapModel::getBankTradeCosts(unsigned char p
 		it = p2UsedVertexList.begin();
 		end = p2UsedVertexList.end();
 	}
-	for ( ; it != end ; it++)
+	for (; it != end; it++)
 	{
-		resourceBenefited = connectsToPort(*it);	
+		resourceBenefited = connectsToPort(*it);
 		if (resourceBenefited)
-		{	
-			if (resourceBenefited != DESSERT)	
+		{
+			if (resourceBenefited != DESSERT)
 			{
 				ret[resourceBenefited] = 2;	//en ese recurso en especifico, tiene 2x1
 			}
@@ -414,12 +418,12 @@ resourceType catanMapModel::connectsToPort(string vertex)
 {
 	string portVertex[4];
 	resourceType ret = static_cast<resourceType>(0);
-	for (unsigned int i = 0 ; (i < 3) && !ret ; i++)
+	for (unsigned int i = 0; (i < 3) && !ret; i++)
 	{
 		if (oceanPieces[i].hasOnePort())
 		{
 			portVertex[0] = greater2CharVertex(i);	//uno de los vertices con puerto es el de long 2, que tiene el numero de puerto y la letra mas grande
-			portVertex[1]= middleCharVertex(portVertex[0]);	//el otro vertice sera el que tiene los mismos caracteres que el anterior, pero con una letra en el medio
+			portVertex[1] = middleCharVertex(portVertex[0]);	//el otro vertice sera el que tiene los mismos caracteres que el anterior, pero con una letra en el medio
 		}
 		else
 		{
@@ -438,7 +442,7 @@ resourceType catanMapModel::connectsToPort(string vertex)
 				portVertex[3].insert(1, 1, '5');	//el ultimo vertice sera el "05A"
 			}
 		}
-		for(auto temp : portVertex)
+		for (auto temp : portVertex)
 		{
 			if (vertex == temp)
 			{
@@ -459,7 +463,7 @@ resourceType catanMapModel::connectsToPort(string vertex)
 			portVertex[0] = less2CharVertex(i);
 			portVertex[1] = middleCharVertex(portVertex[0]);
 			portVertex[2] = greater2CharVertex(i);
-			portVertex[3] = (i-1) + '0';
+			portVertex[3] = (i - 1) + '0';
 			portVertex[3] += portVertex[2];
 		}
 		for (auto temp : portVertex)
@@ -482,15 +486,15 @@ string catanMapModel::greater2CharVertex(unsigned int pieceNum)
 	char maxAscii = 0;
 	char found = 0;
 	bool finished = false;
-	for (it = allVertexes.begin(); (it != allVertexes.end()) && !finished ; it++)
+	for (it = allVertexes.begin(); (it != allVertexes.end()) && !finished; it++)
 	{
-		if( ((*it)[0] == pieceNum) && (it->length()==2) )	//si es un vertice adyacente a esa pieza de mar
+		if (((*it)[0] == pieceNum) && (it->length() == 2))	//si es un vertice adyacente a esa pieza de mar
 		{
 			if ((*it)[1] > maxAscii)
 			{
 				maxAscii = (*it)[1];
 			}
-			found++;			
+			found++;
 			if (found == 2)	//si ya encontro los dos vertices de long 2 de esa pieza de mar, en maxAscii ya esta el mayor
 			{
 				finished = true;
@@ -540,7 +544,7 @@ string catanMapModel::middleCharVertex(string vertex)
 	{
 		if (it->length() == 3)
 		{
-			if( ((*it)[0] == vertex[0]) && ((*it)[2] == vertex[1]))
+			if (((*it)[0] == vertex[0]) && ((*it)[2] == vertex[1]))
 			{
 				ret = *it;
 				done = true;
@@ -558,7 +562,7 @@ char catanMapModel::thirdLetter(string vertex)
 	bool done = false;
 	list<string>::iterator it;
 	size_t found;
-	for (it = allVertexes.begin(); (it != allVertexes.end()) && !done ; it++)
+	for (it = allVertexes.begin(); (it != allVertexes.end()) && !done; it++)
 	{
 		found = it->find(vertex);
 		if (found != string::npos)	//si encontro la secuencia de caracteres de vertex, se queda con el tercer caracter

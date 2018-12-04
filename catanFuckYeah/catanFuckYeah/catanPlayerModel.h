@@ -23,13 +23,12 @@ public:
 	void setName(string name);
 	string getName() { return nameIs; }
 	unsigned char getPlayerNumber() { return playerNumber; }
-	bool incResource ( unsigned char resource);
-	bool decResource( unsigned char resource);
-	int getWidth();
+	bool incResource(unsigned char resource);
+	bool decResource(unsigned char resource);
 	~catanPlayerModel();
 private:
 	cards myCards;
 	unsigned char victoryPoints;
-	unsigned char playerNumber;	
+	unsigned char playerNumber;
 	string nameIs;
 };

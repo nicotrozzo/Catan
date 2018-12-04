@@ -74,8 +74,13 @@ private:
 	{ { MY_TURN,TX(myTurnControllers) },  {,TX()},						   {BUILDING,},		{,TX()}											  ,{BUILDING,TX(error)} },		 //BUILDING
 	{ { MY_TURN,TX(myTurnControllers) },  {,TX()}							  ,{PREPARE_TRADE,TX(netwYNControllers) },{,TX()},{PREPARE_TRADE,TX(error)} },   //PREPARE_TRADE
 	{ { MY_TURN,TX(myTurnControllers) },  {},{},{},{MY_ROBBER,TX(error)} },		 //MY_ROBBER
+	//PROBLEMA: AL CAMBIAR DE MY_TURN A OPP_TURN, SOLO PUEDO ESPERAR DICES_ARE, ENTONCES TENGO QUE HABILITAR UN CONTROLLER
+	//QUE ESPERE DICES_ARE Y NO PUEDO HABILITAR LOS DEMAS DE OPP TURN
+	//ENTONCES TENGO QUE:
+	//	-ESPERAR SOLO DICES Y QUE LA RUTINA DE ACCION DE UN EVENTO SEA CAMBIAR DE DICES A EL RESTO DE OPP TURN
+	//	-AGREGAR UN ESTADO WAITING_DICES
 	{ { MY_TURN,TX(myTurnControllers) },  {WAITING_PLAYER,TX(waitingControllers)},{},{OPP_ROBBER,TX(oppRobberControllers)},{OPP_TURN,TX(error)} },		 //OPP_TURN
-	{ { OPP_TURN,TX(oppTurnControllers) },{OPP_ROBBER,TX()},{},{},{OPP_ROBBER,TX(error)} },												 //OPP_ROBBER
+	{ { OPP_TURN,TX(oppTurnControllers) },{OPP_ROBBER,TX()},{},{},{OPP_ROBBER,TX(error)} },		 //OPP_ROBBER
 	{ { OPP_TURN,TX(oppTurnControllers) },{},{},{},{WAITING_PLAYER,TX(error)} }	 //WAITING_PLAYER
 	};
 
