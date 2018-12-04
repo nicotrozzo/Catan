@@ -42,7 +42,7 @@ void mapViewer::update()
 		viewHex();
 		viewTokens();
 		viewRobber();
-		//viewTokens();
+		viewBuildings();
 		//viewBankTrade();
 	}
 	else
@@ -114,29 +114,31 @@ void mapViewer::viewBuildings()
 	list<string> p1Roads = myMap->getP1Roads();
 	list<string> p2Roads = myMap->getP2Roads();
 	list<string>::iterator it;
-	for (it = p1Settlements.begin(); it != p1Settlements.end(); it++)
-	{
-		al_draw_bitmap(settlement1Bitmap, myVertexCoords[*it].xCoord - (al_get_bitmap_width(settlement1Bitmap) / 2), myVertexCoords[*it].yCoord - (al_get_bitmap_height(settlement1Bitmap) / 2), 0);		//pongo corrimientos para que me dibuje la imagen centrada
-	}
-	for (it = p2Settlements.begin(); it != p2Settlements.end(); it++)
-	{
-		al_draw_bitmap(settlement2Bitmap, myVertexCoords[*it].xCoord - (al_get_bitmap_width(settlement2Bitmap) / 2), myVertexCoords[*it].yCoord - (al_get_bitmap_height(settlement2Bitmap) / 2), 0);
-	}
-	for (it = p1Cities.begin(); it != p1Cities.end(); it++)
-	{
-		al_draw_bitmap(city1Bitmap, myVertexCoords[*it].xCoord - (al_get_bitmap_width(city1Bitmap) / 2), myVertexCoords[*it].yCoord - (al_get_bitmap_height(city1Bitmap) / 2), 0);
-	}
-	for (it = p2Cities.begin(); it != p2Cities.end(); it++)
-	{
-		al_draw_bitmap(city2Bitmap, myVertexCoords[*it].xCoord - (al_get_bitmap_width(city2Bitmap) / 2), myVertexCoords[*it].yCoord - (al_get_bitmap_height(city2Bitmap) / 2), 0);
-	}
 	for (it = p1Roads.begin(); it != p1Roads.end(); it++)
 	{
-		al_draw_rotated_bitmap(road1Bitmap, al_get_bitmap_width(road1Bitmap) / 2, al_get_bitmap_height(road1Bitmap) / 2, myEdgesCoords[*it].xCoord - al_get_bitmap_width(road1Bitmap) / 2, myEdgesCoords[*it].yCoord - al_get_bitmap_height(road1Bitmap) / 2, myEdgesCoords[*it].angle, 0);		//roto desde el centro
+		al_draw_rotated_bitmap(road1Bitmap, al_get_bitmap_width(road1Bitmap) / 2.0, al_get_bitmap_height(road1Bitmap) / 2.0, myEdgesCoords[*it].xCoord, myEdgesCoords[*it].yCoord, myEdgesCoords[*it].angle, 0);		//roto desde el centro
 	}
 	for (it = p2Roads.begin(); it != p2Roads.end(); it++)
 	{
-		al_draw_rotated_bitmap(road2Bitmap, al_get_bitmap_width(road2Bitmap) / 2, al_get_bitmap_height(road2Bitmap) / 2, myEdgesCoords[*it].xCoord - al_get_bitmap_width(road2Bitmap) / 2, myEdgesCoords[*it].yCoord - al_get_bitmap_height(road2Bitmap) / 2, myEdgesCoords[*it].angle, 0);
+		al_draw_rotated_bitmap(road2Bitmap, al_get_bitmap_width(road2Bitmap) / 2.0, al_get_bitmap_height(road2Bitmap) / 2.0, myEdgesCoords[*it].xCoord, myEdgesCoords[*it].yCoord, myEdgesCoords[*it].angle, 0);
+	}
+	for (it = p1Settlements.begin(); it != p1Settlements.end(); it++)
+	{
+		float w = al_get_bitmap_width(settlement1Bitmap) / 2.0;
+		float dx = myVertexCoords[*it].xCoord - (al_get_bitmap_width(settlement1Bitmap) / 2.0);
+		al_draw_bitmap(settlement1Bitmap, dx, myVertexCoords[*it].yCoord - (al_get_bitmap_height(settlement1Bitmap) / 2.0), 0);		//pongo corrimientos para que me dibuje la imagen centrada
+	}
+	for (it = p2Settlements.begin(); it != p2Settlements.end(); it++)
+	{
+		al_draw_bitmap(settlement2Bitmap, myVertexCoords[*it].xCoord - (al_get_bitmap_width(settlement2Bitmap) / 2.0), myVertexCoords[*it].yCoord - (al_get_bitmap_height(settlement2Bitmap) / 2), 0);
+	}
+	for (it = p1Cities.begin(); it != p1Cities.end(); it++)
+	{
+		al_draw_bitmap(city1Bitmap, myVertexCoords[*it].xCoord - (al_get_bitmap_width(city1Bitmap) / 2.0), myVertexCoords[*it].yCoord - (al_get_bitmap_height(city1Bitmap) / 2), 0);
+	}
+	for (it = p2Cities.begin(); it != p2Cities.end(); it++)
+	{
+		al_draw_bitmap(city2Bitmap, myVertexCoords[*it].xCoord - (al_get_bitmap_width(city2Bitmap) / 2.0), myVertexCoords[*it].yCoord - (al_get_bitmap_height(city2Bitmap) / 2), 0);
 	}
 }
 
