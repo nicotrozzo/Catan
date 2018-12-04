@@ -70,7 +70,7 @@ private:
 	genericFSM * robberfsm;
 	const fsmCell fsmTable[7][5] = {
 	//			CHANGE_STATE							CARDS									TICK							ROBBER?							ERROR	
-	{ { OPP_TURN,TX(oppTurnControllers)}, {PREPARE_TRADE,TX(tradeControllers)},{BUILDING,TX(buildControllers)},{MY_ROBBER,TX(myRobberControllers)},{MY_TURN,TX(error)} },		 //MY_TURN
+	{ { OPP_TURN,TX(passControllers)}, {PREPARE_TRADE,TX(tradeControllers)},{BUILDING,TX(buildControllers)},{MY_ROBBER,TX(myRobberControllers)},{MY_TURN,TX(error)} },		 //MY_TURN
 	{ { MY_TURN,TX(myTurnControllers) },  {,TX()},						   {BUILDING,},		{,TX()}											  ,{BUILDING,TX(error)} },		 //BUILDING
 	{ { MY_TURN,TX(myTurnControllers) },  {,TX()}							  ,{PREPARE_TRADE,TX(netwYNControllers) },{,TX()},{PREPARE_TRADE,TX(error)} },   //PREPARE_TRADE
 	{ { MY_TURN,TX(myTurnControllers) },  {},{},{},{MY_ROBBER,TX(error)} },		 //MY_ROBBER
@@ -79,6 +79,7 @@ private:
 	{ { OPP_TURN,TX(oppTurnControllers) },{},{},{},{WAITING_PLAYER,TX(error)} }	 //WAITING_PLAYER
 	};
 
+	void passControllers(genericEvent* ev);
 	void oppTurnControllers(genericEvent* ev);
 	void tradeControllers(genericEvent* ev);
 	void buildControllers(genericEvent* ev);

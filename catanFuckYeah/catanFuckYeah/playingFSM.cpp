@@ -9,25 +9,23 @@
 
 using namespace std;
 
-playingFSM::playingFSM(bool iStart, catanGameModel * game) : genericFSM(&fsmTable[0][0], 8, 6, iStart ? MY_TURN : OPP_TURN)
+playingFSM::playingFSM(bool iStart, catanGameModel * game, std::vector<EDAInputController *> inputControllers, std::vector<EDANetworkingController *> networkingControllers) : genericFSM(&fsmTable[0][0], 8, 6, iStart ? MY_TURN : OPP_TURN), allInputControllers(inputControllers) , allNetworkingControllers(networkingControllers)
 {
 	robberfsm = nullptr;
 	if (iStart)
 	{
-		//inputControllerList.push_back(new inputEdgeAndVertexController(game));
-		inputControllerList.push_back(getInputController(CTRL_EDGE_AND_VERTEX));
+		currentInputControllers.push_back(getInputController(CTRL_EDGE_AND_VERTEX));
 
-		//inputControllerList.push_back(new inputActionButtonController(game)); //capaz este no vaya, solo el primero para los primeros roads y settlements
-		inputControllerList.push_back(getInputController(CTRL_ACTION_BUTTON)); //capaz este no vaya, solo el primero para los primeros roads y settlements
+		currentInputControllers.push_back(getInputController(CTRL_ACTION_BUTTON)); //capaz este no vaya, solo el primero para los primeros roads y settlements
 
 		//inputControllerList.push_back(new );
 	}
 	else
 	{
 		//networkingControllerList.push_back(new netwConstructionController(SETTLEMENT));	//inicialmente espera 
-		netwConstructionController * controllerToAdd = getNetwController(CTRL_CONSTRUCCION_CONTROLLER);	//agrega un controller de networking que solo espera que le manden SETTLEMENT
+		netwConstructionController * controllerToAdd = static_cast<netwConstructionController *>(getNetworkingController(CTRL_CONSTRUCTION));	//agrega un controller de networking que solo espera que le manden SETTLEMENT
 		controllerToAdd->setExpectedPackage(SETTLEMENT);
-		networkingControllerList.push_back(controllerToAdd);
+		currentNetworkingControllers.push_back(controllerToAdd);
 	}
 }
 
@@ -94,8 +92,8 @@ void playingFSM::prepareOppRobber(genericEvent * ev)
 
 void playingFSM::oppTurnControllers(genericEvent * ev)
 {
-	inputControllerList.clear();
-	inputControllerList.push_back();
+	currentInputControllers.clear();
+	currentInputControllers.push_back(getInputController());
 
 
 }
