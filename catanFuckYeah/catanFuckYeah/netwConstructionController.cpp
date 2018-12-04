@@ -2,20 +2,21 @@
 
 
 
-netwConstructionController::netwConstructionController()
+netwConstructionController::netwConstructionController(catanGameModel * game) : EDANetworkingController(game)
 {
 	expectsOnePackage = false;
 }
 
-netwConstructionController::netwConstructionController(networkingEventTypes package) : EDANetworkingController(((package == CITY) || (package == SETTLEMENT) || (package == ROAD)) ? expectedPackage = package : static_cast<networkingEventTypes>(0) )
+netwConstructionController::netwConstructionController(catanGameModel * game,networkingEventTypes package) : EDANetworkingController(game,((package == CITY) || (package == SETTLEMENT) || (package == ROAD)) ? expectedPackage = package : static_cast<networkingEventTypes>(0) )
 {
 	expectsOnePackage = true;
 }
 
+/*Asigna un paquete esperado al controller, ahora pasara a reaccionar solo ante la llegada de dicho paquete*/
 bool netwConstructionController::setExpectedPackage(networkingEventTypes package)
 {
 	bool ret = false;
-	if ((package == CITY) || (package == SETTLEMENT) || (package == ROAD))
+	if (buildingPackage(package))
 	{
 		expectedPackage = package;
 		expectsOnePackage = true;
@@ -24,25 +25,29 @@ bool netwConstructionController::setExpectedPackage(networkingEventTypes package
 	return ret;
 }
 
-void netwConstructionController::parseNetworkingEvent(networkingEv * ev)
+bool netwConstructionController::parseNetworkingEvent(networkingEv * ev)
 {
-	if (!expectsOnePackage || (ev->getHeader() == expectedPackage))	//si espera cualquier paquete o llego el paquete esperado
+	bool ret = false;
+	if (buildingPackage(ev->getHeader()))
 	{
-		switch (ev->getHeader())
+		if (!expectsOnePackage || (ev->getHeader() == expectedPackage))	//si espera cualquier paquete o llego el paquete esperado
 		{
-		case SETTLEMENT:
-			gameModel->validSelectedCards();
-			break;
-		case ROAD:
-
-			break;
-		case CITY:
-
-			break;
+			ret = true;
+			if (!gameModel->construction(ev->getHeader(), static_cast<buildPckg *>(ev)->getCoords()))
+			{
+				controllerEvent = new playingError;
+			}
 		}
 	}
 }
 
+/*Devuelve true si es un paquete de contruccion*/
+bool netwConstructionController::netbuildingPackage(networkingEventTypes package)
+{
+	return ((package == CITY) || (package == SETTLEMENT) || (package == ROAD));
+}
+
 netwConstructionController::~netwConstructionController()
 {
+
 }
