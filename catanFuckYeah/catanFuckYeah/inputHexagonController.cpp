@@ -2,7 +2,7 @@
 
 
 
-inputHexagonController::inputHexagonController()
+inputHexagonController::inputHexagonController(catanGameModel * game) : gameModel(game)
 {
 }
 

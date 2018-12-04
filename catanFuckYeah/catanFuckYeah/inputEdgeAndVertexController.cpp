@@ -1,6 +1,6 @@
 #include "inputEdgeAndVertexController.h"
 
-inputEdgeAndVertexController::inputEdgeAndVertexController()
+inputEdgeAndVertexController::inputEdgeAndVertexController(catanGameModel * game) : gameModel(game)
 {
 }
 

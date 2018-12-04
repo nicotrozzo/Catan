@@ -230,7 +230,7 @@
       <Filter>Archivos de encabezado\MVC</Filter>
     </ClInclude>
     <ClInclude Include="netwConstructionController.h">
-      <Filter>Archivos de encabezado</Filter>
+      <Filter>Archivos de encabezado\MVC</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

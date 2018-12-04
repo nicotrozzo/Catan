@@ -1,26 +1,39 @@
 #include "playingFSM.h"
+#include "EDANetworkingController.h"
+#include "EDAInputController.h"
 #include "inputActionButtonController.h"
 #include "inputCardsController.h"
 #include "inputHexagonController.h"
 #include "inputEdgeAndVertexController.h"
+#include "netwConstructionController.h"
 
-playingFSM::playingFSM(bool iStart) : genericFSM(&fsmTable[0][0], 8, 6, iStart ? MY_TURN : OPP_TURN)
+using namespace std;
+
+playingFSM::playingFSM(bool iStart, catanGameModel * game) : genericFSM(&fsmTable[0][0], 8, 6, iStart ? MY_TURN : OPP_TURN)
 {
 	robberfsm = nullptr;
 	if (iStart)
 	{
-		inputControllerList.push_back(new inputEdgeAndVertexController);
-		inputControllerList.push_back(new inputActionButtonController); //capaz este no vaya, solo el primero para los primeros roads y settlements
+		//inputControllerList.push_back(new inputEdgeAndVertexController(game));
+		inputControllerList.push_back(getInputController(CTRL_EDGE_AND_VERTEX));
+
+		//inputControllerList.push_back(new inputActionButtonController(game)); //capaz este no vaya, solo el primero para los primeros roads y settlements
+		inputControllerList.push_back(getInputController(CTRL_ACTION_BUTTON)); //capaz este no vaya, solo el primero para los primeros roads y settlements
+
 		//inputControllerList.push_back(new );
 	}
 	else
 	{
-		networkingControllerList.push_back(new netwConstructionController(SETTLEMENT));	//inicialmente espera 
+		//networkingControllerList.push_back(new netwConstructionController(SETTLEMENT));	//inicialmente espera 
+		netwConstructionController * controllerToAdd = getNetwController(CTRL_CONSTRUCCION_CONTROLLER);	//agrega un controller de networking que solo espera que le manden SETTLEMENT
+		controllerToAdd->setExpectedPackage(SETTLEMENT);
+		networkingControllerList.push_back(controllerToAdd);
 	}
 }
 
 /*ACTION ROUTINES FOR FSM*/
 
+/*
 void playingFSM::sendDices(genericEvent * ev)
 {
 	//mandarle dados al modelo, el modelo debe cambiar los recursos de cada jugador
@@ -36,12 +49,14 @@ void playingFSM::sendDices(genericEvent * ev)
 	//	expectedeEvents = { PLAY_AGAIN, GAME_OVER };
 	//}
 }
+*/
 
+/*
 void playingFSM::prepareMyRobber(genericEvent * ev)
 {
 	expectedPackages.clear();
 	robberfsm = new myRobberFSM(WAIT_OPPONENT_ANSWER);
-	/*if(catanGame->otherPlayer->cardsCount() > 7)
+	if(catanGame->otherPlayer->cardsCount() > 7)
 	{
 		expectedPackages = {ROBBER_CARDS, ACK};
 	}
@@ -49,13 +64,15 @@ void playingFSM::prepareMyRobber(genericEvent * ev)
 	{
 		expectedPackages = {ACK};
 	}
-	*/
+	
 }
+*/
 
+/*
 void playingFSM::prepareOppRobber(genericEvent * ev)		
 {
 	expectedPackages.clear();
-	/*if(catanGame->myPlayer->cardsCount() > 7)
+	if(catanGame->myPlayer->cardsCount() > 7)
 	{
 		robberfsm = new oppRobberFSM(WAIT_MY_USER);
 		expectedPackages = {ROBBER_CARDS, ROBBER_MOVE};
@@ -70,15 +87,22 @@ void playingFSM::prepareOppRobber(genericEvent * ev)
 		robberfsm = new oppRobberFSM(WAIT_OPPONENT);
 		expectedPackages = {ROBBER_MOVE};
 	}	
-	*/
+	
 }
+*/
+
 
 void playingFSM::oppTurnControllers(genericEvent * ev)
 {
+	inputControllerList.clear();
+	inputControllerList.push_back();
+
+
 }
 
 void playingFSM::tradeControllers(genericEvent * ev)
 {
+
 }
 
 void playingFSM::buildControllers(genericEvent * ev)
@@ -115,6 +139,36 @@ void playingFSM::oppRobberControllers(genericEvent * ev)
 
 void playingFSM::waitingControllers(genericEvent * ev)
 {
+}
+
+/*Devuelve el controller pedido si esta presente en la lista de todos los controllers de input, sino nullptr*/
+EDAInputController * playingFSM::getInputController(inputControllerTypes type)
+{
+	EDAInputController * ret = nullptr;
+	for (auto temp : allInputControllers)
+	{
+		if(temp->getType() == type)
+		{
+			ret = temp;
+			break;
+		}
+	}
+	return ret;
+}
+
+/*Devuelve el controller pedido si esta presente en la lista de todos los controllers de networking, sino nullptr*/
+EDANetworkingController * playingFSM::getNetworkingController(netwControllerTypes type)
+{
+	EDANetworkingController * ret = nullptr;
+	for (auto temp : allNetworkingControllers)
+	{
+		if (temp->getType() == type)
+		{
+			ret = temp;
+			break;
+		}
+	}
+	return ret;
 }
 
 /*void playingFSM::sendToRobberFSM(genericEvent * ev)

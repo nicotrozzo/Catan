@@ -2,12 +2,12 @@
 
 
 
-netwConstructionController::netwConstructionController(catanGameModel * game) : EDANetworkingController(game)
+netwConstructionController::netwConstructionController(catanGameModel * game) : gameModel(game)
 {
 	expectsOnePackage = false;
 }
 
-netwConstructionController::netwConstructionController(catanGameModel * game,networkingEventTypes package) : EDANetworkingController(game,((package == CITY) || (package == SETTLEMENT) || (package == ROAD)) ? expectedPackage = package : static_cast<networkingEventTypes>(0) )
+netwConstructionController::netwConstructionController(catanGameModel * game,networkingEventTypes package) : EDANetworkingController(((package == CITY) || (package == SETTLEMENT) || (package == ROAD)) ? expectedPackage = package : static_cast<networkingEventTypes>(0)) , gameModel(game)
 {
 	expectsOnePackage = true;
 }

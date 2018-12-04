@@ -94,12 +94,18 @@ private:
 	void oppRobberControllers(genericEvent* ev);	
 	void waitingControllers(genericEvent* ev);
 
-	//std::vector<> allControlers;
 	catanGameModel * gameModel;
-	std::list<EDAInputController *> inputControllerList;
-	std::list<EDANetworkingController *> networkingControllerList;
+	
+	std::vector<EDAInputController *> allInputControllers;
+	std::vector<EDANetworkingController *> allNetworkingControllers;
+	std::list<EDAInputController *> currentInputControllers;
+	std::list<EDANetworkingController *> currentNetworkingControllers;
+
+	EDAInputController * getInputController(inputControllerTypes type);		//busca el controller de input solicitado en el vector de controllers de input
+	EDANetworkingController * getNetworkingController(netwControllerTypes type);	//busca el controller de networking solicitado en el vector de controller de networking
+
 public:
-	playingFSM(bool iStart, catanGameModel * game);	//recibe como parametro true si le toca empezar al jugador propio	//attachear modelo como generador de eventos
+	playingFSM(bool iStart, catanGameModel * game, std::vector<EDAInputController *> inputControllers, std::vector<EDANetworkingController *> networkingControllers );	//recibe como parametro true si le toca empezar al jugador propio	
 	bool sendToInputControllers(inputEv *input);
 	bool sendToNetwControllers(networkingEv *netwPackage);
 };

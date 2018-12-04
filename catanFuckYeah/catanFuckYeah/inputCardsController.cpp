@@ -2,7 +2,7 @@
 
 
 
-inputCardsController::inputCardsController()
+inputCardsController::inputCardsController(catanGameModel * game) : gameModel(game)
 {
 }
 
