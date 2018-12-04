@@ -131,6 +131,9 @@
     <ClCompile Include="EDANetworkingController.cpp">
       <Filter>Archivos de origen\MVC</Filter>
     </ClCompile>
+    <ClCompile Include="gameCoords.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="eventHandling.h">
@@ -231,6 +234,9 @@
     </ClInclude>
     <ClInclude Include="netwConstructionController.h">
       <Filter>Archivos de encabezado\MVC</Filter>
+    </ClInclude>
+    <ClInclude Include="gameCoords.h">
+      <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

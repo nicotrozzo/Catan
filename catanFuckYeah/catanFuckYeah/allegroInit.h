@@ -17,13 +17,13 @@ public:
 	allegroInit();
 	void initializer();
 	ALLEGRO_DISPLAY * getDisplay() { return display; }
-	bool getInitializationError();
+	bool getInitializationOk();
 	~allegroInit();
 private:
 	ALLEGRO_DISPLAY * display;
 	ALLEGRO_EVENT_QUEUE * queue;
 	ALLEGRO_EVENT event;
 	ALLEGRO_FONT * font;
-	bool initializationError;
+	bool initializationOk;
 };
 
