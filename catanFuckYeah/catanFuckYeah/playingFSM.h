@@ -3,28 +3,31 @@
 #include "genericFSM.h"
 #include "networkingEvents.h"
 #include "EDAInputController.h"
+#include "EDANetworkingController.h"
 #include <vector>
 
 enum netwStates : stateTypes { MY_TURN, BUILDING, PREPARE_TRADE , WAITING_REPLY, MY_ROBBER, OPP_ROBBER, OPP_TURN, WAITING_PLAYER  };
 
-enum netwFSMEvTypes : eventTypes {OK, DICES7, STAY, UNEXPECTED_EVENT};
+enum playingFSMEvTypes : eventTypes {CHANGE_STATE, , , ERROR};
 
-class netwFSMEv : public genericEvent
+class playingFSMEvent : public genericEvent
 {
 public:
-	netwFSMEv() : error(false) {}
-	netwFSMEv(netwFSMEvTypes type_) { }//if(valid)type = type_; }
+	playingFSMEvent(string info_ = "") : error(false) { info = info_; }
+	playingFSMEvent(playingFSMEvTypes type_) { }//if(valid)type = type_; }
 	virtual eventTypes getType() { return type; }
+	string getInfo() { return info; }
 	bool getError() { return false; }
 private:
-	netwFSMEvTypes type;
+	playingFSMEvTypes type;
+	string info;
 	bool error;
 };
 
-class unexpectedNetwEvent : public netwFSMEv
+class playingFSMErrorEv : public playingFSMEvent
 {
 public:
-	unexpectedNetwEvent(string detail_ = "") : netwFSMEv(UNEXPECTED_EVENT) { detail = detail_; }
+	playingFSMErrorEv(string detail_ = "") : netwFSMEv(UNEXPECTED_EVENT) { detail = detail_; }
 	string getDetail() { return detail; }
 
 private:
@@ -66,7 +69,7 @@ private:
 	list<networkingEventTypes> expectedPackages;*/
 	genericFSM * robberfsm;
 	const fsmCell fsmTable[7][5] = {
-	//			DONE(cambiar)								CARDS									TICK							ROBBER?							ERROR	
+	//			CHANGE_STATE							CARDS									TICK							ROBBER?							ERROR	
 	{ { OPP_TURN,TX(oppTurnControllers)}, {PREPARE_TRADE,TX(tradeControllers)},{BUILDING,TX(buildControllers)},{MY_ROBBER,TX(myRobberControllers)},{MY_TURN,TX(error)} },		 //MY_TURN
 	{ { MY_TURN,TX(myTurnControllers) },  {,TX()},						   {BUILDING,},		{,TX()}											  ,{BUILDING,TX(error)} },		 //BUILDING
 	{ { MY_TURN,TX(myTurnControllers) },  {,TX()}							  ,{PREPARE_TRADE,TX(netwYNControllers) },{,TX()},{PREPARE_TRADE,TX(error)} },   //PREPARE_TRADE
@@ -75,11 +78,28 @@ private:
 	{ { OPP_TURN,TX(oppTurnControllers) },{OPP_ROBBER,TX()},{},{},{OPP_ROBBER,TX(error)} },												 //OPP_ROBBER
 	{ { OPP_TURN,TX(oppTurnControllers) },{},{},{},{WAITING_PLAYER,TX(error)} }	 //WAITING_PLAYER
 	};
+
+	void oppTurnControllers(genericEvent* ev);
+	void tradeControllers(genericEvent* ev);
+	void buildControllers(genericEvent* ev);
+	void myRobberControllers(genericEvent* ev);
+	void error(genericEvent* ev);
+	void myTurnControllers(genericEvent* ev);
+	void netwYNControllers(genericEvent* ev);
+	void(genericEvent* ev);
+	void(genericEvent* ev);
+	void(genericEvent* ev);
+	void(genericEvent* ev);
+
+	void oppRobberControllers(genericEvent* ev);	
+	void waitingControllers(genericEvent* ev);
+
 	//std::vector<> allControlers;
+	catanGameModel * gameModel;
 	std::list<EDAInputController *> inputControllerList;
 	std::list<EDANetworkingController *> networkingControllerList;
 public:
-	playingFSM(bool iStart);	//recibe como parametro true si le toca empezar al jugador propio	//attachear modelo como generador de eventos
+	playingFSM(bool iStart, catanGameModel * game);	//recibe como parametro true si le toca empezar al jugador propio	//attachear modelo como generador de eventos
 	bool sendToInputControllers(inputEv *input);
 	bool sendToNetwControllers(networkingEv *netwPackage);
 };

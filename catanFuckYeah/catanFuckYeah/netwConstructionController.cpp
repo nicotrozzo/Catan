@@ -2,16 +2,17 @@
 
 
 
-netwConstructionController::netwConstructionController()
+netwConstructionController::netwConstructionController(catanGameModel * game) : EDANetworkingController(game)
 {
 	expectsOnePackage = false;
 }
 
-netwConstructionController::netwConstructionController(networkingEventTypes package) : EDANetworkingController(((package == CITY) || (package == SETTLEMENT) || (package == ROAD)) ? expectedPackage = package : static_cast<networkingEventTypes>(0) )
+netwConstructionController::netwConstructionController(catanGameModel * game,networkingEventTypes package) : EDANetworkingController(game,((package == CITY) || (package == SETTLEMENT) || (package == ROAD)) ? expectedPackage = package : static_cast<networkingEventTypes>(0) )
 {
 	expectsOnePackage = true;
 }
 
+/*Asigna un paquete esperado al controller, ahora pasara a reaccionar solo ante la llegada de dicho paquete*/
 bool netwConstructionController::setExpectedPackage(networkingEventTypes package)
 {
 	bool ret = false;
@@ -40,7 +41,8 @@ bool netwConstructionController::parseNetworkingEvent(networkingEv * ev)
 	}
 }
 
-bool netbuildingPackage(networkingEventTypes package)
+/*Devuelve true si es un paquete de contruccion*/
+bool netwConstructionController::netbuildingPackage(networkingEventTypes package)
 {
 	return ((package == CITY) || (package == SETTLEMENT) || (package == ROAD));
 }

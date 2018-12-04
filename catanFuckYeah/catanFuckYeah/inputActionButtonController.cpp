@@ -2,8 +2,9 @@
 
 
 
-inputActionButtonController::inputActionButtonController()
+inputActionButtonController::inputActionButtonController(catanGameModel * game) : gameModel(game)
 {
+	
 }
 
 

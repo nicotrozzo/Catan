@@ -6,12 +6,11 @@
 class EDANetworkingController : public eventGenerator 
 {
 public:
-	EDANetworkingController(catanGameModel * game);
-	EDANetworkingController(catanGameModel * game, networkingEventTypes package);
+	EDANetworkingController();
+	EDANetworkingController(networkingEventTypes package);
 	virtual bool parseNetworkingEvent(networkingEv * ev);
 	genericEvent* getEvent();
 protected:
-	catanGameModel * gameModel;
 	networkingEventTypes expectedPackage;
 	genericEvent * controllerEvent;
 };

@@ -73,51 +73,80 @@ void playingFSM::prepareOppRobber(genericEvent * ev)
 	*/
 }
 
+void playingFSM::oppTurnControllers(genericEvent * ev)
+{
+}
+
+void playingFSM::tradeControllers(genericEvent * ev)
+{
+}
+
+void playingFSM::buildControllers(genericEvent * ev)
+{
+}
+
+void playingFSM::myRobberControllers(genericEvent * ev)
+{
+}
+
 void playingFSM::error(genericEvent * ev)
 {
-	if (robberfsm != nullptr)
+	//ver si sigue igual lo de robber fsm
+	/*if (robberfsm != nullptr)	
 	{
 		delete robberfsm;
-	}
-	fsmEvent = new outEv("Unexpected networking event");
-	expectedPackages.clear();
+	}*/
+	fsmEvent = new outEv(static_cast<playingFSMEvent *>(ev)->getInfo());
+	//destruir controllers
 	//destruir todo lo que tenga que destruir
 }
 
-void playingFSM::sendToRobberFSM(genericEvent * ev)
+void playingFSM::myTurnControllers(genericEvent * ev)
 {
-	/*
-	robberfsm->cycle(static_cast<stay_ev *>(ev)->additionalEvent)
-	*/
 }
 
-void playingFSM::sendTradeOffer(genericEvent * ev)
+void playingFSM::netwYNControllers(genericEvent * ev)
+{
+}
+
+void playingFSM::oppRobberControllers(genericEvent * ev)
+{
+}
+
+void playingFSM::waitingControllers(genericEvent * ev)
+{
+}
+
+/*void playingFSM::sendToRobberFSM(genericEvent * ev)
+{
+	
+	//robberfsm->cycle(static_cast<stay_ev *>(ev)->additionalEvent)
+	
+}*/
+
+/*void playingFSM::sendTradeOffer(genericEvent * ev)
 {
 	expectedPackages.clear();
 	//catanGame->tradeOffered(tradeOffer)
 	
-}
+}*/
 
-void playingFSM::sendAnswer(genericEvent * ev)
+/*void playingFSM::sendAnswer(genericEvent * ev)
 {
 
-}
+}*/
 
-void playingFSM::changeTurn(genericEvent * ev)
+/*void playingFSM::changeTurn(genericEvent * ev)
 {
 	//avisar que cambio el turno
 	//
-}
+}*/
 
-void playingFSM::validate(genericEvent * ev)
+/*void playingFSM::validate(genericEvent * ev)
 {
 
-}
+}*/
 
-list<networkingEv> playingFSM::getExpectedPackages()
-{
-	return expectedPackages;
-}
 
 
 oppRobberFSM::oppRobberFSM(stateTypes initState) : genericFSM(&fsmTable[0][0], 3, 2, initState)

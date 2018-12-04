@@ -1,11 +1,11 @@
 #include "EDANetworkingController.h"
 
-EDANetworkingController::EDANetworkingController(catanGameModel* game) : controllerEvent(nullptr), gameModel(game)
+EDANetworkingController::EDANetworkingController() : controllerEvent(nullptr)
 {
 	expectedPackage = static_cast<networkingEventTypes>(0);
 }
 
-EDANetworkingController::EDANetworkingController(catanGameModel* game,networkingEventTypes package) : controllerEvent(nullptr), gameModel(game)
+EDANetworkingController::EDANetworkingController(networkingEventTypes package) : controllerEvent(nullptr)
 {
 	expectedPackage = package;
 }
@@ -15,7 +15,7 @@ bool EDANetworkingController::parseNetworkingEvent(networkingEv * ev)
 	bool ret = false;
 	if (ev->getHeader() == expectedPackage)
 	{
-		controllerEvent = new finishEvent;
+		controllerEvent = new finishEvent;	//despues ver que significa este evento
 		ret = true;
 	}
 	return ret;
