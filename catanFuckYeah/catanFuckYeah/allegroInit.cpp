@@ -28,7 +28,7 @@ void allegroInit::initializer()
 									{
 										al_register_event_source(queue, al_get_keyboard_event_source());
 										al_register_event_source(queue, al_get_mouse_event_source());
-										initializationError = true;
+										initializationOk = true;
 										return;
 									}
 									else
@@ -81,12 +81,12 @@ void allegroInit::initializer()
 	{
 		cout << "Fallo iniciando allegro" << endl;
 	}
-	initializationError = false;
+	initializationOk = false;
 }
 
-bool allegroInit::getInitializationError()
+bool allegroInit::getInitializationOk()
 {
-	return initializationError;
+	return initializationOk;
 }
 
 allegroInit::~allegroInit()

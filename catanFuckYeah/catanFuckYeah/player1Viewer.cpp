@@ -28,7 +28,6 @@ void player1Viewer::update()
 	viewNameIs();
 	viewResources();
 	viewVictoryPoints();
-	al_flip_display();
 }
 
 void player1Viewer::viewVictoryPoints()

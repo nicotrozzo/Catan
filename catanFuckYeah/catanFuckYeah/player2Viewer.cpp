@@ -23,7 +23,6 @@ void player2Viewer::update()
 	viewLongestRoad();
 	viewNameIs();
 	viewVictoryPoints();
-	al_flip_display();
 }
 
 void player2Viewer::viewNameIs()

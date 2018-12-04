@@ -38,7 +38,6 @@ void mapViewer::update()
 	viewRobber();
 	viewTokens();
 	viewBankTrade();
-	al_flip_display();
 }
 
 void mapViewer::viewWallpaper()
