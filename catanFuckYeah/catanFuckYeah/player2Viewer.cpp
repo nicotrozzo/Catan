@@ -5,11 +5,11 @@ player2Viewer::player2Viewer(catanPlayerModel * player2)
 {
 	initOk = false;
 	player = player2;
-	if ((fontForVictoryPoints = al_load_ttf_font("font\\scribish", 55, 0)) != NULL)
+	if ((fontForVictoryPoints = al_load_ttf_font("graficoCatan\\font\\scribish.ttf", 55, 0)) != NULL)
 	{
-		if ((fontForName = al_load_ttf_font("font\\scribish", 59, 0)) != NULL)
+		if ((fontForName = al_load_ttf_font("graficoCatan\\font\\scribish.ttf", 59, 0)) != NULL)
 		{
-			if ((fontForAmountOfCards = al_load_ttf_font("font\\scribish", 59, 0)) != NULL)
+			if ((fontForAmountOfCards = al_load_ttf_font("graficoCatan\\font\\scribish.ttf", 59, 0)) != NULL)
 			{
 				initOk = true;
 			}
@@ -19,11 +19,18 @@ player2Viewer::player2Viewer(catanPlayerModel * player2)
 
 void player2Viewer::update()
 {
-	viewAmountOfCards();
-	viewLongestRoad();
-	viewNameIs();
-	viewVictoryPoints();
-	al_flip_display();
+	if (initOk)
+	{
+		viewAmountOfCards();
+		viewLongestRoad();
+		viewNameIs();
+		viewVictoryPoints();
+	}
+	else
+	{
+		cout << "error player2" << endl;
+	}
+
 }
 
 void player2Viewer::viewNameIs()
