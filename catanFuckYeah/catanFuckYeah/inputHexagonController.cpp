@@ -4,9 +4,11 @@
 
 inputHexagonController::inputHexagonController(catanGameModel * game) : gameModel(game)
 {
+	
 }
 
 
 inputHexagonController::~inputHexagonController()
 {
+
 }

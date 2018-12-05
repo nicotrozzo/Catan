@@ -2,7 +2,7 @@
 
 EDANetworkingController::EDANetworkingController() : controllerEvent(nullptr)
 {
-	expectedPackage = static_cast<networkingEventTypes>(0);
+	expectedPackage = ACK;	//por defecto espera un ACK
 }
 
 EDANetworkingController::EDANetworkingController(networkingEventTypes package) : controllerEvent(nullptr)

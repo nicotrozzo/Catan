@@ -17,7 +17,11 @@ public:
 	bool robberMoved(unsigned char hex);	//devuelve false si el lugar no es valido 
 	bool discardCurrentPlayer(string cards);	//devuelve false si era una cantidad invalida de cartas, o no tenia esas cartas
 	bool discardOtherPlayer(string cards);		//devuelve false si era una cantidad invalida de cartas, o no tenia esas cartas
-
+	
+	bool prepareTrade(unsigned char resource, unsigned char player);	//devuelve false si se trato de incrementar un recurso DEL JUGADOR ACTUAL que no tenia. MODIFICA EL MODELO
+	bool prepareBankTrade(unsigned char resource);				
+	bool tradePreparedIsValid();	//
+	bool trade();	//ejecuta el trade preparado, 
 	//bool waitingAccept();
 	//bool waitingCards();
 	catanPlayerModel getCurrentPlayer();

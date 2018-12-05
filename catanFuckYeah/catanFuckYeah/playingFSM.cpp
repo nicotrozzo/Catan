@@ -103,7 +103,6 @@ void playingFSM::oppTurnControllers(genericEvent * ev)
 	currentNetworkingControllers.push_back(getNetworkingController(CTRL_BANKTRADE));
 	currentNetworkingControllers.push_back(getNetworkingController(CTRL_OFFERTRADE));
 	currentInputControllers.push_back(getInputController());
-	
 }
 
 void playingFSM::tradeControllers(genericEvent * ev)
