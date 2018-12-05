@@ -6,6 +6,14 @@ inputCardsController::inputCardsController(catanGameModel * game) : gameModel(ga
 {
 }
 
+void inputCardsController::parseMouseEvent(mouseEvent * ev)
+{
+}
+
+void inputCardsController::parseKeyboardEvent(keyboardEvent * ev)
+{
+}
+
 
 inputCardsController::~inputCardsController()
 {
