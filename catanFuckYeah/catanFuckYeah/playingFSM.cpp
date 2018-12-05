@@ -5,6 +5,7 @@
 #include "inputCardsController.h"
 #include "inputHexagonController.h"
 #include "inputEdgeAndVertexController.h"
+#include "inputTickAndXController.h"
 #include "netwConstructionController.h"
 
 using namespace std;
@@ -22,7 +23,6 @@ playingFSM::playingFSM(bool iStart, catanGameModel * game, std::vector<EDAInputC
 	}
 	else
 	{
-		//networkingControllerList.push_back(new netwConstructionController(SETTLEMENT));	//inicialmente espera 
 		netwConstructionController * controllerToAdd = static_cast<netwConstructionController *>(getNetworkingController(CTRL_CONSTRUCTION));	//agrega un controller de networking que solo espera que le manden SETTLEMENT
 		controllerToAdd->setExpectedPackage(SETTLEMENT);
 		currentNetworkingControllers.push_back(controllerToAdd);
@@ -92,21 +92,35 @@ void playingFSM::prepareOppRobber(genericEvent * ev)
 
 void playingFSM::passControllers(genericEvent * ev)
 {
-	currentInputControllers.push_back(getNetworkingController(CTRL_DICES));
+	currentInputControllers.clear();
+	currentNetworkingControllers.clear();
+	currentNetworkingControllers.push_back(getNetworkingController(CTRL_DICES));
 }
 
 void playingFSM::oppTurnControllers(genericEvent * ev)
 {
 	currentInputControllers.clear();
 	currentNetworkingControllers.clear();
+	EDANetworkingController * controllerToAdd = getNetworkingController(GENERIC_NETW_CONTROLLER);	//agrega un controller de networking que solo espera que le manden SETTLEMENT
+	controllerToAdd->setExpectedPackage(PASS);
+	currentNetworkingControllers.push_back(controllerToAdd);
 	currentNetworkingControllers.push_back(getNetworkingController(CTRL_CONSTRUCTION));
 	currentNetworkingControllers.push_back(getNetworkingController(CTRL_BANKTRADE));
 	currentNetworkingControllers.push_back(getNetworkingController(CTRL_OFFERTRADE));
-	currentInputControllers.push_back(getInputController());
 }
 
 void playingFSM::tradeControllers(genericEvent * ev)
 {
+	currentInputControllers.clear();
+	currentNetworkingControllers.clear();
+	currentInputControllers.push_back(getInputController(CTRL_TICKANDX));
+
+	inputTickAndXController * controllerToAdd = getInputController(CTRL_TICKANDX);	//agrega un controller de networking que solo espera que le manden SETTLEMENT
+	controllerToAdd->set
+	currentNetworkingControllers.push_back(controllerToAdd);
+
+
+	currentInputControllers.push_back(getInputController(CTRL_CARDS));	//espera que el usuario seleccione las cartas
 
 }
 

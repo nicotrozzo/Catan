@@ -14,7 +14,7 @@ typedef enum connectorType{ CLIENT, SERVER };
 class connector
 {
 public:
-	connector();							//init socket, io_handler, etc, ver tp6
+	connector();							//init socket, io_handler
 	virtual connectorType getType() = 0;	
 	bool sendMessage(const char* msg, size_t length);			//Devuelve false si no pudo mandar el mensaje
 	bool receiveMessage();					//Devuelve true si recibio un mensaje. Si recibe un mensaje, se pisa el anterior, cuidado

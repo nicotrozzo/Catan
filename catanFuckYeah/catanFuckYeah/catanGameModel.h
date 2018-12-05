@@ -5,13 +5,20 @@
 #include "catanPlayerModel.h"
 #include "gameDefines.h"
 
+typedef struct
+{
+	networkingEventTypes type;
+	string coords;
+}construction_t;
+
 class catanGameModel : public EDASubject
 {
 public:
 	catanGameModel();
 	bool dicesThrown(unsigned char dice1, unsigned char dice2);	//modifica informacion del juego, cambia de turno
-	bool validConstruction(networkingEventTypes type, string coords);	//devuelve true si la construccion solicitada es valida
-	bool construction(networkingEventTypes type, string coords);				//devuelve false si la construccion no es valida, PUEDE MODIFICAR GAME OVER
+	bool validConstruction(networkingEventTypes type, string coords);	//devuelve true si la construccion solicitada es valida, y la almacena internamente hasta que le den la orden de construir
+	bool construct();		//construye la ultima construccion que se haya validado, devuelve false si la construccion no es valida, PUEDE MODIFICAR GAME OVER
+	//bool construction(networkingEventTypes type, string coords);		
 	bool playersTrade(string currentPlayerCards, string otherPlayerCards);		//devuelve false con trueque invalido
 	bool validSelectedCards(string currentPlayerCards, string otherPlayerCards);		//checkea que la transaccion solicitada sea valida, en cuyo case devuelve true
 	bool bankTrade(string player, unsigned char  bankResource);		//devuelve false si la transaccion es invalida (ver lo de 2x1 y 3x1)
@@ -66,6 +73,7 @@ protected:
 	cards p2SelectedCardsForTrade;
 	resource_t playerSelectedResource; //para el bankTrade
 	resourceType bankSelectedResource;
+	construction_t pendingConstruction;
 	unsigned char dice1;
 	unsigned char dice2;
 	catanMapModel map;

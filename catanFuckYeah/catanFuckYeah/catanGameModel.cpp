@@ -89,10 +89,14 @@ bool catanGameModel::validConstruction(networkingEventTypes type, string coords)
 		ret = map.checkAvailableCity(coords, player);
 		break;
 	}
+	if (ret)
+	{
+		pendingConstruction = {type,coords};
+	}
 	return ret;
 }
 
-bool catanGameModel::construction(networkingEventTypes type, string coords)
+/*bool catanGameModel::construction(networkingEventTypes type, string coords)
 {
 	bool ret = false;
 	switch(type)
@@ -117,7 +121,34 @@ bool catanGameModel::construction(networkingEventTypes type, string coords)
 		break;
 	}
 	return ret;
+}*/
+
+/*Construye la construccion que tenga guardada internamente, que es la ultima valida por la que hayan preguntado
+en validConstruction()
+*/
+bool catanGameModel::construct()
+{
+	bool ret = false;
+	unsigned char player = player1Playing ? 1 : 2;
+	if (pendingConstruction.type)
+	{
+		switch (pendingConstruction.type)
+		{
+		case ROAD:
+			ret = map.buildRoad(pendingConstruction.coords, player);
+			break;
+		case SETTLEMENT:
+			ret = map.buildSettlement(pendingConstruction.coords, player);
+			break;
+		case CITY:
+			ret = map.buildCity(pendingConstruction.coords, player);
+			break;
+		}
+		pendingConstruction.type = static_cast<networkingEventTypes>(0);
+	}
+	return ret;
 }
+
 
 bool catanGameModel::validSelectedCards(string currentPlayerCards, string otherPlayerCards)
 {

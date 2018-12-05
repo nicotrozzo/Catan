@@ -26,7 +26,7 @@ const typedef struct
 class gameCoords
 {
 public:
-	static const map<string, coords> myVertexCoords = {
+	static const map<string, coords> myVertexCoords;/* = {
 	{ "0A",{ 676,165,MAP_NONE } },{ "0B",{ 820,165,MAP_NONE } },{ "01C",{ 966,165,MAP_NONE } },
 	{ "05A",{ 606,206,MAP_NONE } },{ "0AB",{ 747,206,MAP_NONE } },{ "0BC",{ 891,206,MAP_NONE } },{ "1C",{ 1034,206,MAP_NONE } },
 	{ "5AD",{ 606,290,MAP_NONE } },{ "ABE",{ 747,290,MAP_NONE } },{ "BCF",{ 891,290,MAP_NONE } },{ "1CG",{ 1034,290,MAP_NONE } },
@@ -39,8 +39,8 @@ public:
 	{ "4MQ",{ 606,708,MAP_NONE } },{ "NQR",{ 747,708,MAP_NONE } },{ "ORS",{ 891,708,MAP_NONE } },{ "2PS",{ 1034,708,MAP_NONE } },
 	{ "4Q",{ 606,793,MAP_NONE } },{ "3QR",{ 747,793,MAP_NONE } },{ "3RS",{ 891,793,MAP_NONE } },{ "3S2",{ 1034,793,MAP_NONE } },
 	{ "34Q",{ 676,833,MAP_NONE } },{ "3R",{ 820,833,MAP_NONE } },{ "3S",{ 966,833,MAP_NONE } }
-	};
-	static const map<string, coords> myEdgesCoords = {
+	};*/
+	static const map<string, coords> myEdgesCoords;/* = {
 	{ "0A5",{ 641,185.5,MAP_ALPHA } },{ "0AB",{ 711.5,185.5,MAP_BETA } },{ "0BA",{ 783.5,185.5,MAP_ALPHA } },{ "0BC",{ 855.5,185.5,MAP_BETA } },{ "0C",{ 928.5,185.5,MAP_ALPHA } },{ "1CO",{ 1000,185.5,MAP_BETA } },
 	{ "5A",{ 606,248,MAP_VERTICAL } },{ "AB",{ 747,248,MAP_VERTICAL } },{ "BC",{ 891,248,MAP_VERTICAL } },{ "1CG",{ 1034,248,MAP_VERTICAL } },
 	{ "5DA",{ 569,311,MAP_ALPHA } },{ "AD",{ 569,311,MAP_BETA } },{ "AE",{ 711.5,311,MAP_ALPHA } },{ "BE",{ 783.5,311,MAP_BETA } },{ "BF",{ 855.5,311,MAP_ALPHA } },{ "CF",{ 928.5,311,MAP_BETA } },{ "CG",{ 1000,311,MAP_ALPHA } },{ "1GC",{ 1072,311,MAP_BETA } },
@@ -52,18 +52,18 @@ public:
 	{ "4MQ",{ 569,688.5,MAP_BETA } },{ "MQ",{ 641,688.5,MAP_ALPHA } },{ "NQ",{ 711.5,688.5,MAP_BETA } },{ "NR",{ 783.5,688.5,MAP_ALPHA } },{ "OR",{ 855.5,688.5,MAP_BETA } },{ "OS",{ 928.5,688.5,MAP_ALPHA } },{ "PS",{ 1000,688.5,MAP_BETA } },{ "2PS",{ 1072,688.5,MAP_ALPHA } },
 	{ "4QM",{ 606,750.5,MAP_VERTICAL } },{ "QR",{ 747,750.5,MAP_VERTICAL } },{ "RS",{ 891,750.5,MAP_VERTICAL } },{ "2S",{ 1034,750.5,MAP_VERTICAL } },
 	{ "4Q3",{ 641,813,MAP_BETA } },{ "3Q",{ 711.5,813,MAP_ALPHA } },{ "3RQ",{ 783.5,813,MAP_BETA } },{ "3RS",{ 855.5,813,MAP_ALPHA } },{ "3SR",{ 928.5,813,MAP_BETA } },{ "3S2",{ 1000,813,MAP_ALPHA } }
-	};
+	};*/
 
-	static const map<unsigned char, coords> myHexagonCoords = {
+	const static map<unsigned char, coords> myHexagonCoords;/* = {
 	{ 'A',{ 676,248,MAP_NONE } },{ 'B',{ 820,247,MAP_NONE } },{ 'C',{ 963,248,MAP_NONE } },
 	{ 'D',{ 606,373.5,MAP_NONE } },{ 'E',{ 747,373.5,MAP_NONE } },{ 'F',{ 891,373.5,MAP_NONE } },{ 'G',{ 1034,373.5,MAP_NONE } },
 	{ 'H',{ 534,499.5,MAP_NONE } },{ 'I',{ 676,499.5,MAP_NONE } },{ 'J',{ 820,499.5,MAP_NONE } },{ 'K',{ 963,498.5,MAP_NONE } },{ 'L',{ 1106,499.5,MAP_NONE } },
 	{ 'M',{ 606,626,MAP_NONE } },{ 'N',{ 747,626,MAP_NONE } },{ 'O',{ 891,626,MAP_NONE } },{ 'P',{ 1034,626,MAP_NONE } },
 	{ 'Q',{ 676,750.5,MAP_NONE } },{ 'R',{ 820,750.5,MAP_NONE } },{ 'S',{ 964,750.5,MAP_NONE } },
 	{ '0',{ 750,125,SEA_0_ROTATION } },{ '1',{ 1105,249,SEA_1_ROTATION } },{ '2',{ 1177,626,SEA_2_ROTATION } },{ '3',{ 891,875,SEA_3_ROTATION } },{ '4',{ 534,750.5,SEA_4_ROTATION } },{ '5',{ 464,373.5,SEA_5_ROTATION } },
-	};
+	}; */
 
 	//static const map<, point> cardsCoords = {
 	//cardsCoords[{WHEAT,1}] ->devuelve centro de la carta, o esquina sup izquierda
 	//}
-}
+};
