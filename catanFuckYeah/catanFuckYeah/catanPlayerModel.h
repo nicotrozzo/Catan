@@ -21,8 +21,10 @@ public:
 	cards getCards() { return myCards; }
 	unsigned char getVictoryPoints() { return victoryPoints; }
 	void setVictoryPoints(unsigned char points) { victoryPoints = points; }
-	void setName(string name);
-	string getName() { return nameIs; }
+	void setP1Name(string name);
+	void setP2Name(string name);
+	string getP1Name() { return p1NameIs; }
+	string getP2Name() { return p2NameIs; }
 	unsigned char getPlayerNumber() { return playerNumber; }
 	bool incResource(unsigned char resource);
 	bool incResource(unsigned char resource, unsigned char count);
@@ -33,5 +35,6 @@ private:
 	cards myCards;
 	unsigned char victoryPoints;
 	unsigned char playerNumber;
-	string nameIs;
+	string p1NameIs;
+	string p2NameIs;
 };

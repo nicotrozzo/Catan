@@ -32,11 +32,10 @@ void player2Viewer::update()
 	}
 
 }
-
 void player2Viewer::viewNameIs()
 {
-	string name = player->getName();
-	al_draw_text(fontForName, al_color_name("black"), 16, 20, 0, name.c_str());
+	string name = player->getP2Name();
+	al_draw_text(fontForName, al_color_name("black"), 27, 686, 0, name.c_str());
 }
 
 void player2Viewer::viewLongestRoad()		//faltaaaaaaaaaaaaaaaaaaaaaaaaaa
@@ -46,14 +45,14 @@ void player2Viewer::viewLongestRoad()		//faltaaaaaaaaaaaaaaaaaaaaaaaaaa
 void player2Viewer::viewAmountOfCards()
 {
 	unsigned char amountOfCards = player->getAmountOfCards();
-	al_draw_text(fontForAmountOfCards, al_color_name("black"), 16, 20, 0, to_string(amountOfCards).c_str());
+	al_draw_text(fontForAmountOfCards, al_color_name("black"), 250, 780, 0, to_string(amountOfCards).c_str());
 }
 
 void player2Viewer::viewVictoryPoints()
 {
 	unsigned char victoryPoints = player->getVictoryPoints();
 	string points = to_string(victoryPoints);
-	al_draw_text(fontForVictoryPoints, al_color_name("black"), 129, 547, 0, points.c_str());
+	al_draw_text(fontForVictoryPoints, al_color_name("black"), 148, 900, 0, points.c_str());
 }
 
 player2Viewer::~player2Viewer()

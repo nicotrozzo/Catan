@@ -42,13 +42,13 @@ void player1Viewer::viewVictoryPoints()
 {
 	unsigned char victoryPoints = player->getVictoryPoints();
 	string points = to_string(victoryPoints);
-	al_draw_text(fontForVictoryPoints, al_color_name("black"), 129, 547, 0, points.c_str());
+	al_draw_text(fontForVictoryPoints, al_color_name("black"), 148, 573, 0, points.c_str());
 }
 
 void player1Viewer::viewNameIs()
 {
-	string name = player->getName();
-	al_draw_text(fontForName, al_color_name("black"), 16, 20, 0, name.c_str());
+	string name = player->getP1Name();
+	al_draw_text(fontForName, al_color_name("black"), 27, 25, 0, name.c_str());
 }
 
 void player1Viewer::viewResources()
@@ -72,7 +72,7 @@ void player1Viewer::viewLongestRoads()		//faltaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 void player1Viewer::viewAmountOfCards()
 {
 	unsigned char amountOfCards = player->getAmountOfCards();
-	al_draw_text(fontForAmountOfCards, al_color_name("black"), 16, 20, 0, to_string(amountOfCards).c_str());
+	al_draw_text(fontForAmountOfCards, al_color_name("black"), 250, 450, 0, to_string(amountOfCards).c_str());
 }
 
 
