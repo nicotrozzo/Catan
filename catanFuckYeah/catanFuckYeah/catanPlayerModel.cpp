@@ -41,6 +41,36 @@ bool catanPlayerModel::incResource(unsigned char resource)
 	return ret;
 }
 
+bool catanPlayerModel::incResource(unsigned char resource, unsigned char count)
+{
+	bool ret = true;
+	if (count > 0)
+	{
+		switch (resource)
+		{
+		case ORE:
+			myCards.ore += count;
+			break;
+		case WOOD:
+			myCards.wood += count;
+			break;
+		case WOOL:
+			myCards.wool += count;
+			break;
+		case WHEAT:
+			myCards.wheat += count;
+			break;
+		case BRICK:
+			myCards.brick += count;
+			break;
+		default:
+			ret = false;
+		}
+	}
+	return ret;
+}
+
+
 bool catanPlayerModel::decResource(unsigned char resource)
 {
 	bool ret = true;
@@ -101,6 +131,71 @@ bool catanPlayerModel::decResource(unsigned char resource)
 	}
 	return ret;
 }
+
+bool catanPlayerModel::decResource(unsigned char resource, unsigned char count)
+{
+	bool ret = true;
+	if (count > 0)
+	{
+		switch (resource)
+		{
+		case ORE:
+			if (myCards.ore - count >= 0)
+			{
+				myCards.ore -= count;
+			}
+			else
+			{
+				ret = false;
+			}
+			break;
+		case WOOD:
+			if (myCards.wood - count >= 0)
+			{
+				myCards.wood -= count;
+			}
+			else
+			{
+				ret = false;
+			}
+			break;
+		case WOOL:
+			if (myCards.wool - count >= 0)
+			{
+				myCards.wool -= count;
+			}
+			else
+			{
+				ret = false;
+			}
+			break;
+		case WHEAT:
+			if (myCards.wheat - count >= 0)
+			{
+				myCards.wheat--;
+			}
+			else
+			{
+				ret = false;
+			}
+			break;
+		case BRICK:
+			if (myCards.brick - count >= 0)
+			{
+				myCards.brick--;
+			}
+			else
+			{
+				ret = false;
+			}
+			break;
+		default:
+			ret = false;
+		}
+	}
+	return ret;
+}
+
 
 catanPlayerModel::~catanPlayerModel()
 {

@@ -2,7 +2,7 @@
 
 catanMapModel::catanMapModel()
 {
-	vector<resource>allResources({ { WOOD,4 },{ BRICK,3 },{ ORE,3 },{ WHEAT,4 },{ WOOL,4 },{ DESSERT,1 } });
+	vector<resource_t>allResources({ { WOOD,4 },{ BRICK,3 },{ ORE,3 },{ WHEAT,4 },{ WOOL,4 },{ DESSERT,1 } });
 	array<unsigned char, HEX_COUNT - 1> allCircularTokens = { 2,3,3,4,4,5,5,6,6,8,8,9,9,10,10,11,11,12 };
 	array<unsigned char, NUMBER_OF_OCEAN_PIECES> allOceanPieces = { WOOD,BRICK,ORE,WHEAT,WOOL,DESSERT };
 	int resRandNum;							//RECORDAR SRAND EN EL MAIN!!!!!!!!!!!!!!!!
