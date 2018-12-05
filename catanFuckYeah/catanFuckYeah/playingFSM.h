@@ -6,7 +6,7 @@
 #include "EDANetworkingController.h"
 #include <vector>
 
-enum netwStates : stateTypes { MY_TURN, BUILDING, PREPARE_TRADE , WAITING_REPLY, MY_ROBBER, OPP_ROBBER, OPP_TURN, WAITING_PLAYER  };
+enum netwStates : stateTypes { MY_TURN, BUILDING, PREPARE_TRADE , WAITING_REPLY, MY_ROBBER, WAITING_DICES, OPP_TURN, OPP_ROBBER, WAITING_PLAYER  };
 
 enum playingFSMEvTypes : eventTypes {CHANGE_STATE, , , ERROR};
 
@@ -68,17 +68,13 @@ private:
 	
 	list<networkingEventTypes> expectedPackages;*/
 	genericFSM * robberfsm;
-	const fsmCell fsmTable[7][5] = {
+	const fsmCell fsmTable[8][5] = {
 	//			CHANGE_STATE							CARDS									TICK							ROBBER?							ERROR	
-	{ { OPP_TURN,TX(passControllers)}, {PREPARE_TRADE,TX(tradeControllers)},{BUILDING,TX(buildControllers)},{MY_ROBBER,TX(myRobberControllers)},{MY_TURN,TX(error)} },		 //MY_TURN
-	{ { MY_TURN,TX(myTurnControllers) },  {,TX()},						   {BUILDING,},		{,TX()}											  ,{BUILDING,TX(error)} },		 //BUILDING
+	{ { WAITING_DICES,TX(passControllers)}, {PREPARE_TRADE,TX(tradeControllers)},{BUILDING,TX(buildControllers)},{MY_ROBBER,TX(myRobberControllers)},{MY_TURN,TX(error)} },			//MY_TURN
+	{ { MY_TURN,TX(myTurnControllers) },  {,TX()},						   {BUILDING,},		{,TX()}													  ,{BUILDING,TX(error)} },		 //BUILDING
 	{ { MY_TURN,TX(myTurnControllers) },  {,TX()}							  ,{PREPARE_TRADE,TX(netwYNControllers) },{,TX()},{PREPARE_TRADE,TX(error)} },   //PREPARE_TRADE
 	{ { MY_TURN,TX(myTurnControllers) },  {},{},{},{MY_ROBBER,TX(error)} },		 //MY_ROBBER
-	//PROBLEMA: AL CAMBIAR DE MY_TURN A OPP_TURN, SOLO PUEDO ESPERAR DICES_ARE, ENTONCES TENGO QUE HABILITAR UN CONTROLLER
-	//QUE ESPERE DICES_ARE Y NO PUEDO HABILITAR LOS DEMAS DE OPP TURN
-	//ENTONCES TENGO QUE:
-	//	-ESPERAR SOLO DICES Y QUE LA RUTINA DE ACCION DE UN EVENTO SEA CAMBIAR DE DICES A EL RESTO DE OPP TURN
-	//	-AGREGAR UN ESTADO WAITING_DICES
+	{ { OPP_TURN,TX(oppTurnControllers)},  { ,TX()},{},{OPP_ROBBER,TX(oppRobberControllers)},{WAITING_DICES,TX(error)} },	//WAITING_DICES
 	{ { MY_TURN,TX(myTurnControllers) },  {WAITING_PLAYER,TX(waitingControllers)},{},{OPP_ROBBER,TX(oppRobberControllers)},{OPP_TURN,TX(error)} },		 //OPP_TURN
 	{ { OPP_TURN,TX(oppTurnControllers) },{OPP_ROBBER,TX()},{},{},{OPP_ROBBER,TX(error)} },		 //OPP_ROBBER
 	{ { OPP_TURN,TX(oppTurnControllers) },{},{},{},{WAITING_PLAYER,TX(error)} }	 //WAITING_PLAYER
