@@ -7,12 +7,21 @@
 
 enum implInputEvent : inputEventTypes {MOUSE_EVENT, KEYBOARD_EVENT};
 
+typedef struct
+{
+	float x;
+	float y;
+}point;
+
 class mouseEvent : public inputEv 
 {
+	point coords;
 	//guarda coordenadas del click
 	//guarda coordenadas del mouse en caso opcional
 public:
+	mouseEvent(point p) : coords(p) {}
 	inputEventTypes getInputEvType() { return MOUSE_EVENT; }
+	point getClickCoords() { return coords; }
 };
 
 class keyboardEvent : public inputEv

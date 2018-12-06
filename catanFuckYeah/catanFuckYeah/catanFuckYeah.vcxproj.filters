@@ -9,29 +9,35 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="Archivos de origen\MVC">
-      <UniqueIdentifier>{fb1f0aaa-d123-45f6-9c87-8291b680bb56}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Archivos de encabezado\MVC">
-      <UniqueIdentifier>{813a6877-2474-4d6d-8cfa-c990c9160f18}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Archivos de encabezado\NETWORKING">
       <UniqueIdentifier>{e393bbb6-5030-442b-9705-8a938d73a0f4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Archivos de origen\NETWORKING">
       <UniqueIdentifier>{df4a17f2-ef9a-4928-b65f-1a4c227f2594}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Archivos de origen\GUI">
-      <UniqueIdentifier>{63b1595f-45be-4b1f-b814-77251ba95663}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Archivos de encabezado\GUI">
-      <UniqueIdentifier>{c4431124-68c1-46a8-a7df-9ae1af1c9827}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Archivos de origen\FSM">
       <UniqueIdentifier>{dee5636f-df4b-47ee-a4cd-aa71768dcdf7}</UniqueIdentifier>
     </Filter>
     <Filter Include="Archivos de encabezado\FSM">
       <UniqueIdentifier>{ef5554de-85c3-4835-b2bf-a45b52bc679c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\MVC: Models">
+      <UniqueIdentifier>{813a6877-2474-4d6d-8cfa-c990c9160f18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\MVC: Controllers">
+      <UniqueIdentifier>{f4e1b637-93ed-43e0-8d2b-714725b4f8bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\MVC: Viewers">
+      <UniqueIdentifier>{c4431124-68c1-46a8-a7df-9ae1af1c9827}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen\MVC: Viewers">
+      <UniqueIdentifier>{63b1595f-45be-4b1f-b814-77251ba95663}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen\MVC: Models">
+      <UniqueIdentifier>{fb1f0aaa-d123-45f6-9c87-8291b680bb56}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen\MVC: Controllers">
+      <UniqueIdentifier>{27a66a51-8888-4c81-b0bd-d1806e7a645d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -45,16 +51,16 @@
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="catanGameModel.cpp">
-      <Filter>Archivos de origen\MVC</Filter>
+      <Filter>Archivos de origen\MVC: Models</Filter>
     </ClCompile>
     <ClCompile Include="catanMapModel.cpp">
-      <Filter>Archivos de origen\MVC</Filter>
+      <Filter>Archivos de origen\MVC: Models</Filter>
     </ClCompile>
     <ClCompile Include="catanPlayerModel.cpp">
-      <Filter>Archivos de origen\MVC</Filter>
+      <Filter>Archivos de origen\MVC: Models</Filter>
     </ClCompile>
     <ClCompile Include="EDASubject.cpp">
-      <Filter>Archivos de origen\MVC</Filter>
+      <Filter>Archivos de origen\MVC: Models</Filter>
     </ClCompile>
     <ClCompile Include="Client.cpp">
       <Filter>Archivos de origen\NETWORKING</Filter>
@@ -84,16 +90,16 @@
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="startMenu.cpp">
-      <Filter>Archivos de origen\GUI</Filter>
+      <Filter>Archivos de origen\MVC: Viewers</Filter>
     </ClCompile>
     <ClCompile Include="mapViewer.cpp">
-      <Filter>Archivos de origen\GUI</Filter>
+      <Filter>Archivos de origen\MVC: Viewers</Filter>
     </ClCompile>
     <ClCompile Include="player1Viewer.cpp">
-      <Filter>Archivos de origen\GUI</Filter>
+      <Filter>Archivos de origen\MVC: Viewers</Filter>
     </ClCompile>
     <ClCompile Include="player2Viewer.cpp">
-      <Filter>Archivos de origen\GUI</Filter>
+      <Filter>Archivos de origen\MVC: Viewers</Filter>
     </ClCompile>
     <ClCompile Include="bossFSM.cpp">
       <Filter>Archivos de origen\FSM</Filter>
@@ -111,51 +117,60 @@
       <Filter>Archivos de origen\FSM</Filter>
     </ClCompile>
     <ClCompile Include="allegroInit.cpp">
-      <Filter>Archivos de origen\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="inputActionButtonController.cpp">
-      <Filter>Archivos de origen\MVC</Filter>
-    </ClCompile>
-    <ClCompile Include="inputCardsController.cpp">
-      <Filter>Archivos de origen\MVC</Filter>
-    </ClCompile>
-    <ClCompile Include="inputEdgeAndVertexController.cpp">
-      <Filter>Archivos de origen\MVC</Filter>
-    </ClCompile>
-    <ClCompile Include="inputHexagonController.cpp">
-      <Filter>Archivos de origen\MVC</Filter>
-    </ClCompile>
-    <ClCompile Include="netwConstructionController.cpp">
-      <Filter>Archivos de origen\MVC</Filter>
-    </ClCompile>
-    <ClCompile Include="EDANetworkingController.cpp">
-      <Filter>Archivos de origen\MVC</Filter>
+      <Filter>Archivos de origen\MVC: Viewers</Filter>
     </ClCompile>
     <ClCompile Include="gameCoords.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
+    <ClCompile Include="quitButton.cpp">
+      <Filter>Archivos de origen\MVC: Models</Filter>
+    </ClCompile>
+    <ClCompile Include="inputActionButtonController.cpp">
+      <Filter>Archivos de origen\MVC: Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="inputCardsController.cpp">
+      <Filter>Archivos de origen\MVC: Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="inputEdgeAndVertexController.cpp">
+      <Filter>Archivos de origen\MVC: Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="inputHexagonController.cpp">
+      <Filter>Archivos de origen\MVC: Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="netwConstructionController.cpp">
+      <Filter>Archivos de origen\MVC: Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="quitButtonController.cpp">
+      <Filter>Archivos de origen\MVC: Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="EDANetworkingController.cpp">
+      <Filter>Archivos de origen\MVC: Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="quitPackageReceiver.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="netwDicesController.cpp">
+      <Filter>Archivos de origen\MVC: Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="inputTickAndXController.cpp">
+      <Filter>Archivos de origen\MVC: Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="networkingObserver.cpp">
+      <Filter>Archivos de origen\MVC: Viewers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="eventHandling.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="inputEventGenerator.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
-    <ClInclude Include="observer.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="catanGameModel.h">
-      <Filter>Archivos de encabezado\MVC</Filter>
+      <Filter>Archivos de encabezado\MVC: Models</Filter>
     </ClInclude>
     <ClInclude Include="catanMapModel.h">
-      <Filter>Archivos de encabezado\MVC</Filter>
+      <Filter>Archivos de encabezado\MVC: Models</Filter>
     </ClInclude>
     <ClInclude Include="catanPlayerModel.h">
-      <Filter>Archivos de encabezado\MVC</Filter>
+      <Filter>Archivos de encabezado\MVC: Models</Filter>
     </ClInclude>
     <ClInclude Include="EDASubject.h">
-      <Filter>Archivos de encabezado\MVC</Filter>
+      <Filter>Archivos de encabezado\MVC: Models</Filter>
     </ClInclude>
     <ClInclude Include="connectionEstablisher.h">
       <Filter>Archivos de encabezado\NETWORKING</Filter>
@@ -181,20 +196,17 @@
     <ClInclude Include="gameDefines.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="gameEventGenerator.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="startMenu.h">
-      <Filter>Archivos de encabezado\GUI</Filter>
+      <Filter>Archivos de encabezado\MVC: Viewers</Filter>
     </ClInclude>
     <ClInclude Include="mapViewer.h">
-      <Filter>Archivos de encabezado\GUI</Filter>
+      <Filter>Archivos de encabezado\MVC: Viewers</Filter>
     </ClInclude>
     <ClInclude Include="player1Viewer.h">
-      <Filter>Archivos de encabezado\GUI</Filter>
+      <Filter>Archivos de encabezado\MVC: Viewers</Filter>
     </ClInclude>
     <ClInclude Include="player2Viewer.h">
-      <Filter>Archivos de encabezado\GUI</Filter>
+      <Filter>Archivos de encabezado\MVC: Viewers</Filter>
     </ClInclude>
     <ClInclude Include="playingFSM.h">
       <Filter>Archivos de encabezado\FSM</Filter>
@@ -212,34 +224,65 @@
       <Filter>Archivos de encabezado\FSM</Filter>
     </ClInclude>
     <ClInclude Include="allegroInit.h">
-      <Filter>Archivos de encabezado\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="EDAInputController.h">
-      <Filter>Archivos de encabezado\MVC</Filter>
-    </ClInclude>
-    <ClInclude Include="EDANetworkingController.h">
-      <Filter>Archivos de encabezado\MVC</Filter>
-    </ClInclude>
-    <ClInclude Include="inputActionButtonController.h">
-      <Filter>Archivos de encabezado\MVC</Filter>
-    </ClInclude>
-    <ClInclude Include="inputCardsController.h">
-      <Filter>Archivos de encabezado\MVC</Filter>
-    </ClInclude>
-    <ClInclude Include="inputEdgeAndVertexController.h">
-      <Filter>Archivos de encabezado\MVC</Filter>
-    </ClInclude>
-    <ClInclude Include="inputHexagonController.h">
-      <Filter>Archivos de encabezado\MVC</Filter>
-    </ClInclude>
-    <ClInclude Include="netwConstructionController.h">
-      <Filter>Archivos de encabezado\MVC</Filter>
+      <Filter>Archivos de encabezado\MVC: Viewers</Filter>
     </ClInclude>
     <ClInclude Include="gameCoords.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="EDAInputController.h">
+      <Filter>Archivos de encabezado\MVC: Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="EDANetworkingController.h">
+      <Filter>Archivos de encabezado\MVC: Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="inputActionButtonController.h">
+      <Filter>Archivos de encabezado\MVC: Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="inputCardsController.h">
+      <Filter>Archivos de encabezado\MVC: Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="inputEdgeAndVertexController.h">
+      <Filter>Archivos de encabezado\MVC: Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="inputHexagonController.h">
+      <Filter>Archivos de encabezado\MVC: Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="netwConstructionController.h">
+      <Filter>Archivos de encabezado\MVC: Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="quitButtonController.h">
+      <Filter>Archivos de encabezado\MVC: Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="observer.h">
+      <Filter>Archivos de encabezado\MVC: Viewers</Filter>
+    </ClInclude>
+    <ClInclude Include="quitButton.h">
+      <Filter>Archivos de encabezado\MVC: Models</Filter>
+    </ClInclude>
+    <ClInclude Include="gameEventGenerator.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="inputEventGenerator.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="quitPackageReceiver.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="eventHandling.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="netwDicesController.h">
+      <Filter>Archivos de encabezado\MVC: Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="inputTickAndXController.h">
+      <Filter>Archivos de encabezado\MVC: Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="networkingObserver.h">
+      <Filter>Archivos de encabezado\MVC: Viewers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

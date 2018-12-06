@@ -73,7 +73,30 @@ bool catanGameModel::dicesThrown(unsigned char dice1, unsigned char dice2)
 	return ret;
 }
 
-bool catanGameModel::construction(networkingEventTypes type, string coords)
+bool catanGameModel::validConstruction(networkingEventTypes type, string coords)
+{
+	bool ret = true;
+	unsigned char player = player1Playing ? 1 : 2;
+	switch (type)
+	{
+	case SETTLEMENT:
+		ret = map.checkAvailableSettlement(coords, player);
+		break;
+	case ROAD:
+		ret = map.checkAvailableRoad(coords, player);
+		break;
+	case CITY:
+		ret = map.checkAvailableCity(coords, player);
+		break;
+	}
+	if (ret)
+	{
+		pendingConstruction = {type,coords};
+	}
+	return ret;
+}
+
+/*bool catanGameModel::construction(networkingEventTypes type, string coords)
 {
 	bool ret = false;
 	switch(type)
@@ -98,7 +121,34 @@ bool catanGameModel::construction(networkingEventTypes type, string coords)
 		break;
 	}
 	return ret;
+}*/
+
+/*Construye la construccion que tenga guardada internamente, que es la ultima valida por la que hayan preguntado
+en validConstruction()
+*/
+bool catanGameModel::construct()
+{
+	bool ret = false;
+	unsigned char player = player1Playing ? 1 : 2;
+	if (pendingConstruction.type)
+	{
+		switch (pendingConstruction.type)
+		{
+		case ROAD:
+			ret = map.buildRoad(pendingConstruction.coords, player);
+			break;
+		case SETTLEMENT:
+			ret = map.buildSettlement(pendingConstruction.coords, player);
+			break;
+		case CITY:
+			ret = map.buildCity(pendingConstruction.coords, player);
+			break;
+		}
+		pendingConstruction.type = static_cast<networkingEventTypes>(0);
+	}
+	return ret;
 }
+
 
 bool catanGameModel::validSelectedCards(string currentPlayerCards, string otherPlayerCards)
 {
@@ -108,50 +158,54 @@ bool catanGameModel::validSelectedCards(string currentPlayerCards, string otherP
 	unsigned int otherResCount[] = { 0, 0, 0, 0, 0 };		
 	unsigned int * pCResCount = currentResCount, *pOResCount = otherResCount;
 	std::size_t currentPos = 0, otherPos = 0;
-	for (auto x : possibleRes)	//char
+	if ((currentPlayerCards.lenght() <= 9) && (otherPlayerCards.lenght() <= 9))
 	{
-		currentPos = currentPlayerCards.find_first_of(x, currentPos);
-		while (currentPos != std::string::npos)
+		for (auto x : possibleRes)	//char
 		{
-			*pCResCount++;
-			currentPos = currentPlayerCards.find_first_of(x, currentPos + 1);
-		}
+			currentPos = currentPlayerCards.find_first_of(x, currentPos);
+			while (currentPos != std::string::npos)
+			{
+				*pCResCount++;
+				currentPos = currentPlayerCards.find_first_of(x, currentPos + 1);
+			}
 
-		otherPos = otherPlayerCards.find_first_of(x, otherPos);
-		while (otherPos != std::string::npos)
-		{
-			*pOResCount++;
-			otherPos = otherPlayerCards.find_first_of(x, otherPos + 1);
-		}
+			otherPos = otherPlayerCards.find_first_of(x, otherPos);
+			while (otherPos != std::string::npos)
+			{
+				*pOResCount++;
+				otherPos = otherPlayerCards.find_first_of(x, otherPos + 1);
+			}
+			if (((*pCResCount == 0) && (*pOResCount != 0)) || ((*pCResCount != 0) && (*pOResCount == 0)))	//me fijo que no haya mismos recursos seleccionados
+			{
+				switch (x)
+				{
+				case 'L':
+					ret = (((*pCResCount > getCurrentPlayer().getCards().brick) ? false : true) && (*pOResCount > getOtherPlayer().getCards().brick ? false : true));
+					break;
+				case 'M':
+					ret = ((*pCResCount > getCurrentPlayer().getCards().wood ? false : true) && (*pOResCount > getOtherPlayer().getCards().wood ? false : true));
+					break;
+				case 'O':
+					ret = ((*pCResCount > getCurrentPlayer().getCards().wool ? false : true) && (*pOResCount > getOtherPlayer().getCards().wool ? false : true));
+					break;
+				case 'P':
+					ret = ((*pCResCount > getCurrentPlayer().getCards().ore ? false : true) && (*pOResCount > getOtherPlayer().getCards().ore ? false : true));
+					break;
+				case 'T':
+					ret = ((*pCResCount > getCurrentPlayer().getCards().wheat ? false : true) && (*pOResCount > getOtherPlayer().getCards().wheat ? false : true));
+					break;
+				default:
+					break;
+				}
+			}
+			if (ret == false)
+			{
+				break;			//consideramos necesario utilizar un break para salir del for ya que si alguna parte del intercambio no esta en condiciones no es necesario analizar las otras componentes de dicho intercambio
+			}
 
-		switch(x)
-		{
-		case 'L':
-			ret = (( (*pCResCount > getCurrentPlayer().getCards().brick) ? false : true) && (*pOResCount > getOtherPlayer().getCards().brick ? false : true));
-			break;
-		case 'M':
-			ret = ((*pCResCount > getCurrentPlayer().getCards().wood ? false : true) && (*pOResCount > getOtherPlayer().getCards().wood ? false : true));
-			break;
-		case 'O':
-			ret = ((*pCResCount > getCurrentPlayer().getCards().wool ? false : true) && (*pOResCount > getOtherPlayer().getCards().wool ? false : true));
-			break;
-		case 'P':
-			ret = ((*pCResCount > getCurrentPlayer().getCards().ore ? false : true) && (*pOResCount > getOtherPlayer().getCards().ore ? false : true));
-			break;
-		case 'T':
-			ret = ((*pCResCount > getCurrentPlayer().getCards().wheat ? false : true) && (*pOResCount > getOtherPlayer().getCards().wheat ? false : true));
-			break;
-		default:
-			break;
+			pCResCount++;
+			pOResCount++;
 		}
-
-		if (ret == false)
-		{
-			break;			//consideramos necesario utilizar un break para salir del for ya que si alguna parte del intercambio no esta en condiciones no es necesario analizar las otras componentes de dicho intercambio
-		}
-
-		pCResCount++;
-		pOResCount++;
 	}
 	return ret;
 }
@@ -240,6 +294,244 @@ bool catanGameModel::discardOtherPlayer(string cards)
 	return ret;
 }
 
+networkingEventTypes catanGameModel::isTrading()
+{
+	return trading;
+}
+
+void catanGameModel::clearTrades()
+{
+	p1SelectedCardsForTrade = { 0,0,0,0,0 };
+	p2SelectedCardsForTrade = { 0,0,0,0,0 };
+	playerSelectedResource = {DESSERT,0};
+	bankSelectedResource = DESSERT;
+	trading = static_cast<networkingEventTypes>(0);
+	//notifyAllObservers();
+}
+
+/*preparePlayerTrade: 
+*Recibe:
+	-Primer parametro: recurso a incrementar
+	-Segundo parametro: jugador cuyo recurso se quiere incrementar (1 o 2)
+*Funcionamiento: si se puede, incrementa el recurso pedido en 1 en los recursos seleccionados por el jugador solicitado para el intercambio
+Siempre incrementa el recurso del jugador 2 para que el usuario no pueda saber cuantos recursos tiene el jugador 2
+*Devuelve: false si se trato de incrementar un recurso DEL JUGADOR ACTUAL que no tenia. 
+Si devuelve true, MODIFICA EL MODELO
+*/
+bool catanGameModel::preparePlayerTrade(resourceType resource, unsigned char player)
+{
+	bool ret = false;
+	if (trading != OFFER_TRADE)
+	{
+		trading = OFFER_TRADE;		//para avisar a los observers
+		notifyAllObservers();
+	}
+	if( ((player == 1) && p1SelectedCardsForTrade.totalCardsCount() < 9) || ((player == 2) && p2SelectedCardsForTrade.totalCardsCount() < 9))
+	{
+		if (!selectedResource(resource, player == 1 ? 2 : 1))	//se fija que el otro jugador no haya seleccionado ya ese recurso
+		{
+			ret = true;
+			if (player == 1)	//si es el jugador 1, se fija que tenga la cantidad de cartas suficientes
+			{
+				switch (resource)
+				{
+				case WHEAT:
+					ret = player1.getCards().wheat > p1SelectedCardsForTrade.wheat;
+					break;
+				case WOOL:
+					ret = player1.getCards().wool > p1SelectedCardsForTrade.wool;
+					break;
+				case BRICK:
+					ret = player1.getCards().brick > p1SelectedCardsForTrade.brick;
+					break;
+				case ORE:
+					ret = player1.getCards().brick > p1SelectedCardsForTrade.brick;
+					break;
+				case WOOD:
+					ret = player1.getCards().brick > p1SelectedCardsForTrade.brick;
+					break;
+				default:
+					ret = false;
+				}
+			}
+			if (ret)
+			{
+				switch (resource)
+				{
+				case WHEAT:
+					player == 1 ? p1SelectedCardsForTrade.wheat++ : p2SelectedCardsForTrade.wheat++;
+					break;
+				case WOOL:
+					player == 1 ? p1SelectedCardsForTrade.wool++ : p2SelectedCardsForTrade.wool++;
+					break;
+				case BRICK:
+					player == 1 ? p1SelectedCardsForTrade.brick++ : p2SelectedCardsForTrade.brick++;
+					break;
+				case ORE:
+					player == 1 ? p1SelectedCardsForTrade.ore++ : p2SelectedCardsForTrade.ore++;
+					break;
+				case WOOD:
+					player == 1 ? p1SelectedCardsForTrade.wood++ : p2SelectedCardsForTrade.wood++;
+					break;
+				}
+				notifyAllObservers();
+			}
+		}
+	}
+	return ret;
+}
+
+/*Devuelve true si el jugador tiene seleccionado dicho recurso*/
+bool catanGameModel::selectedResource(resourceType resource, unsigned char player)
+{
+	bool ret = false;
+	switch (resource)
+	{
+	case WHEAT:
+		ret = (player == 1 ? p1SelectedCardsForTrade.wheat != 0  : p2SelectedCardsForTrade.wheat != 0);
+		break;
+	case WOOL:
+		ret = (player == 1 ? p1SelectedCardsForTrade.wool != 0 : p2SelectedCardsForTrade.wool != 0);
+		break;
+	case BRICK:
+		ret = (player == 1 ? p1SelectedCardsForTrade.brick != 0 : p2SelectedCardsForTrade.brick != 0);
+		break;
+	case ORE:
+		ret = (player == 1 ? p1SelectedCardsForTrade.ore != 0 : p2SelectedCardsForTrade.ore != 0);
+		break;
+	case WOOD:
+		ret = (player == 1 ? p1SelectedCardsForTrade.wood != 0 : p2SelectedCardsForTrade.wood != 0);
+		break;
+	}
+	return ret;
+}
+
+/*playerTradeReady:
+*Funcionamiento: se fija que el intercambio de cartas de jugadores este listo para ser enviado
+Devuelve true si el intercambio con el jugador preparado esta listo
+Aclaracion: No valida la cantidad de cartas del jugador 2, solo las del 1*/
+bool catanGameModel::playerTradeReady()
+{
+	return (p1SelectedCardsForTrade.totalCardsCount() > 0) && (p2SelectedCardsForTrade.totalCardsCount() > 0);
+}
+
+/*Realiza el player trade preparado, devuelve true si lo puede hacer, 0 sino*/
+bool catanGameModel::playerTrade()
+{
+	bool ret = false;
+	if (playerTradeReady())
+	{
+		player1.decResource(ORE,p1SelectedCardsForTrade.ore);
+		player1.decResource(BRICK, p1SelectedCardsForTrade.brick);
+		player1.decResource(WHEAT, p1SelectedCardsForTrade.wheat);
+		player1.decResource(WOOL, p1SelectedCardsForTrade.wool);
+		player1.decResource(WOOD, p1SelectedCardsForTrade.wood);
+		player2.incResource(ORE, p1SelectedCardsForTrade.ore);
+		player2.incResource(BRICK, p1SelectedCardsForTrade.brick);
+		player2.incResource(WHEAT, p1SelectedCardsForTrade.wheat);
+		player2.incResource(WOOL, p1SelectedCardsForTrade.wool);
+		player2.incResource(WOOD, p1SelectedCardsForTrade.wood);
+		player1.incResource(ORE, p2SelectedCardsForTrade.ore);
+		player1.incResource(BRICK, p2SelectedCardsForTrade.brick);
+		player1.incResource(WHEAT, p2SelectedCardsForTrade.wheat);
+		player1.incResource(WOOL, p2SelectedCardsForTrade.wool);
+		player1.incResource(WOOD, p2SelectedCardsForTrade.wood);
+		player2.decResource(ORE, p2SelectedCardsForTrade.ore);
+		player2.decResource(BRICK, p2SelectedCardsForTrade.brick);
+		player2.decResource(WHEAT, p2SelectedCardsForTrade.wheat);
+		player2.decResource(WOOL, p2SelectedCardsForTrade.wool);
+		player2.decResource(WOOD, p2SelectedCardsForTrade.wood);
+		trading = static_cast<networkingEventTypes>(0);
+		notifyAllObservers();
+		ret = true;
+	}
+	return ret;
+}
+
+/*prepareBankTrade:
+*Recibe: 
+	-Primer parametro: recurso a seleccionar
+	-Segundo parametro: indica si se selecciona un recurso del banco o del jugador. True si es del jugador, false si es del banco
+*Funcionamiento: intenta seleccionar el recurso solicitado para el jugador o el banco. Si se selecciona un recurso del jugador y habia uno seleccionado del banco, este ultimo se borra
+				Si se selecciona un recurso del jugador y ya habia un recurso seleccionado del jugador, pisa el anterior, lo mismo con recursos del banco.
+				Si el jugador no dispone de los recursos suficientes, no hace nada.
+				Si el jugador dispone de los recursos, selecciona la cantidad necesaria, segun los costos del jugador para el bank trade
+*Devuelve: true si selecciona el recurso, false si no*/
+bool catanGameModel::prepareBankTrade(resourceType resource, bool player)
+{
+	bool ret = false;
+	if (trading != BANK_TRADE)
+	{
+		trading = BANK_TRADE;
+		notifyAllObservers();
+	}
+	if (player)
+	{
+		bankSelectedResource = DESSERT;
+		unsigned char cost = map.getBankTradeCosts(1)[resource];	//obtiene el costo de construir el recurso pedido para el jugador 1
+		switch (resource)
+		{
+		case WHEAT:
+			ret = player1.getCards().wheat >= cost ? true : false;
+			break;
+		case WOOL:
+			ret = player1.getCards().wool >= cost ? true : false;
+			break;
+		case BRICK:
+			ret = player1.getCards().brick >= cost ? true : false;
+			break;
+		case ORE:
+			ret = player1.getCards().ore >= cost ? true : false;
+			break;
+		case WOOD:
+			ret = player1.getCards().wood >= cost ? true : false;
+			break;
+		}
+		if(ret)
+		{
+			playerSelectedResource = { resource, cost };	//pisa el recurso anterior si habia
+		}
+	}
+	else
+	{
+		if (playerSelectedResource.res != DESSERT)	//solo permite modificar si el jugador ya selecciono un recurso
+		{
+			if ((playerSelectedResource.res != resource))	//no permite cambios de un mismo recurso
+			{
+				bankSelectedResource = resource;
+				ret = true;
+			}
+
+		}
+	}
+	if (ret)	//si se modifico algo,avisa a los observers
+	{
+		notifyAllObservers();
+	}
+	return ret;
+}
+
+/*Devuelve true si el bankTrade preparado esta listo para ser realizado*/
+bool catanGameModel::bankTradeReady()
+{
+	return (playerSelectedResource.res != DESSERT) && (bankSelectedResource != DESSERT);
+}
+
+/*Realiza el bank trade preparado, devuelve false si no lo puede hacer*/
+bool catanGameModel::bankTrade()
+{
+	bool ret = false;
+	if (bankTradeReady())
+	{
+		player1.decResource(playerSelectedResource.res, playerSelectedResource.resCount);	
+		player1.incResource(bankSelectedResource);
+		trading = static_cast<networkingEventTypes>(0);
+		notifyAllObservers();
+		ret = true;
+	}
+	return ret;
+}
+
 
 catanPlayerModel catanGameModel::getCurrentPlayer()
 {
@@ -294,5 +586,6 @@ void catanGameModelSetup::setStartingPlayer(char player)
 
 catanGameModel::~catanGameModel()
 {
+
 }
 

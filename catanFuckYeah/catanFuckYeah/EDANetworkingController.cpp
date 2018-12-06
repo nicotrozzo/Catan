@@ -10,6 +10,11 @@ EDANetworkingController::EDANetworkingController(networkingEventTypes package) :
 	expectedPackage = package;
 }
 
+void EDANetworkingController::setExpectedPacakge(networkingEventTypes package)
+{
+	expectedPackage = package;
+}
+
 bool EDANetworkingController::parseNetworkingEvent(networkingEv * ev) 
 {
 	bool ret = false;

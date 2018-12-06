@@ -129,10 +129,16 @@
     <ClCompile Include="inputCardsController.cpp" />
     <ClCompile Include="inputEdgeAndVertexController.cpp" />
     <ClCompile Include="inputHexagonController.cpp" />
+    <ClCompile Include="inputTickAndXController.cpp" />
     <ClCompile Include="mapViewer.cpp" />
     <ClCompile Include="netwConstructionController.cpp" />
+    <ClCompile Include="netwDicesController.cpp" />
+    <ClCompile Include="networkingObserver.cpp" />
     <ClCompile Include="player1Viewer.cpp" />
     <ClCompile Include="player2Viewer.cpp" />
+    <ClCompile Include="quitButton.cpp" />
+    <ClCompile Include="quitButtonController.cpp" />
+    <ClCompile Include="quitPackageReceiver.cpp" />
     <ClCompile Include="startMenu.cpp" />
     <ClCompile Include="bossFSM.cpp" />
     <ClCompile Include="bossFSMEvents.cpp" />
@@ -165,10 +171,16 @@
     <ClInclude Include="EDANetworkingController.h" />
     <ClInclude Include="inputEdgeAndVertexController.h" />
     <ClInclude Include="inputHexagonController.h" />
+    <ClInclude Include="inputTickAndXController.h" />
     <ClInclude Include="mapViewer.h" />
     <ClInclude Include="netwConstructionController.h" />
+    <ClInclude Include="netwDicesController.h" />
+    <ClInclude Include="networkingObserver.h" />
     <ClInclude Include="player1Viewer.h" />
     <ClInclude Include="player2Viewer.h" />
+    <ClInclude Include="quitButton.h" />
+    <ClInclude Include="quitButtonController.h" />
+    <ClInclude Include="quitPackageReceiver.h" />
     <ClInclude Include="startMenu.h" />
     <ClInclude Include="bossFSM.h" />
     <ClInclude Include="bossFSMEvents.h" />
@@ -193,6 +205,7 @@
     <ClInclude Include="Server.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

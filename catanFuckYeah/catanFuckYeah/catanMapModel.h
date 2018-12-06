@@ -22,7 +22,7 @@ typedef struct
 {
 	unsigned char res;
 	unsigned char resCount;
-}resource;
+}resource_t;
 
 
 class oceanPiece

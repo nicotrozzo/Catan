@@ -19,9 +19,5 @@ private:
 	boost::asio::ip::tcp::resolver::iterator endpoint;
 	boost::asio::deadline_timer deadline;
 	boost::system::error_code error;
-	string host;
-	string path;
-	string serverMessage;
-	clientError err;
 };
 

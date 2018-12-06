@@ -9,6 +9,7 @@ typedef struct
 	unsigned char wheat;
 	unsigned char wool;
 	unsigned char brick;
+	unsigned char totalCardsCount() { return ore + wood + wheat + wool + brick; }
 }cards;
 
 
@@ -26,7 +27,9 @@ public:
 	string getP2Name() { return p2NameIs; }
 	unsigned char getPlayerNumber() { return playerNumber; }
 	bool incResource(unsigned char resource);
+	bool incResource(unsigned char resource, unsigned char count);
 	bool decResource(unsigned char resource);
+	bool decResource(unsigned char resource, unsigned char count);
 	~catanPlayerModel();
 private:
 	cards myCards;
