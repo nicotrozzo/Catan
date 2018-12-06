@@ -8,8 +8,8 @@
 #define SEA_3_ROTATION 0
 #define SEA_4_ROTATION (PI/3)
 #define SEA_5_ROTATION	(2*PI/3)
-#define MAP_ALPHA (5*PI/3)
-#define MAP_BETA (PI/3)
+#define MAP_ALPHA (5*PI/3 + PI/7)
+#define MAP_BETA (PI/3 - PI/7)
 #define MAP_VERTICAL (PI/2)
 #define MAP_NONE 0
 

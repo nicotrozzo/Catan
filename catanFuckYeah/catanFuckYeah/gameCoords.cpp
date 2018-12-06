@@ -19,7 +19,7 @@ const map<string, coords> gameCoords::myVertexCoords = {
 const map<string, coords> gameCoords::myEdgesCoords = {
 	{ "0A5",{ 641,185.5,MAP_ALPHA } },{ "0AB",{ 711.5,185.5,MAP_BETA } },{ "0BA",{ 783.5,185.5,MAP_ALPHA } },{ "0BC",{ 855.5,185.5,MAP_BETA } },{ "0C",{ 928.5,185.5,MAP_ALPHA } },{ "1CO",{ 1000,185.5,MAP_BETA } },
 	{ "5A",{ 606,248,MAP_VERTICAL } },{ "AB",{ 747,248,MAP_VERTICAL } },{ "BC",{ 891,248,MAP_VERTICAL } },{ "1CG",{ 1034,248,MAP_VERTICAL } },
-	{ "5DA",{ 569,311,MAP_ALPHA } },{ "AD",{ 569,311,MAP_BETA } },{ "AE",{ 711.5,311,MAP_ALPHA } },{ "BE",{ 783.5,311,MAP_BETA } },{ "BF",{ 855.5,311,MAP_ALPHA } },{ "CF",{ 928.5,311,MAP_BETA } },{ "CG",{ 1000,311,MAP_ALPHA } },{ "1GC",{ 1072,311,MAP_BETA } },
+	{ "5DA",{ 569,311,MAP_ALPHA } },{ "AD",{ 640,311,MAP_BETA } },{ "AE",{ 711.5,311,MAP_ALPHA } },{ "BE",{ 783.5,311,MAP_BETA } },{ "BF",{ 855.5,311,MAP_ALPHA } },{ "CF",{ 928.5,311,MAP_BETA } },{ "CG",{ 1000,311,MAP_ALPHA } },{ "1GC",{ 1072,311,MAP_BETA } },
 	{ "5DH",{ 532,373.5,MAP_VERTICAL } },{ "DE",{ 676,373.5,MAP_VERTICAL } },{ "EF",{ 820,373.5,MAP_VERTICAL } },{ "FG",{ 966,373.5,MAP_VERTICAL } },{ "1GL",{ 1109,373.5,MAP_VERTICAL } },
 	{ "5HD",{ 496,436,MAP_ALPHA } },{ "DH",{ 569,436,MAP_BETA } },{ "DI",{ 641,436,MAP_ALPHA } },{ "EI",{ 711.5,436,MAP_BETA } },{ "EJ",{ 783.5,436,MAP_ALPHA } },{ "FJ",{ 855.5,436,MAP_BETA } },{ "FK",{ 928.5,436,MAP_ALPHA } },{ "GK",{ 1000,436,MAP_BETA } },{ "GL",{ 1072,436,MAP_ALPHA } },{ "1L",{ 1148,436,MAP_BETA } },
 	{ "5H4",{ 460,499.5,MAP_VERTICAL } },{ "HI",{ 606,499.5,MAP_VERTICAL } },{ "IJ",{ 747,499.5,MAP_VERTICAL } },{ "JK",{ 891,499.5,MAP_VERTICAL } },{ "KL",{ 1034,499.5,MAP_VERTICAL } },{ "2L1",{ 1186,499.5,MAP_VERTICAL } },

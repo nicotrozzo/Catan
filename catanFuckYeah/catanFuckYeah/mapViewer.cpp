@@ -107,8 +107,8 @@ void mapViewer::viewTokens()
 
 void mapViewer::viewBuildings()
 {
-	list<string> p1Settlements = myMap->getP1BuiltVertexes();
-	list<string> p2Settlements = myMap->getP2BuiltVertexes();
+	list<string> p1Settlements = myMap->getP1Settlements();
+	list<string> p2Settlements = myMap->getP2Settlements();
 	list<string> p1Cities = myMap->getP1Cities();
 	list<string> p2Cities = myMap->getP2Cities();
 	list<string> p1Roads = myMap->getP1Roads();

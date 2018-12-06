@@ -48,11 +48,12 @@ public:
 													//bool setCircularTokens(string circTokens);	//EL MODELO ES MODIFICADO
 	bool buildRoad(string edge, char player);		//EL MODELO ES MODIFICADO
 	bool buildSettlement(string edge, char player);	//EL MODELO ES MODIFICADO
-	bool buildCity(string vertex, char player);		//EL MODELO ES MODIFICADO
-													//bool freeVertex(string vertex);
+	bool buildCity(string vertex, char player);		//EL MODELO ES MODIFICADO				
 	list<string> getP1BuiltVertexes();	//devuelve todos los vertices ocupados por el jugador, tanto settlements como cities
+	list<string> getP1Settlements();
 	list<string> getP1Cities();			//devuelve todos los cities contruidos por el jugador 1
 	list<string> getP2BuiltVertexes();
+	list<string> getP2Settlements();
 	list<string> getP2Cities();
 	list<string> getP1Roads();
 	list<string> getP2Roads();

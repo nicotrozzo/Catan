@@ -336,6 +336,17 @@ list<string> catanMapModel::getP1BuiltVertexes()
 	return p1UsedVertexList;
 }
 
+list<string> catanMapModel::getP1Settlements()
+{
+	list<string> settlements = getP1BuiltVertexes();
+	for (auto x : getP1Cities())
+	{
+		settlements.remove(x);
+	}
+	return settlements;
+}
+
+
 list<string> catanMapModel::getP1Cities()
 {
 	return p1Cities;
@@ -344,6 +355,16 @@ list<string> catanMapModel::getP1Cities()
 list<string> catanMapModel::getP2BuiltVertexes()
 {
 	return p2UsedVertexList;
+}
+
+list<string> catanMapModel::getP2Settlements()
+{
+	list<string> settlements = getP2BuiltVertexes();
+	for (auto x : getP2Cities())
+	{
+		settlements.remove(x);
+	}
+	return settlements;
 }
 
 list<string> catanMapModel::getP2Cities()
@@ -355,6 +376,8 @@ list<string> catanMapModel::getP1Roads()
 {
 	list<string> ret = p1SimpleRoads;
 	list<string> temp = p1LongRoads;
+	ret.sort();
+	temp.sort();
 	ret.merge(temp);
 	return ret;
 }
@@ -363,10 +386,11 @@ list<string> catanMapModel::getP2Roads()
 {
 	list<string> ret = p2SimpleRoads;
 	list<string> temp = p2LongRoads;
+	ret.sort();
+	temp.sort();
 	ret.merge(temp);
 	return ret;
 }
-
 /*Devuelve un diccionario con el costo (2, 3 o 4) de cada recurso para el jugador
 El diccionario tiene las claves definidas en resourceType, menos DESSERT
 */
