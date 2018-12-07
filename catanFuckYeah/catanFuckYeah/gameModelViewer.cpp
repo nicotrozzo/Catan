@@ -6,7 +6,7 @@ gameModelViewer::gameModelViewer(catanGameModel *myGame)
 {
 	initOk = false;
 	this->myGame = myGame;
-	if ((dice1 = al_load_bitmap("graficoCatan\\dados\\1.png")) != NULL && (dice2 = al_load_bitmap("graficoCatan\\dados\\2.png")) != NULL(dice3 = al_load_bitmap("graficoCatan\\dados\\3.png")) != NULL(dice4 = al_load_bitmap("graficoCatan\\dados\\4.png")) != NULL(dice5 = al_load_bitmap("graficoCatan\\dados\\5.png")) != NULL(dice6 = al_load_bitmap("graficoCatan\\dados\\6.png")) != NULL)
+	if ((diceValue1 = al_load_bitmap("graficoCatan\\dados\\1.png")) != NULL && (diceValue2 = al_load_bitmap("graficoCatan\\dados\\2.png")) != NULL(diceValue3 = al_load_bitmap("graficoCatan\\dados\\3.png")) != NULL(diceValue4 = al_load_bitmap("graficoCatan\\dados\\4.png")) != NULL(diceValue5 = al_load_bitmap("graficoCatan\\dados\\5.png")) != NULL(diceValue6 = al_load_bitmap("graficoCatan\\dados\\6.png")) != NULL)
 	{
 		initOk = true;
 	}
@@ -26,7 +26,50 @@ void gameModelViewer::update()
 
 void gameModelViewer::viewDices()
 {
-
+	unsigned char dice1 = myGame->getDice1();
+	unsigned char dice2 = myGame->getDice2();
+	switch (dice1)
+	{
+	case 1:
+		al_draw_bitmap(diceValue1, , 0);
+		break;
+	case 2:
+		al_draw_bitmap(diceValue2, , 0);
+		break;
+	case 3:
+		al_draw_bitmap(diceValue3, , 0);
+		break;
+	case 4:
+		al_draw_bitmap(diceValue4, , 0);
+		break;
+	case 5:
+		al_draw_bitmap(diceValue5, , 0);
+		break;
+	case 6:
+		al_draw_bitmap(diceValue6, , 0);
+		break;
+	}
+	switch (dice2)
+	{
+	case 1:
+		al_draw_bitmap(diceValue1, , 0);
+		break;
+	case 2:
+		al_draw_bitmap(diceValue2, , 0);
+		break;
+	case 3:
+		al_draw_bitmap(diceValue3, , 0);
+		break;
+	case 4:
+		al_draw_bitmap(diceValue4, , 0);
+		break;
+	case 5:
+		al_draw_bitmap(diceValue5, , 0);
+		break;
+	case 6:
+		al_draw_bitmap(diceValue6, , 0);
+		break;
+	}
 }
 
 

@@ -13,12 +13,12 @@ public:
 	~gameModelViewer();
 private:
 	catanGameModel * myGame;
-	ALLEGRO_BITMAP * dice1;
-	ALLEGRO_BITMAP * dice2;
-	ALLEGRO_BITMAP * dice3;
-	ALLEGRO_BITMAP * dice4;
-	ALLEGRO_BITMAP * dice5;
-	ALLEGRO_BITMAP * dice6;
+	ALLEGRO_BITMAP * diceValue1;
+	ALLEGRO_BITMAP * diceValue2;
+	ALLEGRO_BITMAP * diceValue3;
+	ALLEGRO_BITMAP * diceValue4;
+	ALLEGRO_BITMAP * diceValue5;
+	ALLEGRO_BITMAP * diceValue6;
 	void viewDices();
 	bool initOk;
 };
