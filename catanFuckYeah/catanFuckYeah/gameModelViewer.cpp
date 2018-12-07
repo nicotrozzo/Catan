@@ -31,43 +31,43 @@ void gameModelViewer::viewDices()
 	switch (dice1)
 	{
 	case 1:
-		al_draw_bitmap(diceValue1, , 0);
+		al_draw_bitmap(diceValue1, 1384, 416, 0);
 		break;
 	case 2:
-		al_draw_bitmap(diceValue2, , 0);
+		al_draw_bitmap(diceValue2, 1384, 416, 0);
 		break;
 	case 3:
-		al_draw_bitmap(diceValue3, , 0);
+		al_draw_bitmap(diceValue3, 1384, 416, 0);
 		break;
 	case 4:
-		al_draw_bitmap(diceValue4, , 0);
+		al_draw_bitmap(diceValue4, 1384, 416, 0);
 		break;
 	case 5:
-		al_draw_bitmap(diceValue5, , 0);
+		al_draw_bitmap(diceValue5, 1384, 416, 0);
 		break;
 	case 6:
-		al_draw_bitmap(diceValue6, , 0);
+		al_draw_bitmap(diceValue6, 1384, 416, 0);
 		break;
 	}
 	switch (dice2)
 	{
 	case 1:
-		al_draw_bitmap(diceValue1, , 0);
+		al_draw_bitmap(diceValue1, 1510, 485, 0);
 		break;
 	case 2:
-		al_draw_bitmap(diceValue2, , 0);
+		al_draw_bitmap(diceValue2, 1510, 485, 0);
 		break;
 	case 3:
-		al_draw_bitmap(diceValue3, , 0);
+		al_draw_bitmap(diceValue3, 1510, 485, 0);
 		break;
 	case 4:
-		al_draw_bitmap(diceValue4, , 0);
+		al_draw_bitmap(diceValue4, 1510, 485, 0);
 		break;
 	case 5:
-		al_draw_bitmap(diceValue5, , 0);
+		al_draw_bitmap(diceValue5, 1510, 485, 0);
 		break;
 	case 6:
-		al_draw_bitmap(diceValue6, , 0);
+		al_draw_bitmap(diceValue6, 1510, 485, 0);
 		break;
 	}
 }

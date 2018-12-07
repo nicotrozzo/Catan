@@ -11,15 +11,15 @@ catanMapModel::catanMapModel()
 	bool written;			//indica si ya se encontro en la lista entera lo que se buscaba en cada iteracion
 	for (int i = 0; i < HEX_COUNT; i++)					//calculo random del mapa
 	{
-		resRandNum = rand() % NUMBER_OF_RESOURCES;
+		resRandNum = rand() % NUMBER_OF_HABITATS;
 		tokenRandNum = rand() % (HEX_COUNT - 1);
 		written = false;
-		for (int j = 0; (j < NUMBER_OF_RESOURCES) && !written; j++)
+		for (int j = 0; (j < NUMBER_OF_HABITATS) && !written; j++)
 		{
-			if (allResources[(resRandNum + j) % NUMBER_OF_RESOURCES].resCount > 0)
+			if (allResources[(resRandNum + j) % NUMBER_OF_HABITATS].resCount > 0)
 			{
-				hexagons[i].hexResource = allResources[(resRandNum + j) % NUMBER_OF_RESOURCES].res;
-				allResources[(resRandNum + j) % NUMBER_OF_RESOURCES].resCount--;
+				hexagons[i].hexResource = allResources[(resRandNum + j) % NUMBER_OF_HABITATS].res;
+				allResources[(resRandNum + j) % NUMBER_OF_HABITATS].resCount--;
 				written = true;
 			}
 		}

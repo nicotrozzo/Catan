@@ -1,7 +1,7 @@
 #include "gameCoords.h"
 
 
-const map<string, coords> gameCoords::myVertexCoords = {
+ map<string, coords> gameCoords::myVertexCoords = {
 	{ "0A",{ 676,165,MAP_NONE } },{ "0B",{ 820,165,MAP_NONE } },{ "01C",{ 966,165,MAP_NONE } },
 	{ "05A",{ 606,206,MAP_NONE } },{ "0AB",{ 747,206,MAP_NONE } },{ "0BC",{ 891,206,MAP_NONE } },{ "1C",{ 1034,206,MAP_NONE } },
 	{ "5AD",{ 606,290,MAP_NONE } },{ "ABE",{ 747,290,MAP_NONE } },{ "BCF",{ 891,290,MAP_NONE } },{ "1CG",{ 1034,290,MAP_NONE } },
@@ -16,7 +16,7 @@ const map<string, coords> gameCoords::myVertexCoords = {
 	{ "34Q",{ 676,833,MAP_NONE } },{ "3R",{ 820,833,MAP_NONE } },{ "3S",{ 966,833,MAP_NONE } }
 };
 
-const map<string, coords> gameCoords::myEdgesCoords = {
+ map<string, coords> gameCoords::myEdgesCoords = {
 	{ "0A5",{ 641,185.5,MAP_ALPHA } },{ "0AB",{ 711.5,185.5,MAP_BETA } },{ "0BA",{ 783.5,185.5,MAP_ALPHA } },{ "0BC",{ 855.5,185.5,MAP_BETA } },{ "0C",{ 928.5,185.5,MAP_ALPHA } },{ "1CO",{ 1000,185.5,MAP_BETA } },
 	{ "5A",{ 606,248,MAP_VERTICAL } },{ "AB",{ 747,248,MAP_VERTICAL } },{ "BC",{ 891,248,MAP_VERTICAL } },{ "1CG",{ 1034,248,MAP_VERTICAL } },
 	{ "5DA",{ 569,311,MAP_ALPHA } },{ "AD",{ 640,311,MAP_BETA } },{ "AE",{ 711.5,311,MAP_ALPHA } },{ "BE",{ 783.5,311,MAP_BETA } },{ "BF",{ 855.5,311,MAP_ALPHA } },{ "CF",{ 928.5,311,MAP_BETA } },{ "CG",{ 1000,311,MAP_ALPHA } },{ "1GC",{ 1072,311,MAP_BETA } },
@@ -30,7 +30,7 @@ const map<string, coords> gameCoords::myEdgesCoords = {
 	{ "4Q3",{ 641,813,MAP_BETA } },{ "3Q",{ 711.5,813,MAP_ALPHA } },{ "3RQ",{ 783.5,813,MAP_BETA } },{ "3RS",{ 855.5,813,MAP_ALPHA } },{ "3SR",{ 928.5,813,MAP_BETA } },{ "3S2",{ 1000,813,MAP_ALPHA } }
 };
 
-const map<unsigned char, coords> gameCoords::myHexagonCoords = {
+ map<unsigned char, coords> gameCoords::myHexagonCoords = {
 	{ 'A',{ 676,248,MAP_NONE } },{ 'B',{ 820,247,MAP_NONE } },{ 'C',{ 963,248,MAP_NONE } },
 { 'D',{ 606,373.5,MAP_NONE } },{ 'E',{ 747,373.5,MAP_NONE } },{ 'F',{ 891,373.5,MAP_NONE } },{ 'G',{ 1034,373.5,MAP_NONE } },
 { 'H',{ 534,499.5,MAP_NONE } },{ 'I',{ 676,499.5,MAP_NONE } },{ 'J',{ 820,499.5,MAP_NONE } },{ 'K',{ 963,498.5,MAP_NONE } },{ 'L',{ 1106,499.5,MAP_NONE } },
@@ -39,3 +39,12 @@ const map<unsigned char, coords> gameCoords::myHexagonCoords = {
 { '0',{ 750,125,SEA_0_ROTATION } },{ '1',{ 1105,249,SEA_1_ROTATION } },{ '2',{ 1177,626,SEA_2_ROTATION } },{ '3',{ 891,875,SEA_3_ROTATION } },{ '4',{ 534,750.5,SEA_4_ROTATION } },{ '5',{ 464,373.5,SEA_5_ROTATION } },
 };
 
+ map<string, coords> gameCoords::cardsCoords = {	//tiene coordenadas de la esquina de arriba a la izq de cada carta de recursos en el trueque
+	 {"ORE1",{460,170,MAP_NONE}}, {"WHEAT1",{637,170,MAP_NONE}}, {"WOOL1",{818,170,MAP_NONE}}, {"WOOD1",{995,170,MAP_NONE}}, {"BRICK1",{1171,170,MAP_NONE}},
+	 {"ORE2",{460,552,MAP_NONE}}, {"WHEAT2",{637,552,MAP_NONE}}, {"WOOL2",{818,552,MAP_NONE}}, {"WOOD2",{995,552,MAP_NONE}}, {"BRICK2",{1171,552,MAP_NONE}}
+ };
+
+ map<string, coords> gameCoords::buttonCoords = {
+ {"END_TURN",{1413,123,MAP_NONE}}, {"EXIT",{1562,9,MAP_NONE}}, {"PLAYER_TRADE",{1530,220,MAP_NONE}},
+ {"BANK_TRADE",{1413,233,MAP_NONE}}, {"YES",{1413,876,MAP_NONE}},  {"NO",{1540,876,MAP_NONE}}
+ };
