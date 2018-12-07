@@ -61,6 +61,7 @@ public:
 	bool bankTrade();	//ejecuta el trade preparado, 
 	cards getP1SelectedCardsForTrade() { return p1SelectedCardsForTrade; }
 	cards getP2SelectedCardsForTrade() { return p2SelectedCardsForTrade; }
+	cards getP1DiscardRobberCards() { return p1DiscardRobberCards; }
 	resource_t getPlayerSelectedResource() { return playerSelectedResource; }
 	resourceType getBankSelectedResource() { return bankSelectedResource; }
 
@@ -81,6 +82,7 @@ protected:
 	catanPlayerModel player2;
 	cards p1SelectedCardsForTrade;
 	cards p2SelectedCardsForTrade;
+	cards p1DiscardRobberCards;
 	resource_t playerSelectedResource; //para el bankTrade
 	resourceType bankSelectedResource;
 	construction_t pendingConstruction;
