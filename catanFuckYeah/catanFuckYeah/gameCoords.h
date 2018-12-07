@@ -15,6 +15,7 @@
 
 using namespace std;
 
+enum { };
 
 const typedef struct
 {
@@ -26,9 +27,12 @@ const typedef struct
 class gameCoords
 {
 public:
-	static const map<string, coords> myVertexCoords;
-	static const map<string, coords> myEdgesCoords;
-	const static map<unsigned char, coords> myHexagonCoords;
+	static map<string, coords> myVertexCoords;
+	static map<string, coords> myEdgesCoords;
+	static map<unsigned char, coords> myHexagonCoords;
+	static map<string, coords> buttonCoords;
+	static map<string, coords> cardsCoords;
+
 
 	//static const map<, point> cardsCoords = {
 	//cardsCoords[{WHEAT,1}] ->devuelve centro de la carta, o esquina sup izquierda
