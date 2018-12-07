@@ -790,9 +790,12 @@ unsigned char catanMapModel::getP1LongestRoad()
 	{
 		allRoads.push_back(x);
 	}
+	
 	string frontRoad2;
 	string frontRoad1;
+	
 	bool oneFound = false;
+	
 	for (auto x : allRoads)	//busca dos caminos adyacentes al primero
 	{
 		if (adjacentRoads(allRoads.front(), x))
