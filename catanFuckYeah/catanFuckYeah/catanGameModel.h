@@ -25,11 +25,13 @@ public:
 	bool robberMoved(unsigned char hex);	//devuelve false y no cambia nada si el lugar no es valido 
 	
 	bool prepareRobberDiscard(resourceType resource);
+	bool robberCardsReady();
+	void clearRobberCards();
 	bool discardCurrentPlayer(string cards);	//devuelve false si era una cantidad invalida de cartas, o no tenia esas cartas
 	bool discardOtherPlayer(string cards);		//devuelve false si era una cantidad invalida de cartas, o no tenia esas cartas
 	
 
-	networkingEventTypes isTrading();	//devuelve 0 si no esta preparando un intercambio, OFFER_TRADE si esta preparando intercambio entre jugadores o BANK_TRADE si esta preparando intercambio con el banco
+	networkingEventTypes isSelecting();	//devuelve 0 si no esta preparando un intercambio, OFFER_TRADE si esta preparando intercambio entre jugadores o BANK_TRADE si esta preparando intercambio con el banco
 	void clearTrades();	//borra la informacion sobre intercambios pendientes que tenga el modelo MODIFICA EL MODELO
 	
 	/*preparePlayerTrade:
@@ -86,7 +88,7 @@ protected:
 	unsigned char dice2;
 	catanMapModel map;
 	bool selectedResource(resourceType res, unsigned char player);
-	networkingEventTypes trading;
+	networkingEventTypes selecting;
 };
 
 

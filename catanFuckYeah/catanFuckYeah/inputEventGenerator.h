@@ -27,8 +27,10 @@ public:
 class keyboardEvent : public inputEv
 {
 	//guarda tecla apretada
+	char key;
 public:
 	inputEventTypes getInputEvType() { return KEYBOARD_EVENT; }
+	char getKey() { return key; }
 };
 
 class inputEventGenerator : public eventGenerator

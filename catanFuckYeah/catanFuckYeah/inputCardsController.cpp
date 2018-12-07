@@ -1,39 +1,43 @@
 #include "inputCardsController.h"
 #include "inputEventGenerator.h"
 #include "gameCoords.h"
-
-
-#define OFFSET_CARD_X 15		//ponele, es nomas para tener algo y acordarme
-#define OFFSET_CARD_Y 15
+#include "gameDefines.h"
 
 inputCardsController::inputCardsController(catanGameModel * game) : gameModel(game)
 {
 }
 
-bool inputCardsController::parseMouseEvent(mouseEvent * ev)
+void inputCardsController::parseMouseEvent(mouseEvent * ev)
 {
-	//agarrar coordenadas de las cartas, sumarles un offset en la que puede estar y ver que esa carta la tenga disponible
-	//ver game coords.h
-	//tomo arriba a la izquierda para los bitmaps
-	//cardsCoords[{WHEAT, 1}];		// {recurso,jugadro} devuelve point
-	bool ret = false;
-	string resources = RESOURCES_STR;
-	unsigned char player = gameModel->getCurrentPlayer().getPlayerNumber();
-	point coords = ev->getClickCoords();
-	for (auto c : resources)
+	string resources[] = { "BRICK", "WOOD", "WOOL", "ORE", "WHEAT" };
+	string player1(1, gameModel->getCurrentPlayer().getPlayerNumber());
+	string player2(1, gameModel->getOtherPlayer().getPlayerNumber());
+	string players[] = { player1, player2 };
+	point mouseCoords = ev->getClickCoords();
+	point cCoord;
+	resourceType res[] = { BRICK, WOOD, WOOL, ORE, WHEAT };
+	for (int i = 0; i < NUMBER_OF_RESOURCES ; i++)	
 	{
-		if ((coords.x >= cardsCoords[{c, player}].x) && (coords.x <= OFFSET_CARD_X))	//falta definir el offset del bitmap en el cual puede estar el mouse
+		for (int j = 0; j < 2; j++)
 		{
-			if ((coords.y >= cardsCoords[{c, player}].y) && (coords.y <= OFFSET_CARD_y))
+			cCoord.x = gameCoords::cardsCoords[resources[i] + players[j]].xCoord;
+			cCoord.y = gameCoords::cardsCoords[resources[i] + players[j]].yCoord;
+			if ((mouseCoords.x >= cCoord.x) && ((mouseCoords.x - cCoord.x) <= OFFSET_CARD_X))
 			{
-				//llamar a los metodos del modelo
-				if (playerTrade)
+				if ((mouseCoords.y >= cCoord.y) && ((mouseCoords.y - cCoord.y) <= OFFSET_CARD_Y))
 				{
-					ret = gameModel->preparePlayerTrade(,);	//pensar como concvertir el char a enum de resourceType
-				}
-				else
-				{
-					ret = gameModel->prepareBankTrade(,);	//pensar como mandar si es del banco el recurso o mio
+					if (function == OFFER_TRADE)
+					{
+						gameModel->preparePlayerTrade(res[i], j + 1);
+					}
+					else if (function == BANK_TRADE)
+					{
+						gameModel->prepareBankTrade(res[i], ((players[j] == player1) ? true : false));
+					}
+					else if ((function == ROBBER_CARDS) && (players[j] == player1))
+					{
+						gameModel->
+					}
 				}
 			}
 		}
@@ -43,8 +47,42 @@ bool inputCardsController::parseMouseEvent(mouseEvent * ev)
 
 void inputCardsController::parseKeyboardEvent(keyboardEvent * ev)
 {
+	switch (ev->getKey())
+	{
+	case '1':
+		break;
+	case '2':
+		break;
+	case '3':
+		break;
+	case '4':
+		break;
+	case '5':
+		break;
+	case 'a': case 'A':
+		break;
+	case 'b': case 'B':
+		break;
+	case 'c': case 'C':
+		break;
+	case 'd': case 'D':
+		break;
+	case 'e': case 'E':
+		break;
+	}
 
+}
 
+void inputCardsController::setFunction(networkingEventTypes function_)
+{
+	switch (function_)
+	{
+	case ROBBER_CARDS: case OFFER_TRADE: case BANK_TRADE:
+		function = function_;
+		break;
+	default:
+		break;
+	}
 }
 
 
