@@ -1,7 +1,6 @@
 #include "gameModelViewer.h"
 
 
-
 gameModelViewer::gameModelViewer(catanGameModel *myGame)
 {
 	initOk = false;
@@ -29,10 +28,12 @@ void gameModelViewer::update()
 		if ((myGame->isSelecting() == BANK_TRADE) || (myGame->isSelecting() == OFFER_TRADE))
 		{
 			viewTrade();
+			viewSelectedCards();
 		}
 		else if (myGame->isSelecting() == ROBBER_CARDS)
 		{
 			viewRobberDiscard();
+			viewSelectedCards();
 		}
 	}
 	else
@@ -169,9 +170,21 @@ void gameModelViewer::viewSelectedCards()
 		al_draw_text(fontForAmountOfCards, al_color_name("black"), gameCoords::cardsCoords[wood + '2'].xCoord, gameCoords::cardsCoords[wood].yCoord, 0, to_string(player1Cards.wood).c_str());
 		al_draw_text(fontForAmountOfCards, al_color_name("black"), gameCoords::cardsCoords[wheat + '2'].xCoord, gameCoords::cardsCoords[wheat].yCoord, 0, to_string(player1Cards.wheat).c_str());
 	}
+	else if (myGame->isSelecting() == ROBBER_CARDS)
+	{
+		cards player1DiscardCards = myGame->getP1DiscardRobberCards();
+		string ore = "ORE";
+		string brick = "BRICK";
+		string wool = "WOOL";
+		string wood = "WOOD";
+		string wheat = "WHEAT";
+		al_draw_text(fontForAmountOfCards, al_color_name("black"), gameCoords::cardsCoords[ore + '1'].xCoord, gameCoords::cardsCoords[ore].yCoord, 0, to_string(player1DiscardCards.ore).c_str());
+		al_draw_text(fontForAmountOfCards, al_color_name("black"), gameCoords::cardsCoords[brick + '1'].xCoord, gameCoords::cardsCoords[brick].yCoord, 0, to_string(player1DiscardCards.brick).c_str());
+		al_draw_text(fontForAmountOfCards, al_color_name("black"), gameCoords::cardsCoords[wool + '1'].xCoord, gameCoords::cardsCoords[wool].yCoord, 0, to_string(player1DiscardCards.wool).c_str());
+		al_draw_text(fontForAmountOfCards, al_color_name("black"), gameCoords::cardsCoords[wood + '1'].xCoord, gameCoords::cardsCoords[wood].yCoord, 0, to_string(player1DiscardCards.wood).c_str());
+		al_draw_text(fontForAmountOfCards, al_color_name("black"), gameCoords::cardsCoords[wheat + '1'].xCoord, gameCoords::cardsCoords[wheat].yCoord, 0, to_string(player1DiscardCards.wheat).c_str());
+	}
 }
-
-
 
 gameModelViewer::~gameModelViewer()
 {
