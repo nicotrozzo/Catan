@@ -21,11 +21,12 @@ private:
 	ALLEGRO_BITMAP * diceValue5;
 	ALLEGRO_BITMAP * diceValue6;
 	ALLEGRO_BITMAP * tradeMenuBitmap;
+	ALLEGRO_BITMAP * robberDiscardMenuBitmap;
 	ALLEGRO_FONT * fontForAmountOfCards;
 	void viewDices();
 	void viewTrade();
 	void viewRobberDiscard();
-	void viewSelecteCards();
+	void viewSelectedCards();
 	bool initOk;
 };
 
