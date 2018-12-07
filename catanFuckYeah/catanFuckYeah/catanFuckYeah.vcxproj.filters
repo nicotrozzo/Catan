@@ -161,6 +161,9 @@
     <ClCompile Include="gameModelViewer.cpp">
       <Filter>Archivos de origen\MVC: Viewers</Filter>
     </ClCompile>
+    <ClCompile Include="exitViewer.cpp">
+      <Filter>Archivos de origen\MVC: Viewers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="catanGameModel.h">
@@ -284,6 +287,9 @@
       <Filter>Archivos de encabezado\MVC: Viewers</Filter>
     </ClInclude>
     <ClInclude Include="gameModelViewer.h">
+      <Filter>Archivos de encabezado\MVC: Viewers</Filter>
+    </ClInclude>
+    <ClInclude Include="exitViewer.h">
       <Filter>Archivos de encabezado\MVC: Viewers</Filter>
     </ClInclude>
   </ItemGroup>

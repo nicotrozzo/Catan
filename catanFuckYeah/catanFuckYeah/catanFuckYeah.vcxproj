@@ -123,6 +123,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="EDANetworkingController.cpp" />
+    <ClCompile Include="exitViewer.cpp" />
     <ClCompile Include="gameCoords.cpp" />
     <ClCompile Include="gameModelViewer.cpp" />
     <ClCompile Include="inputActionButtonController.cpp" />
@@ -164,6 +165,7 @@
     <ClCompile Include="Server.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="exitViewer.h" />
     <ClInclude Include="gameCoords.h" />
     <ClInclude Include="gameModelViewer.h" />
     <ClInclude Include="inputActionButtonController.h" />

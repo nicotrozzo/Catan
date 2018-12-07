@@ -15,22 +15,25 @@ typedef struct
 
 class mouseEvent : public inputEv 
 {
-	point coords;
 	//guarda coordenadas del click
 	//guarda coordenadas del mouse en caso opcional
 public:
 	mouseEvent(point p) : coords(p) {}
 	inputEventTypes getInputEvType() { return MOUSE_EVENT; }
 	point getClickCoords() { return coords; }
+private:
+	point coords;
 };
+
 
 class keyboardEvent : public inputEv
 {
-	//guarda tecla apretada
-	char key;
 public:
 	inputEventTypes getInputEvType() { return KEYBOARD_EVENT; }
 	char getKey() { return key; }
+private:
+	//guarda tecla apretada
+	char key;
 };
 
 class inputEventGenerator : public eventGenerator
