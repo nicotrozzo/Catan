@@ -116,7 +116,7 @@ void playingFSM::tradeControllers(genericEvent * ev)
 	currentInputControllers.push_back(getInputController(CTRL_TICKANDX));
 
 	inputTickAndXController * controllerToAdd = getInputController(CTRL_TICKANDX);	//agrega un controller de networking que solo espera que le manden SETTLEMENT
-	controllerToAdd->set
+	controllerToAdd->set;
 	currentNetworkingControllers.push_back(controllerToAdd);
 
 
@@ -154,6 +154,21 @@ void playingFSM::netwYNControllers(genericEvent * ev)
 
 void playingFSM::oppRobberControllers(genericEvent * ev)
 {
+	currentInputControllers.clear();
+	currentNetworkingControllers.clear();
+	if (gameModel->getOtherPlayer().getAmountOfCards() > 7)	//si el jugador propio (other player xq no es su turno) tiene mas de 7 cartas, se tiene que descartar
+	{
+		EDAInputController * controllerToAdd = getInputController(CTRL_CARDS);
+		static_cast<inputCardsController *>(controllerToAdd)->setFunction(ROBBER_CARDS);	//le avisa al controller que espera cartas de robber
+		currentInputControllers.push_back(controllerToAdd);	//espera cartas
+		controllerToAdd = getInputController(CTRL_TICKANDX);
+		static_cast<inputTickAndXController *>(controllerToAdd)->setActionToDo(TICK_ROBB_CARDS);
+		currentInputControllers.push_back(controllerToAdd);
+	}
+	else if()
+	{
+
+	}
 }
 
 void playingFSM::waitingControllers(genericEvent * ev)

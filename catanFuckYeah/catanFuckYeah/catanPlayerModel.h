@@ -17,7 +17,7 @@ class catanPlayerModel : public EDASubject
 {
 public:
 	catanPlayerModel();
-	unsigned char getAmountOfCards() { return (myCards.ore + myCards.wheat + myCards.wood + myCards.wool + myCards.brick); }
+	unsigned char getAmountOfCards() { return myCards.totalCardsCount(); }
 	cards getCards() { return myCards; }
 	unsigned char getVictoryPoints() { return victoryPoints; }
 	void setVictoryPoints(unsigned char points) { victoryPoints = points; }

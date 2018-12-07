@@ -4,8 +4,11 @@
 class netwDicesController : public EDANetworkingController
 {
 public:
-	netwDicesController();
+	netwDicesController(catanGameModel * game);
 	virtual bool parseNetworkingEvent(networkingEv * ev);
 	~netwDicesController();
+
+private:
+	catanGameModel * gameModel;
 };
 
