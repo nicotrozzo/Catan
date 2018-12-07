@@ -293,9 +293,9 @@ bool catanGameModel::discardOtherPlayer(string cards)
 	return ret;
 }
 
-networkingEventTypes catanGameModel::isTrading()
+networkingEventTypes catanGameModel::isSelecting()
 {
-	return trading;
+	return selecting;
 }
 
 void catanGameModel::clearTrades()
