@@ -149,7 +149,7 @@ bool catanGameModel::construct()
 	return ret;
 }
 
-bool catanGameModel::validSelectedCards(string currentPlayerCards, string otherPlayerCards)
+bool catanGameModel::validSelectedCards(string currentPlayerCards, string otherCards)
 {
 	bool ret = true;
 	string possibleRes = RESOURCES_STR;
@@ -157,9 +157,9 @@ bool catanGameModel::validSelectedCards(string currentPlayerCards, string otherP
 	unsigned int otherResCount[] = { 0, 0, 0, 0, 0 };		
 	unsigned int * pCResCount = currentResCount, *pOResCount = otherResCount;
 	std::size_t currentPos = 0, otherPos = 0;
-	if ((currentPlayerCards.length() <= 9) && (otherPlayerCards.length() <= 9))
+	if ((currentPlayerCards.length() <= 9) && (otherCards.length() <= 9))
 	{
-		for (auto x : possibleRes)	//char
+		for (auto x : possibleRes)
 		{
 			currentPos = currentPlayerCards.find_first_of(x, currentPos);
 			while (currentPos != std::string::npos)
@@ -168,11 +168,11 @@ bool catanGameModel::validSelectedCards(string currentPlayerCards, string otherP
 				currentPos = currentPlayerCards.find_first_of(x, currentPos + 1);
 			}
 
-			otherPos = otherPlayerCards.find_first_of(x, otherPos);
+			otherPos = otherCards.find_first_of(x, otherPos);
 			while (otherPos != std::string::npos)
 			{
 				*pOResCount++;
-				otherPos = otherPlayerCards.find_first_of(x, otherPos + 1);
+				otherPos = otherCards.find_first_of(x, otherPos + 1);
 			}
 			if (((*pCResCount == 0) && (*pOResCount != 0)) || ((*pCResCount != 0) && (*pOResCount == 0)))	//me fijo que no haya mismos recursos seleccionados
 			{
@@ -253,6 +253,20 @@ bool catanGameModel::robberMoved(unsigned char hex)
 	return ret;
 }
 
+bool catanGameModel::prepareRobberDiscard(resourceType resource)
+{
+	return false;
+}
+
+bool catanGameModel::robberCardsReady()
+{
+	return false;
+}
+
+void catanGameModel::clearRobberCards()
+{
+}
+
 bool catanGameModel::discardCurrentPlayer(string cards)
 {
 	bool ret = true;
@@ -293,9 +307,9 @@ bool catanGameModel::discardOtherPlayer(string cards)
 	return ret;
 }
 
-networkingEventTypes catanGameModel::isTrading()
+networkingEventTypes catanGameModel::isSelecting()
 {
-	return trading;
+	return selecting;
 }
 
 void catanGameModel::clearTrades()
@@ -304,7 +318,7 @@ void catanGameModel::clearTrades()
 	p2SelectedCardsForTrade = { 0,0,0,0,0 };
 	playerSelectedResource = {DESSERT,0};
 	bankSelectedResource = DESSERT;
-	trading = static_cast<networkingEventTypes>(0);
+	selecting = static_cast<networkingEventTypes>(0);
 	//notifyAllObservers();
 }
 
@@ -320,9 +334,9 @@ Si devuelve true, MODIFICA EL MODELO
 bool catanGameModel::preparePlayerTrade(resourceType resource, unsigned char player)
 {
 	bool ret = false;
-	if (trading != OFFER_TRADE)
+	if (selecting != OFFER_TRADE)
 	{
-		trading = OFFER_TRADE;		//para avisar a los observers
+		selecting = OFFER_TRADE;		//para avisar a los observers
 		notifyAllObservers();
 	}
 	if( ((player == 1) && p1SelectedCardsForTrade.totalCardsCount() < 9) || ((player == 2) && p2SelectedCardsForTrade.totalCardsCount() < 9))
@@ -440,7 +454,7 @@ bool catanGameModel::playerTrade()
 		player2.decResource(WHEAT, p2SelectedCardsForTrade.wheat);
 		player2.decResource(WOOL, p2SelectedCardsForTrade.wool);
 		player2.decResource(WOOD, p2SelectedCardsForTrade.wood);
-		trading = static_cast<networkingEventTypes>(0);
+		selecting = static_cast<networkingEventTypes>(0);
 		notifyAllObservers();
 		ret = true;
 	}
@@ -459,9 +473,9 @@ bool catanGameModel::playerTrade()
 bool catanGameModel::prepareBankTrade(resourceType resource, bool player)
 {
 	bool ret = false;
-	if (trading != BANK_TRADE)
+	if (selecting != BANK_TRADE)
 	{
-		trading = BANK_TRADE;
+		selecting = BANK_TRADE;
 		notifyAllObservers();
 	}
 	if (player)
@@ -524,7 +538,7 @@ bool catanGameModel::bankTrade()
 	{
 		player1.decResource(playerSelectedResource.res, playerSelectedResource.resCount);	
 		player1.incResource(bankSelectedResource);
-		trading = static_cast<networkingEventTypes>(0);
+		selecting = static_cast<networkingEventTypes>(0);
 		notifyAllObservers();
 		ret = true;
 	}

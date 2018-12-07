@@ -23,10 +23,15 @@ public:
 	bool validSelectedCards(string currentPlayerCards, string otherPlayerCards);		//checkea que la transaccion solicitada sea valida, en cuyo case devuelve true
 	bool bankTrade(string player, unsigned char  bankResource);		//devuelve false si la transaccion es invalida (ver lo de 2x1 y 3x1)
 	bool robberMoved(unsigned char hex);	//devuelve false y no cambia nada si el lugar no es valido 
+	
+	bool prepareRobberDiscard(resourceType resource);
+	bool robberCardsReady();
+	void clearRobberCards();
 	bool discardCurrentPlayer(string cards);	//devuelve false si era una cantidad invalida de cartas, o no tenia esas cartas
 	bool discardOtherPlayer(string cards);		//devuelve false si era una cantidad invalida de cartas, o no tenia esas cartas
 	
-	networkingEventTypes isTrading();	//devuelve 0 si no esta preparando un intercambio, OFFER_TRADE si esta preparando intercambio entre jugadores o BANK_TRADE si esta preparando intercambio con el banco
+
+	networkingEventTypes isSelecting();	//devuelve 0 si no esta preparando un intercambio, OFFER_TRADE si esta preparando intercambio entre jugadores o BANK_TRADE si esta preparando intercambio con el banco
 	void clearTrades();	//borra la informacion sobre intercambios pendientes que tenga el modelo MODIFICA EL MODELO
 	
 	/*preparePlayerTrade:
@@ -54,6 +59,12 @@ public:
 	bool prepareBankTrade(resourceType resource, bool player);	//MODIFICA EL MODELO	
 	bool bankTradeReady();	//devuelve true si el intercambio con el banco preparado esta listo
 	bool bankTrade();	//ejecuta el trade preparado, 
+	cards getP1SelectedCardsForTrade() { return p1SelectedCardsForTrade; }
+	cards getP2SelectedCardsForTrade() { return p2SelectedCardsForTrade; }
+	cards getP1DiscardRobberCards() { return p1DiscardRobberCards; }
+	resource_t getPlayerSelectedResource() { return playerSelectedResource; }
+	resourceType getBankSelectedResource() { return bankSelectedResource; }
+
 
 	//bool waitingAccept();
 	//bool waitingCards();
@@ -71,6 +82,7 @@ protected:
 	catanPlayerModel player2;
 	cards p1SelectedCardsForTrade;
 	cards p2SelectedCardsForTrade;
+	cards p1DiscardRobberCards;
 	resource_t playerSelectedResource; //para el bankTrade
 	resourceType bankSelectedResource;
 	construction_t pendingConstruction;
@@ -78,7 +90,7 @@ protected:
 	unsigned char dice2;
 	catanMapModel map;
 	bool selectedResource(resourceType res, unsigned char player);
-	networkingEventTypes trading;
+	networkingEventTypes selecting;
 };
 
 

@@ -46,5 +46,5 @@
 
  map<string, coords> gameCoords::buttonCoords = {
  {"END_TURN",{1413,123,MAP_NONE}}, {"EXIT",{1562,9,MAP_NONE}}, {"PLAYER_TRADE",{1530,220,MAP_NONE}},
- {"BANK_TRADE",{1413,233,MAP_NONE}}, {"YES",{1413,876,MAP_NONE}},  {"NO",{1540,876,MAP_NONE}}
+ {"BANK_TRADE",{1413,233,MAP_NONE}}, {"YES",{1413,876,MAP_NONE}}, {"NO",{1540,876,MAP_NONE}}
  };
