@@ -6,6 +6,9 @@
 #define HEX_COUNT 19
 #define RESOURCES_STR "LMNOPT"
 #define POINTS_TO_WIN 8
+#define OFFSET_CARD_X 149
+#define OFFSET_CARD_Y 189
+
 
 typedef enum resourceType { BRICK = 'L', WOOD, DESSERT, WOOL, ORE, WHEAT = 'T'};
 
