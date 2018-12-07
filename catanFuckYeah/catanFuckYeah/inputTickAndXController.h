@@ -18,8 +18,9 @@ public:
 							* cruz cancela la seleccion 
 		-TICK_BUILD:		* tick construye (metodo construct() ), si devuelve false es ERROR, EMITE EVENTO A PLAYING FSM
 							* cruz cancela (metodo cancelConstruction() ), 
-		-TICK_ROBB_CARDS:	* tick pregunta si ya selecciono la cantidad necesaria de cartas (metodo robberCardsReady()), si devuelve true, lo descarta (metodo )
-							* cruz cancela la seleccion (metodo clearRobberCards)	
+		-TICK_ROBB_CARDS:	* tick pregunta si ya selecciono la cantidad necesaria de cartas (metodo robberCardsReady()), si devuelve true, lo descarta ( metodo discardCurrentPlayer() )
+							* cruz cancela la seleccion (metodo clearRobberCards() )
+	SIEMPRE QUE HAGA ALGO EMITIR EVENTO CHANGE_STATE
 	*/
 	virtual void parseMouseEvent(mouseEvent * ev);
 	virtual void parseKeyboardEvent(keyboardEvent * ev);
