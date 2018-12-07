@@ -24,6 +24,7 @@ private:
 	ALLEGRO_FONT * fontForAmountOfCards;
 	void viewDices();
 	void viewTrade();
+	void viewRobberDiscard();
 	void viewSelecteCards();
 	bool initOk;
 };

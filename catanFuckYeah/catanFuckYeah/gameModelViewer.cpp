@@ -23,9 +23,13 @@ void gameModelViewer::update()
 	if (initOk)
 	{
 		viewDices();
-		if ((myGame->isTrading() == BANK_TRADE) || (myGame->isTrading() == OFFER_TRADE))
+		if ((myGame->isSelecting() == BANK_TRADE) || (myGame->isSelecting() == OFFER_TRADE))
 		{
 			viewTrade();
+		}
+		else if (myGame->isSelecting() == ROBBER_CARDS)
+		{
+			viewRobberDiscard();
 		}
 	}
 	else
@@ -87,6 +91,10 @@ void gameModelViewer::viewTrade()
 	al_draw_bitmap(tradeMenuBitmap,241,66,0);
 }
 
+void gameModelViewer::viewRobberDiscard()
+{
+}
+
 void gameModelViewer::viewSelecteCards()
 {
 	if (myGame->isTrading() == BANK_TRADE)
@@ -141,8 +149,16 @@ void gameModelViewer::viewSelecteCards()
 	else if (myGame->isTrading() == OFFER_TRADE)
 	{
 		cards player1Cards = myGame->getP1SelectedCardsForTrade();
-		string ore = "ORE1";
-		al_draw_text(fontForAmountOfCards, al_color_name("black"), gameCoords::cardsCoords[ore].xCoord, gameCoords::cardsCoords[ore].yCoord, 0, player1Cards.ore);
+		string ore = "ORE";
+		string brick = "BRICK";
+		string wool = "WOOL";
+		string wood = "WOOD";
+		string wheat = "WHEAT";
+		al_draw_text(fontForAmountOfCards, al_color_name("black"), gameCoords::cardsCoords[ore].xCoord, gameCoords::cardsCoords[ore].yCoord, 0, to_string(player1Cards.ore).c_str() + '1');
+		al_draw_text(fontForAmountOfCards, al_color_name("black"), gameCoords::cardsCoords[brick].xCoord, gameCoords::cardsCoords[brick].yCoord, 0, to_string(player1Cards.brick).c_str() + '1');
+		al_draw_text(fontForAmountOfCards, al_color_name("black"), gameCoords::cardsCoords[ore].xCoord, gameCoords::cardsCoords[ore].yCoord, 0, to_string(player1Cards.ore).c_str() + '1');
+		al_draw_text(fontForAmountOfCards, al_color_name("black"), gameCoords::cardsCoords[ore].xCoord, gameCoords::cardsCoords[ore].yCoord, 0, to_string(player1Cards.ore).c_str() + '1');
+		al_draw_text(fontForAmountOfCards, al_color_name("black"), gameCoords::cardsCoords[ore].xCoord, gameCoords::cardsCoords[ore].yCoord, 0, to_string(player1Cards.ore).c_str() + '1');
 	}
 }
 
