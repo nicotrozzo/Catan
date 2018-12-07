@@ -1,4 +1,7 @@
 #include "mapViewer.h"
+#include "gameCoords.h"
+
+using gameCoords;
 
 
 mapViewer::mapViewer(catanMapModel * myMap)

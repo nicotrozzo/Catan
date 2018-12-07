@@ -7,20 +7,14 @@ catanPlayerModel::catanPlayerModel() : myCards({ 0,0,0,0,0 })
 }
 
 
-void catanPlayerModel::setP1Name(string name)
+void catanPlayerModel::setName(string name)
 {
-	if (p1NameIs.length() == 0)
+	if (NameIs.length() == 0)
 	{
-		p1NameIs = name.substr(0, MAX_NAME_LENGTH);
+		NameIs = name.substr(0, MAX_NAME_LENGTH);
 	}
 }
-void catanPlayerModel::setP2Name(string name)
-{
-	if (p2NameIs.length() == 0)
-	{
-		p2NameIs = name.substr(0, MAX_NAME_LENGTH);
-	}
-}
+
 
 
 bool catanPlayerModel::incResource(unsigned char resource)
@@ -77,7 +71,6 @@ bool catanPlayerModel::incResource(unsigned char resource, unsigned char count)
 	}
 	return ret;
 }
-
 
 bool catanPlayerModel::decResource(unsigned char resource)
 {

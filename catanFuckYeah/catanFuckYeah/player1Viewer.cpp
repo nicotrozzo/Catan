@@ -47,7 +47,7 @@ void player1Viewer::viewVictoryPoints()
 
 void player1Viewer::viewNameIs()
 {
-	string name = player->getP1Name();
+	string name = player->getName();
 	al_draw_text(fontForName, al_color_name("black"), 27, 25, 0, name.c_str());
 }
 

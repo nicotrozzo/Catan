@@ -149,7 +149,6 @@ bool catanGameModel::construct()
 	return ret;
 }
 
-
 bool catanGameModel::validSelectedCards(string currentPlayerCards, string otherPlayerCards)
 {
 	bool ret = true;
@@ -158,7 +157,7 @@ bool catanGameModel::validSelectedCards(string currentPlayerCards, string otherP
 	unsigned int otherResCount[] = { 0, 0, 0, 0, 0 };		
 	unsigned int * pCResCount = currentResCount, *pOResCount = otherResCount;
 	std::size_t currentPos = 0, otherPos = 0;
-	if ((currentPlayerCards.lenght() <= 9) && (otherPlayerCards.lenght() <= 9))
+	if ((currentPlayerCards.length() <= 9) && (otherPlayerCards.length() <= 9))
 	{
 		for (auto x : possibleRes)	//char
 		{

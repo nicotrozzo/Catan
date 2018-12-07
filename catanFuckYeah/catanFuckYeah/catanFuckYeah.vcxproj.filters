@@ -158,6 +158,9 @@
     <ClCompile Include="networkingObserver.cpp">
       <Filter>Archivos de origen\MVC: Viewers</Filter>
     </ClCompile>
+    <ClCompile Include="gameModelViewer.cpp">
+      <Filter>Archivos de origen\MVC: Viewers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="catanGameModel.h">
@@ -278,6 +281,9 @@
       <Filter>Archivos de encabezado\MVC: Controllers</Filter>
     </ClInclude>
     <ClInclude Include="networkingObserver.h">
+      <Filter>Archivos de encabezado\MVC: Viewers</Filter>
+    </ClInclude>
+    <ClInclude Include="gameModelViewer.h">
       <Filter>Archivos de encabezado\MVC: Viewers</Filter>
     </ClInclude>
   </ItemGroup>

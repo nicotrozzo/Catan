@@ -124,6 +124,7 @@
   <ItemGroup>
     <ClCompile Include="EDANetworkingController.cpp" />
     <ClCompile Include="gameCoords.cpp" />
+    <ClCompile Include="gameModelViewer.cpp" />
     <ClCompile Include="inputActionButtonController.cpp" />
     <ClCompile Include="allegroInit.cpp" />
     <ClCompile Include="inputCardsController.cpp" />
@@ -164,6 +165,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameCoords.h" />
+    <ClInclude Include="gameModelViewer.h" />
     <ClInclude Include="inputActionButtonController.h" />
     <ClInclude Include="allegroInit.h" />
     <ClInclude Include="inputCardsController.h" />
