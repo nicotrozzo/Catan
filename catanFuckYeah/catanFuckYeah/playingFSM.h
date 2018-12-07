@@ -8,7 +8,7 @@
 
 enum netwStates : stateTypes { MY_TURN, BUILDING, PREPARE_TRADE , WAITING_REPLY, MY_ROBBER, WAITING_DICES, OPP_TURN, OPP_ROBBER, WAITING_PLAYER  };
 
-enum playingFSMEvTypes : eventTypes {CHANGE_STATE, , , ERROR};
+enum playingFSMEvTypes : eventTypes {CHANGE_STATE, , ROBBER_EV, ERROR_EV};
 
 class playingFSMEvent : public genericEvent
 {

@@ -56,7 +56,8 @@ class dicesArePckg : public networkingEv
 {
 public:
 	dicesArePckg(string dices);
-	unsigned char getDicesSum();
+	unsigned char getDice1();
+	unsigned char getDice2();
 private:
 	unsigned char dice1;
 	unsigned char dice2;

@@ -109,6 +109,7 @@ dicesArePckg::dicesArePckg(string dices) : networkingEv(DICES_ARE)
 	{
 		dice1 = dices[1] - '0';
 		dice2 = dices[2] - '0';
+		error = ((dice1 > 6) || (dice2 > 6));
 	}
 	else
 	{
@@ -116,9 +117,14 @@ dicesArePckg::dicesArePckg(string dices) : networkingEv(DICES_ARE)
 	}
 }
 
-unsigned char dicesArePckg::getDicesSum(void)
+unsigned char dicesArePckg::getDice1(void)
 {
-	return dice1 + dice2;
+	return dice1;
+}
+
+unsigned char dicesArePckg::getDice2(void)
+{
+	return dice2;
 }
 
 /*		ROBBER_CARDS		*/

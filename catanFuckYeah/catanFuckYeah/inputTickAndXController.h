@@ -7,8 +7,20 @@ typedef enum tickActions_t{ TICK_OPP_TRADE, TICK_BANK_TRADE, TICK_OWN_TRADE, TIC
 class inputTickAndXController :	public EDAInputController
 {
 public:
-	inputTickAndXController();
+	inputTickAndXController(catanGameModel * game);
 	virtual inputControllerTypes getType() { return CTRL_TICKANDX; }
+	/*La variable actionToDo indica que debe hacer cuando aprietan:
+		-TICK_OPP_TRADE:	* tick hace la transaccion, ( ) 
+							* cruz cancela la transaccion ( )
+		-TICK_BANK_TRADE:	* tick pregunta si esta lista la transaccion (  ), si es valida la hace, sino ignora
+							* cruz cancela la seleccion 
+		-TICK_OWN_TRADE:	* tick pregunta si esta lista la transaccion (  ), si esta lista la hace, sino ignora
+							* cruz cancela la seleccion 
+		-TICK_BUILD:		* tick construye (metodo construct() ), si devuelve false es ERROR, EMITE EVENTO A PLAYING FSM
+							* cruz cancela (metodo cancelConstruction() ), 
+		-TICK_ROBB_CARDS:	* tick pregunta si ya selecciono la cantidad necesaria de cartas (metodo robberCardsReady()), si devuelve true, lo descarta (metodo )
+							* cruz cancela la seleccion (metodo clearRobberCards)	
+	*/
 	virtual void parseMouseEvent(mouseEvent * ev);
 	virtual void parseKeyboardEvent(keyboardEvent * ev);
 	void setActionToDo(tickActions_t action);	
