@@ -338,8 +338,8 @@ list<string> catanMapModel::getP1BuiltVertexes()
 
 list<string> catanMapModel::getP1Settlements()
 {
-	list<string> settlements = getP1BuiltVertexes();
-	for (auto x : getP1Cities())
+	list<string> settlements = p1UsedVertexList;
+	for (auto x : p1Cities)
 	{
 		settlements.remove(x);
 	}
@@ -359,8 +359,8 @@ list<string> catanMapModel::getP2BuiltVertexes()
 
 list<string> catanMapModel::getP2Settlements()
 {
-	list<string> settlements = getP2BuiltVertexes();
-	for (auto x : getP2Cities())
+	list<string> settlements = p2UsedVertexList;
+	for (auto x : p2Cities)
 	{
 		settlements.remove(x);
 	}
@@ -780,6 +780,40 @@ bool catanMapModel::checkAvailableCity(string vertex, char player)
 		}
 	}
 	return ret;
+}
+
+unsigned char catanMapModel::getP1LongestRoad()
+{
+	unsigned char longestRoad = 0;
+	list<string> allRoads = p1LongRoads;
+	for (auto x : p1SimpleRoads)
+	{
+		allRoads.push_back(x);
+	}
+	
+	string frontRoad2;
+	string frontRoad1;
+	
+	bool oneFound = false;
+	
+	for (auto x : allRoads)	//busca dos caminos adyacentes al primero
+	{
+		if (adjacentRoads(allRoads.front(), x))
+		{
+			if (!oneFound)
+			{
+				frontRoad1 = x;
+				oneFound = true;
+			}
+			else
+			{
+				frontRoad2 = x;
+				break;
+			}
+		}
+	}
+	list<list<string>*>  allRoads;
+	return 0;
 }
 
 list<pepe> catanMapModel::getSelectedHex(unsigned int diceValue)

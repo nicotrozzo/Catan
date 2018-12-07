@@ -57,10 +57,13 @@ public:
 	list<string> getP2Cities();
 	list<string> getP1Roads();
 	list<string> getP2Roads();
+	
 	map<resourceType, unsigned char> getBankTradeCosts(unsigned char player);	//Devuelve un diccionario con el costo (2, 3 o 4) de cada recurso para el jugador pedido
 	bool checkAvailableRoad(string edge, char player);	//devuelve true si el jugador indicado puede construir un camino en ese lado
 	bool checkAvailableSettlement(string vertex, char player);	//devuelve true si el vertice seleccionado es valido para la construccion de un settlementdeu
 	bool checkAvailableCity(string vertex, char player);	//devuelve true si el vertice seleccionado es valido para la construccion de una ciudad
+	unsigned char getP1LongestRoad();
+	unsigned char getP2LongestRoad();
 	list<pepe> getSelectedHex(unsigned int diceValue);
 	~catanMapModel();
 private:
