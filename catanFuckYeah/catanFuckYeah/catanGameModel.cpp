@@ -77,7 +77,7 @@ bool catanGameModel::dicesThrown(unsigned char dice1, unsigned char dice2)
 bool catanGameModel::validConstruction(networkingEventTypes type, string coords)
 {
 	bool ret = true;
-	unsigned char player = player1Playing ? 1 : 2;
+	unsigned char player = (player1Playing ? 1 : 2);
 	switch (type)
 	{
 	case SETTLEMENT:
@@ -111,8 +111,8 @@ en validConstruction()
 bool catanGameModel::construct()
 {
 	bool ret = false;
-	unsigned char player = player1Playing ? 1 : 2;
-	if (construct)
+	unsigned char player = (player1Playing ? 1 : 2);
+	if (constructing)
 	{
 		ret = map.buildPendingConstruction();
 		if (ret)
@@ -120,20 +120,6 @@ bool catanGameModel::construct()
 			constructing = false;
 			updatePlayersVictoryPoints();
 		}
-		
-		/*switch (pendingConstruction.type)
-		{
-		case ROAD:
-			ret = map.buildRoad(pendingConstruction.coords, player);
-			break;
-		case SETTLEMENT:
-			ret = map.buildSettlement(pendingConstruction.coords, player);
-			break;
-		case CITY:
-			ret = map.buildCity(pendingConstruction.coords, player);
-			break;
-		}
-		pendingConstruction.type = static_cast<networkingEventTypes>(0);*/
 	}
 	return ret;
 }
@@ -156,9 +142,6 @@ void catanGameModel::updatePlayersVictoryPoints()
 	unsigned char longestRoad1 = map.getP1LongestRoad();
 	unsigned char longestRoad2 = map.getP2LongestRoad();
 	if (player1.getLongestRoad() < longestRoad1)
-		void catanGameModel::cancelConstruction()
-	{
-	}
 	{
 		player1.setLongestRoad(longestRoad1);
 	}
@@ -177,9 +160,9 @@ void catanGameModel::updatePlayersVictoryPoints()
 			vicPoints2++;
 		}
 	}
-	vicPoints1 += map.getP1Settlements().length() + 2 * map.getP1Cities().length();
+	vicPoints1 += map.getP1Settlements().size() + 2 * map.getP1Cities().size();
 	player1.setVictoryPoints(vicPoints1);
-	vicPoints2 += map.getP2Setllements().length() + 2 * map.getP1Cities.length();
+	vicPoints2 += map.getP2Settlements().size() + 2 * map.getP1Cities().size();
 	player2.setVictoryPoints(vicPoints2);
 }
 
@@ -304,7 +287,7 @@ bool catanGameModel::playersTrade(string currentPlayerCards, string otherPlayerC
 bool catanGameModel::bankTrade(string playerResource, resourceType bankResource)	
 { 
 	bool ret = false;
-	map<resourceType, unsigned char> costs = map.getBankTradeCosts(2);
+	std::map<resourceType, unsigned char> costs = map.getBankTradeCosts(2);
 	size_t strLenght = 0;
 	char res = playerResource[0];
 	unsigned char costRes;
@@ -712,7 +695,7 @@ bool catanGameModel::bankTrade()
 	return ret;
 }
 
-bool catanGameModel::player1Playing()
+bool catanGameModel::isPlayer1Playing()
 {
 	return player1Playing;
 }

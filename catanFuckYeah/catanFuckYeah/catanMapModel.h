@@ -32,10 +32,10 @@ typedef struct
 	unsigned char player;
 }construction_t;
 
-typedef struct
+typedef struct roada
 {
 	string edge;
-	list<road *> adjacentConstructedRoads;
+	list<struct roada *> adjacentConstructedRoads;
 	bool visited;
 }road;
 
