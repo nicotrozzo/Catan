@@ -40,17 +40,17 @@ void catanPlayerModel::setLongestRoad(unsigned char longRoad)
 	longestRoad = longRoad;
 }
 
-unsigned char catanMapModel::getLongestRoad()
+unsigned char catanPlayerModel::getLongestRoad()
 {
 	return longestRoad;
 }
 
-string catanMapModel::getName()
+string catanPlayerModel::getName()
 {
 	return NameIs;
 }
 
-unsigned char catanMapModel::getPlayerNumber()
+unsigned char catanPlayerModel::getPlayerNumber()
 {
 	return playerNumber;
 }
