@@ -14,7 +14,7 @@ class playingFSMEvent : public genericEvent
 {
 public:
 	playingFSMEvent(string info_ = "") : error(false) { info = info_; }
-	playingFSMEvent(playingFSMEvTypes type_) { }//if(valid)type = type_; }
+	playingFSMEvent(playingFSMEvTypes type_) { type = type_; }
 	virtual eventTypes getType() { return type; }
 	string getInfo() { return info; }
 	bool getError() { return false; }
@@ -27,7 +27,7 @@ private:
 class playingFSMErrorEv : public playingFSMEvent
 {
 public:
-	playingFSMErrorEv(string detail_ = "") : playingFSMEvent(UNEXPECTED_EVENT) { detail = detail_; }
+	playingFSMErrorEv(string detail_ = "") : playingFSMEvent(ERROR_EV) { detail = detail_; }
 	string getDetail() { return detail; }
 
 private:
@@ -90,9 +90,9 @@ private:
 	{ { WAITING_DICES,TX(passControllers)}, {PREPARE_TRADE,TX(tradeControllers)},{BUILDING,TX(buildControllers)},{MY_ROBBER,TX(myRobberControllers)},{MY_TURN,TX(error)} },			//MY_TURN
 	{ { MY_TURN,TX(myTurnControllers) },  {,TX()},						   {BUILDING,},		{,TX()}													  ,{BUILDING,TX(error)} },		 //BUILDING
 	{ { MY_TURN,TX(myTurnControllers) },  {,TX()}							  ,{PREPARE_TRADE,TX(netwYNControllers) },{,TX()},{PREPARE_TRADE,TX(error)} },   //PREPARE_TRADE
-	{ { MY_TURN,TX(myTurnControllers) },  {},{},{},{MY_ROBBER,TX(error)} },		 //MY_ROBBER
+	{ { MY_TURN,TX(myTurnControllers) },  { ,TX() },{ ,TX() },{ ,TX() },{MY_ROBBER,TX(error)} },		 //MY_ROBBER
 	{ { OPP_TURN,TX(oppTurnControllers)},  { ,TX()},{},{OPP_ROBBER,TX(oppRobberControllers)},{WAITING_DICES,TX(error)} },	//WAITING_DICES
-	{ { MY_TURN,TX(myTurnPassControllers) },  {WAITING_PLAYER,TX(waitingControllers)},{},{OPP_ROBBER,TX(oppRobberControllers)},{OPP_TURN,TX(error)} },		 //OPP_TURN
+	{ { MY_TURN,TX(myTurnPassControllers) },  {WAITING_PLAYER,TX(waitingControllers)},{},{,TX()},{OPP_TURN,TX(error)} },		 //OPP_TURN
 	{ { OPP_TURN,TX(oppTurnControllers) },{OPP_ROBBER,TX()},{},{},{OPP_ROBBER,TX(error)} },		 //OPP_ROBBER
 	{ { OPP_TURN,TX(oppTurnControllers) },{},{},{},{WAITING_PLAYER,TX(error)} }	 //WAITING_PLAYER
 	};

@@ -131,6 +131,7 @@
     <ClCompile Include="inputCardsController.cpp" />
     <ClCompile Include="inputEdgeAndVertexController.cpp" />
     <ClCompile Include="inputHexagonController.cpp" />
+    <ClCompile Include="inputStateController.cpp" />
     <ClCompile Include="inputTickAndXController.cpp" />
     <ClCompile Include="mapViewer.cpp" />
     <ClCompile Include="netwConstructionController.cpp" />
@@ -176,6 +177,7 @@
     <ClInclude Include="EDANetworkingController.h" />
     <ClInclude Include="inputEdgeAndVertexController.h" />
     <ClInclude Include="inputHexagonController.h" />
+    <ClInclude Include="inputStateController.h" />
     <ClInclude Include="inputTickAndXController.h" />
     <ClInclude Include="mapViewer.h" />
     <ClInclude Include="netwConstructionController.h" />
