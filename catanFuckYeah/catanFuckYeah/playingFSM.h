@@ -8,7 +8,7 @@
 
 enum netwStates : stateTypes { MY_TURN, BUILDING, PREPARE_TRADE , WAITING_REPLY, MY_ROBBER, WAITING_DICES, OPP_TURN, OPP_ROBBER, WAITING_PLAYER  };
 
-enum playingFSMEvTypes : eventTypes {CHANGE_STATE, , ROBBER_EV, ERROR_EV};
+enum playingFSMEvTypes : eventTypes {CHANGE_STATE, CARDS_EV, TICK_EV,ROBBER_EV, ERROR_EV};
 
 class playingFSMEvent : public genericEvent
 {
@@ -27,11 +27,28 @@ private:
 class playingFSMErrorEv : public playingFSMEvent
 {
 public:
-	playingFSMErrorEv(string detail_ = "") : netwFSMEv(UNEXPECTED_EVENT) { detail = detail_; }
+	playingFSMErrorEv(string detail_ = "") : playingFSMEvent(UNEXPECTED_EVENT) { detail = detail_; }
 	string getDetail() { return detail; }
 
 private:
 	string detail;
+};
+
+class playingFSMCardsEv : public playingFSMEvent
+{
+public:
+	playingFSMCardsEv(bool bankTrade_) : playingFSMEvent(CARDS_EV) { bankTrade = bankTrade_; }
+	bool isBankTrade() { return bankTrade; }
+private:
+	bool bankTrade;	//true si es un bank trade, false sino
+};
+
+class playingFSMTickEv : playingFSMEvent
+{
+public:
+	playingFSMTickEv(bool )
+private:
+
 };
 
 class playingFSM : public genericFSM
@@ -75,7 +92,7 @@ private:
 	{ { MY_TURN,TX(myTurnControllers) },  {,TX()}							  ,{PREPARE_TRADE,TX(netwYNControllers) },{,TX()},{PREPARE_TRADE,TX(error)} },   //PREPARE_TRADE
 	{ { MY_TURN,TX(myTurnControllers) },  {},{},{},{MY_ROBBER,TX(error)} },		 //MY_ROBBER
 	{ { OPP_TURN,TX(oppTurnControllers)},  { ,TX()},{},{OPP_ROBBER,TX(oppRobberControllers)},{WAITING_DICES,TX(error)} },	//WAITING_DICES
-	{ { MY_TURN,TX(myTurnControllers) },  {WAITING_PLAYER,TX(waitingControllers)},{},{OPP_ROBBER,TX(oppRobberControllers)},{OPP_TURN,TX(error)} },		 //OPP_TURN
+	{ { MY_TURN,TX(myTurnPassControllers) },  {WAITING_PLAYER,TX(waitingControllers)},{},{OPP_ROBBER,TX(oppRobberControllers)},{OPP_TURN,TX(error)} },		 //OPP_TURN
 	{ { OPP_TURN,TX(oppTurnControllers) },{OPP_ROBBER,TX()},{},{},{OPP_ROBBER,TX(error)} },		 //OPP_ROBBER
 	{ { OPP_TURN,TX(oppTurnControllers) },{},{},{},{WAITING_PLAYER,TX(error)} }	 //WAITING_PLAYER
 	};
@@ -88,7 +105,7 @@ private:
 	void error(genericEvent* ev);
 	void myTurnControllers(genericEvent* ev);
 	void netwYNControllers(genericEvent* ev);
-	void(genericEvent* ev);
+	void myTurnPassControllers(genericEvent* ev);
 	void(genericEvent* ev);
 	void(genericEvent* ev);
 	void(genericEvent* ev);
@@ -108,13 +125,13 @@ private:
 
 public:
 	playingFSM(bool iStart, catanGameModel * game, std::vector<EDAInputController *> inputControllers, std::vector<EDANetworkingController *> networkingControllers );	//recibe como parametro true si le toca empezar al jugador propio	
-	bool sendToInputControllers(inputEv *input);
-	bool sendToNetwControllers(networkingEv *netwPackage);
+	void sendToInputControllers(inputEv *input);
+	void sendToNetwControllers(networkingEv *netwPackage);
 };
 
 enum robberStates : stateTypes { WAIT_USER, WAIT_OPPONENT, WAIT_ROBBMOVE };
 
-enum robberFSMEvTypes : eventTypes { ROBBER_CARDS, ROBBER_MOVE, MY_CARDS, MY_CARDS_AND_WAIT };
+enum robberFSMEvTypes : eventTypes { INCOMING_ROBBER_CARDS, INCOMING_ROBBER_MOVE, MY_CARDS, MY_CARDS_AND_WAIT };
 
 class robberFSMEv : public genericEvent
 {

@@ -148,6 +148,9 @@ void catanGameModel::updatePlayersVictoryPoints()
 	unsigned char longestRoad1 = map.getP1LongestRoad();
 	unsigned char longestRoad2 = map.getP2LongestRoad();
 	if (player1.getLongestRoad() < longestRoad1)
+		void catanGameModel::cancelConstruction()
+	{
+	}
 	{
 		player1.setLongestRoad(longestRoad1);
 	}

@@ -13,16 +13,13 @@ netwConstructionController::netwConstructionController(catanGameModel * game,net
 }
 
 /*Asigna un paquete esperado al controller, ahora pasara a reaccionar solo ante la llegada de dicho paquete*/
-bool netwConstructionController::setExpectedPackage(networkingEventTypes package)
+void netwConstructionController::setExpectedPackage(networkingEventTypes package)
 {
-	bool ret = false;
 	if (buildingPackage(package))
 	{
 		expectedPackage = package;
 		expectsOnePackage = true;
-		ret = true;
 	}
-	return ret;
 }
 
 bool netwConstructionController::parseNetworkingEvent(networkingEv * ev)

@@ -10,7 +10,7 @@ EDANetworkingController::EDANetworkingController(networkingEventTypes package) :
 	expectedPackage = package;
 }
 
-void EDANetworkingController::setExpectedPacakge(networkingEventTypes package)
+void EDANetworkingController::setExpectedPackage(networkingEventTypes package)
 {
 	expectedPackage = package;
 }
@@ -20,7 +20,7 @@ bool EDANetworkingController::parseNetworkingEvent(networkingEv * ev)
 	bool ret = false;
 	if (ev->getHeader() == expectedPackage)
 	{
-		controllerEvent = new finishEvent;	//despues ver que significa este evento
+		controllerEvent = new ;	//despues ver que significa este evento
 		ret = true;
 	}
 	return ret;
