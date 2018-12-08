@@ -119,7 +119,7 @@ void mapViewer::viewBuildings()
 	list<string>::iterator it;
 	for (it = p1Roads.begin(); it != p1Roads.end(); it++)
 	{
-		al_draw_rotated_bitmap(road1Bitmap, al_get_bitmap_width(road1Bitmap) / 2.0, al_get_bitmap_height(road1Bitmap) / 2.0, gameCoords::myEdgesCoords[*it].xCoord, myEdgesCoords[*it].yCoord, myEdgesCoords[*it].angle, 0);		//roto desde el centro
+		al_draw_rotated_bitmap(road1Bitmap, al_get_bitmap_width(road1Bitmap) / 2.0, al_get_bitmap_height(road1Bitmap) / 2.0, gameCoords::myEdgesCoords[*it].xCoord, gameCoords::myEdgesCoords[*it].yCoord, gameCoords::myEdgesCoords[*it].angle, 0);		//roto desde el centro
 	}
 	for (it = p2Roads.begin(); it != p2Roads.end(); it++)
 	{
