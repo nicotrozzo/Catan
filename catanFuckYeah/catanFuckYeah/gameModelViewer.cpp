@@ -101,11 +101,11 @@ void gameModelViewer::viewTrade()
 void gameModelViewer::viewRobberDiscard()
 {
 	al_draw_bitmap(robberDiscardMenuBitmap,241,66,0);
-	al_draw_text(fontForBankCosts, al_color_name("black"), 489, 118, 0, to_string((myGame->getBankTradeCosts())[ORE] + '0') +"x1");
-	al_draw_text(fontForBankCosts, al_color_name("black"), 489, 118, 0, to_string((myGame->getBankTradeCosts())[WHEAT] + '0') + "x1");
-	al_draw_text(fontForBankCosts, al_color_name("black"), 489, 118, 0, to_string((myGame->getBankTradeCosts())[WOOL] + '0') + "x1");
-	al_draw_text(fontForBankCosts, al_color_name("black"), 489, 118, 0, to_string((myGame->getBankTradeCosts())[WOOD] + '0') + "x1");
-	al_draw_text(fontForBankCosts, al_color_name("black"), 489, 118, 0, to_string((myGame->getBankTradeCosts())[BRICK] + '0') + "x1");
+	al_draw_text(fontForBankCosts, al_color_name("black"), 489, 118, 0, (to_string((myGame->getBankTradeCosts())[ORE] + '0') +"x1").c_str());
+	al_draw_text(fontForBankCosts, al_color_name("black"), 668, 118, 0, (to_string((myGame->getBankTradeCosts())[WHEAT] + '0') + "x1").c_str());
+	al_draw_text(fontForBankCosts, al_color_name("black"), 853, 118, 0, (to_string((myGame->getBankTradeCosts())[WOOL] + '0') + "x1").c_str());
+	al_draw_text(fontForBankCosts, al_color_name("black"), 1019, 118, 0, (to_string((myGame->getBankTradeCosts())[WOOD] + '0') + "x1").c_str());
+	al_draw_text(fontForBankCosts, al_color_name("black"), 1199, 118, 0, (to_string((myGame->getBankTradeCosts())[BRICK] + '0') + "x1").c_str());
 }
 
 void gameModelViewer::viewSelectedCards()

@@ -265,7 +265,7 @@ bool catanMapModel::buildPendingConstruction()
 	return ret;
 }
 
-bool catanMapModel::buildRoad(string edge, char player)
+bool catanMapModel::validRoadBuilding(string edge, char player)
 {
 	bool ret = false;
 	if ((player == 1) || (player == 2))
@@ -306,7 +306,7 @@ bool catanMapModel::buildRoad(string edge, char player)
 	return ret;
 }
 
-bool catanMapModel::buildSettlement(string vertex, char player)
+bool catanMapModel::validSettlementBuilding(string vertex, char player)
 {
 	bool ret = false;
 	if ((player == 1) || (player == 2))
@@ -350,7 +350,7 @@ bool catanMapModel::buildSettlement(string vertex, char player)
 	return ret;
 }
 
-bool catanMapModel::buildCity(string vertex, char player)
+bool catanMapModel::validCityBuilding(string vertex, char player)
 {
 	bool ret = false;
 	if ((player == 1) || (player == 2))

@@ -51,6 +51,7 @@ private:
 	void viewTokens();
 	void viewBuildings();
 	void viewRobber();
+	void viewPendingConstruction();
 };
 
 

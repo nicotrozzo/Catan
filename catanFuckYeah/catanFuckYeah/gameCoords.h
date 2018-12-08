@@ -32,9 +32,4 @@ public:
 	static map<unsigned char, coords> myHexagonCoords;
 	static map<string, coords> buttonCoords;
 	static map<string, coords> cardsCoords;
-
-
-	//static const map<, point> cardsCoords = {
-	//cardsCoords[{WHEAT,1}] ->devuelve centro de la carta, o esquina sup izquierda
-	//}
 };
