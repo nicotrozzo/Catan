@@ -55,7 +55,7 @@ void inputTickAndXController::setActionToDo(tickActions_t action)
 
 
 inputTickAndXController::~inputTickAndXController()
-{
+{	//acordarse de hacer delete cuando pedimos el evento para no caer en memoty leaks
 }
 
 bool inputTickAndXController::validAction(tickActions_t action)
