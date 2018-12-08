@@ -32,12 +32,14 @@ void catanPlayerModel::setName(string name)
 	if (NameIs.length() == 0)
 	{
 		NameIs = name.substr(0, MAX_NAME_LENGTH);
+		notifyAllObservers();
 	}
 }
 
 void catanPlayerModel::setLongestRoad(unsigned char longRoad)
 {
 	longestRoad = longRoad;
+	notifyAllObservers();
 }
 
 unsigned char catanPlayerModel::getLongestRoad()
@@ -78,6 +80,10 @@ bool catanPlayerModel::incResource(unsigned char resource)
 	default:
 		ret = false;
 	}
+	if (ret)
+	{
+		notifyAllObservers();
+	}
 	return ret;
 }
 
@@ -106,6 +112,10 @@ bool catanPlayerModel::incResource(unsigned char resource, unsigned char count)
 		default:
 			ret = false;
 		}
+	}
+	if (ret)
+	{
+		notifyAllObservers();
 	}
 	return ret;
 }
@@ -167,6 +177,10 @@ bool catanPlayerModel::decResource(unsigned char resource)
 		break;
 	default:
 		ret = false;
+	}
+	if (ret)
+	{
+		notifyAllObservers();
 	}
 	return ret;
 }
@@ -231,6 +245,10 @@ bool catanPlayerModel::decResource(unsigned char resource, unsigned char count)
 		default:
 			ret = false;
 		}
+	}
+	if (ret)
+	{
+		notifyAllObservers();
 	}
 	return ret;
 }

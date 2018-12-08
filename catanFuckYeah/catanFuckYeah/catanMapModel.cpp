@@ -274,6 +274,7 @@ bool catanMapModel::buildPendingConstruction()
 	if (ret)
 	{
 		pendingConstruction.type = NO_PCKG;
+		notifyAllObservers();
 	}
 	return ret;
 }
