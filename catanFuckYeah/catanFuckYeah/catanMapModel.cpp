@@ -890,12 +890,34 @@ bool catanMapModel::adjacentToOwnRoad(string edge, char player)
 bool catanMapModel::checkAvailableSettlement(string vertex, char player)
 {
 	bool ret = false;
-	ret = player == 1 ? ((p1UsedVertexList.size() - p1Cities.size()) < AMOUNT_OF_SETTLEMENTS) : ((p2UsedVertexList.size() - p2Cities.size()) < AMOUNT_OF_SETTLEMENTS);
-	if (ret)
+	bool max = player == 1 ? ((p1UsedVertexList.size() - p1Cities.size()) < AMOUNT_OF_SETTLEMENTS) : ((p2UsedVertexList.size() - p2Cities.size()) < AMOUNT_OF_SETTLEMENTS);
+	if (max)
 	{
 		if (existingVertex(vertex))
 		{
-			if ((player == 1) || (player == 2))
+			if (player == 1)
+			{
+				for (auto x : p1UsedVertexList)
+				{
+					if (x == vertex)
+					{
+						max = false;
+						break;
+					}
+				}
+			}
+			else if (player == 2)
+			{
+				for (auto x : p2UsedVertexList)
+				{
+					if (x == vertex)
+					{
+						max = false;
+						break;
+					}
+				}
+			}
+			if (max && ((player == 1) || (player == 2)))
 			{
 				if (!adjacentToHiddenRoad(vertex))
 				{

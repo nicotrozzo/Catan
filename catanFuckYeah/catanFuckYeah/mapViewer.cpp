@@ -23,7 +23,7 @@ mapViewer::mapViewer(catanMapModel * myMap)
 							{
 								if ((tokens[0] = al_load_bitmap("graficoCatan\\numeros\\2.png")) != NULL && (tokens[1] = al_load_bitmap("graficoCatan\\numeros\\3.png")) != NULL && (tokens[2] = al_load_bitmap("graficoCatan\\numeros\\4.png")) != NULL && (tokens[3] = al_load_bitmap("graficoCatan\\numeros\\5.png")) != NULL && (tokens[4] = al_load_bitmap("graficoCatan\\numeros\\6.png")) != NULL && (tokens[5] = al_load_bitmap("graficoCatan\\numeros\\8.png")) != NULL && (tokens[6] = al_load_bitmap("graficoCatan\\numeros\\9.png")) != NULL && (tokens[7] = al_load_bitmap("graficoCatan\\numeros\\10.png")) != NULL && (tokens[8] = al_load_bitmap("graficoCatan\\numeros\\11.png")) != NULL && (tokens[9] = al_load_bitmap("graficoCatan\\numeros\\12.png")) != NULL)
 								{
-									if ((fontForAmountOfBuildings = al_load_ttf_font("graficoCatan\\font\\scribish", 62, 0)) != NULL)
+									if ((fontForAmountOfBuildings = al_load_ttf_font("graficoCatan\\font\\scribish.ttf", 62, 0)) != NULL)
 									{
 										initOk = true;
 										oceanHex = { { 'N',seaN },{ 'L',seaL },{ 'M',seaM },{ 'O',seaO },{ 'P',seaP },{ 'T',seaT } };
@@ -176,9 +176,9 @@ void mapViewer::viewAmountOfBuildingsLeft()
 	unsigned char amountOfSettlements = myMap->getAmountOfSettlementsLeft();
 	unsigned char amountOfCities = myMap->getAmountOfCitiesLeft();
 	unsigned char amountOfRoads = myMap->getAmountOfRoadsLeft();
-	al_draw_text(fontForAmountOfBuildings, al_color_name("black"), 1401, 765, 0, to_string(amountOfSettlements).c_str());
-	al_draw_text(fontForAmountOfBuildings, al_color_name("black"), 1479, 765, 0, to_string(amountOfCities).c_str());
-	al_draw_text(fontForAmountOfBuildings, al_color_name("black"), 1578, 765, 0, to_string(amountOfRoads).c_str());
+	al_draw_text(fontForAmountOfBuildings, al_color_name("black"), 1401, 765, 0, to_string(amountOfCities).c_str());
+	al_draw_text(fontForAmountOfBuildings, al_color_name("black"), 1479, 765, 0, to_string(amountOfRoads).c_str());
+	al_draw_text(fontForAmountOfBuildings, al_color_name("black"), 1578, 765, 0, to_string(amountOfSettlements).c_str());
 }
 
 mapViewer::~mapViewer()

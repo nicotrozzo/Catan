@@ -38,7 +38,7 @@ void player2Viewer::viewNameIs()
 	al_draw_text(fontForName, al_color_name("black"), 27, 686, 0, name.c_str());
 }
 
-void player2Viewer::viewLongestRoad()		//faltaaaaaaaaaaaaaaaaaaaaaaaaaa
+void player2Viewer::viewLongestRoad()
 {
 }
 
