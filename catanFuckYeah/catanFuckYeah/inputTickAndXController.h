@@ -31,5 +31,6 @@ private:
 	catanGameModel * gameModel;
 	tickActions_t actionToDo;
 	bool validAction(tickActions_t action);
+	bool selectionCall(bool yes);
 };
 

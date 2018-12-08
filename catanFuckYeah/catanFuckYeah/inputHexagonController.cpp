@@ -18,9 +18,9 @@ bool  inputHexagonController::parseMouseEvent(mouseEvent * ev)
 	{
 		clickCoords.x = gameCoords::myHexagonCoords['A' + i].xCoord;
 		clickCoords.y = gameCoords::myHexagonCoords['A' + i].yCoord;
-		if (abs(mouseCoords.x - clickCoords.x) <= OFFSET_HEXAGON_X)
+		if (abs(mouseCoords.x - clickCoords.x) <= OFFSET_HEXAGON_X/2)
 		{
-			if (abs(mouseCoords.y - clickCoords.y) <= OFFSET_HEXAGON_Y)
+			if (abs(mouseCoords.y - clickCoords.y) <= OFFSET_HEXAGON_Y/2)
 			{
 				ret = gameModel->robberMoved('A' + i);
 			}
@@ -34,6 +34,7 @@ inputControllerTypes inputHexagonController::getType()
 {
 	return CTRL_HEXAGON;
 }
+
 inputHexagonController::~inputHexagonController()
 {
 
