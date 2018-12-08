@@ -300,7 +300,7 @@ bool catanGameModel::playersTrade(string currentPlayerCards, string otherPlayerC
 bool catanGameModel::bankTrade(string playerResource, resourceType bankResource)	
 { 
 	bool ret = false;
-	std::map<resourceType, unsigned char> costs = map.getBankTradeCosts(2);
+	std::map<resourceType, unsigned char> costs = map.getBankTradeCosts(2);		
 	size_t strLenght = 0;
 	char res = playerResource[0];
 	unsigned char costRes;
@@ -335,9 +335,13 @@ bool catanGameModel::bankTrade(string playerResource, resourceType bankResource)
 		}
 		if (strLenght == static_cast<size_t>(costRes))
 		{
-			for (; strLenght != 0; strLenght--)
+			for (; (strLenght != 0) && !ret; strLenght--)
 			{
-				getOtherPlayer().decResource(res);
+				ret = getCurrentPlayer().decResource(res);
+			}
+			if (ret)
+			{
+				ret = getCurrentPlayer().incResource(static_cast<unsigned char>(bankResource));
 			}
 		}
 	}
