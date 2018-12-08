@@ -41,9 +41,9 @@ class inputEventGenerator : public eventGenerator
 public:
 	inputEventGenerator();
 	genericEvent * getEvent(void);
-
 private:
 	queue<genericEvent*> eventQueue;
 	ALLEGRO_EVENT_QUEUE * allegroQueue;
+	ALLEGRO_EVENT ev;
 };
 
