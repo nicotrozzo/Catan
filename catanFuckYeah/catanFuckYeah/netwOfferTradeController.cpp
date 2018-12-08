@@ -12,7 +12,7 @@ bool netwOfferTradeController::parseNetworkingEvent(networkingEv * ev)
 	if (ev->getHeader() == OFFER_TRADE)
 	{
 		offerTradePckg *offerPckg = static_cast<offerTradePckg *>(ev);
-		if (gameModel->validSelectedCards(offerPckg->getOwnResources(), offerPckg->getOppResources()))
+		if (gameModel->validSelectedCards(offerPckg->getOppResources(), offerPckg->getOwnResources()))
 		{
 			controllerEvent = new playingFSMEvent(CARDS_EV);
 		}

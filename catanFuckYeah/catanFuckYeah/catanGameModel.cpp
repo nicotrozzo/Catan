@@ -176,7 +176,7 @@ void catanGameModel::updatePlayersVictoryPoints()
 	player2.setVictoryPoints(vicPoints2);
 }
 
-bool catanGameModel::validSelectedCards(string currentPlayerCards, string otherCards)
+bool catanGameModel::validSelectedCards(string currentPlayerCards, string otherCards)	//en este caso current es el jugador 2 siempre
 {
 	bool ret = true;
 	string possibleRes = RESOURCES_STR;
@@ -206,19 +206,19 @@ bool catanGameModel::validSelectedCards(string currentPlayerCards, string otherC
 				switch (x)
 				{
 				case 'L':
-					ret = (((*pCResCount > getCurrentPlayer().getCards().brick) ? false : true) && (*pOResCount > getOtherPlayer().getCards().brick ? false : true));
+					ret = (((*pCResCount > player2.getCards().brick) ? false : true) && (*pOResCount > player1.getCards().brick ? false : true));
 					break;
 				case 'M':
-					ret = ((*pCResCount > getCurrentPlayer().getCards().wood ? false : true) && (*pOResCount > getOtherPlayer().getCards().wood ? false : true));
+					ret = ((*pCResCount > player2.getCards().wood ? false : true) && (*pOResCount > player1.getCards().wood ? false : true));
 					break;
 				case 'O':
-					ret = ((*pCResCount > getCurrentPlayer().getCards().wool ? false : true) && (*pOResCount > getOtherPlayer().getCards().wool ? false : true));
+					ret = ((*pCResCount > player2.getCards().wool ? false : true) && (*pOResCount > player1.getCards().wool ? false : true));
 					break;
 				case 'P':
-					ret = ((*pCResCount > getCurrentPlayer().getCards().ore ? false : true) && (*pOResCount > getOtherPlayer().getCards().ore ? false : true));
+					ret = ((*pCResCount > player2.getCards().ore ? false : true) && (*pOResCount > player1.getCards().ore ? false : true));
 					break;
 				case 'T':
-					ret = ((*pCResCount > getCurrentPlayer().getCards().wheat ? false : true) && (*pOResCount > getOtherPlayer().getCards().wheat ? false : true));
+					ret = ((*pCResCount > player2.getCards().wheat ? false : true) && (*pOResCount > player1.getCards().wheat ? false : true));
 					break;
 				default:
 					break;
@@ -474,16 +474,16 @@ bool catanGameModel::discardCurrentPlayer()
 	return ret;
 }
 
-bool catanGameModel::discardOtherPlayer(string cards)
+bool catanGameModel::discardPlayer2(string cards)		//cuando se llama a este metodo es el turno del jugador 2
 {
 	bool ret = true;
-	if (validSelectedCards("", cards))
+	if (validSelectedCards(cards, ""))
 	{
 		for (auto x : cards)
 		{
 			while (ret != false)
 			{
-				ret = getOtherPlayer().decResource(x);
+				ret = player2.decResource(x);
 			}
 		}
 	}

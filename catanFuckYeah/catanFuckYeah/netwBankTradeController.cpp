@@ -11,7 +11,7 @@ bool netwBankTradeController::parseNetworkingEvent(networkingEv * package)
 	if (package->getHeader() == BANK_TRADE)
 	{
 		bankTradePckg *bankPckg = static_cast<bankTradePckg *>(package);
-		if (gameModel->validSelectedCards("", bankPckg->getOppResources()))
+		if (gameModel->validSelectedCards(bankPckg->getOppResources(), ""))
 		{
 			ret = gameModel->bankTrade(bankPckg->getOppResources(), static_cast<resourceType>(bankPckg->getBankResource()));
 		}

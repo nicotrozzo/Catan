@@ -27,7 +27,7 @@ public:
 	bool robberCardsReady();
 	void clearRobberCards();
 	bool discardCurrentPlayer();				//devuelve false si era una cantidad invalida de cartas, o no tenia esas cartas
-	bool discardOtherPlayer(string cards);		//devuelve false si era una cantidad invalida de cartas, o no tenia esas cartas
+	bool discardPlayer2(string cards);		//devuelve false si era una cantidad invalida de cartas, o no tenia esas cartas
 	
 
 	networkingEventTypes isSelecting();	//devuelve 0 si no esta preparando un intercambio, OFFER_TRADE si esta preparando intercambio entre jugadores o BANK_TRADE si esta preparando intercambio con el banco
