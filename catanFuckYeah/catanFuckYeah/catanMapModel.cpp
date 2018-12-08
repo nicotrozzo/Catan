@@ -59,6 +59,17 @@ catanMapModel::catanMapModel()
 	pendingConstruction.type = NO_PCKG;
 }
 
+bool catanMapModel::setRobberPos(unsigned char robberPos_)
+{
+	bool ret = false;
+	if (robberPos != robberPos_)
+	{
+		robberPos = robberPos_;
+		notifyAllObservers();
+	}
+	return ret;
+}
+
 string catanMapModel::getMap(void)
 {
 	string mapToReturn;
@@ -1108,6 +1119,11 @@ bool catanMapModel::adjacentRoads(string road1, string road2)
 		}
 	}
 	return ret;
+}
+
+void catanMapModel::notify()
+{
+	notifyAllObservers();
 }
 
 catanMapModel::~catanMapModel()

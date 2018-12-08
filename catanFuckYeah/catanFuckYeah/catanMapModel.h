@@ -21,7 +21,7 @@ typedef struct
 
 typedef struct 
 {
-	unsigned char res;
+	resourceType res;
 	unsigned char resCount;
 }resource_t;
 
@@ -57,7 +57,7 @@ class catanMapModel : public EDASubject
 public:
 	catanMapModel();
 	unsigned char getRobberPos() { return robberPos; }
-	void setRobberPos(unsigned char robberPos_) { robberPos = robberPos_; }
+	bool setRobberPos(unsigned char robberPos_);
 	string getMap();
 	string getCircularTokens();
 	bool setMap(string map_);						//EL MODELO ES MODIFICADO
@@ -84,6 +84,8 @@ public:
 	unsigned char getP1LongestRoad();
 	unsigned char getP2LongestRoad();
 	list<pepe> getSelectedHex(unsigned int diceValue);
+
+	void notify();
 	~catanMapModel();	//BORRAR TODOS LOS ROADS
 private:
 	unsigned char robberPos;

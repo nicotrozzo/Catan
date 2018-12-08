@@ -253,6 +253,11 @@ bool catanPlayerModel::decResource(unsigned char resource, unsigned char count)
 	return ret;
 }
 
+void catanPlayerModel::notify()
+{
+	notifyAllObservers();
+}
+
 
 catanPlayerModel::~catanPlayerModel()
 {

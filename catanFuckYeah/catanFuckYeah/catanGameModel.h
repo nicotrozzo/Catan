@@ -77,6 +77,7 @@ public:
 	catanMapModel getMap();
 	unsigned char getDice1() { return dice1; }
 	unsigned char getDice2() { return dice2; }
+	catanMapModel getMap();
 	bool gameOver();	//true si termino el juego, llamar despues de construccion!!!!!!!!(pregunta a cada jugador cuantos puntos tiene)
 	~catanGameModel();
 protected:
