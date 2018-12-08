@@ -23,6 +23,7 @@ private:
 	ALLEGRO_BITMAP * tradeMenuBitmap;
 	ALLEGRO_BITMAP * robberDiscardMenuBitmap;
 	ALLEGRO_FONT * fontForAmountOfCards;
+	ALLEGRO_FONT * fontForBankCosts;
 	void viewDices();
 	void viewTrade();
 	void viewRobberDiscard();

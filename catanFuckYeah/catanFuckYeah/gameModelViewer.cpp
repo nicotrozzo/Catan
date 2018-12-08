@@ -13,7 +13,10 @@ gameModelViewer::gameModelViewer(catanGameModel *myGame)
 			{
 				if ((fontForAmountOfCards = al_load_ttf_font("graficoCatan\\font\\scribish.ttf", 43, 0)) != NULL)
 				{
-					initOk = true;
+					if ((fontForBankCosts = al_load_ttf_font("graficoCatan\\font\\scribish.ttf", 45, 0)) != NULL)
+					{
+						initOk = true;
+					}
 				}
 			}
 		}
@@ -98,6 +101,11 @@ void gameModelViewer::viewTrade()
 void gameModelViewer::viewRobberDiscard()
 {
 	al_draw_bitmap(robberDiscardMenuBitmap,241,66,0);
+	al_draw_text(fontForBankCosts, al_color_name("black"), 489, 118, 0, to_string((myGame->getBankTradeCosts())[ORE] + '0') +"x1");
+	al_draw_text(fontForBankCosts, al_color_name("black"), 489, 118, 0, to_string((myGame->getBankTradeCosts())[WHEAT] + '0') + "x1");
+	al_draw_text(fontForBankCosts, al_color_name("black"), 489, 118, 0, to_string((myGame->getBankTradeCosts())[WOOL] + '0') + "x1");
+	al_draw_text(fontForBankCosts, al_color_name("black"), 489, 118, 0, to_string((myGame->getBankTradeCosts())[WOOD] + '0') + "x1");
+	al_draw_text(fontForBankCosts, al_color_name("black"), 489, 118, 0, to_string((myGame->getBankTradeCosts())[BRICK] + '0') + "x1");
 }
 
 void gameModelViewer::viewSelectedCards()
