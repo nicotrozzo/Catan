@@ -15,5 +15,6 @@ public:
 private:
 	catanGameModel * gameModel;
 	networkingEventTypes function;
+	void selectCall(resourceType resource, unsigned char player);
 };
 

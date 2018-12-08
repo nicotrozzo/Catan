@@ -19,10 +19,10 @@ public:
 
 	//bool construction(networkingEventTypes type, string coords);		
 	bool validSelectedCards(string currentPlayerCards, string otherPlayerCards);		//checkea que la transaccion solicitada sea valida, en cuyo case devuelve true
-	bool bankTrade(string player, unsigned char  bankResource);		//devuelve false si la transaccion es invalida (ver lo de 2x1 y 3x1)
+	bool bankTrade(string playerResource, resourceType  bankResource);		//devuelve false si la transaccion es invalida (ver lo de 2x1 y 3x1)
 	bool robberMoved(unsigned char hex);	//devuelve false y no cambia nada si el lugar no es valido 
 	
-	map<resourceType,unsigned char> getBankTradeCosts();	//
+	map<resourceType,unsigned char> getBankTradeCosts();	
 
 	bool prepareRobberDiscard(resourceType resource);
 	bool robberCardsReady();
@@ -95,6 +95,8 @@ protected:
 	catanMapModel map;
 	bool selectedResource(resourceType res, unsigned char player);
 	networkingEventTypes selecting;
+	void updatePlayersVictoryPoints();
+	unsigned char longestRoadPlayer;
 };
 
 

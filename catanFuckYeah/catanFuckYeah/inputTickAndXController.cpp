@@ -1,16 +1,19 @@
 #include "inputTickAndXController.h"
+#include "gameDefines.h"
+#include "gameCoords.h"
 
 
-
-inputTickAndXController::inputTickAndXController()
+inputTickAndXController::inputTickAndXController(catanGameModel * game)
 {
 
 }
 
 void inputTickAndXController::parseMouseEvent(mouseEvent * ev)
 {
-	//if(clickEnTick)
-	//{
+	point mouseCoords = ev->getClickCoords();
+	gameCoords::buttonCoords["YES"];
+	if(mouseCoords.x > )
+	{
 		switch (actionToDo)
 		{
 		case TICK_OPP_TRADE:
@@ -29,7 +32,7 @@ void inputTickAndXController::parseMouseEvent(mouseEvent * ev)
 			
 			break;
 		}
-	//}
+	}
 	//else if (clickEnCruz)
 	//{
 		switch (actionToDo)

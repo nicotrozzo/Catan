@@ -6,6 +6,26 @@ catanPlayerModel::catanPlayerModel() : myCards({ 0,0,0,0,0 })
 	victoryPoints = 0;
 }
 
+unsigned char catanPlayerModel::getAmountOfCards()
+{
+	return myCards.totalCardsCount();
+}
+
+cards catanPlayerModel::getCards()
+{
+	return myCards;
+}
+
+unsigned char catanPlayerModel::getVictoryPoints()
+{
+	return victoryPoints;
+}
+
+void catanPlayerModel::setVictoryPoints(unsigned char points)
+{
+	victoryPoints = points; 
+	notifyAllObservers();
+}
 
 void catanPlayerModel::setName(string name)
 {
@@ -15,7 +35,25 @@ void catanPlayerModel::setName(string name)
 	}
 }
 
+void catanPlayerModel::setLongestRoad(unsigned char longRoad)
+{
+	longestRoad = longRoad;
+}
 
+unsigned char catanMapModel::getLongestRoad()
+{
+	return longestRoad;
+}
+
+string catanMapModel::getName()
+{
+	return NameIs;
+}
+
+unsigned char catanMapModel::getPlayerNumber()
+{
+	return playerNumber;
+}
 
 bool catanPlayerModel::incResource(unsigned char resource)
 {

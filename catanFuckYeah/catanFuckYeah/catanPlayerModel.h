@@ -17,13 +17,15 @@ class catanPlayerModel : public EDASubject
 {
 public:
 	catanPlayerModel();
-	unsigned char getAmountOfCards() { return myCards.totalCardsCount(); }
-	cards getCards() { return myCards; }
-	unsigned char getVictoryPoints() { return victoryPoints; }
-	void setVictoryPoints(unsigned char points) { victoryPoints = points; }
+	unsigned char getAmountOfCards();
+	cards getCards();
+	unsigned char getVictoryPoints();
+	void setVictoryPoints(unsigned char points);
 	void setName(string name);
-	string getName() { return NameIs; }
-	unsigned char getPlayerNumber() { return playerNumber; }
+	void setLongestRoad(unsigned char longRoad);
+	unsigned char getLongestRoad();
+	string getName();
+	unsigned char getPlayerNumber();
 	bool incResource(unsigned char resource);
 	bool incResource(unsigned char resource, unsigned char count);
 	bool decResource(unsigned char resource);
@@ -33,5 +35,6 @@ private:
 	cards myCards;
 	unsigned char victoryPoints;
 	unsigned char playerNumber;
+	unsigned char longestRoad;
 	string NameIs;
 };
