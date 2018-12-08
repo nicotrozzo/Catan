@@ -134,9 +134,13 @@
     <ClCompile Include="inputStateController.cpp" />
     <ClCompile Include="inputTickAndXController.cpp" />
     <ClCompile Include="mapViewer.cpp" />
+    <ClCompile Include="netwBankTradeController.cpp" />
     <ClCompile Include="netwConstructionController.cpp" />
     <ClCompile Include="netwDicesController.cpp" />
+    <ClCompile Include="netwOfferTradeController.cpp" />
     <ClCompile Include="networkingObserver.cpp" />
+    <ClCompile Include="netwRobberCardsController.cpp" />
+    <ClCompile Include="netwRobberMoveController.cpp" />
     <ClCompile Include="netwYNController.cpp" />
     <ClCompile Include="player1Viewer.cpp" />
     <ClCompile Include="player2Viewer.cpp" />
@@ -180,9 +184,13 @@
     <ClInclude Include="inputStateController.h" />
     <ClInclude Include="inputTickAndXController.h" />
     <ClInclude Include="mapViewer.h" />
+    <ClInclude Include="netwBankTradeController.h" />
     <ClInclude Include="netwConstructionController.h" />
     <ClInclude Include="netwDicesController.h" />
+    <ClInclude Include="netwOfferTradeController.h" />
     <ClInclude Include="networkingObserver.h" />
+    <ClInclude Include="netwRobberCardsController.h" />
+    <ClInclude Include="netwRobberMoveController.h" />
     <ClInclude Include="netwYNController.h" />
     <ClInclude Include="player1Viewer.h" />
     <ClInclude Include="player2Viewer.h" />

@@ -83,7 +83,7 @@ bankTradePckg::bankTradePckg(string offer) : networkingEv(BANK_TRADE)
 {
 	if (offer.length() >= offer[1] + 3)
 	{
-		ownRes = offer.substr(2, offer[1]);
+		oppRes = offer.substr(2, offer[1]);
 		bankRes = offer[2 + offer[1]];
 	}
 	else
@@ -92,9 +92,9 @@ bankTradePckg::bankTradePckg(string offer) : networkingEv(BANK_TRADE)
 	}
 }
 
-string bankTradePckg::getOwnResources(void)
+string bankTradePckg::getOppResources(void)
 { 
-	return ownRes; 
+	return oppRes; 
 }
 
 unsigned char bankTradePckg::getBankResource(void)

@@ -170,6 +170,18 @@
     <ClCompile Include="inputStateController.cpp">
       <Filter>Archivos de origen\MVC: Controllers</Filter>
     </ClCompile>
+    <ClCompile Include="netwBankTradeController.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="netwOfferTradeController.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="netwRobberCardsController.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="netwRobberMoveController.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="catanGameModel.h">
@@ -303,6 +315,18 @@
     </ClInclude>
     <ClInclude Include="inputStateController.h">
       <Filter>Archivos de encabezado\MVC: Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="netwBankTradeController.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="netwOfferTradeController.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="netwRobberCardsController.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="netwRobberMoveController.h">
+      <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
