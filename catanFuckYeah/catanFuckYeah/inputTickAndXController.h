@@ -22,13 +22,13 @@ public:
 							* cruz cancela la seleccion (metodo clearRobberCards() )
 	SIEMPRE QUE HAGA ALGO EMITIR EVENTO CHANGE_STATE
 	*/
-	virtual void parseMouseEvent(mouseEvent * ev);
-	virtual void parseKeyboardEvent(keyboardEvent * ev);
+	virtual bool parseMouseEvent(mouseEvent * ev);
+	virtual bool parseKeyboardEvent(keyboardEvent * ev);
 	void setActionToDo(tickActions_t action);	
 	~inputTickAndXController();
 
 private:
-	catanGameModel * game;
+	catanGameModel * gameModel;
 	tickActions_t actionToDo;
 	bool validAction(tickActions_t action);
 };

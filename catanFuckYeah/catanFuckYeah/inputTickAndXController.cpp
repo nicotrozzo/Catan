@@ -8,22 +8,30 @@ inputTickAndXController::inputTickAndXController(catanGameModel * game)
 
 }
 
-void inputTickAndXController::parseMouseEvent(mouseEvent * ev)
+bool inputTickAndXController::parseMouseEvent(mouseEvent * ev)
 {
+	bool ret = false;
 	point mouseCoords = ev->getClickCoords();
-	gameCoords::buttonCoords["YES"];
-	if(mouseCoords.x > )
+	point tickCoord, crossCoord;
+	tickCoord.x = gameCoords::buttonCoords["YES"].xCoord;
+	tickCoord.y = gameCoords::buttonCoords["YES"].yCoord;
+	crossCoord.x = gameCoords::buttonCoords["NO"].xCoord;
+	crossCoord.y = gameCoords::buttonCoords["NO"].yCoord;
+	if(((mouseCoords.x >= tickCoord.x) &&(mouseCoords.x - tickCoord.x < OFFSET_YES_X)) && ((mouseCoords.y >= tickCoord.y) && (mouseCoords.y - tickCoord.y < OFFSET_YES_Y)))
 	{
 		switch (actionToDo)
 		{
 		case TICK_OPP_TRADE:
-
+			ret = gameModel->playerTrade();
 			break;
 		case TICK_BANK_TRADE:
-		
+			ret = gameModel->bankTrade();
 			break;
 		case TICK_OWN_TRADE:
-			
+			if (gameModel->playerTradeReady())
+			{
+				ret = gameModel->playerTrade();
+			}
 			break;
 		case TICK_BUILD:
 			
@@ -33,8 +41,8 @@ void inputTickAndXController::parseMouseEvent(mouseEvent * ev)
 			break;
 		}
 	}
-	//else if (clickEnCruz)
-	//{
+	else if (((mouseCoords.x >= crossCoord.x) && (mouseCoords.x - crossCoord.x < OFFSET_NO_X)) && ((mouseCoords.y >= crossCoord.y) && (mouseCoords.y - crossCoord.y < OFFSET_NO_Y)))
+	{
 		switch (actionToDo)
 		{
 		case TICK_OPP_TRADE:
@@ -62,7 +70,7 @@ void inputTickAndXController::parseMouseEvent(mouseEvent * ev)
 
 }
 
-void inputTickAndXController::parseKeyboardEvent(keyboardEvent * ev)
+bool inputTickAndXController::parseKeyboardEvent(keyboardEvent * ev)
 {
 
 }
