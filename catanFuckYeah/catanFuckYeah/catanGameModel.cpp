@@ -94,10 +94,14 @@ bool catanGameModel::validConstruction(networkingEventTypes type, string coords)
 		ret = map.checkAvailableRoad(coords, player);
 		break;
 	}
-	/*if (ret)
+	if (ret)
 	{
-		notifyAllObservers();
-	}*/
+		if (!constructing)
+		{
+			constructing = true;
+			notifyAllObservers();
+		}
+	}
 	return ret;
 }
 
@@ -708,6 +712,11 @@ bool catanGameModel::bankTrade()
 	return ret;
 }
 
+bool catanGameModel::player1Playing()
+{
+	return player1Playing;
+}
+
 catanPlayerModel catanGameModel::getCurrentPlayer()
 {
 	catanPlayerModel ret;
@@ -739,7 +748,7 @@ catanPlayerModel catanGameModel::getOtherPlayer()
 bool catanGameModel::gameOver()
 {
 	bool ret = false;
-	if ((getCurrentPlayer().getVictoryPoints() == POINTS_TO_WIN) || (getOtherPlayer().getVictoryPoints() == POINTS_TO_WIN))
+	if ((getCurrentPlayer().getVictoryPoints() >= POINTS_TO_WIN) || (getOtherPlayer().getVictoryPoints() >= POINTS_TO_WIN))
 	{
 		ret = true;
 	}
