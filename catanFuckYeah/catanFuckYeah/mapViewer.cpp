@@ -44,6 +44,7 @@ void mapViewer::update()
 		viewHex();
 		viewTokens();
 		viewRobber();
+		viewPendingConstruction();
 		viewBuildings();
 		//viewBankTrade();
 	}
@@ -148,6 +149,23 @@ void mapViewer::viewRobber()
 {
 	unsigned char robberPos = myMap->getRobberPos();
 	al_draw_bitmap(robberBitmap, gameCoords::myHexagonCoords[robberPos].xCoord - al_get_bitmap_width(robberBitmap) / 2, gameCoords::myHexagonCoords[robberPos].yCoord - al_get_bitmap_height(robberBitmap) / 2, 0);
+}
+
+void mapViewer::viewPendingConstruction()
+{
+	construction_t pendingConstruction = myMap->getPendingConstruction();
+	switch (pendingConstruction.type)
+	{
+	case SETTLEMENT:
+		al_draw_tinted_bitmap(settlement1Bitmap, al_map_rgba_f(0.5, 0.5, 0.5, 0.5), gameCoords::myVertexCoords[pendingConstruction.coords].xCoord, gameCoords::myVertexCoords[pendingConstruction.coords].yCoord, 0);
+		break;
+	case CITY:
+		al_draw_tinted_bitmap(city1Bitmap, al_map_rgba_f(0.5, 0.5, 0.5, 0.5), gameCoords::myVertexCoords[pendingConstruction.coords].xCoord, gameCoords::myVertexCoords[pendingConstruction.coords].yCoord, 0);
+		break;
+	case ROAD:
+		al_draw_tinted_bitmap(road1Bitmap, al_map_rgba_f(0.5, 0.5, 0.5, 0.5), gameCoords::myEdgesCoords[pendingConstruction.coords].xCoord, gameCoords::myEdgesCoords[pendingConstruction.coords].yCoord, 0);
+		break;
+	}
 }
 
 mapViewer::~mapViewer()
