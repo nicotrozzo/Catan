@@ -424,7 +424,6 @@ void catanGameModel::clearRobberCards()
 	p1DiscardRobberCards.wheat = 0;
 	p1DiscardRobberCards.wool = 0;
 	p1DiscardRobberCards.wood = 0;
-	selecting = NO_PCKG;
 	notifyAllObservers();
 }
 
@@ -702,7 +701,6 @@ bool catanGameModel::bankTrade()
 	return ret;
 }
 
-
 catanPlayerModel catanGameModel::getCurrentPlayer()
 {
 	catanPlayerModel ret;
@@ -753,9 +751,7 @@ void catanGameModelSetup::setStartingPlayer(char player)
 	}
 }
 
-
 catanGameModel::~catanGameModel()
 {
 
 }
-

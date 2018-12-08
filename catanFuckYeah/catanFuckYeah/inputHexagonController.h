@@ -11,11 +11,11 @@ public:
 		gameModel->robberMoved(hexagonoClickeado) si devuelve true, controllerEvent = algo del robber
 		si devuelve false, no hay que emitir evento y quedar esperando un nuevo click
 	*/
-	virtual void parseMouseEvent(mouseEvent * ev);
-	virtual void parseKeyboardEvent(keyboardEvent * ev);
-	inputControllerTypes getType() { return CTRL_HEXAGON; }
+	virtual bool parseMouseEvent(mouseEvent * ev);
+	virtual bool parseKeyboardEvent(keyboardEvent * ev);			//El usuario no tiene por que saber como llamamos a cada hexagono A,B,C...
+	inputControllerTypes getType();
 	~inputHexagonController();
 private:
-	catanGameModel * game;
+	catanGameModel * gameModel;
 };
 

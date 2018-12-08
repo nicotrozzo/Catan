@@ -22,6 +22,8 @@
 #define OFFSET_PLAYER_TURN_Y 79
 #define OFFSET_EXIT_X 80
 #define OFFSET_EXIT_Y 80
+#define OFFSET_HEXAGON_X 90
+#define OOFSER_HEXAGON_Y 90
 
 typedef enum resourceType { BRICK = 'L', WOOD, DESSERT, WOOL, ORE, WHEAT = 'T'};
 
