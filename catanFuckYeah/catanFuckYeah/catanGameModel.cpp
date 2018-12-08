@@ -289,6 +289,10 @@ bool catanGameModel::playersTrade(string currentPlayerCards, string otherPlayerC
 			}
 		}
 		ret = true;
+		map.notify();
+		player1.notify();
+		player2.notify();
+		notifyAllObservers();
 	}
 	return ret;
 }
@@ -337,16 +341,25 @@ bool catanGameModel::bankTrade(string playerResource, resourceType bankResource)
 			}
 		}
 	}
+	if (ret)
+	{
+		map.notify();
+		player1.notify();
+		player2.notify();
+		notifyAllObservers();
+	}
 	return ret;
 }
 
 bool catanGameModel::robberMoved(unsigned char hex)
 {
 	bool ret = false;
-	if (hex != map.getRobberPos())
+	if (map.setRobberPos(hex))
 	{
-		map.setRobberPos(hex);
 		ret = true;
+		player1.notify();
+		player2.notify();
+		notifyAllObservers();
 	}
 	return ret;
 }
@@ -410,6 +423,9 @@ bool catanGameModel::prepareRobberDiscard(resourceType resource)
 	}
 	if (ret)
 	{
+		map.notify();
+		player1.notify();
+		player2.notify();
 		notifyAllObservers();
 	}
 	return ret;
@@ -427,6 +443,9 @@ void catanGameModel::clearRobberCards()
 	p1DiscardRobberCards.wheat = 0;
 	p1DiscardRobberCards.wool = 0;
 	p1DiscardRobberCards.wood = 0;
+	map.notify();
+	player1.notify();
+	player2.notify();
 	notifyAllObservers();
 }
 
@@ -440,9 +459,14 @@ bool catanGameModel::discardCurrentPlayer()
 		player1.decResource(WOOL,p1DiscardRobberCards.wool);
 		player1.decResource(WOOD,p1DiscardRobberCards.wood);
 		player1.decResource(BRICK,p1DiscardRobberCards.brick);
+		ret = true;
+		selecting = NO_PCKG;
+		map.notify();
+		player1.notify();
+		player2.notify();
+		notifyAllObservers();
 	}
-	selecting = NO_PCKG;
-	notifyAllObservers();
+
 	return ret;
 }
 
@@ -463,6 +487,13 @@ bool catanGameModel::discardOtherPlayer(string cards)
 	{
 		ret = false;
 	}
+	if (ret)
+	{
+		map.notify();
+		player1.notify();
+		player2.notify();
+		notifyAllObservers();
+	}
 	return ret;
 }
 
@@ -478,6 +509,9 @@ void catanGameModel::clearTrades()
 	playerSelectedResource = {DESSERT,0};
 	bankSelectedResource = DESSERT;
 	selecting = NO_PCKG;
+	map.notify();
+	player1.notify();
+	player2.notify();
 	notifyAllObservers();
 }
 
@@ -546,6 +580,9 @@ bool catanGameModel::preparePlayerTrade(resourceType resource, unsigned char pla
 					player == 1 ? p1SelectedCardsForTrade.wood++ : p2SelectedCardsForTrade.wood++;
 					break;
 				}
+				map.notify();
+				player1.notify();
+				player2.notify();
 				notifyAllObservers();
 			}
 		}
@@ -614,6 +651,9 @@ bool catanGameModel::playerTrade()
 		player2.decResource(WOOL, p2SelectedCardsForTrade.wool);
 		player2.decResource(WOOD, p2SelectedCardsForTrade.wood);
 		selecting = NO_PCKG;
+		map.notify();
+		player1.notify();
+		player2.notify();
 		notifyAllObservers();
 		ret = true;
 	}
@@ -678,6 +718,9 @@ bool catanGameModel::prepareBankTrade(resourceType resource, bool player)
 	}
 	if (ret)	//si se modifico algo,avisa a los observers
 	{
+		map.notify();
+		player1.notify();
+		player2.notify();
 		notifyAllObservers();
 	}
 	return ret;
@@ -698,6 +741,9 @@ bool catanGameModel::bankTrade()
 		player1.decResource(playerSelectedResource.res, playerSelectedResource.resCount);	
 		player1.incResource(bankSelectedResource);
 		selecting = static_cast<networkingEventTypes>(0);
+		map.notify();
+		player1.notify();
+		player2.notify();
 		notifyAllObservers();
 		ret = true;
 	}

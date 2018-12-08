@@ -57,7 +57,7 @@ class catanMapModel : public EDASubject
 public:
 	catanMapModel();
 	unsigned char getRobberPos() { return robberPos; }
-	void setRobberPos(unsigned char robberPos_) { robberPos = robberPos_; }
+	bool setRobberPos(unsigned char robberPos_);
 	string getMap();
 	string getCircularTokens();
 	bool setMap(string map_);						//EL MODELO ES MODIFICADO
