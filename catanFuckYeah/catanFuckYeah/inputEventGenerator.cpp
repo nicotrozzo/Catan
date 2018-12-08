@@ -21,15 +21,15 @@ inputEventGenerator::inputEventGenerator() : allegroQueue(nullptr)
 
 genericEvent* inputEventGenerator::getEvent()
 {
-
-}
-
-timerEventGenerator::timerEventGenerator(double speed)
-{
-	//al_create_timer(speed);
-}
-
-genericEvent *timerEventGenerator::getEvent(void)
-{
-
+	genericEvent* ret = nullptr;
+	al_register_event_source(allegroQueue, al_get_mouse_event_source());
+	al_register_event_source(allegroQueue, al_get_keyboard_event_source());
+	al_get_next_event(allegroQueue, &ev);
+	switch (ev.type)
+	{
+	case ALLEGRO_EVENT_MOUSE_BUTTON_UP:
+		break;
+	case ALLEGRO_EVENT_KEY_CHAR:
+		break;
+	}
 }
