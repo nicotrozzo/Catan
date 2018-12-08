@@ -5,7 +5,7 @@
 
 inputTickAndXController::inputTickAndXController(catanGameModel * game)
 {
-
+	netEmisorEv = nullptr;
 }
 
 bool inputTickAndXController::parseMouseEvent(mouseEvent * ev)
@@ -73,6 +73,7 @@ bool inputTickAndXController::selectionCall(bool yes)
 		{
 		case TICK_OPP_TRADE:
 			ret = gameModel->playerTrade();
+			netEmisorEv->sendPackage(YES);
 			if (ret == false)
 			{
 				controllerEvent = new playingFSMErrorEv("Error en trueque invalido");
@@ -82,25 +83,93 @@ bool inputTickAndXController::selectionCall(bool yes)
 			if (gameModel->bankTradeReady())
 			{
 				ret = gameModel->bankTrade();
+				if (ret)
+				{
+					evType = CARDS_EV;
+					string message;
+					string myRes(1, gameModel->getPlayerSelectedResource().res);
+					string bankRes(1, gameModel->getBankSelectedResource());
+					for (int i = 0; i < gameModel->getPlayerSelectedResource().resCount; i++)
+					{
+						message += myRes;
+					}
+					netEmisorEv->sendPackage(BANK_TRADE, to_string(message.length() + bankRes.length()) + message + bankRes);
+				}
 			}
 			break;
 		case TICK_OWN_TRADE:
-			if (gameModel->playerTradeReady())
+			if (ret = gameModel->playerTradeReady())
 			{
-				ret = gameModel->playerTrade();	//aca generar evento de TICK
-				if (ret == true)
+				cards tradeCards[] = { gameModel->getP1SelectedCardsForTrade(), gameModel->getP2SelectedCardsForTrade() };
+				int ownResCount = static_cast<int>(tradeCards[0].totalCardsCount());
+				int oppResCount = static_cast<int>(tradeCards[1].totalCardsCount());
+				string myRes, oppRes;
+				string tradeRes[] = { myRes, oppRes };
+				for (int i = 0; i < NUMBER_OF_PLAYERS; i++)
 				{
-					evType = TICK_EV;
+					for (int j = 0; j < tradeCards[i].brick; j++)
+					{
+						tradeRes[i] += "L";
+					}
+					for (int j = 0; j < tradeCards[i].ore; j++)
+					{
+						tradeRes[i] += "P";
+					}
+					for (int j = 0; j < tradeCards[i].wool; j++)
+					{
+						tradeRes[i] += "O";
+					}
+					for (int j = 0; j < tradeCards[i].wood; j++)
+					{
+						tradeRes[i] += "M";
+					}
+					for (int j = 0; j < tradeCards[i].wheat; j++)
+					{
+						tradeRes[i] += "T";
+					}
 				}
+				netEmisorEv->sendTrade(OFFER_TRADE, ownResCount, myRes, oppResCount, oppRes);
+				evType = TICK_EV;
 			}
 			break;
 		case TICK_BUILD:
 			ret = gameModel->construct();
+			if (ret)
+			{
+				construction_t building = gameModel->getMap().getPendingConstruction();
+				evType = TICK_EV;
+				netEmisorEv->sendPackage(building.type, to_string(building.coords.length()) + building.coords);
+			}
 			break;
 		case TICK_ROBB_CARDS:
 			if (gameModel->robberCardsReady())
 			{
-				ret = gameModel->discardCurrentPlayer();
+				if (ret = gameModel->discardCurrentPlayer())
+				{
+					cards myDiscard = gameModel->getP1DiscardRobberCards();
+					string info = "";
+					for (int j = 0; j < myDiscard.brick; j++)
+					{
+						info += "L";
+					}
+					for (int j = 0; j < myDiscard.ore; j++)
+					{
+						info += "P";
+					}
+					for (int j = 0; j < myDiscard.wool; j++)
+					{
+						info += "O";
+					}
+					for (int j = 0; j < myDiscard.wood; j++)
+					{
+						info += "M";
+					}
+					for (int j = 0; j < myDiscard.wheat; j++)
+					{
+						info += "T";
+					}
+					netEmisorEv->sendPackage(ROBBER_CARDS, info);
+				}
 			}
 			break;
 		}
@@ -109,7 +178,12 @@ bool inputTickAndXController::selectionCall(bool yes)
 	{
 		switch (actionToDo)
 		{
-		case TICK_OPP_TRADE: case TICK_BANK_TRADE: case TICK_OWN_TRADE:
+		case TICK_OPP_TRADE: 
+			gameModel->clearTrades();
+			netEmisorEv->sendPackage(NO);
+			ret = true;
+			break;
+		case TICK_BANK_TRADE: case TICK_OWN_TRADE:
 			gameModel->clearTrades();
 			ret = true;
 			break;

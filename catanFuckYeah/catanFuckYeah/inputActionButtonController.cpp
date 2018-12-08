@@ -5,7 +5,7 @@
 
 inputActionButtonController::inputActionButtonController(catanGameModel * game) : gameModel(game)
 {
-	
+	netEmisorEv = nullptr;
 }
 
 
@@ -22,9 +22,10 @@ bool inputActionButtonController::parseMouseEvent(mouseEvent * ev)
 	{
 		if ((mouseCoords.y >= bCoords.y) && (mouseCoords.y - bCoords.y <= OFFSET_END_TURN_Y))
 		{
-			//ret = gameModel->																				//FALTA METODO DE PASSTURN
+			//ret = gameModel->																//FALTA METODO DE PASSTURN
 			if (ret)
 			{
+				netEmisorEv->sendPackage(PASS);
 				controllerEvent = new playingFSMEvent(CHANGE_STATE);
 			}
 		}
