@@ -45,10 +45,10 @@ class bankTradePckg : public networkingEv
 {
 public:
 	bankTradePckg(string offer);
-	string getOwnResources();
+	string getOppResources();
 	unsigned char getBankResource();
 private:
-	string ownRes;
+	string oppRes;
 	unsigned char bankRes;
 };
 
