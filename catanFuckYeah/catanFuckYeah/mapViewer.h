@@ -7,13 +7,6 @@
 #include <map>
 
 
-const typedef struct
-{
-	float xCoord;
-	float yCoord;
-	float angle;
-}coords;
-
 class mapViewer : public observer
 {
 public:

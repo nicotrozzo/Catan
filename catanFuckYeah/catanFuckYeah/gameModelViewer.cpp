@@ -44,7 +44,7 @@ void gameModelViewer::update()
 			viewRobberDiscard();
 			viewSelectedCards();
 		}
-		if (myGame->player1Playing())
+		if (myGame->isPlayer1Playing())
 		{
 			if ((myGame->isSelecting() == BANK_TRADE) || (myGame->isSelecting() == OFFER_TRADE) || (myGame->isSelecting() == ROBBER_CARDS) || (myGame->isConstructing()) || (myGame->isSelecting()))
 			{
@@ -213,15 +213,15 @@ void gameModelViewer::viewSelectedCards()
 
 void gameModelViewer::viewTickAndCrossButtons()
 {
-	al_draw_bitmap(tickBitmap, gameCoords::buttonCords["YES"].xCoords, gameCoords::buttonCoords["YES"].yCoords, 0);
-	al_draw_bitmap(crossBitmap, gameCoords::buttonCords["NO"].xCoords, gameCoords::buttonCoords["NO"].yCoords, 0);
+	al_draw_bitmap(tickBitmap, gameCoords::buttonCoords["YES"].xCoord, gameCoords::buttonCoords["YES"].yCoord, 0);
+	al_draw_bitmap(crossBitmap, gameCoords::buttonCoords["NO"].xCoord, gameCoords::buttonCoords["NO"].yCoord, 0);
 }
 
 void gameModelViewer::viewActionButtons()
 {
-	al_draw_bitmap(passButtonBitmap, gameCoords::buttonCords["END_TURN"].xCoords, gameCoords::buttonCoords["END_TURN"].yCoords, 0);
-	al_draw_bitmap(playerTradeButtonBitmap, gameCoords::buttonCords["PLAYER_TRADE"].xCoords, gameCoords::buttonCoords["PLAYER_TRADE"].yCoords, 0);
-	al_draw_bitmap(bankTradeButtonBitmap, gameCoords::buttonCords["BANK_TRADE"].xCoords, gameCoords::buttonCoords["BANK_TRADE"].yCoords, 0);
+	al_draw_bitmap(passButtonBitmap, gameCoords::buttonCoords["END_TURN"].xCoord, gameCoords::buttonCoords["END_TURN"].yCoord, 0);
+	al_draw_bitmap(playerTradeButtonBitmap, gameCoords::buttonCoords["PLAYER_TRADE"].xCoord, gameCoords::buttonCoords["PLAYER_TRADE"].yCoord, 0);
+	al_draw_bitmap(bankTradeButtonBitmap, gameCoords::buttonCoords["BANK_TRADE"].xCoord, gameCoords::buttonCoords["BANK_TRADE"].yCoord, 0);
 }
 
 gameModelViewer::~gameModelViewer()

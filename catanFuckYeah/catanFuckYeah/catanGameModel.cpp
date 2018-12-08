@@ -70,7 +70,13 @@ bool catanGameModel::dicesThrown(unsigned char dice1, unsigned char dice2)
 		}
 		ret = true;
 	}
-	
+	if (ret)
+	{
+		notifyAllObservers();
+		map.notify();
+		player1.notify();
+		player2.notify();
+	}
 	return ret;
 }
 
@@ -100,6 +106,8 @@ bool catanGameModel::validConstruction(networkingEventTypes type, string coords)
 		{
 			constructing = true;
 			notifyAllObservers();
+			player1.notify();
+			player2.notify();
 		}
 	}
 	return ret;
@@ -128,6 +136,8 @@ void catanGameModel::cancelConstruction()
 {
 	constructing = false;
 	map.cancelConstruction();
+	player1.notify();
+	player2.notify();
 }
 
 bool catanGameModel::isConstructing()
@@ -226,7 +236,6 @@ bool catanGameModel::validSelectedCards(string currentPlayerCards, string otherC
 	return ret;
 }
 
-/**/
 bool catanGameModel::playersTrade(string currentPlayerCards, string otherPlayerCards)
 {
 	bool ret = false;

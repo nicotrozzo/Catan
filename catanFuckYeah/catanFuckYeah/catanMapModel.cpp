@@ -1110,6 +1110,11 @@ bool catanMapModel::adjacentRoads(string road1, string road2)
 	return ret;
 }
 
+void catanMapModel::notify()
+{
+	notifyAllObservers();
+}
+
 catanMapModel::~catanMapModel()
 {
 
