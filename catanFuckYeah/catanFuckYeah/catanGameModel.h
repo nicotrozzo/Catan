@@ -18,7 +18,6 @@ public:
 	bool isConstructing();
 
 	//bool construction(networkingEventTypes type, string coords);		
-	bool playersTrade(string currentPlayerCards, string otherPlayerCards);		//devuelve false con trueque invalido
 	bool validSelectedCards(string currentPlayerCards, string otherPlayerCards);		//checkea que la transaccion solicitada sea valida, en cuyo case devuelve true
 	bool bankTrade(string player, unsigned char  bankResource);		//devuelve false si la transaccion es invalida (ver lo de 2x1 y 3x1)
 	bool robberMoved(unsigned char hex);	//devuelve false y no cambia nada si el lugar no es valido 
@@ -48,6 +47,9 @@ public:
 	bool playerTradeReady();	//devuelve true si el intercambio con el jugador preparado esta listo
 	bool playerTrade();
 	
+	bool playersTrade(string currentPlayerCards, string otherPlayerCards);		//Para el trade del contrario. devuelve false con trueque invalido
+
+
 	/*prepareBankTrade:
 	*Recibe:
 	-Primer parametro: recurso a seleccionar
@@ -60,6 +62,7 @@ public:
 	bool prepareBankTrade(resourceType resource, bool player);	//MODIFICA EL MODELO	
 	bool bankTradeReady();	//devuelve true si el intercambio con el banco preparado esta listo
 	bool bankTrade();	//ejecuta el trade preparado, 
+	
 	cards getP1SelectedCardsForTrade() { return p1SelectedCardsForTrade; }
 	cards getP2SelectedCardsForTrade() { return p2SelectedCardsForTrade; }
 	cards getP1DiscardRobberCards() { return p1DiscardRobberCards; }

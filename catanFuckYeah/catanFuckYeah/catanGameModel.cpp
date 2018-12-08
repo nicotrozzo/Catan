@@ -212,27 +212,50 @@ bool catanGameModel::validSelectedCards(string currentPlayerCards, string otherC
 
 bool catanGameModel::playersTrade(string currentPlayerCards, string otherPlayerCards)
 {
-	bool ret = true;
+	bool ret = false;
 	if (validSelectedCards(currentPlayerCards, otherPlayerCards))
 	{
 		for (auto x : currentPlayerCards)
 		{
-			while (ret != false)
+			//tiene que modificar los datos miembro internios y que se encargue preprePlayerTrade()... dato a modificar: p1SelectedCardsForTrade
+			switch (x)
 			{
-				ret = (getCurrentPlayer().decResource(x) && getOtherPlayer().incResource(x));
+			case BRICK:
+				p1SelectedCardsForTrade.brick++;
+				break;
+			case WOOD:
+				
+				break;
+			case WOOL:
+				break;
+			case ORE:
+				break;
+			case WHEAT:
+				break;
+			default:
+				break;
 			}
 		}
 		for (auto x : otherPlayerCards)
 		{
-			while (ret != false)
+			(getCurrentPlayer().incResource(x) && getOtherPlayer().decResource(x));
+			switch (x)
 			{
-				ret = (getCurrentPlayer().incResource(x) && getOtherPlayer().decResource(x));
+			case BRICK:
+				break;
+			case WOOD:
+				break;
+			case WOOL:
+				break;
+			case ORE:
+				break;
+			case WHEAT:
+				break;
+			default:
+				break;
 			}
 		}
-	}
-	else
-	{
-		ret = false;
+		ret = true;
 	}
 	return ret;
 }
@@ -330,8 +353,8 @@ void catanGameModel::clearTrades()
 	p2SelectedCardsForTrade = { 0,0,0,0,0 };
 	playerSelectedResource = {DESSERT,0};
 	bankSelectedResource = DESSERT;
-	selecting = static_cast<networkingEventTypes>(0);
-	//notifyAllObservers();
+	selecting = NO_PCKG;
+	notifyAllObservers();
 }
 
 /*preparePlayerTrade: 
