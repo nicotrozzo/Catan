@@ -5,6 +5,7 @@
 #include <array>
 #include <vector>
 #include <ctime>
+#include "bossFSMEvents.h"
 
 typedef struct
 {
@@ -30,6 +31,13 @@ typedef struct
 	string coords;
 	unsigned char player;
 }construction_t;
+
+typedef struct
+{
+	string edge;
+	list<road *> adjacentConstructedRoads;
+	bool visited;
+}road;
 
 
 class oceanPiece
@@ -76,18 +84,18 @@ public:
 	unsigned char getP1LongestRoad();
 	unsigned char getP2LongestRoad();
 	list<pepe> getSelectedHex(unsigned int diceValue);
-	~catanMapModel();
+	~catanMapModel();	//BORRAR TODOS LOS ROADS
 private:
 	unsigned char robberPos;
 	array <oceanPiece, NUMBER_OF_OCEAN_PIECES> oceanPieces;
 	array <hexagon, HEX_COUNT> hexagons;
 	list <string> hiddenRoads;		//caminos que son contiguos a un vertice ocupado, pero que no estan ocupados
-	list <string> p1SimpleRoads;	//ejes construidos contiguos a un vertice ocupado por el jugador 1
-	list <string> p1LongRoads;		//ejes construidos, a una distancia mayor a 1 de un vertice ocupado por el jugador 1
+	list <road*> p1SimpleRoads;	//ejes construidos contiguos a un vertice ocupado por el jugador 1
+	list <road*> p1LongRoads;		//ejes construidos, a una distancia mayor a 1 de un vertice ocupado por el jugador 1
 	list <string> p1UsedVertexList;	//cuando un settlement se transforma en city sigue estando en esta lista	
 	list <string> p1Cities;
-	list <string> p2SimpleRoads;	//ejes construidos contiguos a un vertice ocupado por el jugador 2
-	list <string> p2LongRoads;		//ejes construidos, a una distancia mayor a 1 de un vertice ocupado por el jugador 2
+	list <road*> p2SimpleRoads;	//ejes construidos contiguos a un vertice ocupado por el jugador 2
+	list <road*> p2LongRoads;		//ejes construidos, a una distancia mayor a 1 de un vertice ocupado por el jugador 2
 	list <string> p2UsedVertexList;	//cuando un settlement se transforma en city sigue estando en esta lista	
 	list <string> p2Cities;
 	construction_t pendingConstruction;
@@ -113,6 +121,11 @@ private:
 	string middleCharVertex(string vertex);
 	char thirdLetter(string vertex);
 	resourceType connectsToPort(string edge);
+
+	/*Funciones recursivas para determinar el longestRoad*/
+	road * endpointSearchRec(road * randRoad);
+	void longestRoadSearchRec(road * actualRoad, unsigned char & longestRoad, unsigned char depth);
+	road* hasUnvisitedNeighbours(road * actualRoad);
 
 	list< string > allVertexes = {
 		"0A", "0B", "01C",
