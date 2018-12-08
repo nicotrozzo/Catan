@@ -42,8 +42,8 @@ genericEvent* inputEventGenerator::getEvent()
 				}
 				break;
 			case ALLEGRO_EVENT_KEY_UP:
-				ret = new keyboardEvent(ev.keyboard.keycode)
-					ALLEGRO_KEY_4
+				ret = new keyboardEvent(allegroToAscii(ev.keyboard.keycode))
+					ALLEGRO_KEY_
 				break;
 			}
 		}
