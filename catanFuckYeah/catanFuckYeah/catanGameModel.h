@@ -5,29 +5,30 @@
 #include "catanPlayerModel.h"
 #include "gameDefines.h"
 
-typedef struct
-{
-	networkingEventTypes type;
-	string coords;
-}construction_t;
-
 class catanGameModel : public EDASubject
 {
 public:
 	catanGameModel();
 	bool dicesThrown(unsigned char dice1, unsigned char dice2);	//modifica informacion del juego, cambia de turno
+	
+	
 	bool validConstruction(networkingEventTypes type, string coords);	//devuelve true si la construccion solicitada es valida, y la almacena internamente hasta que le den la orden de construir
 	bool construct();		//construye la ultima construccion que se haya validado, devuelve false si la construccion no es valida, PUEDE MODIFICAR GAME OVER
+	void cancelConstruction();
+	bool isConstructing();
+
 	//bool construction(networkingEventTypes type, string coords);		
 	bool playersTrade(string currentPlayerCards, string otherPlayerCards);		//devuelve false con trueque invalido
 	bool validSelectedCards(string currentPlayerCards, string otherPlayerCards);		//checkea que la transaccion solicitada sea valida, en cuyo case devuelve true
 	bool bankTrade(string player, unsigned char  bankResource);		//devuelve false si la transaccion es invalida (ver lo de 2x1 y 3x1)
 	bool robberMoved(unsigned char hex);	//devuelve false y no cambia nada si el lugar no es valido 
 	
+	map<resourceType,unsigned char> getBankTradeCosts();	//
+
 	bool prepareRobberDiscard(resourceType resource);
 	bool robberCardsReady();
 	void clearRobberCards();
-	bool discardCurrentPlayer(string cards);	//devuelve false si era una cantidad invalida de cartas, o no tenia esas cartas
+	bool discardCurrentPlayer();				//devuelve false si era una cantidad invalida de cartas, o no tenia esas cartas
 	bool discardOtherPlayer(string cards);		//devuelve false si era una cantidad invalida de cartas, o no tenia esas cartas
 	
 
@@ -85,7 +86,7 @@ protected:
 	cards p1DiscardRobberCards;
 	resource_t playerSelectedResource; //para el bankTrade
 	resourceType bankSelectedResource;
-	construction_t pendingConstruction;
+	bool constructing;
 	unsigned char dice1;
 	unsigned char dice2;
 	catanMapModel map;
