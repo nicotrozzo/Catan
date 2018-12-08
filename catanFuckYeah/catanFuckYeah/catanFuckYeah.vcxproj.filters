@@ -167,6 +167,9 @@
     <ClCompile Include="netwYNController.cpp">
       <Filter>Archivos de origen\MVC: Controllers</Filter>
     </ClCompile>
+    <ClCompile Include="inputStateController.cpp">
+      <Filter>Archivos de origen\MVC: Controllers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="catanGameModel.h">
@@ -296,6 +299,9 @@
       <Filter>Archivos de encabezado\MVC: Viewers</Filter>
     </ClInclude>
     <ClInclude Include="netwYNController.h">
+      <Filter>Archivos de encabezado\MVC: Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="inputStateController.h">
       <Filter>Archivos de encabezado\MVC: Controllers</Filter>
     </ClInclude>
   </ItemGroup>

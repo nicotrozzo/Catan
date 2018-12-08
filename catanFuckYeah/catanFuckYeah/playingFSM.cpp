@@ -7,6 +7,7 @@
 #include "inputEdgeAndVertexController.h"
 #include "inputTickAndXController.h"
 #include "netwConstructionController.h"
+#include "inputStateController.h"
 
 using namespace std;
 
@@ -226,8 +227,18 @@ void playingFSM::netwYNControllers(genericEvent * ev)
 
 void playingFSM::myTurnPassControllers(genericEvent * ev)
 {
-	myTurnControllers();
-	gameModel->dicesThrown();
+	unsigned int dice1 = rand() % 6 + 1;
+	unsigned int dice2 = rand() % 6 + 1;
+	if (gameModel->dicesThrown(dice1, dice2))
+	{
+		myTurnControllers(ev);
+	}
+	else
+	{
+		inputStateController *controllerToAdd = static_cast<inputStateController *>(getInputController(CTRL_STATE));
+		controllerToAdd->setEv(ROBBER_EV);
+		currentInputControllers.push_back(controllerToAdd);
+	}
 }
 
 void playingFSM::oppRobberControllers(genericEvent * ev)
@@ -243,9 +254,15 @@ void playingFSM::oppRobberControllers(genericEvent * ev)
 		static_cast<inputTickAndXController *>(controllerToAdd)->setActionToDo(TICK_ROBB_CARDS);
 		currentInputControllers.push_back(controllerToAdd);
 	}
-	else if()
+	else if(gameModel->getCurrentPlayer().getAmountOfCards() > 7)
 	{
-
+		currentNetworkingControllers.push_back(getNetworkingController(CTRL_ROBBERCARDS));
+		//send ACK
+	}
+	else
+	{
+		currentNetworkingControllers.push_back(getNetworkingController(CTRL_ROBBERMOVE));
+		//send ACK
 	}
 }
 
