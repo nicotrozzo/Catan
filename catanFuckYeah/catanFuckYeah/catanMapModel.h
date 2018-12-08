@@ -24,6 +24,12 @@ typedef struct
 	unsigned char resCount;
 }resource_t;
 
+typedef struct
+{
+	networkingEventTypes type;
+	string coords;
+}construction_t;
+
 
 class oceanPiece
 {
@@ -36,6 +42,7 @@ private:
 	bool hasTwoPorts;
 };
 
+
 class catanMapModel : public EDASubject
 {
 public:
@@ -46,9 +53,14 @@ public:
 	string getCircularTokens();
 	bool setMap(string map_);						//EL MODELO ES MODIFICADO
 													//bool setCircularTokens(string circTokens);	//EL MODELO ES MODIFICADO
-	bool buildRoad(string edge, char player);		//EL MODELO ES MODIFICADO
-	bool buildSettlement(string edge, char player);	//EL MODELO ES MODIFICADO
-	bool buildCity(string vertex, char player);		//EL MODELO ES MODIFICADO				
+	
+	bool validRoadBuilding(string edge, char player);		//EL MODELO ES MODIFICADO
+	bool validSettlementBuilding(string edge, char player);	//EL MODELO ES MODIFICADO
+	bool validCityBuilding(string vertex, char player);		//EL MODELO ES MODIFICADO				
+	construction_t getPendingConstruction();
+	void cancelConstruction();
+	bool buildPendingConstruction();						//EL MODELO ES MODIFICADO
+
 	list<string> getP1BuiltVertexes();	//devuelve todos los vertices ocupados por el jugador, tanto settlements como cities
 	list<string> getP1Settlements();
 	list<string> getP1Cities();			//devuelve todos los cities contruidos por el jugador 1
@@ -57,7 +69,7 @@ public:
 	list<string> getP2Cities();
 	list<string> getP1Roads();
 	list<string> getP2Roads();
-	
+
 	map<resourceType, unsigned char> getBankTradeCosts(unsigned char player);	//Devuelve un diccionario con el costo (2, 3 o 4) de cada recurso para el jugador pedido
 	bool checkAvailableRoad(string edge, char player);	//devuelve true si el jugador indicado puede construir un camino en ese lado
 	bool checkAvailableSettlement(string vertex, char player);	//devuelve true si el vertice seleccionado es valido para la construccion de un settlementdeu
@@ -79,6 +91,7 @@ private:
 	list <string> p2LongRoads;		//ejes construidos, a una distancia mayor a 1 de un vertice ocupado por el jugador 2
 	list <string> p2UsedVertexList;	//cuando un settlement se transforma en city sigue estando en esta lista	
 	list <string> p2Cities;
+	construction_t pendingConstruction;
 	/*Metodos para chequeo de construcciones*/
 	bool adjacentToLongRoad(string vertex, char player);
 	bool adjacentToHiddenRoad(string vertex);
@@ -95,7 +108,6 @@ private:
 	string less2CharVertex(unsigned int pieceNum);
 	string middleCharVertex(string vertex);
 	char thirdLetter(string vertex);
-
 	resourceType connectsToPort(string edge);
 
 	list< string > allVertexes = {

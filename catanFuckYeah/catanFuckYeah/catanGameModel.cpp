@@ -92,6 +92,7 @@ bool catanGameModel::validConstruction(networkingEventTypes type, string coords)
 	if (ret)
 	{
 		pendingConstruction = {type,coords};
+		notifyAllObservers();
 	}
 	return ret;
 }
@@ -255,7 +256,25 @@ bool catanGameModel::robberMoved(unsigned char hex)
 
 bool catanGameModel::prepareRobberDiscard(resourceType resource)
 {
-	return false;
+	bool ret = false;
+	if (p1DiscardRobberCards)
+	switch (resource)
+	{
+	case BRICK:
+		ret = 
+		break;
+	case WOOD:
+		break;
+	case WOOL:
+		break;
+	case ORE:
+		break;
+	case WHEAT:
+		break;
+	default:
+		break;
+	}
+	return ret;
 }
 
 bool catanGameModel::robberCardsReady()
@@ -267,22 +286,15 @@ void catanGameModel::clearRobberCards()
 {
 }
 
-bool catanGameModel::discardCurrentPlayer(string cards)
+bool catanGameModel::discardCurrentPlayer()
 {
 	bool ret = true;
-	if (validSelectedCards(cards, ""))
+	for (auto x : )
 	{
-		for (auto x : cards)
+		while (ret != false)
 		{
-			while (ret != false)
-			{
-				ret = getCurrentPlayer().decResource(x);
-			}
+			ret = getCurrentPlayer().decResource(x);
 		}
-	}
-	else
-	{
-		ret = false;
 	}
 	return ret;
 }
@@ -339,9 +351,9 @@ bool catanGameModel::preparePlayerTrade(resourceType resource, unsigned char pla
 		selecting = OFFER_TRADE;		//para avisar a los observers
 		notifyAllObservers();
 	}
-	if( ((player == 1) && p1SelectedCardsForTrade.totalCardsCount() < 9) || ((player == 2) && p2SelectedCardsForTrade.totalCardsCount() < 9))
+	if( ((player == 1) && (p1SelectedCardsForTrade.totalCardsCount() < 9)) || ((player == 2) && (p2SelectedCardsForTrade.totalCardsCount() < 9)))
 	{
-		if (!selectedResource(resource, player == 1 ? 2 : 1))	//se fija que el otro jugador no haya seleccionado ya ese recurso
+		if (!selectedResource(resource, (player == 1) ? 2 : 1))	//se fija que el otro jugador no tenga seleccionado ya ese recurso
 		{
 			ret = true;
 			if (player == 1)	//si es el jugador 1, se fija que tenga la cantidad de cartas suficientes

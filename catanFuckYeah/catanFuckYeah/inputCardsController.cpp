@@ -36,7 +36,7 @@ void inputCardsController::parseMouseEvent(mouseEvent * ev)
 					}
 					else if ((function == ROBBER_CARDS) && (players[j] == player1))
 					{
-						gameModel->
+						gameModel->prepareRobberDiscard(res[i]);
 					}
 				}
 			}
@@ -50,6 +50,7 @@ void inputCardsController::parseKeyboardEvent(keyboardEvent * ev)
 	switch (ev->getKey())
 	{
 	case '1':
+		gameModel->
 		break;
 	case '2':
 		break;
