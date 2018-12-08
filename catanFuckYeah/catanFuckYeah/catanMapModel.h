@@ -32,10 +32,10 @@ typedef struct
 	unsigned char player;
 }construction_t;
 
-typedef struct
+typedef struct roada
 {
 	string edge;
-	list<road *> adjacentConstructedRoads;
+	list<struct roada *> adjacentConstructedRoads;
 	bool visited;
 }road;
 
@@ -61,7 +61,7 @@ public:
 	string getMap();
 	string getCircularTokens();
 	bool setMap(string map_);						//EL MODELO ES MODIFICADO
-													//bool setCircularTokens(string circTokens);	//EL MODELO ES MODIFICADO
+	bool setCircularTokens(string circTokens);	   //EL MODELO ES MODIFICADO
 	
 	bool checkAvailableRoad(string edge, char player);	//devuelve true si el jugador indicado puede construir un camino en ese lado
 	bool checkAvailableSettlement(string vertex, char player);	//devuelve true si el vertice seleccionado es valido para la construccion de un settlement
@@ -111,9 +111,9 @@ private:
 	bool existingVertex(string vertex);
 	bool existingEdge(string edge);
 	
-	bool buildRoad(string edge, char player);		//EL MODELO ES MODIFICADO
-	bool buildSettlement(string edge, char player);	//EL MODELO ES MODIFICADO
-	bool buildCity(string vertex, char player);		//EL MODELO ES MODIFICADO				
+	bool buildRoad(string edge, char player);		
+	bool buildSettlement(string edge, char player);	
+	bool buildCity(string vertex, char player);				
 
 	/*Metodos para buscar vertices con puerto*/
 	string greater2CharVertex(unsigned int pieceNum);

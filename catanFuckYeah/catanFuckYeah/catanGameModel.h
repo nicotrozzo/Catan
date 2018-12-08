@@ -71,7 +71,7 @@ public:
 
 	//bool waitingAccept();
 	//bool waitingCards();
-	bool player1Playing();	//devuelve true si es el turno del jugador 1
+	bool isPlayer1Playing();	//devuelve true si es el turno del jugador 1
 	catanPlayerModel getCurrentPlayer();
 	catanPlayerModel getOtherPlayer();
 	catanMapModel getMap();
