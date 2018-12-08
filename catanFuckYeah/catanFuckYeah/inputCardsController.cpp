@@ -101,22 +101,24 @@ bool inputCardsController::setFunction(networkingEventTypes function_)
 	return ret;
 }
 
-void inputCardsController::selectCall(resourceType resource, unsigned char player)
+bool inputCardsController::selectCall(resourceType resource, unsigned char player)
 {
+	bool ret = false;
 	switch (function)
 	{
 	case OFFER_TRADE:
-		gameModel->preparePlayerTrade(resource, player);
+		ret = gameModel->preparePlayerTrade(resource, player);
 		break;
 	case BANK_TRADE:
-		gameModel->prepareBankTrade(resource, player == 1 ? true : false);
+		ret = gameModel->prepareBankTrade(resource, player == 1 ? true : false);
 		break;
 	case ROBBER_CARDS:
-		gameModel->prepareRobberDiscard(resource);
+		ret = gameModel->prepareRobberDiscard(resource);
 		break;
 	default:
 		break;
 	}
+	return ret;
 }
 
 inputCardsController::~inputCardsController()

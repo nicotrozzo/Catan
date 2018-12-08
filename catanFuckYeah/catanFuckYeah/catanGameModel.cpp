@@ -81,13 +81,17 @@ bool catanGameModel::validConstruction(networkingEventTypes type, string coords)
 	switch (type)
 	{
 	case SETTLEMENT:
-		ret = map.checkAvailableSettlement(coords, player);
+		if (!map.checkAvailableSettlement(coords, player))
+		{
+			ret = map.checkAvailableCity(coords, player);
+		}
+		else
+		{
+			ret = true;
+		}
 		break;
 	case ROAD:
 		ret = map.checkAvailableRoad(coords, player);
-		break;
-	case CITY:
-		ret = map.checkAvailableCity(coords, player);
 		break;
 	}
 	/*if (ret)
@@ -498,7 +502,7 @@ bool catanGameModel::preparePlayerTrade(resourceType resource, unsigned char pla
 		selecting = OFFER_TRADE;		//para avisar a los observers
 		notifyAllObservers();
 	}
-	if( ((player == 1) && (p1SelectedCardsForTrade.totalCardsCount() < 9)) || ((player == 2) && (p2SelectedCardsForTrade.totalCardsCount() < 9)))
+	else if( ((player == 1) && (p1SelectedCardsForTrade.totalCardsCount() < 9)) || ((player == 2) && (p2SelectedCardsForTrade.totalCardsCount() < 9)))
 	{
 		if (!selectedResource(resource, (player == 1) ? 2 : 1))	//se fija que el otro jugador no tenga seleccionado ya ese recurso
 		{
@@ -637,7 +641,7 @@ bool catanGameModel::prepareBankTrade(resourceType resource, bool player)
 		selecting = BANK_TRADE;
 		notifyAllObservers();
 	}
-	if (player)
+	else if (player)
 	{
 		bankSelectedResource = DESSERT;
 		unsigned char cost = map.getBankTradeCosts(1)[resource];	//obtiene el costo de construir el recurso pedido para el jugador 1

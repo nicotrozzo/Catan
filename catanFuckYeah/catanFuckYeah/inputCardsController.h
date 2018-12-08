@@ -9,7 +9,7 @@ public:
 	
 	virtual bool parseMouseEvent(mouseEvent * ev);
 	virtual bool parseKeyboardEvent(keyboardEvent * ev);
-	void setFunction(networkingEventTypes function_);
+	bool setFunction(networkingEventTypes function_);
 	inputControllerTypes getType() { return CTRL_CARDS; }
 	~inputCardsController();
 private:
