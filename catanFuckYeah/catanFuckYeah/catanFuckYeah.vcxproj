@@ -136,6 +136,7 @@
     <ClCompile Include="netwConstructionController.cpp" />
     <ClCompile Include="netwDicesController.cpp" />
     <ClCompile Include="networkingObserver.cpp" />
+    <ClCompile Include="netwYNController.cpp" />
     <ClCompile Include="player1Viewer.cpp" />
     <ClCompile Include="player2Viewer.cpp" />
     <ClCompile Include="quitButton.cpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="netwConstructionController.h" />
     <ClInclude Include="netwDicesController.h" />
     <ClInclude Include="networkingObserver.h" />
+    <ClInclude Include="netwYNController.h" />
     <ClInclude Include="player1Viewer.h" />
     <ClInclude Include="player2Viewer.h" />
     <ClInclude Include="quitButton.h" />

@@ -29,6 +29,43 @@ playingFSM::playingFSM(bool iStart, catanGameModel * game, std::vector<EDAInputC
 	}
 }
 
+void playingFSM::sendToInputControllers(inputEv * input)
+{
+	bool read = false;
+	for (auto x : currentInputControllers)
+	{
+		if (input->getInputEvType() == MOUSE_EVENT)
+		{
+			read = x->parseMouseEvent(static_cast<mouseEvent *>(input));
+		}
+		else if (input->getInputEvType() == KEYBOARD_EVENT)
+		{
+			read = x->parseKeyboardEvent(static_cast<keyboardEvent *>(input));
+		}
+		if (read)	//si a un controller le sirvio el evento, no le servira a ningun otro
+		{
+			break;
+		}
+	}
+}
+
+void playingFSM::sendToNetwControllers(networkingEv * netwPackage)
+{
+	bool read = false;
+	for (auto x : currentNetworkingControllers)
+	{
+		read = x->parseNetworkingEvent(netwPackage);
+		if (read)
+		{
+			break;
+		}
+	}
+	if (!read)
+	{
+		fsmEvent = new outEv("Unexpected network event");
+	}
+}
+
 /*ACTION ROUTINES FOR FSM*/
 
 /*
@@ -115,21 +152,50 @@ void playingFSM::tradeControllers(genericEvent * ev)
 	currentNetworkingControllers.clear();
 	currentInputControllers.push_back(getInputController(CTRL_TICKANDX));
 
-	inputTickAndXController * controllerToAdd = getInputController(CTRL_TICKANDX);	//agrega un controller de networking que solo espera que le manden SETTLEMENT
-	controllerToAdd->set;
-	currentNetworkingControllers.push_back(controllerToAdd);
-
-
-	currentInputControllers.push_back(getInputController(CTRL_CARDS));	//espera que el usuario seleccione las cartas
+	inputTickAndXController * controllerToAdd = static_cast<inputTickAndXController*>(getInputController(CTRL_TICKANDX));	//agrega un controller de networking que solo espera que le manden SETTLEMENT
+	inputCardsController * cardsControllerToAdd = static_cast<inputCardsController*>(getInputController(CTRL_CARDS));
+	if (static_cast<playingFSMCardsEv *>(ev)->isBankTrade())
+	{
+		controllerToAdd->setActionToDo(TICK_BANK_TRADE);
+		cardsControllerToAdd->setFunction(BANK_TRADE);
+	}
+	else
+	{
+		controllerToAdd->setActionToDo(TICK_OWN_TRADE);
+		cardsControllerToAdd->setFunction(OFFER_TRADE);
+	}
+	currentInputControllers.push_back(controllerToAdd);
+	currentInputControllers.push_back(cardsControllerToAdd);	//espera que el usuario seleccione las cartas
 
 }
 
 void playingFSM::buildControllers(genericEvent * ev)
 {
+	currentInputControllers.clear();
+	currentNetworkingControllers.clear();
+	inputTickAndXController * controllerToAdd = static_cast<inputTickAndXController *>(getInputController(CTRL_TICKANDX));
+	controllerToAdd->setActionToDo(TICK_BUILD);
+	currentInputControllers.push_back(controllerToAdd);
 }
 
 void playingFSM::myRobberControllers(genericEvent * ev)
 {
+	currentNetworkingControllers.clear();
+	currentInputControllers.clear();
+	if (gameModel->getOtherPlayer.getCards().totalCardsCount() > 7)
+	{
+		currentNetworkingControllers.push_back(getNetworkingController(CTRL_ROBBERCARDS));
+	}
+	else if(gameModel->getCurrentPlayer.getCards().totalCardsCount > 7)
+	{
+		inputCardsController * cardsToAdd = static_cast<inputCardsController *>(getInputController(CTRL_CARDS));
+		cardsToAdd->setFunction(ROBBER_CARDS);
+		currentInputControllers.push_back(cardsToAdd);
+	}
+	else
+	{
+		currentInputControllers.push_back(getInputController(CTRL_HEXAGON));
+	}
 }
 
 void playingFSM::error(genericEvent * ev)
@@ -140,16 +206,28 @@ void playingFSM::error(genericEvent * ev)
 		delete robberfsm;
 	}*/
 	fsmEvent = new outEv(static_cast<playingFSMEvent *>(ev)->getInfo());
-	//destruir controllers
 	//destruir todo lo que tenga que destruir
 }
 
 void playingFSM::myTurnControllers(genericEvent * ev)
 {
+	currentNetworkingControllers.clear();
+	currentInputControllers.clear();
+	currentInputControllers.push_back(getInputController(CTRL_EDGE_AND_VERTEX));
+	currentInputControllers.push_back(getInputController(CTRL_ACTION_BUTTON));
 }
 
 void playingFSM::netwYNControllers(genericEvent * ev)
 {
+	currentNetworkingControllers.clear();
+	currentInputControllers.clear();
+	currentNetworkingControllers.push_back(getNetworkingController(CTRL_YN));	
+}
+
+void playingFSM::myTurnPassControllers(genericEvent * ev)
+{
+	myTurnControllers();
+	gameModel->dicesThrown();
 }
 
 void playingFSM::oppRobberControllers(genericEvent * ev)

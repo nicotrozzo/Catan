@@ -17,7 +17,6 @@ public:
 	void cancelConstruction();
 	bool isConstructing();
 
-	//bool construction(networkingEventTypes type, string coords);		
 	bool validSelectedCards(string currentPlayerCards, string otherPlayerCards);		//checkea que la transaccion solicitada sea valida, en cuyo case devuelve true
 	bool bankTrade(string playerResource, resourceType  bankResource);		//devuelve false si la transaccion es invalida (ver lo de 2x1 y 3x1)
 	bool robberMoved(unsigned char hex);	//devuelve false y no cambia nada si el lugar no es valido 
