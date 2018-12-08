@@ -6,11 +6,17 @@
 inputEventGenerator::inputEventGenerator() : allegroQueue(nullptr)
 {
 	bool error = true;
-	allegroQueue = al_create_event_queue();
-	if (allegroQueue != NULL)
+	if (al_install_mouse())
 	{
-		al_register_event_source(allegroQueue, al_get_mouse_event_source());
-		//blabla seguir
+		if (al_install_keyboard())
+		{
+			allegroQueue = al_create_event_queue();
+			if (allegroQueue != NULL)
+			{
+				al_register_event_source(allegroQueue, al_get_mouse_event_source());
+				al_register_event_source(allegroQueue, al_get_keyboard_event_source());
+			}
+		}
 	}
 	if (error)
 	{
@@ -22,14 +28,29 @@ inputEventGenerator::inputEventGenerator() : allegroQueue(nullptr)
 genericEvent* inputEventGenerator::getEvent()
 {
 	genericEvent* ret = nullptr;
-	al_register_event_source(allegroQueue, al_get_mouse_event_source());
-	al_register_event_source(allegroQueue, al_get_keyboard_event_source());
-	al_get_next_event(allegroQueue, &ev);
-	switch (ev.type)
+	bool empty = false;
+	while((ret == nullptr) && !empty)
 	{
-	case ALLEGRO_EVENT_MOUSE_BUTTON_UP:
-		break;
-	case ALLEGRO_EVENT_KEY_CHAR:
-		break;
+		if (al_get_next_event(allegroQueue, &ev))
+		{
+			switch (ev.type)
+			{
+			case ALLEGRO_EVENT_MOUSE_BUTTON_UP:
+				if (ev.mouse.button == )
+				{
+					ret = new mouseEvent({ static_cast<float>(ev.mouse.x), static_cast<float>(ev.mouse.y) });
+				}
+				break;
+			case ALLEGRO_EVENT_KEY_UP:
+				ret = new keyboardEvent(ev.keyboard.keycode)
+					ALLEGRO_KEY_4
+				break;
+			}
+		}
+		else
+		{
+			empty = true;
+		}
 	}
+	return ret;
 }

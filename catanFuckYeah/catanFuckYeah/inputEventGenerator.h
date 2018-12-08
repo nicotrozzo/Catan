@@ -29,6 +29,7 @@ private:
 class keyboardEvent : public inputEv
 {
 public:
+	keyboardEvent(char letterPressed) { key = letterPressed; }
 	inputEventTypes getInputEvType() { return KEYBOARD_EVENT; }
 	char getKey() { return key; }
 private:

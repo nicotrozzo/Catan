@@ -37,18 +37,10 @@ private:
 class playingFSMCardsEv : public playingFSMEvent
 {
 public:
-	playingFSMCardsEv(bool bankTrade_) : playingFSMEvent(CARDS_EV) { bankTrade = bankTrade_; }
-	bool isBankTrade() { return bankTrade; }
+	playingFSMCardsEv(bool offerTrade_) : playingFSMEvent(CARDS_EV) { offerTrade = offerTrade_; }
+	bool isOfferTrade() { return offerTrade; }
 private:
-	bool bankTrade;	//true si es un bank trade, false sino
-};
-
-class playingFSMTickEv : playingFSMEvent
-{
-public:
-	playingFSMTickEv(bool )
-private:
-
+	bool offerTrade;	//true si es un offer trade, false sino
 };
 
 class playingFSM : public genericFSM

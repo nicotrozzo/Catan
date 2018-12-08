@@ -8,7 +8,7 @@ class netwConstructionController :	public EDANetworkingController
 public:
 	netwConstructionController(catanGameModel * game);
 	netwConstructionController(catanGameModel * game,networkingEventTypes package);	//si recibe un paquete en especifico, solo va a reaccionar a los eventos de dicho paquete
-	bool setExpectedPackage(networkingEventTypes package);
+	void setExpectedPackage(networkingEventTypes package);
 	bool parseNetworkingEvent(networkingEv * package);
 	netwControllerTypes getType() { return CTRL_CONSTRUCTION; }
 	~netwConstructionController();
