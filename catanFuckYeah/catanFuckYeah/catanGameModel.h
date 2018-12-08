@@ -74,6 +74,7 @@ public:
 	bool player1Playing();	//devuelve true si es el turno del jugador 1
 	catanPlayerModel getCurrentPlayer();
 	catanPlayerModel getOtherPlayer();
+	catanMapModel getMap();
 	unsigned char getDice1() { return dice1; }
 	unsigned char getDice2() { return dice2; }
 	bool gameOver();	//true si termino el juego, llamar despues de construccion!!!!!!!!(pregunta a cada jugador cuantos puntos tiene)

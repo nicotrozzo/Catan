@@ -3,7 +3,7 @@
 #include "gameCoords.h"
 #include "playingFSM.h"
 
-#define ABS(x) ((x) > 0 ? x : -x)
+#define ABS(x) ((x) > 0 ? (x) : -(x))
 
 inputEdgeAndVertexController::inputEdgeAndVertexController(catanGameModel * game) : gameModel(game)
 {
@@ -22,7 +22,17 @@ bool inputEdgeAndVertexController::parseMouseEvent(mouseEvent * ev)
 		{
 			if (ABS(mouseCoords.y - x.second.yCoord) <= OFFSET_VERTEX_Y)
 			{
-				ret = gameModel->validConstruction(SETTLEMENT, x.first);
+				if (!gameModel->isConstructing())
+				{
+					if (ret = gameModel->validConstruction(SETTLEMENT, x.first))
+					{
+						controllerEvent = new playingFSMEvent(TICK_EV);
+					}
+				}
+				else
+				{
+					ret = gameModel->validConstruction(SETTLEMENT, x.first);		//no generera evento, solo cambia la construccion
+				}
 			}
 		}
 	}
@@ -32,13 +42,19 @@ bool inputEdgeAndVertexController::parseMouseEvent(mouseEvent * ev)
 		{
 			if (ABS(mouseCoords.y - x.second.yCoord) <= OFFSET_EDGE_Y)
 			{
-				ret = gameModel->validConstruction(ROAD, x.first);
+				if (!gameModel->isConstructing())
+				{
+					if (ret = gameModel->validConstruction(ROAD, x.first))
+					{
+						controllerEvent = new playingFSMEvent(TICK_EV);
+					}
+				}
+				else
+				{
+					ret = gameModel->validConstruction(ROAD, x.first);
+				}
 			}
 		}
-	}
-	if (ret)
-	{
-		controllerEvent = new playingFSMEvent(TICK_EV);
 	}
 	return ret;
 }

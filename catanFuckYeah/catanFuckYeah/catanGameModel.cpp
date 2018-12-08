@@ -621,7 +621,7 @@ bool catanGameModel::playerTrade()
 		player2.decResource(WHEAT, p2SelectedCardsForTrade.wheat);
 		player2.decResource(WOOL, p2SelectedCardsForTrade.wool);
 		player2.decResource(WOOD, p2SelectedCardsForTrade.wood);
-		selecting = static_cast<networkingEventTypes>(0);
+		selecting = NO_PCKG;
 		notifyAllObservers();
 		ret = true;
 	}
@@ -743,6 +743,11 @@ catanPlayerModel catanGameModel::getOtherPlayer()
 		ret = player1;
 	}
 	return ret;
+}
+
+catanMapModel catanGameModel::getMap()
+{
+	return map;
 }
 
 bool catanGameModel::gameOver()

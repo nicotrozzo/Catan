@@ -1,5 +1,6 @@
 #include "netwEmisor.h"
 #include <iostream>
+#include <string>
 
 using namespace std;
 
@@ -44,8 +45,8 @@ sendTrade(networkingEventTypes header, int ownResCount, string ownRes, int oppRe
 	{
 		string messageToSend;
 		messageToSend += header;
-		messageToSend += ownResCount;
-		messageToSend += oppResCount;
+		messageToSend += to_string(ownResCount);
+		messageToSend += to_string(oppResCount);
 		messageToSend += ownRes + oppRes;
 		establishedConnector->sendMessage(messageToSend.c_str(),messageToSend.length());
 	}

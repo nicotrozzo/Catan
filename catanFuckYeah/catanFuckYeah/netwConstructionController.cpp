@@ -7,7 +7,7 @@ netwConstructionController::netwConstructionController(catanGameModel * game) : 
 	expectsOnePackage = false;
 }
 
-netwConstructionController::netwConstructionController(catanGameModel * game,networkingEventTypes package) : EDANetworkingController(((package == CITY) || (package == SETTLEMENT) || (package == ROAD)) ? expectedPackage = package : static_cast<networkingEventTypes>(0)) , gameModel(game)
+netwConstructionController::netwConstructionController(catanGameModel * game, networkingEventTypes package) : EDANetworkingController(((package == CITY) || (package == SETTLEMENT) || (package == ROAD)) ? expectedPackage = package : static_cast<networkingEventTypes>(0)) , gameModel(game)
 {
 	expectsOnePackage = true;
 }
@@ -30,16 +30,20 @@ bool netwConstructionController::parseNetworkingEvent(networkingEv * ev)
 		if (!expectsOnePackage || (ev->getHeader() == expectedPackage))	//si espera cualquier paquete o llego el paquete esperado
 		{
 			ret = true;
-			if (!gameModel->construction(ev->getHeader(), static_cast<buildPckg *>(ev)->getCoords()))
+			if (!gameModel->validConstruction(ev->getHeader(), static_cast<buildPckg *>(ev)->getCoords()))
 			{
-				controllerEvent = new playingError;
+				controllerEvent = new playingFSMErrorEv;
+			}
+			else
+			{
+				gameModel->construct();
 			}
 		}
 	}
 }
 
 /*Devuelve true si es un paquete de contruccion*/
-bool netwConstructionController::netbuildingPackage(networkingEventTypes package)
+bool netwConstructionController::buildingPackage(networkingEventTypes package)
 {
 	return ((package == CITY) || (package == SETTLEMENT) || (package == ROAD));
 }
