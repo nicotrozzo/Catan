@@ -86,17 +86,17 @@ private:
 	list<networkingEventTypes> expectedPackages;*/
 	genericFSM * robberfsm;
 	const fsmCell fsmTable[8][5] = {
-	//			CHANGE_STATE							CARDS									TICK							ROBBER?							ERROR	
-	{ { WAITING_DICES,TX(passControllers)}, {PREPARE_TRADE,TX(tradeControllers)},{BUILDING,TX(buildControllers)},{MY_ROBBER,TX(myRobberControllers)},{MY_TURN,TX(error)} },			//MY_TURN
-	{ { MY_TURN,TX(myTurnControllers) },  {,TX()},						   {BUILDING,},		{,TX()}													  ,{BUILDING,TX(error)} },		 //BUILDING
-	{ { MY_TURN,TX(myTurnControllers) },  {,TX()}							  ,{PREPARE_TRADE,TX(netwYNControllers) },{,TX()},{PREPARE_TRADE,TX(error)} },   //PREPARE_TRADE
-	{ { MY_TURN,TX(myTurnControllers) },  { ,TX() },{ ,TX() },{ ,TX() },{MY_ROBBER,TX(error)} },		 //MY_ROBBER
+	//			CHANGE_STATE							CARDS_EV									TICK_EV							ROBBER_EV							ERROR	
+	{ { WAITING_DICES,TX(passControllers)}	,{PREPARE_TRADE,TX(tradeControllers)},{BUILDING,TX(buildControllers)},{MY_ROBBER,TX(myRobberControllers)},{MY_TURN,TX(error)} },		 //MY_TURN
+	{ { MY_TURN,TX(myTurnControllers) }		,{BUILDING,TX(doNothing)}			 ,{BUILDING,TX(doNothing) }		,{BUILDING,TX(doNothing) }			,{BUILDING,TX(error)} },		 //BUILDING
+	{ { MY_TURN,TX(myTurnControllers) }		,{PREPARE_TRADE,TX(doNothing)}		 ,{PREPARE_TRADE,TX(netwYNControllers) },{PREPARE_TRADE,TX(doNothing)},{PREPARE_TRADE,TX(error)} },	 //PREPARE_TRADE
+	{ { MY_TURN,TX(myTurnControllers) },  { ,TX() },{ ,TX() },{ ,TX() },{MY_ROBBER,TX(error)} },		//MY_ROBBER
 	{ { OPP_TURN,TX(oppTurnControllers)},  { ,TX()},{},{OPP_ROBBER,TX(oppRobberControllers)},{WAITING_DICES,TX(error)} },	//WAITING_DICES
 	{ { MY_TURN,TX(myTurnPassControllers) },  {WAITING_PLAYER,TX(waitingControllers)},{},{,TX()},{OPP_TURN,TX(error)} },		 //OPP_TURN
 	{ { OPP_TURN,TX(oppTurnControllers) },{OPP_ROBBER,TX()},{},{},{OPP_ROBBER,TX(error)} },		 //OPP_ROBBER
 	{ { OPP_TURN,TX(oppTurnControllers) },{},{},{},{WAITING_PLAYER,TX(error)} }	 //WAITING_PLAYER
 	};
-
+	
 	void passControllers(genericEvent* ev);
 	void oppTurnControllers(genericEvent* ev);
 	void tradeControllers(genericEvent* ev);
@@ -106,12 +106,13 @@ private:
 	void myTurnControllers(genericEvent* ev);
 	void netwYNControllers(genericEvent* ev);
 	void myTurnPassControllers(genericEvent* ev);
-	void(genericEvent* ev);
-	void(genericEvent* ev);
-	void(genericEvent* ev);
+	
+	void doNothing(genericEvent* ev) {}
 
 	void oppRobberControllers(genericEvent* ev);	
 	void waitingControllers(genericEvent* ev);
+	void(genericEvent* ev);
+	void(genericEvent* ev);
 
 	catanGameModel * gameModel;
 	
