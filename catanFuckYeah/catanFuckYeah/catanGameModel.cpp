@@ -114,7 +114,7 @@ bool catanGameModel::validResourceForConstruct(networkingEventTypes type)
 	{
 		player = player2.getCards();
 	}
-	return ( player.brick >= resNeeded.brick );
+	return ((player.brick >= resNeeded.brick) && (player.ore >= resNeeded.ore) && (player.wood >= resNeeded.wood) && (player.wool >= resNeeded.wool) && (player.wheat >= resNeeded.wheat));
 }
 
 bool catanGameModel::validConstruction(networkingEventTypes type, string coords)
