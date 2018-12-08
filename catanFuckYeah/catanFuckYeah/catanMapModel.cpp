@@ -150,11 +150,51 @@ bool catanMapModel::setMap(string map_)
 	return ret;
 }
 
-/*bool catanMapModel::setCircularTokens(string circTokens)
+bool catanMapModel::setCircularTokens(string circTokens)
 {
-	//si es valido, notifyAllObservers();
-}*/
-
+	bool ret = true;
+	size_t found = circTokens.find_first_not_of("\2\3\4\5\6\7\8\9\10\11\12");
+	string aux = circTokens;
+	int count;
+	if (found == string::npos)
+	{
+		for (int i = 2; (i < 13) && ret; i++)
+		{
+			count = 0;
+			size_t aPos = aux.find_first_of(i);
+			while (aPos != string::npos)
+			{
+				aPos = aux.find_first_of(i, aPos);
+				count++;
+			}
+			if ((i != 2) && (i != 7) && (i != 12))
+			{
+				if (count != 2)
+				{
+					ret = false;
+				}
+			}
+			else
+			{
+				if (count != 1)
+				{
+					ret = false;
+				}
+			}
+		}
+		if (ret)
+		{
+			int i = 0;
+			for (auto x : hexagons)
+			{
+				x.circularToken = circTokens[i];
+				i++;
+			}
+			notifyAllObservers();
+		}
+	}
+	return ret;
+}
 bool catanMapModel::adjacentToHiddenRoad(string vertex)
 {
 	bool ret = false;
