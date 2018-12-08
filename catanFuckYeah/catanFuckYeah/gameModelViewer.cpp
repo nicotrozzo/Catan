@@ -15,7 +15,13 @@ gameModelViewer::gameModelViewer(catanGameModel *myGame)
 				{
 					if ((fontForBankCosts = al_load_ttf_font("graficoCatan\\font\\scribish.ttf", 45, 0)) != NULL)
 					{
-						initOk = true;
+						if ((tickBitmap = al_load_bitmap("graficoCatan\\buttons\\yes.png")) != NULL && (crossBitmap = al_load_bitmap("graficoCatan\\buttons\\no.png")) != NULL)
+						{
+							if ((passButtonBitmap = al_load_bitmap("graficoCatan\\buttons\\passButton.png")) != NULL && (bankTradeButtonBitmap = al_load_bitmap("graficoCatan\\buttons\\bankTrade.png")) != NULL && (playerTradeButtonBitmap = al_load_bitmap("graficoCatan\\buttons\\playerTrade.png")) != NULL)
+							{
+								initOk = true;
+							}
+						}
 					}
 				}
 			}
@@ -37,6 +43,17 @@ void gameModelViewer::update()
 		{
 			viewRobberDiscard();
 			viewSelectedCards();
+		}
+		if (myGame->player1Playing())
+		{
+			if ((myGame->isSelecting() == BANK_TRADE) || (myGame->isSelecting() == OFFER_TRADE) || (myGame->isSelecting() == ROBBER_CARDS) || (myGame->isConstructing()) || (myGame->isSelecting()))
+			{
+				viewTickAndCrossButtons();
+			}
+			else
+			{
+				viewActionButtons();
+			}
 		}
 	}
 	else
@@ -192,6 +209,19 @@ void gameModelViewer::viewSelectedCards()
 		al_draw_text(fontForAmountOfCards, al_color_name("black"), gameCoords::cardsCoords[wood + '1'].xCoord, gameCoords::cardsCoords[wood].yCoord, 0, to_string(player1DiscardCards.wood).c_str());
 		al_draw_text(fontForAmountOfCards, al_color_name("black"), gameCoords::cardsCoords[wheat + '1'].xCoord, gameCoords::cardsCoords[wheat].yCoord, 0, to_string(player1DiscardCards.wheat).c_str());
 	}
+}
+
+void gameModelViewer::viewTickAndCrossButtons()
+{
+	al_draw_bitmap(tickBitmap, gameCoords::buttonCords["YES"].xCoords, gameCoords::buttonCoords["YES"].yCoords, 0);
+	al_draw_bitmap(crossBitmap, gameCoords::buttonCords["NO"].xCoords, gameCoords::buttonCoords["NO"].yCoords, 0);
+}
+
+void gameModelViewer::viewActionButtons()
+{
+	al_draw_bitmap(passButtonBitmap, gameCoords::buttonCords["END_TURN"].xCoords, gameCoords::buttonCoords["END_TURN"].yCoords, 0);
+	al_draw_bitmap(playerTradeButtonBitmap, gameCoords::buttonCords["PLAYER_TRADE"].xCoords, gameCoords::buttonCoords["PLAYER_TRADE"].yCoords, 0);
+	al_draw_bitmap(bankTradeButtonBitmap, gameCoords::buttonCords["BANK_TRADE"].xCoords, gameCoords::buttonCoords["BANK_TRADE"].yCoords, 0);
 }
 
 gameModelViewer::~gameModelViewer()

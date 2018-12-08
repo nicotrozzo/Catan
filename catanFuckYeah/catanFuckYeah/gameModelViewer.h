@@ -22,12 +22,19 @@ private:
 	ALLEGRO_BITMAP * diceValue6;
 	ALLEGRO_BITMAP * tradeMenuBitmap;
 	ALLEGRO_BITMAP * robberDiscardMenuBitmap;
+	ALLEGRO_BITMAP * tickBitmap;
+	ALLEGRO_BITMAP * crossBitmap;
+	ALLEGRO_BITMAP * passButtonBitmap;
+	ALLEGRO_BITMAP * bankTradeButtonBitmap;
+	ALLEGRO_BITMAP * playerTradeButtonBitmap;
 	ALLEGRO_FONT * fontForAmountOfCards;
 	ALLEGRO_FONT * fontForBankCosts;
 	void viewDices();
 	void viewTrade();
 	void viewRobberDiscard();
 	void viewSelectedCards();
+	void viewTickAndCrossButtons();
+	void viewActionButtons();			//viewer de bank trade, player trade y pass button
 	bool initOk;
 };
 

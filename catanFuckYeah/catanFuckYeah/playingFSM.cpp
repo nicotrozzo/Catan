@@ -272,6 +272,11 @@ void playingFSM::oppRobberControllers(genericEvent * ev)
 
 void playingFSM::waitingControllers(genericEvent * ev)
 {
+	currentNetworkingControllers.clear();
+	currentInputControllers.clear();
+	inputTickAndXController * controllerToAdd = static_cast<inputTickAndXController *>(getInputController(CTRL_TICKANDX));
+	controllerToAdd->setActionToDo(TICK_OPP_TRADE);
+	currentInputControllers.push_back(controllerToAdd);
 }
 
 /*Devuelve el controller pedido si esta presente en la lista de todos los controllers de input, sino nullptr*/
