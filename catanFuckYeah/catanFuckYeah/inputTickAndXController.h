@@ -10,7 +10,7 @@ public:
 	inputTickAndXController(catanGameModel * game);
 	virtual inputControllerTypes getType() { return CTRL_TICKANDX; }
 	/*La variable actionToDo indica que debe hacer cuando aprietan:
-		-TICK_OPP_TRADE:	* tick hace la transaccion ( playersTrade() ), si devuelve false ALTO ERROR   
+		-TICK_OPP_TRADE:	* tick hace la transaccion ( playerTrade() ), si devuelve false ALTO ERROR. NO PREGUNTAR PLAYERTRADEREADY() 
 							* cruz cancela la transaccion ( clearTrades() )
 		-TICK_BANK_TRADE:	* tick pregunta si esta lista la transaccion ( metodo bankTradeReady() ), si es valida la hace ( bankTrade() ), sino ignora
 							* cruz cancela la seleccion ( clearTrades() ) 

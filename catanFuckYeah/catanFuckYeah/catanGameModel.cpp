@@ -7,6 +7,7 @@ catanGameModel::catanGameModel()
 {
 	dice1 = 0;
 	dice2 = 0;
+	longestRoadPlayer = 0;
 	//ver de poner quien arranca jugando
 }
 
@@ -89,51 +90,30 @@ bool catanGameModel::validConstruction(networkingEventTypes type, string coords)
 		ret = map.checkAvailableCity(coords, player);
 		break;
 	}
-	if (ret)
+	/*if (ret)
 	{
-		pendingConstruction = {type,coords};
 		notifyAllObservers();
-	}
+	}*/
 	return ret;
 }
 
-/*bool catanGameModel::construction(networkingEventTypes type, string coords)
-{
-	bool ret = false;
-	switch(type)
-	{
-	case ROAD:
-		if (map.buildRoad(coords, getCurrentPlayer().getPlayerNumber()))
-		{
-			ret = true;
-		}
-		break;
-	case SETTLEMENT:
-		if (map.buildSettlement(coords, getCurrentPlayer().getPlayerNumber()))
-		{
-			ret = true;
-		}
-		break;
-	case CITY:
-		if (map.buildCity(coords, getCurrentPlayer().getPlayerNumber()))
-		{
-			ret = true;
-		}
-		break;
-	}
-	return ret;
-}*/
-
-/*Construye la construccion que tenga guardada internamente, que es la ultima valida por la que hayan preguntado
+/*Construye la construccion que tenga guardada internamente el mapa, que es la ultima valida por la que hayan preguntado
 en validConstruction()
 */
 bool catanGameModel::construct()
 {
 	bool ret = false;
 	unsigned char player = player1Playing ? 1 : 2;
-	if (pendingConstruction.type)
+	if (construct)
 	{
-		switch (pendingConstruction.type)
+		ret = map.buildPendingConstruction();
+		if (ret)
+		{
+			constructing = false;
+			updatePlayersVictoryPoints();
+		}
+		
+		/*switch (pendingConstruction.type)
 		{
 		case ROAD:
 			ret = map.buildRoad(pendingConstruction.coords, player);
@@ -145,9 +125,51 @@ bool catanGameModel::construct()
 			ret = map.buildCity(pendingConstruction.coords, player);
 			break;
 		}
-		pendingConstruction.type = static_cast<networkingEventTypes>(0);
+		pendingConstruction.type = static_cast<networkingEventTypes>(0);*/
 	}
 	return ret;
+}
+
+void catanGameModel::cancelConstruction()
+{
+	constructing = false;
+	map.cancelConstruction();
+}
+
+bool catanGameModel::isConstructing()
+{
+	return constructing;
+}
+
+void catanGameModel::updatePlayersVictoryPoints()
+{
+	unsigned char vicPoints1 = 0;
+	unsigned char vicPoints2 = 0;
+	unsigned char longestRoad1 = map.getP1LongestRoad();
+	unsigned char longestRoad2 = map.getP2LongestRoad();
+	if (player1.getLongestRoad() < longestRoad1)
+	{
+		player1.setLongestRoad(longestRoad1);
+	}
+	if (player2.getLongestRoad() < longestRoad2)
+	{
+		player2.setLongestRoad(longestRoad2);
+	}
+	if ((longestRoad1 >= 5) || (longestRoad2 >= 5))
+	{
+		if ((longestRoad1 > longestRoad2) || ((longestRoad1 == longestRoad2) && (longestRoadPlayer == 1)))
+		{
+			vicPoints1++;
+		}
+		else
+		{
+			vicPoints2++;
+		}
+	}
+	vicPoints1 += map.getP1Settlements().length() + 2 * map.getP1Cities().length();
+	player1.setVictoryPoints(vicPoints1);
+	vicPoints2 += map.getP2Setllements().length() + 2 * map.getP1Cities.length();
+	player2.setVictoryPoints(vicPoints2);
 }
 
 bool catanGameModel::validSelectedCards(string currentPlayerCards, string otherCards)
@@ -210,6 +232,7 @@ bool catanGameModel::validSelectedCards(string currentPlayerCards, string otherC
 	return ret;
 }
 
+/**/
 bool catanGameModel::playersTrade(string currentPlayerCards, string otherPlayerCards)
 {
 	bool ret = false;
@@ -224,13 +247,16 @@ bool catanGameModel::playersTrade(string currentPlayerCards, string otherPlayerC
 				p1SelectedCardsForTrade.brick++;
 				break;
 			case WOOD:
-				
+				p1SelectedCardsForTrade.wood++;
 				break;
 			case WOOL:
+				p1SelectedCardsForTrade.wool++;
 				break;
 			case ORE:
+				p1SelectedCardsForTrade.ore++;
 				break;
 			case WHEAT:
+				p1SelectedCardsForTrade.wheat++;
 				break;
 			default:
 				break;
@@ -238,18 +264,22 @@ bool catanGameModel::playersTrade(string currentPlayerCards, string otherPlayerC
 		}
 		for (auto x : otherPlayerCards)
 		{
-			(getCurrentPlayer().incResource(x) && getOtherPlayer().decResource(x));
 			switch (x)
 			{
 			case BRICK:
+				p2SelectedCardsForTrade.brick++;
 				break;
 			case WOOD:
+				p2SelectedCardsForTrade.wood++;
 				break;
 			case WOOL:
+				p2SelectedCardsForTrade.wool++;
 				break;
 			case ORE:
+				p2SelectedCardsForTrade.ore++;
 				break;
 			case WHEAT:
+				p2SelectedCardsForTrade.wheat++;
 				break;
 			default:
 				break;
@@ -260,10 +290,51 @@ bool catanGameModel::playersTrade(string currentPlayerCards, string otherPlayerC
 	return ret;
 }
 
-bool catanGameModel::bankTrade(string player, unsigned char bankResource)	//player seria nameIs?
-{
-	//ver 
-	return false;
+bool catanGameModel::bankTrade(string playerResource, resourceType bankResource)	
+{ 
+	bool ret = false;
+	map<resourceType, unsigned char> costs = map.getBankTradeCosts(2);
+	size_t strLenght = 0;
+	char res = playerResource[0];
+	unsigned char costRes;
+	for (auto x : playerResource)
+	{
+		if (res == x)
+		{
+			strLenght++;
+		}
+	}
+	if (strLenght == playerResource.length())
+	{
+		switch (res)
+		{
+		case BRICK:
+			costRes = costs[BRICK];
+			break;
+		case WOOL:
+			costRes = costs[WOOL];
+			break;
+		case WOOD:
+			costRes = costs[WOOD];
+			break;
+		case ORE:
+			costRes = costs[ORE];
+			break;
+		case WHEAT:
+			costRes = costs[WHEAT];
+			break;
+		default:
+			break;
+		}
+		if (strLenght == static_cast<size_t>(costRes))
+		{
+			for (; strLenght != 0; strLenght--)
+			{
+				getOtherPlayer().decResource(res);
+			}
+		}
+	}
+	return ret;
 }
 
 bool catanGameModel::robberMoved(unsigned char hex)
@@ -277,48 +348,99 @@ bool catanGameModel::robberMoved(unsigned char hex)
 	return ret;
 }
 
+map<resourceType, unsigned char> catanGameModel::getBankTradeCosts()
+{
+	unsigned char player = player1Playing ? 1 : 2;
+	return map.getBankTradeCosts(player);
+}
+
 bool catanGameModel::prepareRobberDiscard(resourceType resource)
 {
 	bool ret = false;
-	if (p1DiscardRobberCards)
-	switch (resource)
+	if (selecting != ROBBER_CARDS)
 	{
-	case BRICK:
-		ret = 
-		break;
-	case WOOD:
-		break;
-	case WOOL:
-		break;
-	case ORE:
-		break;
-	case WHEAT:
-		break;
-	default:
-		break;
+		selecting = ROBBER_CARDS;
+		notifyAllObservers();
+	}
+	if (p1DiscardRobberCards.totalCardsCount() < player1.getCards().totalCardsCount() / 2)
+	{
+		switch (resource)
+		{
+		case BRICK:
+			ret = player1.getCards().brick > p1DiscardRobberCards.brick;
+			if (ret)
+			{
+				p1DiscardRobberCards.brick++;
+			}
+			break;
+		case WOOD:
+			ret = player1.getCards().brick > p1DiscardRobberCards.brick;
+			if (ret)
+			{
+				p1DiscardRobberCards.brick++;
+			}
+			break;
+		case WOOL:
+			ret = player1.getCards().wool > p1DiscardRobberCards.wool;
+			if (ret)
+			{
+				p1DiscardRobberCards.wool++;
+			}
+			break;
+		case ORE:
+			ret = player1.getCards().ore > p1DiscardRobberCards.ore;
+			if (ret)
+			{
+				p1DiscardRobberCards.ore++;
+			}
+			break;
+		case WHEAT:
+			ret = player1.getCards().wheat > p1DiscardRobberCards.wheat;
+			if (ret)
+			{
+				p1DiscardRobberCards.wheat++;
+			}
+			break;
+		default:
+			break;
+		}
+	}
+	if (ret)
+	{
+		notifyAllObservers();
 	}
 	return ret;
 }
 
 bool catanGameModel::robberCardsReady()
 {
-	return false;
+	return p1DiscardRobberCards.totalCardsCount() >= player1.getCards().totalCardsCount()/2;
 }
 
 void catanGameModel::clearRobberCards()
 {
+	p1DiscardRobberCards.ore = 0;
+	p1DiscardRobberCards.brick = 0;
+	p1DiscardRobberCards.wheat = 0;
+	p1DiscardRobberCards.wool = 0;
+	p1DiscardRobberCards.wood = 0;
+	selecting = NO_PCKG;
+	notifyAllObservers();
 }
 
 bool catanGameModel::discardCurrentPlayer()
 {
-	bool ret = true;
-	for (auto x : )
+	bool ret = false;
+	if (robberCardsReady())
 	{
-		while (ret != false)
-		{
-			ret = getCurrentPlayer().decResource(x);
-		}
+		player1.decResource(ORE,p1DiscardRobberCards.ore);
+		player1.decResource(WHEAT, p1DiscardRobberCards.wheat);
+		player1.decResource(WOOL,p1DiscardRobberCards.wool);
+		player1.decResource(WOOD,p1DiscardRobberCards.wood);
+		player1.decResource(BRICK,p1DiscardRobberCards.brick);
 	}
+	selecting = NO_PCKG;
+	notifyAllObservers();
 	return ret;
 }
 

@@ -28,6 +28,7 @@ typedef struct
 {
 	networkingEventTypes type;
 	string coords;
+	unsigned char player;
 }construction_t;
 
 
@@ -54,9 +55,10 @@ public:
 	bool setMap(string map_);						//EL MODELO ES MODIFICADO
 													//bool setCircularTokens(string circTokens);	//EL MODELO ES MODIFICADO
 	
-	bool validRoadBuilding(string edge, char player);		//EL MODELO ES MODIFICADO
-	bool validSettlementBuilding(string edge, char player);	//EL MODELO ES MODIFICADO
-	bool validCityBuilding(string vertex, char player);		//EL MODELO ES MODIFICADO				
+	bool checkAvailableRoad(string edge, char player);	//devuelve true si el jugador indicado puede construir un camino en ese lado
+	bool checkAvailableSettlement(string vertex, char player);	//devuelve true si el vertice seleccionado es valido para la construccion de un settlement
+	bool checkAvailableCity(string vertex, char player);	//devuelve true si el vertice seleccionado es valido para la construccion de una ciudad
+	
 	construction_t getPendingConstruction();
 	void cancelConstruction();
 	bool buildPendingConstruction();						//EL MODELO ES MODIFICADO
@@ -71,9 +73,6 @@ public:
 	list<string> getP2Roads();
 
 	map<resourceType, unsigned char> getBankTradeCosts(unsigned char player);	//Devuelve un diccionario con el costo (2, 3 o 4) de cada recurso para el jugador pedido
-	bool checkAvailableRoad(string edge, char player);	//devuelve true si el jugador indicado puede construir un camino en ese lado
-	bool checkAvailableSettlement(string vertex, char player);	//devuelve true si el vertice seleccionado es valido para la construccion de un settlementdeu
-	bool checkAvailableCity(string vertex, char player);	//devuelve true si el vertice seleccionado es valido para la construccion de una ciudad
 	unsigned char getP1LongestRoad();
 	unsigned char getP2LongestRoad();
 	list<pepe> getSelectedHex(unsigned int diceValue);
@@ -103,6 +102,11 @@ private:
 	bool freeEdge(string edge);
 	bool existingVertex(string vertex);
 	bool existingEdge(string edge);
+	
+	bool buildRoad(string edge, char player);		//EL MODELO ES MODIFICADO
+	bool buildSettlement(string edge, char player);	//EL MODELO ES MODIFICADO
+	bool buildCity(string vertex, char player);		//EL MODELO ES MODIFICADO				
+
 	/*Metodos para buscar vertices con puerto*/
 	string greater2CharVertex(unsigned int pieceNum);
 	string less2CharVertex(unsigned int pieceNum);

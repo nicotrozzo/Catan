@@ -45,33 +45,42 @@ void inputCardsController::parseMouseEvent(mouseEvent * ev)
 
 }
 
+
 void inputCardsController::parseKeyboardEvent(keyboardEvent * ev)
 {
 	switch (ev->getKey())
 	{
 	case '1':
-		gameModel->
+		selectCall(WHEAT, 1);
 		break;
 	case '2':
+		selectCall(ORE, 1);
 		break;
 	case '3':
+		selectCall(WOOL, 1);
 		break;
 	case '4':
+		selectCall(WOOD, 1);
 		break;
 	case '5':
+		selectCall(BRICK, 1);
 		break;
 	case 'a': case 'A':
+		selectCall(WHEAT, 2);
 		break;
 	case 'b': case 'B':
+		selectCall(ORE, 2);
 		break;
 	case 'c': case 'C':
+		selectCall(WOOL, 2);
 		break;
 	case 'd': case 'D':
+		selectCall(WOOD, 2);
 		break;
 	case 'e': case 'E':
+		selectCall(BRICK, 2);
 		break;
 	}
-
 }
 
 void inputCardsController::setFunction(networkingEventTypes function_)
@@ -86,6 +95,23 @@ void inputCardsController::setFunction(networkingEventTypes function_)
 	}
 }
 
+void inputCardsController::selectCall(resourceType resource, unsigned char player)
+{
+	switch (function)
+	{
+	case OFFER_TRADE:
+		gameModel->preparePlayerTrade(resource, player);
+		break;
+	case BANK_TRADE:
+		gameModel->prepareBankTrade(resource, player == 1 ? true : false);
+		break;
+	case ROBBER_CARDS:
+		gameModel->prepareRobberDiscard(resource);
+		break;
+	default:
+		break;
+	}
+}
 
 inputCardsController::~inputCardsController()
 {

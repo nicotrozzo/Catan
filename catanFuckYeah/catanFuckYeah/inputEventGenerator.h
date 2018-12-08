@@ -36,6 +36,7 @@ private:
 	char key;
 };
 
+
 class inputEventGenerator : public eventGenerator
 {
 public:

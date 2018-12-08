@@ -56,6 +56,7 @@ catanMapModel::catanMapModel()
 			}
 		}
 	}
+	pendingConstruction.type = NO_PCKG;
 }
 
 string catanMapModel::getMap(void)
@@ -221,14 +222,53 @@ bool catanMapModel::checkAvailableRoad(string edge, char player)
 			}
 		}
 	}
+	if (ret)
+	{
+		pendingConstruction.type = ROAD;
+		pendingConstruction.coords = edge;
+		pendingConstruction.player = player;
+		notifyAllObservers();
+	}
+	return ret;
+}
 
+construction_t catanMapModel::getPendingConstruction()
+{
+	return pendingConstruction;
+}
+
+void catanMapModel::cancelConstruction()
+{
+	pendingConstruction.type = NO_PCKG;
+	notifyAllObservers();
+}
+
+bool catanMapModel::buildPendingConstruction()
+{
+	bool ret = false;
+	switch (pendingConstruction.type)
+	{
+	case SETTLEMENT:
+		ret = buildSettlement(pendingConstruction.coords, pendingConstruction.player);
+		break;
+	case ROAD:
+		ret = buildRoad(pendingConstruction.coords, pendingConstruction.player);
+		break;
+	case CITY:
+		ret = buildCity(pendingConstruction.coords, pendingConstruction.player);
+		break;
+	}
+	if (ret)
+	{
+		pendingConstruction.type = NO_PCKG;
+	}
 	return ret;
 }
 
 bool catanMapModel::validRoadBuilding(string edge, char player)
 {
 	bool ret = false;
-	if ((checkAvailableRoad(edge, player)) && ((player == 1) || (player == 2)))
+	if ((player == 1) || (player == 2))
 	{
 		ret = true;
 		list<string>::iterator it;
@@ -262,7 +302,6 @@ bool catanMapModel::validRoadBuilding(string edge, char player)
 				p2LongRoads.push_back(edge);
 			}
 		}
-		notifyAllObservers();	//avisa que hubo un cambio
 	}
 	return ret;
 }
@@ -270,7 +309,7 @@ bool catanMapModel::validRoadBuilding(string edge, char player)
 bool catanMapModel::validSettlementBuilding(string vertex, char player)
 {
 	bool ret = false;
-	if (checkAvailableSettlement(vertex, player) && ((player == 1) || (player == 2)))
+	if ((player == 1) || (player == 2))
 	{
 		ret = true;		//construccion valida
 		list<string>::iterator it;
@@ -307,7 +346,6 @@ bool catanMapModel::validSettlementBuilding(string vertex, char player)
 		{
 			p2UsedVertexList.push_back(vertex);
 		}
-		notifyAllObservers();	//avisa que cambio a quienes lo miran
 	}
 	return ret;
 }
@@ -315,7 +353,7 @@ bool catanMapModel::validSettlementBuilding(string vertex, char player)
 bool catanMapModel::validCityBuilding(string vertex, char player)
 {
 	bool ret = false;
-	if (checkAvailableCity(vertex, player) && ((player == 1) || (player == 2)))
+	if ((player == 1) || (player == 2))
 	{
 		ret = true;
 		if (player == 1)
@@ -326,7 +364,6 @@ bool catanMapModel::validCityBuilding(string vertex, char player)
 		{
 			p2Cities.push_back(vertex);
 		}
-		notifyAllObservers();	//avisa que cambio
 	}
 	return ret;
 }
@@ -682,13 +719,12 @@ bool catanMapModel::adjacentToOwnRoad(string edge, char player)
 	return ret;
 }
 
+/*Si devuelve true cambia pendingConstruction*/
 bool catanMapModel::checkAvailableSettlement(string vertex, char player)
 {
-	bool validVertex = false;
 	bool ret = false;
 	if (existingVertex(vertex))
 	{
-		validVertex = true;
 		if ((player == 1) || (player == 2))
 		{
 			if (!adjacentToHiddenRoad(vertex))
@@ -697,15 +733,15 @@ bool catanMapModel::checkAvailableSettlement(string vertex, char player)
 				{
 					if (adjacentToLongRoad(vertex, player) || ((player == 1) && (p1UsedVertexList.size() < 2)) || ((player == 2) && (p2UsedVertexList.size() < 2)))
 					{
+						pendingConstruction.type = SETTLEMENT;
+						pendingConstruction.coords = vertex;
+						pendingConstruction.player = player;
+						notifyAllObservers();
 						ret = true;
 					}
 				}
 			}
 		}
-	}
-	if (!validVertex)
-	{
-		ret = false;
 	}
 	return ret;
 }
@@ -778,6 +814,13 @@ bool catanMapModel::checkAvailableCity(string vertex, char player)
 				}
 			}
 		}
+	}
+	if (ret)
+	{
+		pendingConstruction.type = CITY;
+		pendingConstruction.coords = vertex;
+		pendingConstruciont.player = player;
+		notifyAllObservers();
 	}
 	return ret;
 }
