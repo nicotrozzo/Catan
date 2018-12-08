@@ -37,6 +37,7 @@ private:
 	ALLEGRO_BITMAP * city2Bitmap;
 	ALLEGRO_BITMAP * wallpaperBitmap;
 	ALLEGRO_BITMAP * tokens[10];
+	ALLEGRO_FONT * fontForAmountOfBuildings;
 	map<unsigned char, ALLEGRO_BITMAP*> oceanHex;
 	map<unsigned char, ALLEGRO_BITMAP*> resourcesHex;
 	void viewWallpaper();
@@ -45,6 +46,7 @@ private:
 	void viewBuildings();
 	void viewRobber();
 	void viewPendingConstruction();
+	void viewAmountOfBuildingsLeft();
 };
 
 

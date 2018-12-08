@@ -56,7 +56,7 @@ class catanMapModel : public EDASubject
 {
 public:
 	catanMapModel();
-	unsigned char getRobberPos() { return robberPos; }
+	unsigned char getRobberPos();
 	bool setRobberPos(unsigned char robberPos_);
 	string getMap();
 	string getCircularTokens();
@@ -71,6 +71,9 @@ public:
 	void cancelConstruction();
 	bool buildPendingConstruction();						//EL MODELO ES MODIFICADO
 
+	unsigned char getAmountOfSettlementsLeft();
+	unsigned char getAmountOfCitiesLeft();
+	unsigned char getAmountOfRoadsLeft();
 	list<string> getP1BuiltVertexes();	//devuelve todos los vertices ocupados por el jugador, tanto settlements como cities
 	list<string> getP1Settlements();
 	list<string> getP1Cities();			//devuelve todos los cities contruidos por el jugador 1
