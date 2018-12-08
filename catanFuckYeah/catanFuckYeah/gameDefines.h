@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#define NUMBER_OF_PLAYERS 2
 #define MAX_NAME_LENGTH 255
 #define NUMBER_OF_OCEAN_PIECES 6
 #define NUMBER_OF_HABITATS 6

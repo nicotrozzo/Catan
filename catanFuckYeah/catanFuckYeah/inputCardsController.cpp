@@ -7,8 +7,9 @@ inputCardsController::inputCardsController(catanGameModel * game) : gameModel(ga
 {
 }
 
-void inputCardsController::parseMouseEvent(mouseEvent * ev)
+bool inputCardsController::parseMouseEvent(mouseEvent * ev)
 {
+	bool ret = false;
 	string resources[] = { "BRICK", "WOOD", "WOOL", "ORE", "WHEAT" };
 	string player1(1, gameModel->getCurrentPlayer().getPlayerNumber());
 	string player2(1, gameModel->getOtherPlayer().getPlayerNumber());
@@ -18,7 +19,7 @@ void inputCardsController::parseMouseEvent(mouseEvent * ev)
 	resourceType res[] = { BRICK, WOOD, WOOL, ORE, WHEAT };
 	for (int i = 0; i < NUMBER_OF_RESOURCES ; i++)	
 	{
-		for (int j = 0; j < 2; j++)
+		for (int j = 0; j < NUMBER_OF_PLAYERS; j++)
 		{
 			cCoord.x = gameCoords::cardsCoords[resources[i] + players[j]].xCoord;
 			cCoord.y = gameCoords::cardsCoords[resources[i] + players[j]].yCoord;
@@ -28,71 +29,76 @@ void inputCardsController::parseMouseEvent(mouseEvent * ev)
 				{
 					if (function == OFFER_TRADE)
 					{
-						gameModel->preparePlayerTrade(res[i], j + 1);
+						ret = gameModel->preparePlayerTrade(res[i], j + 1);
 					}
 					else if (function == BANK_TRADE)
 					{
-						gameModel->prepareBankTrade(res[i], ((players[j] == player1) ? true : false));
+						ret = gameModel->prepareBankTrade(res[i], ((players[j] == player1) ? true : false));
 					}
 					else if ((function == ROBBER_CARDS) && (players[j] == player1))
 					{
-						gameModel->prepareRobberDiscard(res[i]);
+						ret = gameModel->prepareRobberDiscard(res[i]);
 					}
 				}
 			}
 		}
 	}
-
+	return ret;
 }
 
 
-void inputCardsController::parseKeyboardEvent(keyboardEvent * ev)
+bool inputCardsController::parseKeyboardEvent(keyboardEvent * ev)
 {
+	bool ret = true;
 	switch (ev->getKey())
 	{
 	case '1':
-		selectCall(WHEAT, 1);
+		ret = selectCall(WHEAT, 1);
 		break;
 	case '2':
-		selectCall(ORE, 1);
+		ret = selectCall(ORE, 1);
 		break;
 	case '3':
-		selectCall(WOOL, 1);
+		ret = selectCall(WOOL, 1);
 		break;
 	case '4':
-		selectCall(WOOD, 1);
+		ret = selectCall(WOOD, 1);
 		break;
 	case '5':
-		selectCall(BRICK, 1);
+		ret = selectCall(BRICK, 1);
 		break;
 	case 'a': case 'A':
-		selectCall(WHEAT, 2);
+		ret = selectCall(WHEAT, 2);
 		break;
 	case 'b': case 'B':
-		selectCall(ORE, 2);
+		ret = selectCall(ORE, 2);
 		break;
 	case 'c': case 'C':
-		selectCall(WOOL, 2);
+		ret = selectCall(WOOL, 2);
 		break;
 	case 'd': case 'D':
-		selectCall(WOOD, 2);
+		ret =selectCall(WOOD, 2);
 		break;
 	case 'e': case 'E':
-		selectCall(BRICK, 2);
+		ret = selectCall(BRICK, 2);
 		break;
 	}
+	return ret;
 }
 
-void inputCardsController::setFunction(networkingEventTypes function_)
+bool inputCardsController::setFunction(networkingEventTypes function_)
 {
+	bool ret = false;
 	switch (function_)
 	{
 	case ROBBER_CARDS: case OFFER_TRADE: case BANK_TRADE:
 		function = function_;
+		ret = true;
 		break;
 	default:
 		break;
 	}
+	return ret;
 }
 
 void inputCardsController::selectCall(resourceType resource, unsigned char player)
