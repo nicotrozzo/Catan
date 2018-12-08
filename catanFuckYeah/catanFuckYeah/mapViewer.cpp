@@ -157,13 +157,13 @@ void mapViewer::viewPendingConstruction()
 	switch (pendingConstruction.type)
 	{
 	case SETTLEMENT:
-		al_draw_tinted_bitmap(settlement1Bitmap, al_map_rgba_f(0.5, 0.5, 0.5, 0.5), gameCoords::myVertexCoords[pendingConstruction.coords].xCoord, gameCoords::myVertexCoords[pendingConstruction.coords].yCoord, 0);
+		al_draw_tinted_bitmap(settlement1Bitmap, al_map_rgba_f(0.5, 0.5, 0.5, 0.5), gameCoords::myVertexCoords[pendingConstruction.coords].xCoord - (al_get_bitmap_width(settlement1Bitmap) / 2.0 ), gameCoords::myVertexCoords[pendingConstruction.coords].yCoord - (al_get_bitmap_height(settlement1Bitmap) / 2.0 ), 0);
 		break;
 	case CITY:
-		al_draw_tinted_bitmap(city1Bitmap, al_map_rgba_f(0.5, 0.5, 0.5, 0.5), gameCoords::myVertexCoords[pendingConstruction.coords].xCoord, gameCoords::myVertexCoords[pendingConstruction.coords].yCoord, 0);
+		al_draw_tinted_bitmap(city1Bitmap, al_map_rgba_f(0.5, 0.5, 0.5, 0.5), gameCoords::myVertexCoords[pendingConstruction.coords].xCoord - (al_get_bitmap_width(city1Bitmap) / 2.0 ), gameCoords::myVertexCoords[pendingConstruction.coords].yCoord - (al_get_bitmap_height(city1Bitmap) / 2.0 ), 0);
 		break;
 	case ROAD:
-		al_draw_tinted_bitmap(road1Bitmap, al_map_rgba_f(0.5, 0.5, 0.5, 0.5), gameCoords::myEdgesCoords[pendingConstruction.coords].xCoord, gameCoords::myEdgesCoords[pendingConstruction.coords].yCoord, 0);
+		al_draw_tinted_rotated_bitmap(road1Bitmap, al_map_rgba_f(0.5, 0.5, 0.5, 0.5), al_get_bitmap_width(road1Bitmap) / 2.0, al_get_bitmap_height(road1Bitmap) / 2.0, gameCoords::myEdgesCoords[pendingConstruction.coords].xCoord, gameCoords::myEdgesCoords[pendingConstruction.coords].yCoord, gameCoords::myEdgesCoords[pendingConstruction.coords].angle, 0);
 		break;
 	}
 }

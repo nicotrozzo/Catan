@@ -262,5 +262,3 @@ void catanPlayerModel::notify()
 catanPlayerModel::~catanPlayerModel()
 {
 }
-
-

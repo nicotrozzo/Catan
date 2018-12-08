@@ -934,23 +934,26 @@ unsigned char catanMapModel::getP1LongestRoad()
 	{
 		allRoads.push_back(x);
 	}
-	road * firstRoad = endpointSearchRec(allRoads.front());	//busca un camino en una punta
-	for (auto x : allRoads)	//borra todas las marcas que haya hecho la recursividad anterior
+	if (allRoads.size() > 0)
 	{
-		x->visited = false;
-	}
-	longestRoadSearchRec(firstRoad, longestRoad, 0);
-	for (auto x : allRoads)
-	{
-		if (!(x->visited))
+		road * firstRoad = endpointSearchRec(allRoads.front());	//busca un camino en una punta
+		for (auto x : allRoads)	//borra todas las marcas que haya hecho la recursividad anterior
 		{
-			endpointSearchRec(x);
-			for(auto x : allRoads)
+			x->visited = false;
+		}
+		longestRoadSearchRec(firstRoad, longestRoad, 0);
+		for (auto x : allRoads)
+		{
+			if (!(x->visited))
 			{
-				x->visited = false;
+				endpointSearchRec(x);
+				for (auto x : allRoads)
+				{
+					x->visited = false;
+				}
+				longestRoadSearchRec(x, longestRoad, 0);
+				break;
 			}
-			longestRoadSearchRec(x,longestRoad,0);
-			break;
 		}
 	}
 	return longestRoad;
@@ -974,6 +977,7 @@ void catanMapModel::longestRoadSearchRec(road * actualRoad, unsigned char & long
 {
 	if (hasUnvisitedNeighbours(actualRoad) != nullptr)
 	{
+		actualRoad->visited = true;
 		for (auto x : actualRoad->adjacentConstructedRoads)
 		{
 			if (!(x->visited))
@@ -1008,12 +1012,33 @@ road * catanMapModel::hasUnvisitedNeighbours(road * actualRoad)
 unsigned char catanMapModel::getP2LongestRoad()
 {
 	unsigned char longestRoad = 0;
-	list<road *> allRoads = p1LongRoads;
-	for (auto x : p1SimpleRoads)
+	list<road *> allRoads = p2LongRoads;
+	for (auto x : p2SimpleRoads)	//carga en allRoads todos los roads
 	{
 		allRoads.push_back(x);
 	}
-
+	if (allRoads.size() > 0)
+	{
+		road * firstRoad = endpointSearchRec(allRoads.front());	//busca un camino en una punta
+		for (auto x : allRoads)	//borra todas las marcas que haya hecho la recursividad anterior
+		{
+			x->visited = false;
+		}
+		longestRoadSearchRec(firstRoad, longestRoad, 0);
+		for (auto x : allRoads)
+		{
+			if (!(x->visited))
+			{
+				endpointSearchRec(x);
+				for (auto x : allRoads)
+				{
+					x->visited = false;
+				}
+				longestRoadSearchRec(x, longestRoad, 0);
+				break;
+			}
+		}
+	}
 	return longestRoad;
 }
 

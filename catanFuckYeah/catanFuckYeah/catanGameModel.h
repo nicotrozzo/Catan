@@ -12,6 +12,7 @@ public:
 	bool dicesThrown(unsigned char dice1, unsigned char dice2);	//modifica informacion del juego, cambia de turno
 	
 	
+	bool validResourceForConstruct(networkingEventTypes type);
 	bool validConstruction(networkingEventTypes type, string coords);	//devuelve true si la construccion solicitada es valida, y la almacena internamente hasta que le den la orden de construir
 	bool construct();		//construye la ultima construccion que se haya validado, devuelve false si la construccion no es valida, PUEDE MODIFICAR GAME OVER
 	void cancelConstruction();
@@ -72,12 +73,11 @@ public:
 	//bool waitingAccept();
 	//bool waitingCards();
 	bool isPlayer1Playing();	//devuelve true si es el turno del jugador 1
-	catanPlayerModel getCurrentPlayer();
-	catanPlayerModel getOtherPlayer();
-	catanMapModel getMap();
+	catanPlayerModel *getCurrentPlayer();
+	catanPlayerModel *getOtherPlayer();
+	catanMapModel *getMap();
 	unsigned char getDice1() { return dice1; }
 	unsigned char getDice2() { return dice2; }
-	catanMapModel getMap();
 	bool gameOver();	//true si termino el juego, llamar despues de construccion!!!!!!!!(pregunta a cada jugador cuantos puntos tiene)
 	~catanGameModel();
 protected:

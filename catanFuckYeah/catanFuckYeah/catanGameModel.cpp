@@ -3,6 +3,8 @@
 #include <cstring>
 #include <iterator>
 
+using namespace std;
+
 catanGameModel::catanGameModel()
 {
 	dice1 = 0;
@@ -72,33 +74,71 @@ bool catanGameModel::dicesThrown(unsigned char dice1, unsigned char dice2)
 	}
 	if (ret)
 	{
-		notifyAllObservers();
 		map.notify();
 		player1.notify();
 		player2.notify();
+		notifyAllObservers();
 	}
 	return ret;
+}
+
+bool catanGameModel::validResourceForConstruct(networkingEventTypes type)
+{
+	bool ret = false;
+	cards resNeeded = { 0,0,0,0,0 };
+	cards player;
+	switch (type)
+	{
+	case SETTLEMENT:
+		resNeeded.brick = 1;
+		resNeeded.wheat = 1;
+		resNeeded.wood = 1;
+		resNeeded.wool = 1;
+		break;
+	case CITY:
+		resNeeded.ore = 3;
+		resNeeded.wheat = 2;
+		break;
+	case ROAD:
+		resNeeded.brick = 1;
+		resNeeded.wood = 1;
+		break;
+	default:
+		break;
+	}
+	if (player1Playing)
+	{
+		player = player1.getCards();
+	}
+	else
+	{
+		player = player2.getCards();
+	}
+	return ( player.brick >= resNeeded.brick );
 }
 
 bool catanGameModel::validConstruction(networkingEventTypes type, string coords)
 {
 	bool ret = true;
 	unsigned char player = (player1Playing ? 1 : 2);
-	switch (type)
+	if (validResourceForConstruct(type))
 	{
-	case SETTLEMENT:
-		if (!map.checkAvailableSettlement(coords, player))
+		switch (type)
 		{
-			ret = map.checkAvailableCity(coords, player);
+		case SETTLEMENT:
+			if (!map.checkAvailableSettlement(coords, player))
+			{
+				ret = map.checkAvailableCity(coords, player);
+			}
+			else
+			{
+				ret = true;
+			}
+			break;
+		case ROAD:
+			ret = map.checkAvailableRoad(coords, player);
+			break;
 		}
-		else
-		{
-			ret = true;
-		}
-		break;
-	case ROAD:
-		ret = map.checkAvailableRoad(coords, player);
-		break;
 	}
 	if (ret)
 	{
@@ -127,6 +167,9 @@ bool catanGameModel::construct()
 		{
 			constructing = false;
 			updatePlayersVictoryPoints();
+			notifyAllObservers();
+			player1.notify();
+			player2.notify();
 		}
 	}
 	return ret;
@@ -172,7 +215,7 @@ void catanGameModel::updatePlayersVictoryPoints()
 	}
 	vicPoints1 += map.getP1Settlements().size() + 2 * map.getP1Cities().size();
 	player1.setVictoryPoints(vicPoints1);
-	vicPoints2 += map.getP2Settlements().size() + 2 * map.getP1Cities().size();
+	vicPoints2 += map.getP2Settlements().size() + 2 * map.getP2Cities().size();
 	player2.setVictoryPoints(vicPoints2);
 }
 
@@ -337,11 +380,11 @@ bool catanGameModel::bankTrade(string playerResource, resourceType bankResource)
 		{
 			for (; (strLenght != 0) && !ret; strLenght--)
 			{
-				ret = getCurrentPlayer().decResource(res);
+				ret = getCurrentPlayer()->decResource(res);
 			}
 			if (ret)
 			{
-				ret = getCurrentPlayer().incResource(static_cast<unsigned char>(bankResource));
+				ret = getCurrentPlayer()->incResource(static_cast<unsigned char>(bankResource));
 			}
 		}
 	}
@@ -759,43 +802,43 @@ bool catanGameModel::isPlayer1Playing()
 	return player1Playing;
 }
 
-catanPlayerModel catanGameModel::getCurrentPlayer()
+catanPlayerModel *catanGameModel::getCurrentPlayer()
 {
-	catanPlayerModel ret;
+	catanPlayerModel *ret = nullptr;
 	if (player1Playing)
 	{
-		ret = player1;
+		ret = &player1;
 	}
 	else
 	{
-		ret = player2;
+		ret = &player2;
 	}
 	return ret;
 }
 
-catanPlayerModel catanGameModel::getOtherPlayer()
+catanPlayerModel *catanGameModel::getOtherPlayer()
 {
-	catanPlayerModel ret;
+	catanPlayerModel *ret = nullptr;
 	if (player1Playing)
 	{
-		ret = player2;
+		ret = &player2;
 	}
 	else
 	{
-		ret = player1;
+		ret = &player1;
 	}
 	return ret;
 }
 
-catanMapModel catanGameModel::getMap()
+catanMapModel *catanGameModel::getMap()
 {
-	return map;
+	return &map;
 }
 
 bool catanGameModel::gameOver()
 {
 	bool ret = false;
-	if ((getCurrentPlayer().getVictoryPoints() >= POINTS_TO_WIN) || (getOtherPlayer().getVictoryPoints() >= POINTS_TO_WIN))
+	if ((getCurrentPlayer()->getVictoryPoints() >= POINTS_TO_WIN) || (getOtherPlayer()->getVictoryPoints() >= POINTS_TO_WIN))
 	{
 		ret = true;
 	}
