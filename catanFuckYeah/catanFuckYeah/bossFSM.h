@@ -29,7 +29,7 @@ private:
 	{ { HANDSHAKING,TX(sendQuitController) },		{ PLAYING,TX(newGame) },		  { START_MENU,TX(closeConnection) },{ WAITING_TO_QUIT,TX(finishHandshaking) },		  { HANDSHAKING,TX(closeHandshaking) },	{ HANDSHAKING,TX(sendToHandFSM) },	{ HANDSHAKING,TX(sendTimerEv) } },			//HANDSHAKING
 	{ { PLAYING,TX(sendInputEv) },			{ REMATCH,TX(verdesp) },		  { START_MENU,TX(closeConnection) },	{ WAITING_TO_QUIT,TX(finishGame) },		  { PLAYING,TX(closeGame) },			  { PLAYING,TX(sendNetwEv) },					{ PLAYING,TX(sendTimerEv) } },				//PLAYING
 	{ { REMATCH,TX(sendInputEv) },			{ HANDSHAKING,TX(verdesp) },		  { START_MENU,TX(closeConnection) },	{ WAITING_TO_QUIT,TX(sendGameOver) },{ REMATCH,TX(closeRematch) },			  { REMATCH,TX(sendNetwEv) },					{ REMATCH,TX(sendTimerEv) } },				//REMATCH
-	{ { WAITING_TO_QUIT,TX(sendInputEv) },	{ START_MENU,TX(newStMn) },		  { START_MENU,TX(newStMn) },	{ WAITING_TO_QUIT,TX(doNothing) },		  { WAITING_TO_QUIT,TX(close) },	  { WAITING_TO_QUIT,TX(sendNetwEv) },			{ WAITING_TO_QUIT,TX(sendTimerEv) } }		//WAITING_TO_QUIT
+	{ { WAITING_TO_QUIT,TX(sendInputEv) },	{ START_MENU,TX(newStMn) },		  { START_MENU,TX(newStMn) },	{ WAITING_TO_QUIT,TX(doNothing) },		  { WAITING_TO_QUIT,TX(close) },				{ WAITING_TO_QUIT,TX(destroyAll) },			{ WAITING_TO_QUIT,TX(sendTimerEv) } }		//WAITING_TO_QUIT
 	};
 
 	//The action routines for the FSM
@@ -53,6 +53,7 @@ private:
 	void sendInputEv(genericEvent * ev);
 	void finishGame(genericEvent * ev);
 	void closeGame(genericEvent * ev);
+	void destroyAll(genericEvent * ev);
 	void sendNetwEv(genericEvent * ev);
 	void sendGameOver(genericEvent * ev);
 	void closeRematch(genericEvent * ev);

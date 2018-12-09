@@ -140,6 +140,7 @@ void bossFSM::refreshWait(genericEvent * ev)
 void bossFSM::newGame(genericEvent * ev)
 {
 	delete graficador;
+	graficador = new gameGraphicator;
 	catanGameModel * temp = handFSM->getCatanGame();
 	delete handFSM;
 	bool iStart = temp->isPlayer1Playing();
@@ -150,7 +151,7 @@ void bossFSM::newGame(genericEvent * ev)
 		switch (i)
 		{
 		case 0:
-			controllerToAdd = new inputActionButtonController(temp);
+			controllerToAdd = new inputActionButtonController(temp);	//ALGUNOS VAN A NECESITAR EL EMISOR
 			break;
 		case 1:
 			controllerToAdd = new inputCardsController(temp);
@@ -202,7 +203,8 @@ void bossFSM::newGame(genericEvent * ev)
 		playingFSMEvGen.attach(netwControllerToAdd);
 		playingFSMNetwControllers[i] = netwControllerToAdd;
 	}
-	gameFSM = new playingFSM(iStart, temp, playingFSMInpControllers, playingFSMNetwControllers);
+	gameFSM = new playingFSM(iStart, temp, playingFSMInpControllers, playingFSMNetwControllers, emisor);
+	evGen.attach(gameFSM);
 }
 
 void bossFSM::closeConnection(genericEvent * ev)
@@ -222,7 +224,9 @@ void bossFSM::closeHandshaking(genericEvent * ev)
 
 void bossFSM::sendToHandFSM(genericEvent * ev)
 {
-	handFSM->cycle(new handShakingEv(static_cast<networkingEv *>(ev)->getHeader() == handFSM->getExpectedPackage()));
+	handShakingEv * evento = new handShakingEv(static_cast<networkingEv *>(ev)->getHeader() == handFSM->getExpectedPackage());
+	handFSM->cycle(evento);
+	delete evento;
 }
 
 void bossFSM::sendTimerEv(genericEvent * ev)
@@ -233,28 +237,54 @@ void bossFSM::sendTimerEv(genericEvent * ev)
 	}
 	else	//si no es un evento de refresh de pantalla, es un error, emite un invalid event
 	{
-		handFSM->cycle(new handShakingEv(false));
+		handShakingEv * evento = new handShakingEv(false);
+		handFSM->cycle(evento);
+		delete evento;
 	}
-	//mandar al display de alguna forma si la fuente es allegro
-	//mandar a fsm handshaking como evento invalido para que corte todo
 }
 
 
 void bossFSM::sendInputEv(genericEvent * ev)
 {
-	//ACA TIENE QUE ESTAR EL DISPATCHER PARA LA FSM DE PLAYING
-	//innerFSM->cycle(static_cast<inputEv *>(ev)->additionalInfo);
-	//quitController(static_cast<>); //mandar a quit controller si es mouse o Q, ver despues
+	gameFSM->sendToInputControllers(static_cast<inputEv *>(ev));
+	if(static_cast<inputEv *>(ev)->getInputEvType() == INP_MOUSE_EVENT)
+	{
+		quitController->parseMouseEvent(static_cast<mouseEvent *>(ev));
+	}
+	else if (static_cast<inputEv *>(ev)->getInputEvType() == INP_KEYBOARD_EVENT)
+	{
+		quitController->parseKeyboardEvent(static_cast<keyboardEvent *>(ev));
+	}
+	playingFSMEvent * evento = static_cast<playingFSMEvent *>(playingFSMEvGen.getNextEvent());
+	if (evento != nullptr)
+	{
+		gameFSM->cycle(evento);
+		delete evento;
+	}
 }
 
 void bossFSM::finishGame(genericEvent * ev)
 {
-	//avisar al juego que esta por salir?
+
+	graficador = new messageDisplayer;
+	static_cast<messageDisplayer *>(graficador)->setMessage("Esperando para salir...");
 }
 
 void bossFSM::closeGame(genericEvent * ev)
 {
 	fsmEvent = new outEv;
+}
+
+void bossFSM::destroyAll(genericEvent * ev)
+{
+	if (gameFSM != nullptr)
+	{
+		delete gameFSM;
+	}
+	if (emisor != nullptr)
+	{
+		delete emisor;
+	}
 }
 
 void bossFSM::sendNetwEv(genericEvent * ev)

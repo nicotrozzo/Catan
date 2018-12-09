@@ -11,9 +11,10 @@
 
 using namespace std;
 
-playingFSM::playingFSM(bool iStart, catanGameModel * game, std::vector<EDAInputController *> inputControllers, std::vector<EDANetworkingController *> networkingControllers) : genericFSM(&fsmTable[0][0], 8, 6, iStart ? MY_TURN : OPP_TURN), allInputControllers(inputControllers) , allNetworkingControllers(networkingControllers)
+playingFSM::playingFSM(bool iStart, catanGameModel * game, std::vector<EDAInputController *> inputControllers, std::vector<EDANetworkingController *> networkingControllers, netwEmisor * em) : genericFSM(&fsmTable[0][0], 8, 6, iStart ? MY_TURN : OPP_TURN), allInputControllers(inputControllers) , allNetworkingControllers(networkingControllers)
 {
 	robberfsm = nullptr;
+	emisor = em;
 	if (iStart)
 	{
 		currentInputControllers.push_back(getInputController(CTRL_EDGE_AND_VERTEX));
@@ -35,11 +36,11 @@ void playingFSM::sendToInputControllers(inputEv * input)
 	bool read = false;
 	for (auto x : currentInputControllers)
 	{
-		if (input->getInputEvType() == MOUSE_EVENT)
+		if (input->getInputEvType() == INP_MOUSE_EVENT)
 		{
 			read = x->parseMouseEvent(static_cast<mouseEvent *>(input));
 		}
-		else if (input->getInputEvType() == KEYBOARD_EVENT)
+		else if (input->getInputEvType() == INP_KEYBOARD_EVENT)
 		{
 			read = x->parseKeyboardEvent(static_cast<keyboardEvent *>(input));
 		}
@@ -61,7 +62,16 @@ void playingFSM::sendToNetwControllers(networkingEv * netwPackage)
 			break;
 		}
 	}
-	if (!read)
+	if (netwPackage->getHeader() == QUIT)
+	{
+		emisor->sendPackage(ACK);
+		fsmEvent = new outEv("Opponent left game");
+	}
+	else if (netwPackage->getHeader() == ERROR_PCKG)
+	{
+		fsmEvent = new outEv("Opponent left game after a communication error");
+	}
+	else if (!read)
 	{
 		fsmEvent = new outEv("Unexpected network event");
 	}
@@ -77,6 +87,8 @@ playingFSM::~playingFSM()
 	{
 		delete x;
 	}
+	allInputControllers.clear();
+	allNetworkingControllers.clear();
 }
 
 /*ACTION ROUTINES FOR FSM*/

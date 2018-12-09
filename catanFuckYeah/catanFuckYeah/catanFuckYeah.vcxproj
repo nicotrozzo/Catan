@@ -135,6 +135,7 @@
     <ClCompile Include="inputStateController.cpp" />
     <ClCompile Include="inputTickAndXController.cpp" />
     <ClCompile Include="mapViewer.cpp" />
+    <ClCompile Include="messageDisplayer.cpp" />
     <ClCompile Include="netwAckController.cpp" />
     <ClCompile Include="netwBankTradeController.cpp" />
     <ClCompile Include="netwConstructionController.cpp" />
@@ -178,6 +179,7 @@
     <ClInclude Include="catanGameSetter.h" />
     <ClInclude Include="exitViewer.h" />
     <ClInclude Include="gameCoords.h" />
+    <ClInclude Include="gameGraphicator.h" />
     <ClInclude Include="gameModelViewer.h" />
     <ClInclude Include="graphicator.h" />
     <ClInclude Include="inputActionButtonController.h" />
@@ -190,6 +192,7 @@
     <ClInclude Include="inputStateController.h" />
     <ClInclude Include="inputTickAndXController.h" />
     <ClInclude Include="mapViewer.h" />
+    <ClInclude Include="messageDisplayer.h" />
     <ClInclude Include="netwAckController.h" />
     <ClInclude Include="netwBankTradeController.h" />
     <ClInclude Include="netwConstructionController.h" />

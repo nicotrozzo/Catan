@@ -49,7 +49,7 @@ class playingFSM : public genericFSM
 
 private:
 
-#define TX(x) (static_cast<void (genericFSM::* )(genericEvent *)>(&bossFSM::x)) //casteo a funcion, por visual
+#define TX(x) (static_cast<void (genericFSM::* )(genericEvent *)>(&playingFSM::x)) //casteo a funcion, por visual
 
 /*	const fsmCell fsmTable[8][6] = {	
 	//			OK								CANCEL								ROBBER								BUILD 									TRADE							UNEXPECTED_EVENT					
@@ -122,9 +122,9 @@ private:
 
 	EDAInputController * getInputController(inputControllerTypes type);		//busca el controller de input solicitado en el vector de controllers de input
 	EDANetworkingController * getNetworkingController(netwControllerTypes type);	//busca el controller de networking solicitado en el vector de controller de networking
-
+	netwEmisor * emisor;
 public:
-	playingFSM(bool iStart, catanGameModel * game, std::vector<EDAInputController *> inputControllers, std::vector<EDANetworkingController *> networkingControllers );	//recibe como parametro true si le toca empezar al jugador propio	
+	playingFSM(bool iStart, catanGameModel * game, std::vector<EDAInputController *> inputControllers, std::vector<EDANetworkingController *> networkingControllers, netwEmisor * emisor );	//recibe como parametro true si le toca empezar al jugador propio	
 	void sendToInputControllers(inputEv *input);
 	void sendToNetwControllers(networkingEv *netwPackage);
 	~playingFSM();

@@ -3,9 +3,10 @@
 #include "gameCoords.h"
 #include "playingFSM.h"
 
-inputTickAndXController::inputTickAndXController(catanGameModel * game)
+inputTickAndXController::inputTickAndXController(catanGameModel * game, netwEmisor * emisor)
 {
-	netEmisorEv = nullptr;
+	netEmisorEv = emisor;
+	gameModel = game;
 }
 
 bool inputTickAndXController::parseMouseEvent(mouseEvent * ev)
