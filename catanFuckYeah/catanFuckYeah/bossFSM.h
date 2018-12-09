@@ -5,6 +5,9 @@
 #include "quitButtonController.h"
 #include "allegroInit.h"
 #include "startMenu.h"
+#include "handShakingFSM.h"
+#include "netwEvGenerator.h"
+
 
 enum implStates : stateTypes { START_MENU, WAITING_CONNECTION, HANDSHAKING, PLAYING, REMATCH, WAITING_TO_QUIT };
 
@@ -17,7 +20,7 @@ private:
 #define TX(x) (static_cast<void (genericFSM::* )(genericEvent *)>(&bossFSM::x)) //casteo a funcion, por visual
 
 	const fsmCell fsmTable[6][7] = {
-	//	   INPUT_EVENT								DONE_EV								OUT_EV	 								QUIT							CLOSE_DISPLAY					 NETWORKING_EVENT							TIMER_EVENT
+	//	   INPUT_EVENT								DONE_EV								OUT_EV	 								QUIT							CLOSE_DISPLAY								 NETWORKING_EVENT											TIMER_EVENT
 	{ { START_MENU,TX(sendToStMnControllers)},{ WAITING_CONNECTION,TX(newEstablisher) },{ START_MENU,TX(stMnError) },			{ START_MENU,TX(closeStMn) },		{ START_MENU,TX(closeStMn) },		  { START_MENU,TX(doNothing) },				 { START_MENU,TX(refreshStMn) } },				//START_MENU
 	{ { WAITING_CONNECTION,TX(sendQuitController)},{ HANDSHAKING,TX(newHandshaking) },{ START_MENU,TX(newStMn) },		{ START_MENU,TX(newStMn) },		{ WAITING_CONNECTION,TX(closeWaiting) },{ WAITING_CONNECTION,TX(doNothing) },  { WAITING_CONNECTION,TX(refreshWait) } },	//WAITING_CONNECTION
 	{ { HANDSHAKING,TX(sendQuitController) },		{ PLAYING,TX(newGame) },		  { START_MENU,TX(closeConnection) },{ WAITING_TO_QUIT,TX(finishHandshaking) },		  { HANDSHAKING,TX(closeHandshaking) },	{ HANDSHAKING,TX(sendToNetwFSM) },	{ HANDSHAKING,TX(sendTimerEv) } },			//HANDSHAKING
@@ -54,12 +57,15 @@ private:
 
 	graphicator * graficador;
 	//genericFSM * innerFSM;
-	
-	//mainEventGenerator& evGen;
+	string name;
+
+	mainEventGenerator& evGen;
 	quitButtonController * quitController;
 	connectionEstablisher * establisher;
+	handShakingFSM * handFSM;
+	netwEventGenerator * netwReceiver;
 public:
-	bossFSM(quitButtonController * qControl,connectionEstablisher * establish);	//crear fsm chica, display (en fsm chica), atachear fsm chica como fuente de eventos
+	bossFSM(quitButtonController * qControl,connectionEstablisher * establish,mainEventGenerator * eventGen, netwEventGenerator * netwEvG, string name);
 };
 
 

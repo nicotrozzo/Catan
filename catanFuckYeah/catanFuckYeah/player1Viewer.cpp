@@ -82,4 +82,9 @@ void player1Viewer::viewAmountOfCards()
 
 player1Viewer::~player1Viewer()
 {
+	al_destroy_font(fontForVictoryPoints);
+	al_destroy_font(fontForName);
+	al_destroy_font(fontForAmountOfCards);
+	al_destroy_font(fontForLongestRoad);
+	al_destroy_font(fontForResources);
 }

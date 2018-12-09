@@ -1,6 +1,5 @@
 #pragma once
 #include "catanPlayerModel.h"
-#include "allegroInit.h"
 #include "observer.h"
 #include <allegro5/allegro_color.h>
 #include <string>

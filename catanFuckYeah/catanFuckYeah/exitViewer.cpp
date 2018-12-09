@@ -5,9 +5,9 @@ using namespace std;
 exitViewer::exitViewer()
 {
 	initOk = false;
-	if ((exitButtonForMainMenuBitmap = al_load_bitmap("graficoCatan\\buttons\\gameExitButton.png")) != NULL)
+	if ((exitButton = al_load_bitmap("graficoCatan\\buttons\\gameExitButton.png")) != NULL)
 	{
-		if((exitButtonForGameBitmap = al_load_bitmap("graficoCatan\\buttons\\buttonexit1.png")))
+	
 		initOk = true;
 	}
 }
@@ -34,5 +34,7 @@ void exitViewer::viewExitButton()
 
 exitViewer::~exitViewer()
 {
+	al_destroy_bitmap(exitButtonForMainMenuBitmap);
+	al_destroy_bitmap(exitButtonForGameBitmap);
 }
 

@@ -1,12 +1,15 @@
 #pragma once
 #include "eventHandling.h"
+#pragma once
 #include "networkingEvents.h"
 #include "connector.h"
 
 class netwEventGenerator : public eventGenerator
 {
 public:
+	netwEventGenerator();
 	netwEventGenerator(connector *);
+	void setConnector(connector *);
 	genericEvent * getEvent();
 private:
 	connector * establishedConnector;

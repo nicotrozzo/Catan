@@ -3,18 +3,19 @@
 #include "connectionEstablisher.h"
 #include "handShakingFSM.h"
 #include "waitingGame.h"
-bossFSM::bossFSM(quitButtonController * qControl, connectionEstablisher * establish) : genericFSM(&fsmTable[0][0], 6, 7, START_MENU)
+
+bossFSM::bossFSM(quitButtonController * qControl, connectionEstablisher * establish, mainEventGenerator * eventGen, netwEventGenerator * netw,string name) : evGen(*eventGen),genericFSM(&fsmTable[0][0], 6, 7, START_MENU)
 {
 	graficador = new startMenu;
 	quitController = qControl;
 	establisher = establish;
+	netwReceiver = netw;
+	this->name = name;
 	if (!static_cast<startMenu *>(graficador)->getInitOk())
 	{
 		delete graficador;
 		fsmEvent = new closeDisplayEv;
 	}
-		//evGen.attach(quitController);
-	//innerFSM = new startMenuFSM();	//esta fsm debe crear en su constructor el display		
 }
 
 /*Action routines*/
@@ -32,9 +33,8 @@ void bossFSM::sendToStMnControllers(genericEvent * ev)
 
 void bossFSM::newEstablisher(genericEvent * ev)
 {	
-	graphicator * temp = new waitingGame(static_cast<startMenu*>(graficador)->getDisplay());
 	delete graficador;
-	graficador = temp;
+	graficador = new waitingGame;
 	establisher->startConnecting();
 	static_cast<waitingGame *>(graficador)->setMessage("Buscando oponente...");
 	quitController->toggleState();
@@ -42,13 +42,12 @@ void bossFSM::newEstablisher(genericEvent * ev)
 
 void bossFSM::stMnError(genericEvent * ev)
 {
-	//capaz informar el error
 	closeStMn(ev);
 }
 
 void bossFSM::closeStMn(genericEvent * ev)
 {
-	//delete innerFSM
+	delete graficador;
 	fsmEvent = new outEv;
 }
 
@@ -64,16 +63,35 @@ void bossFSM::sendQuitController(genericEvent * ev)
 {
 	if (ev->getType() == INPUT_EVENT)
 	{
-		inputEv inEvent = static_cast<ip>();
+		inputEv *inEvent = static_cast<inputEv *>(ev);
+		if (inEvent->getInputEvType() == INP_MOUSE_EVENT)
+		{
+			mouseEvent * mEvent = static_cast<mouseEvent *>(inEvent);
+			quitController->parseMouseEvent(mEvent);
+		}
+		else if (inEvent->getInputEvType() == INP_KEYBOARD_EVENT)
+		{
+			keyboardEvent * kEvent = static_cast<keyboardEvent *>(inEvent);
+			quitController->parseKeyboardEvent(kEvent);
+		}
 	}
-	quitController->event(static_cast<inputEv *>(ev)->aditionalInfo()));
 }
 
 void bossFSM::newHandshaking(genericEvent * ev)
 {
+	connector * connect = establisher->getConnector();
+	netwReceiver->setConnector(connect);
+	if (connect->getType() == SERVER)
+	{
+		handFSM = new handShakingServerFSM(name,netwEmisor);
+	}
+	else
+	{
+		handFSM = new handShakingClientFSM(name, netwEmisor);
+	}
+	evGen.detach(establisher);
 
-	//innerFSM = establisher->getConnector()
-	//hacer cosas de cambio de estado
+
 	//crear/attachear/arrancar generador de eventos de timer de 2,5 minutos
 	//evGen.detach(innerFSM);
 	//delete innerFSM;
@@ -83,15 +101,19 @@ void bossFSM::newHandshaking(genericEvent * ev)
 
 void bossFSM::newStMn(genericEvent * ev)
 {
-	//innerFSM = new startMenuFSM;
-	//evGen.attach(innerFSM);
+	delete graficador;
+	graficador = new startMenu;		
+	quitController->toggleSelection();
+	if (!static_cast<startMenu *>(graficador)->getInitOk())
+	{
+		delete graficador;
+		fsmEvent = new closeDisplayEv;
+	}
 }
 
 void bossFSM::closeWaiting(genericEvent * ev)
 {
-	//destruir mas cosas si hace falta
-	evGen.detach(innerFSM);
-	delete innerFSM;
+	delete graficador;
 }
 
 void bossFSM::refreshWait(genericEvent * ev)
@@ -101,17 +123,13 @@ void bossFSM::refreshWait(genericEvent * ev)
 
 void bossFSM::newGame(genericEvent * ev)
 {
-	//catanGame game = static_cast<handShakingFSM>(innerFSM)->getCatanGame();
-	evGen.detach(innerFSM);
-	//delete innerFSM;
-	//innerFSM = new playingFSM(game);
 	//quitController->updatePosition(PLAYING);
-	evGen.attach(innerFSM);
+	
 }
 
 void bossFSM::closeConnection(genericEvent * ev)
 {
-
+	delete graficador;
 }
 
 void bossFSM::finishHandshaking(genericEvent * ev)
@@ -121,7 +139,7 @@ void bossFSM::finishHandshaking(genericEvent * ev)
 
 void bossFSM::closeHandshaking(genericEvent * ev)
 {
-
+	delete graficador;
 }
 
 void bossFSM::sendToNetwFSM(genericEvent * ev)
@@ -168,8 +186,6 @@ void bossFSM::closeRematch(genericEvent * ev)
 {
 	fsmEvent = new outEv;
 }
-
-
 
 void bossFSM::(genericEvent * ev)
 {

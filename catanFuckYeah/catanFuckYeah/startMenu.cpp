@@ -13,10 +13,6 @@ startMenu::startMenu()
 	}
 }
 
-ALLEGRO_DISPLAY * startMenu::getDisplay()
-{
-	return display;
-}
 
 void startMenu::refresh()
 {

@@ -5,6 +5,11 @@
 
 using namespace std;
 
+netwEventGenerator::netwEventGenerator()
+{
+	establishedConnector = nullptr;
+}
+
 netwEventGenerator::netwEventGenerator(connector * connect)
 {
 	establishedConnector = connect;
@@ -13,16 +18,27 @@ netwEventGenerator::netwEventGenerator(connector * connect)
 genericEvent * netwEventGenerator::getEvent(void)
 {
 	genericEvent * ret = nullptr;
-	string messageReceived;
-	if (!establishedConnector->messagePresent())
+	if (establishedConnector != nullptr)
 	{
-		if (establishedConnector->receiveMessage())
+		string messageReceived;
+		if (!establishedConnector->messagePresent())
 		{
-			messageReceived = parseMessage(establishedConnector->getMessage(), establishedConnector->getMessageLenght());
-			ret = getNetwEv(messageReceived);
+			if (establishedConnector->receiveMessage())
+			{
+				messageReceived = parseMessage(establishedConnector->getMessage(), establishedConnector->getMessageLenght());
+				ret = getNetwEv(messageReceived);
+			}
 		}
 	}
 	return ret;
+}
+
+void netwEventGenerator::setConnector(connector * con)
+{
+	if (establishedConnector == nullptr)
+	{
+		establishedConnector = con;
+	}
 }
 
 string netwEventGenerator::parseMessage(char * buf, size_t len)
@@ -38,7 +54,7 @@ string netwEventGenerator::parseMessage(char * buf, size_t len)
 		}
 	}
 	buf[len] = '\0';
-	return string str(buf);
+	return to_string(buf);
 }
 
 genericEvent * netwEventGenerator::getNetwEv(string message)

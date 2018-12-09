@@ -22,7 +22,7 @@ public:
 	char * getMessage();					//Pedir el mensaje, conviene primero preguntar si habia un mensaje
 	size_t getMessageLenght();
 	bool isConnected();
-	~connector();
+	virtual ~connector();
 
 protected:
 	boost::asio::io_service*  IO_handler;

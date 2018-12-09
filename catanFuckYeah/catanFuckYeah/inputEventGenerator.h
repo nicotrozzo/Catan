@@ -41,7 +41,7 @@ private:
 class inputEventGenerator : public eventGenerator
 {
 public:
-	inputEventGenerator();
+	inputEventGenerator(ALLEGRO_DISPLAY * display);
 	genericEvent * getEvent(void);
 	~inputEventGenerator();
 private:

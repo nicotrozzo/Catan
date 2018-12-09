@@ -1,7 +1,10 @@
 #include "handShakingFSM.h"
+#include "networkingEvents.h"
 
-handShakingServerFSM::handShakingServerFSM(string playerName_) : genericFSM(&fsmTable[0][0], 6, 2, WAIT_NAME_S), handShakingFSM(playerName_)
+handShakingServerFSM::handShakingServerFSM(string playerName_,netwEmisor * emisor) : genericFSM(&fsmTable[0][0], 6, 2, WAIT_NAME_S), handShakingFSM(playerName_)
 {
+	game = new catanGameSetter;
+	communicator = emisor;
 	expectedPackage = NAME_IS;	
 }
 
@@ -14,9 +17,9 @@ void handShakingServerFSM::error(genericEvent * ev)
 
 void handShakingServerFSM::saveName(genericEvent * ev)
 {
-	//string opponentName = static_cast<networkingEv *>(ev)->extraInfo;	//capaz static_cast<name_is *>
-	//catanGameSetter->setOppName(opponentName);
-	//communicator->send(ACK);
+	string opponentName = static_cast<nameIsPckg *>(ev)->getName();	//capaz static_cast<name_is *>
+	catanGameSetter->setOppName(opponentName);
+	communicator->send(ACK);
 	expectedPackage = NAME;
 }
 
@@ -65,8 +68,9 @@ void handShakingServerFSM::endHandshaking(genericEvent * ev)
 
 
 /*Para el handshaking de client*/
-handShakingClientFSM::handShakingClientFSM(string playerName_) : genericFSM(&fsmTable[0][0], 6, 2, WAIT_NAME_REQUEST_C), handShakingFSM(playerName_)
+handShakingClientFSM::handShakingClientFSM(string playerName_, netwEmisor * emisor) : genericFSM(&fsmTable[0][0], 6, 2, WAIT_NAME_REQUEST_C), handShakingFSM(playerName_)
 {
+	communicator = emisor;
 	expectedPackage = NAME;
 	alternatePackages.clear();
 }
@@ -131,4 +135,24 @@ void handShakingClientFSM::endHandshaking(genericEvent * ev)
 		}
 		fsmEvent = new doneEv;
 	}
+}
+
+catanGameModel * handShakingServerFSM::getCatanGame(void)
+{
+	catanGameModel * ret = nullptr;
+	if (fsmEvent != nullptr)
+	{
+		ret = static_cast<catanGameModel *>(game);
+	}
+	return ret;
+}
+
+catanGameModel * handShakingClientFSM::getCatanGame(void)
+{
+	catanGameModel * ret = nullptr;
+	if (fsmEvent != nullptr)
+	{
+		ret = static_cast<catanGameModel *>(game);
+	}
+	return ret;
 }

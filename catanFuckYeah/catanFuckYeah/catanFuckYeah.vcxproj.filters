@@ -194,6 +194,9 @@
     <ClCompile Include="waitingGame.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
+    <ClCompile Include="catanGameSetter.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="catanGameModel.h">
@@ -347,6 +350,9 @@
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="waitingGame.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="catanGameSetter.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>

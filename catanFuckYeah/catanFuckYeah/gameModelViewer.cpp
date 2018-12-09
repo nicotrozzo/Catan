@@ -19,7 +19,11 @@ gameModelViewer::gameModelViewer(catanGameModel *myGame)
 						{
 							if ((passButtonBitmap = al_load_bitmap("graficoCatan\\buttons\\passButton.png")) != NULL && (bankTradeButtonBitmap = al_load_bitmap("graficoCatan\\buttons\\bankTrade.png")) != NULL && (playerTradeButtonBitmap = al_load_bitmap("graficoCatan\\buttons\\playerTrade.png")) != NULL)
 							{
-								initOk = true;
+								if ((exitButtonBitmap = al_load_bitmap("graficoCatan\\buttons\\gameExitButton.png")) != NULL)
+								{
+
+									initOk = true;
+								}
 							}
 						}
 					}
@@ -33,6 +37,7 @@ void gameModelViewer::update()
 {
 	if (initOk)
 	{
+		viewExitButton();
 		viewDices();
 		if ((myGame->isSelecting() == BANK_TRADE) || (myGame->isSelecting() == OFFER_TRADE))
 		{
@@ -224,7 +229,28 @@ void gameModelViewer::viewActionButtons()
 	al_draw_bitmap(bankTradeButtonBitmap, gameCoords::buttonCoords["BANK_TRADE"].xCoord, gameCoords::buttonCoords["BANK_TRADE"].yCoord, 0);
 }
 
+void gameModelViewer::viewExitButton()
+{
+	al_draw_bitmap(exitButtonBitmap, gameCoords::buttonCoords["EXIT"].xCoord, gameCoords::buttonCoords["EXIT"].yCoord, 0);
+}
+
 gameModelViewer::~gameModelViewer()
 {
+	al_destroy_bitmap(diceValue1);
+	al_destroy_bitmap(diceValue2);
+	al_destroy_bitmap(diceValue3);
+	al_destroy_bitmap(diceValue4);
+	al_destroy_bitmap(diceValue5);
+	al_destroy_bitmap(diceValue6);
+	al_destroy_bitmap(tradeMenuBitmap);
+	al_destroy_bitmap(robberDiscardMenuBitmap);
+	al_destroy_bitmap(tickBitmap);
+	al_destroy_bitmap(crossBitmap);
+	al_destroy_bitmap(passButtonBitmap);
+	al_destroy_bitmap(bankTradeButtonBitmap);
+	al_destroy_bitmap(playerTradeButtonBitmap);
+	al_destroy_bitmap(exitButtonBitmap);
+	al_destroy_font(fontForAmountOfCards);
+	al_destroy_font(fontForBankCosts);
 }
 

@@ -122,6 +122,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="catanGameSetter.cpp" />
     <ClCompile Include="EDANetworkingController.cpp" />
     <ClCompile Include="exitViewer.cpp" />
     <ClCompile Include="gameCoords.cpp" />
@@ -173,6 +174,7 @@
     <ClCompile Include="waitingGame.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="catanGameSetter.h" />
     <ClInclude Include="exitViewer.h" />
     <ClInclude Include="gameCoords.h" />
     <ClInclude Include="gameModelViewer.h" />

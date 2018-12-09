@@ -3,7 +3,7 @@
 #define FPS .3
 
 
-inputEventGenerator::inputEventGenerator() : allegroQueue(nullptr)
+inputEventGenerator::inputEventGenerator(ALLEGRO_DISPLAY * disp) : allegroQueue(nullptr)
 {
 	bool error = true;
 	if (al_install_mouse())
@@ -21,6 +21,7 @@ inputEventGenerator::inputEventGenerator() : allegroQueue(nullptr)
 					al_register_event_source(allegroQueue, al_get_mouse_event_source());
 					al_register_event_source(allegroQueue, al_get_keyboard_event_source());
 					al_register_event_source(allegroQueue, al_get_timer_event_source(timer));
+					al_register_event_source(allegroQueue, al_get_display_event_source(disp));
 				}
 				else
 				{
@@ -67,6 +68,9 @@ genericEvent* inputEventGenerator::getEvent()
 				break;
 			case ALLEGRO_EVENT_TIMER:
 				ret = new timerEv(true);
+				break;
+			case ALLEGRO_EVENT_DISPLAY_CLOSE:
+				ret = new closeDisplayEv;
 				break;
 			}
 		}

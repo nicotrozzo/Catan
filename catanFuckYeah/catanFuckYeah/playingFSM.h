@@ -80,16 +80,16 @@ private:
 	const fsmCell fsmTable[8][5] = {
 	//			CHANGE_STATE							CARDS_EV									TICK_EV							ROBBER_EV							ERROR	
 																					//lo emite el edgeandvertex controller
-	{ { WAITING_DICES,TX(passControllers)}	,{PREPARE_TRADE,TX(tradeControllers)},{BUILDING,TX(buildControllers)},{MY_ROBBER,TX(myRobberControllers)},{MY_TURN,TX(error)} },		 //MY_TURN
+	{ { WAITING_DICES,TX(passControllers)},	{PREPARE_TRADE,TX(tradeControllers)},	{BUILDING,TX(buildControllers)},		{MY_ROBBER,TX(myRobberControllers)},{MY_TURN,TX(error)} },		 //MY_TURN
 																					//lo emite el tick controller																																	 //lo emite el tick controller																																	 //lo emite el tick controller									 	
-	{ { MY_TURN,TX(myTurnControllers) }		,{BUILDING,TX(doNothing) }			 ,{BUILDING,TX(ackController) }		,{BUILDING,TX(doNothing) }			,{BUILDING,TX(error)} },		 //BUILDING
+	{ { MY_TURN,TX(myTurnControllers) },	{BUILDING,TX(doNothing) },				{BUILDING,TX(ackController)},			{BUILDING,TX(doNothing)}			,{BUILDING,TX(error)} },		 //BUILDING
 												//lo emite el tick controller			 //lo emite el tick controller
-	{ { MY_TURN,TX(myTurnControllers) }		,{PREPARE_TRADE,TX(ackController)}		 ,{PREPARE_TRADE,TX(netwYNControllers) },{PREPARE_TRADE,TX(doNothing)},{PREPARE_TRADE,TX(error)} },	 //PREPARE_TRADE
-	{ { MY_TURN,TX(myTurnControllers) },  { ,TX() },{ ,TX() },{ ,TX() },{MY_ROBBER,TX(error)} },		//MY_ROBBER
-	{ { OPP_TURN,TX(oppTurnControllers)},  { ,TX()},{},{OPP_ROBBER,TX(oppRobberControllers)},{WAITING_DICES,TX(error)} },	//WAITING_DICES
-	{ { MY_TURN,TX(myTurnPassControllers) },  {WAITING_PLAYER,TX(waitingControllers)},{},{,TX()},{OPP_TURN,TX(error)} },		 //OPP_TURN
-	{ { OPP_TURN,TX(oppTurnControllers) },{OPP_ROBBER,TX()},{},{},{OPP_ROBBER,TX(error)} },		 //OPP_ROBBER
-	{ { OPP_TURN,TX(oppTurnControllers) },{},{},{},{WAITING_PLAYER,TX(error)} }	 //WAITING_PLAYER
+	{ { MY_TURN,TX(myTurnControllers) },	{PREPARE_TRADE,TX(ackController)},		{PREPARE_TRADE,TX(netwYNControllers)},	{PREPARE_TRADE,TX(doNothing)},{PREPARE_TRADE,TX(error)} },	 //PREPARE_TRADE
+	{ { MY_TURN,TX(myTurnControllers) },	{MY_ROBBER,TX(doNothing) },				{MY_ROBBER,TX(myRobberControllers) },	{MY_ROBBER,TX(myRobberControllers)},{MY_ROBBER,TX(error)} },		//MY_ROBBER
+	{ { OPP_TURN,TX(oppTurnControllers)},	{WAITING_DICES,TX(doNothing)},			{WAITING_DICES, TX(doNothing)},			{OPP_ROBBER,TX(oppRobberControllers)},{WAITING_DICES,TX(error)} },	//WAITING_DICES
+	{ { MY_TURN,TX(myTurnPassControllers) },{WAITING_PLAYER,TX(waitingControllers)},{OPP_TURN, TX(doNothing)},				{OPP_TURN,TX(doNothig)},	{OPP_TURN,TX(error)} },		 //OPP_TURN
+	{ { OPP_TURN,TX(oppTurnControllers) },	{OPP_ROBBER,TX(doNothing)},				{OPP_ROBBER, TX(doNothing)},			{},{OPP_ROBBER,TX(error)} },		 //OPP_ROBBER
+	{ { OPP_TURN,TX(oppTurnControllers) },	{},										{WAITING_PLAYER, TX(tradeControllers)},{},{WAITING_PLAYER,TX(error)} }	 //WAITING_PLAYER
 	};
 	
 	void passControllers(genericEvent* ev);

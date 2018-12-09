@@ -183,4 +183,30 @@ void mapViewer::viewAmountOfBuildingsLeft()
 
 mapViewer::~mapViewer()
 {
+	al_bitmap_destroy(montañas);
+	al_bitmap_destroy(colinas);
+	al_bitmap_destroy(pasto);
+	al_bitmap_destroy(campos);
+	al_bitmap_destroy(bosques);
+	al_bitmap_destroy(desierto);
+	al_bitmap_destroy(seaN);
+	al_bitmap_destroy(seaL);
+	al_bitmap_destroy(seaM);
+	al_bitmap_destroy(seaO);
+	al_bitmap_destroy(seaP);
+	al_bitmap_destroy(seaT);
+	al_bitmap_destroy(robberBitmap);
+	al_bitmap_destroy(settlement1Bitmap);
+	al_bitmap_destroy(settlement2Bitmap);
+	al_bitmap_destroy(city1Bitmap);
+	al_bitmap_destroy(city2Bitmap);
+	al_bitmap_destroy(road1Bitmap);
+	al_bitmap_destroy(road2Bitmap);
+	al_bitmap_destroy(wallpaperBitmap);
+	for (int i = 0; i < 10; i++)
+	{
+		al_bitmap_destroy(tokens[i]);
+	}
+	al_destroy_font(fontForAmountOfBuildings);
+
 }

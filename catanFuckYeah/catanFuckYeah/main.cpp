@@ -5,23 +5,30 @@
 #include "timerEventGenerator.h"
 #include "quitButtonController.h"
 #include "connectionEstablisher.h"
+#include "handShakingFSM.h"
+#include "netwEvGenerator.h"
 
 #define TIMEOUT_SECS 150
+#define DISPLAY_WIDHT	1642
+#define DISPLAY_HEIGHT	1000
 
 int main(int argc,char * argv[])
 {
-	if (initFrontEnd())
+	void * info = initFrontEnd();
+	if (info != nullptr)
 	{
-		inputEventGenerator inputEvGen;	//mouse, teclado y refresh de pantalla
+		string name;
+		inputEventGenerator inputEvGen(info);	//mouse, teclado y refresh de pantalla
 		timerEventGenerator timeout(TIMEOUT_SECS);
 		quitButtonController quitButton;
 		connectionEstablisher establisher;
+		netwEventGenerator netwReceiver;
 		mainEventGenerator eventGen;	//generador de eventos de TODO el programa
-
 		eventGen.attach(&inputEvGen);	//registro fuente de eventos
 		eventGen.attach(&timeout);
 		eventGen.attach(&quitButton);
-		bossFSM fsm(&quitButton,&establisher,);
+		eventGen.attach(&netwReceiver);
+		bossFSM fsm(&quitButton,&establisher,&eventGen,&netwEventGenerator,name);
 		do
 		{
 			genericEvent * ev;
@@ -33,6 +40,7 @@ int main(int argc,char * argv[])
 			}
 		} while (!fsm.getEvent());
 		delete fsm.getEvent();
+		deleteFrontEnd(info);
 	}
 	else
 	{
@@ -41,8 +49,25 @@ int main(int argc,char * argv[])
 	return 0;
 }
 
-bool initFrontEnd()
+void * initFrontEnd()
 {
-	return al_init();
+	void * ret = nullptr;
 	srand(time(NULL));
+	if (al_init())
+	{
+		ALLEGRO_DISPLAY * display = al_create_display(DISPLAY_WIDHT,DISPLAY_HEIGHT);
+		if (display != NULL)
+		{
+			ret = display;
+		}
+	}
+	return ret;
+}
+
+void deleteFrontEnd(void * display)
+{
+	if (display != nullptr)
+	{
+		al_destroy_display(static_cast<ALLEGRO_DISPLAY *>(display))
+	}
 }

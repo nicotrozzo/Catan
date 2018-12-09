@@ -27,6 +27,7 @@ private:
 	ALLEGRO_BITMAP * passButtonBitmap;
 	ALLEGRO_BITMAP * bankTradeButtonBitmap;
 	ALLEGRO_BITMAP * playerTradeButtonBitmap;
+	ALLEGRO_BITMAP * exitButtonBitmap;
 	ALLEGRO_FONT * fontForAmountOfCards;
 	ALLEGRO_FONT * fontForBankCosts;
 	void viewDices();
@@ -35,6 +36,7 @@ private:
 	void viewSelectedCards();
 	void viewTickAndCrossButtons();
 	void viewActionButtons();			//viewer de bank trade, player trade y pass button
+	void viewExitButton();
 	bool initOk;
 };
 

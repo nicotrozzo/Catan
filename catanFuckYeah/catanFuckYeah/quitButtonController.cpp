@@ -13,26 +13,39 @@ bool quitButtonController::parseMouseEvent(mouseEvent * ev)
 	if (controllerEvent == nullptr)
 	{
 		point mouseCoords = ev->getClickCoords();
-		coords dispCoords = gameCoords::buttonCoords["QUIT"];
-
-		if ((mouseCoords.x >= dispCoords.xCoord) && (mouseCoords.x - dispCoords.xCoord <= OFFSET_QUIT_X) && startMenu)
+		coords dispCoords;
+		if (startMenu)
 		{
-			if ((mouseCoords.y >= dispCoords.yCoord) && (mouseCoords.y - dispCoords.yCoord <= OFFSET_QUIT_Y))
+			dispCoords = gameCoords::buttonCoords["QUIT"];
+			if ((mouseCoords.x >= dispCoords.xCoord) && (mouseCoords.x - dispCoords.xCoord <= OFFSET_QUIT_X))
 			{
-				ret = false;
+				if ((mouseCoords.y >= dispCoords.yCoord) && (mouseCoords.y - dispCoords.yCoord <= OFFSET_QUIT_Y))
+				{
+					controllerEvent = new quitEv();
+					ret = true;
+				}
+			}
+			disCoords = gameCoords::buttonCoords["PLAY"];
+			if ((mouseCoords.x >= dispCoords.xCoord) && (mouseCoords.x - dispCoords.xCoord <= OFFSET_PLAY_X))
+			{
+				if ((mouseCoords.y >= dispCoords.yCoord) && (mouseCoords.y - dispCoords.yCoord <= OFFSET_PLAY_Y))
+				{
+					controllerEvent = new doneEv();
+					ret = true;
+				}
 			}
 		}
-		dispCoords = gameCoords::buttonCoords["EXIT"];
-		if ((mouseCoords.x >= dispCoords.xCoord) && (mouseCoords.x - dispCoords.xCoord <= OFFSET_QUIT_X) && !startMenu)
+		else
 		{
-			if ((mouseCoords.y >= dispCoords.yCoord) && (mouseCoords.y - dispCoords.yCoord <= OFFSET_QUIT_Y))
+			dispCoords = gameCoords::buttonCoords["EXIT"];
+			if ((mouseCoords.x >= dispCoords.xCoord) && (mouseCoords.x - dispCoords.xCoord <= OFFSET_QUIT_X))
 			{
-				ret = false;
+				if ((mouseCoords.y >= dispCoords.yCoord) && (mouseCoords.y - dispCoords.yCoord <= OFFSET_QUIT_Y))
+				{
+					controllerEvent = new quitEv();
+					ret = true;
+				}
 			}
-		}
-		if (ret)
-		{
-			controllerEvent = new quitEv();
 		}
 	}
 	return ret;

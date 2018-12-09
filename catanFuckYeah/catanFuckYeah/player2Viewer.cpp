@@ -61,5 +61,9 @@ void player2Viewer::viewVictoryPoints()
 
 player2Viewer::~player2Viewer()
 {
+	al_destroy_font(fontForVictoryPoints);
+	al_destroy_font(fontForName);
+	al_destroy_font(fontForAmountOfCards);
+	al_destroy_font(fontForLongestRoad);
 }
 

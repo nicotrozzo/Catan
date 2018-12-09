@@ -6,8 +6,7 @@
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
 
-#define DISPLAY_WIDHT	1642
-#define DISPLAY_HEIGHT	1000
+
 
 
 class allegroInit
