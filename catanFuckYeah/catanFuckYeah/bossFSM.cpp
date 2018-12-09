@@ -4,6 +4,15 @@
 #include "handShakingFSM.h"
 #include "waitingGame.h"
 
+/*Para crear controllers de playingFSM*/
+#include "inputActionButtonController.h"
+#include "inputCardsController.h"
+#include "inputEdgeAndVertexController.h"
+#include "inputHexagonController.h"
+#include "inputStateController.h"
+#include "inputTickAndXController.h"
+#include "input"
+
 bossFSM::bossFSM(quitButtonController * qControl, connectionEstablisher * establish, mainEventGenerator * eventGen, netwEventGenerator * netw,string name) : evGen(*eventGen),genericFSM(&fsmTable[0][0], 6, 7, START_MENU)
 {
 	graficador = new startMenu;
@@ -81,29 +90,27 @@ void bossFSM::newHandshaking(genericEvent * ev)
 {
 	connector * connect = establisher->getConnector();
 	netwReceiver->setConnector(connect);
+	emisor = new netwEmisor(connect);
 	if (connect->getType() == SERVER)
 	{
-		handFSM = new handShakingServerFSM(name,netwEmisor);
+		handFSM = new handShakingServerFSM(name,emisor);
 	}
 	else
 	{
-		handFSM = new handShakingClientFSM(name, netwEmisor);
+		handFSM = new handShakingClientFSM(name,emisor);
 	}
 	evGen.detach(establisher);
-
+	evGen.attach(handFSM);
+	static_cast<waitingGame *>(graficador)->setMessage("Oponente encontrado.\nPreparando juego...");
 
 	//crear/attachear/arrancar generador de eventos de timer de 2,5 minutos
-	//evGen.detach(innerFSM);
-	//delete innerFSM;
-	//innerFSM = new handShakingFSM();
-	//evGen.attach(innerFSM);
 }
 
 void bossFSM::newStMn(genericEvent * ev)
 {
 	delete graficador;
 	graficador = new startMenu;		
-	quitController->toggleSelection();
+	quitController->toggleState();
 	if (!static_cast<startMenu *>(graficador)->getInitOk())
 	{
 		delete graficador;
@@ -118,13 +125,20 @@ void bossFSM::closeWaiting(genericEvent * ev)
 
 void bossFSM::refreshWait(genericEvent * ev)
 {
-	//update display, falta ver como
+	graficador->refresh();
 }
 
+/*Crea la fsm de playing*/
 void bossFSM::newGame(genericEvent * ev)
 {
-	//quitController->updatePosition(PLAYING);
-	
+	delete graficador;
+	catanGameModel * temp = handFSM->getCatanGame();
+	delete handFSM;
+	bool iStart = temp->isPlayer1Playing();
+	vector<EDAInputController *> playingFSMInpControllers;
+	vector<EDAInputController *> playingFSMNetwControllers;
+	playingFSMInpControllers.push_back(new )
+	gameFSM = new playingFSM(iStart,temp,)
 }
 
 void bossFSM::closeConnection(genericEvent * ev)

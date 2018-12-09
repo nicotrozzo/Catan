@@ -5,12 +5,12 @@
 #include "bossFSMEvents.h"
 #include "netwEmisor.h"
 #include "catanGameSetter.h"
-#include ""
+
 class handShakingFSM : public genericFSM
 {
 public:
-	//handShakingFSM(string playerName) { game = new catanGameSetter; game->setMyPlayerName(playerName); info2send = playerName; //la primera informacion que tendra que mandar fuera de un header sera el nombre del jugador propio }
-	virtual catanGame * getCatanGame(void) = 0; 
+	handShakingFSM(const fsmCell * const table, const unsigned int rows, const unsigned int columns, stateTypes initState) : genericFSM(table, rows, columns, initState) {}
+	virtual catanGameModel * getCatanGame(void) = 0; 
 	networkingEventTypes getExpectedPackage() { return expectedPackage; }
 
 protected:
@@ -27,7 +27,7 @@ class handShakingServerFSM : public handShakingFSM
 
 private:
 
-#define TX(x) (static_cast<void (genericFSM::* )(genericEvent *)>(&bossFSM::x)) //casteo a funcion, por visual
+#define TX(x) (static_cast<void (genericFSM::* )(genericEvent *)>(&handShakingServerFSM::x)) //casteo a funcion, por visual
 
 	const fsmCell fsmTable[6][2] = {
 	//			 NEXT							INVALID_EVENT			
@@ -52,6 +52,7 @@ private:
 	netwEmisor * communicator;
 public:
 	handShakingServerFSM(string, netwEmisor *emisor);	
+	virtual catanGameModel * getCatanGame(void);
 };
 
 enum handShakingServStates : stateTypes { WAIT_NAME_REQUEST_C, WAIT_NAME_ACK_C, WAIT_NAME_C, WAIT_MAP_C, WAIT_CIRC_TOK_C, WAIT_START_C };
@@ -62,7 +63,7 @@ class handShakingClientFSM : public handShakingFSM
 
 private:
 
-#define TX(x) (static_cast<void (genericFSM::* )(genericEvent *)>(&bossFSM::x)) //casteo a funcion, por visual
+#define TX(x) (static_cast<void (genericFSM::* )(genericEvent *)>(&handShakingClientFSM::x)) //casteo a funcion, por visual
 
 	const fsmCell fsmTable[6][2] = {
 	//			 NEXT							INVALID_EVENT											                 
@@ -88,5 +89,6 @@ private:
 	netwEmisor * communicator;
 public:
 	handShakingClientFSM(string,netwEmisor * emisor);
+	virtual catanGameModel * getCatanGame(void);
 };
 

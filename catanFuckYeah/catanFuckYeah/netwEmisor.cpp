@@ -4,9 +4,22 @@
 
 using namespace std;
 
+netwEmisor::netwEmisor()
+{
+	establishedConnector = nullptr;
+}
+
 netwEmisor::netwEmisor(connector * establishedConnector_)
 {
 	establishedConnector = establishedConnector_;
+}
+
+void netwEmisor::setConnector(connector * con)
+{
+	if (establishedConnector == nullptr)
+	{
+		establishedConnector = con;
+	}
 }
 
 void netwEmisor::sendPackage(networkingEventTypes header, string info)

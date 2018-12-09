@@ -12,7 +12,6 @@ public:
 	bool dicesThrown(unsigned char dice1, unsigned char dice2);	//modifica informacion del juego, cambia de turno
 	
 	
-	bool validResourceForConstruct(networkingEventTypes type);
 	bool validConstruction(networkingEventTypes type, string coords);	//devuelve true si la construccion solicitada es valida, y la almacena internamente hasta que le den la orden de construir
 	bool construct();		//construye la ultima construccion que se haya validado, devuelve false si la construccion no es valida, PUEDE MODIFICAR GAME OVER
 	void cancelConstruction();
@@ -81,8 +80,6 @@ public:
 	bool gameOver();	//true si termino el juego, llamar despues de construccion!!!!!!!!(pregunta a cada jugador cuantos puntos tiene)
 	~catanGameModel();
 protected:
-	//bool waitingCards;
-	//bool waitingToAccept;
 	bool player1Playing;	//true si es el turno del jugador 1, false si es el turno del jugador 2
 	catanPlayerModel player1;
 	catanPlayerModel player2;
@@ -99,6 +96,8 @@ protected:
 	networkingEventTypes selecting;
 	void updatePlayersVictoryPoints();
 	unsigned char longestRoadPlayer;
+	bool validResourceForConstruct(networkingEventTypes type);
+
 };
 
 

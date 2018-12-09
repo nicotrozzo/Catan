@@ -229,6 +229,13 @@ void playingFSM::netwYNControllers(genericEvent * ev)
 	currentNetworkingControllers.push_back(getNetworkingController(CTRL_YN));	
 }
 
+void playingFSM::ackController(genericEvent * ev)
+{
+	currentNetworkingControllers.clear();
+	currentInputControllers.clear();
+	currentNetworkingControllers.push_back(getNetworkingController());
+}
+
 void playingFSM::myTurnPassControllers(genericEvent * ev)
 {
 	unsigned int dice1 = rand() % 6 + 1;

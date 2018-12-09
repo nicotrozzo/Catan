@@ -7,7 +7,10 @@
 #include "startMenu.h"
 #include "handShakingFSM.h"
 #include "netwEvGenerator.h"
-
+#include "netwEmisor.h"
+#include "playingFSM.h"
+#include "EDAInputController.h"
+#include "EDANetworkingController.h"
 
 enum implStates : stateTypes { START_MENU, WAITING_CONNECTION, HANDSHAKING, PLAYING, REMATCH, WAITING_TO_QUIT };
 
@@ -64,6 +67,8 @@ private:
 	connectionEstablisher * establisher;
 	handShakingFSM * handFSM;
 	netwEventGenerator * netwReceiver;
+	netwEmisor * emisor;
+	playingFSM * gameFSM;
 public:
 	bossFSM(quitButtonController * qControl,connectionEstablisher * establish,mainEventGenerator * eventGen, netwEventGenerator * netwEvG, string name);
 };

@@ -18,7 +18,7 @@ int main(int argc,char * argv[])
 	if (info != nullptr)
 	{
 		string name;
-		inputEventGenerator inputEvGen(info);	//mouse, teclado y refresh de pantalla
+		inputEventGenerator inputEvGen(static_cast<ALLEGRO_DISPLAY *>(info));	//mouse, teclado y refresh de pantalla
 		timerEventGenerator timeout(TIMEOUT_SECS);
 		quitButtonController quitButton;
 		connectionEstablisher establisher;
@@ -28,7 +28,7 @@ int main(int argc,char * argv[])
 		eventGen.attach(&timeout);
 		eventGen.attach(&quitButton);
 		eventGen.attach(&netwReceiver);
-		bossFSM fsm(&quitButton,&establisher,&eventGen,&netwEventGenerator,name);
+		bossFSM fsm(&quitButton,&establisher,&eventGen,&netwReceiver,name);
 		do
 		{
 			genericEvent * ev;

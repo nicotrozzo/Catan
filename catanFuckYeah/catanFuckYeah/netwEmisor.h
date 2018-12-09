@@ -5,7 +5,9 @@
 class netwEmisor
 {
 public:
+	netwEmisor();
 	netwEmisor(connector *);
+	void setConnector(connector *);
 	void sendPackage(networkingEventTypes header, string info = "");
 	void sendTrade(networkingEventTypes header, int ownResCount, string ownRes, int oppResCount, string oppRes);
 private:

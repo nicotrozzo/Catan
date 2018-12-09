@@ -135,6 +135,7 @@
     <ClCompile Include="inputStateController.cpp" />
     <ClCompile Include="inputTickAndXController.cpp" />
     <ClCompile Include="mapViewer.cpp" />
+    <ClCompile Include="netwAckController.cpp" />
     <ClCompile Include="netwBankTradeController.cpp" />
     <ClCompile Include="netwConstructionController.cpp" />
     <ClCompile Include="netwDicesController.cpp" />
@@ -189,6 +190,7 @@
     <ClInclude Include="inputStateController.h" />
     <ClInclude Include="inputTickAndXController.h" />
     <ClInclude Include="mapViewer.h" />
+    <ClInclude Include="netwAckController.h" />
     <ClInclude Include="netwBankTradeController.h" />
     <ClInclude Include="netwConstructionController.h" />
     <ClInclude Include="netwDicesController.h" />
