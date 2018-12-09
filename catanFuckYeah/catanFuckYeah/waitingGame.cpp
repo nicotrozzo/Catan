@@ -63,9 +63,9 @@ void waitingGame::showWallpapers()
 void waitingGame::showRefresh()
 {
 	tickCountForRefresh++;
-	if (tickCountForWallpaper == 5)
+	if (tickCountForRefresh == 5)
 	{
-		tickCountForWallpaper = 0;
+		tickCountForRefresh = 0;
 		angle += 3 * PI / 180.0;
 		if (angle > 2 * PI)
 		{
