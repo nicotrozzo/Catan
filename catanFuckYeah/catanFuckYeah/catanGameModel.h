@@ -12,6 +12,7 @@ public:
 	bool dicesThrown(unsigned char dice1, unsigned char dice2);	//modifica informacion del juego, cambia de turno
 	
 	
+	bool validResourceForConstruct(networkingEventTypes type);
 	bool validConstruction(networkingEventTypes type, string coords);	//devuelve true si la construccion solicitada es valida, y la almacena internamente hasta que le den la orden de construir
 	bool construct();		//construye la ultima construccion que se haya validado, devuelve false si la construccion no es valida, PUEDE MODIFICAR GAME OVER
 	void cancelConstruction();
@@ -27,7 +28,7 @@ public:
 	bool robberCardsReady();
 	void clearRobberCards();
 	bool discardCurrentPlayer();				//devuelve false si era una cantidad invalida de cartas, o no tenia esas cartas
-	bool discardOtherPlayer(string cards);		//devuelve false si era una cantidad invalida de cartas, o no tenia esas cartas
+	bool discardPlayer2(string cards);		//devuelve false si era una cantidad invalida de cartas, o no tenia esas cartas
 	
 
 	networkingEventTypes isSelecting();	//devuelve 0 si no esta preparando un intercambio, OFFER_TRADE si esta preparando intercambio entre jugadores o BANK_TRADE si esta preparando intercambio con el banco
@@ -71,10 +72,10 @@ public:
 
 	//bool waitingAccept();
 	//bool waitingCards();
-	bool player1Playing();	//devuelve true si es el turno del jugador 1
-	catanPlayerModel getCurrentPlayer();
-	catanPlayerModel getOtherPlayer();
-	catanMapModel getMap();
+	bool isPlayer1Playing();	//devuelve true si es el turno del jugador 1
+	catanPlayerModel *getCurrentPlayer();
+	catanPlayerModel *getOtherPlayer();
+	catanMapModel *getMap();
 	unsigned char getDice1() { return dice1; }
 	unsigned char getDice2() { return dice2; }
 	bool gameOver();	//true si termino el juego, llamar despues de construccion!!!!!!!!(pregunta a cada jugador cuantos puntos tiene)

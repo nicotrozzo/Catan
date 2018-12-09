@@ -9,6 +9,7 @@ netwConstructionController::netwConstructionController(catanGameModel * game) : 
 
 netwConstructionController::netwConstructionController(catanGameModel * game, networkingEventTypes package) : EDANetworkingController(((package == CITY) || (package == SETTLEMENT) || (package == ROAD)) ? expectedPackage = package : static_cast<networkingEventTypes>(0)) , gameModel(game)
 {
+	expectedPackage = package;
 	expectsOnePackage = true;
 }
 
@@ -32,7 +33,7 @@ bool netwConstructionController::parseNetworkingEvent(networkingEv * ev)
 			ret = true;
 			if (!gameModel->validConstruction(ev->getHeader(), static_cast<buildPckg *>(ev)->getCoords()))
 			{
-				controllerEvent = new playingFSMErrorEv;
+				controllerEvent = new playingFSMErrorEv("Error en construccion");
 			}
 			else
 			{

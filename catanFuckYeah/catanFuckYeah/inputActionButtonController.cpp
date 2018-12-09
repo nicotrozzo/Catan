@@ -22,7 +22,7 @@ bool inputActionButtonController::parseMouseEvent(mouseEvent * ev)
 	{
 		if ((mouseCoords.y >= bCoords.y) && (mouseCoords.y - bCoords.y <= OFFSET_END_TURN_Y))
 		{
-			//ret = gameModel->																//FALTA METODO DE PASSTURN
+			ret = gameModel->dicesThrown(gameModel->getDice1(), gameModel->getDice2());	
 			if (ret)
 			{
 				netEmisorEv->sendPackage(PASS);

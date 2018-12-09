@@ -65,7 +65,7 @@ void player1Viewer::viewResources()
 	al_draw_text(fontForResources, al_color_name("black"), 156, 272, 0, to_string(wool).c_str());
 }
 
-void player1Viewer::viewLongestRoads()		//faltaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+void player1Viewer::viewLongestRoads()		
 {
 }
 

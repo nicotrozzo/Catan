@@ -23,9 +23,12 @@ mapViewer::mapViewer(catanMapModel * myMap)
 							{
 								if ((tokens[0] = al_load_bitmap("graficoCatan\\numeros\\2.png")) != NULL && (tokens[1] = al_load_bitmap("graficoCatan\\numeros\\3.png")) != NULL && (tokens[2] = al_load_bitmap("graficoCatan\\numeros\\4.png")) != NULL && (tokens[3] = al_load_bitmap("graficoCatan\\numeros\\5.png")) != NULL && (tokens[4] = al_load_bitmap("graficoCatan\\numeros\\6.png")) != NULL && (tokens[5] = al_load_bitmap("graficoCatan\\numeros\\8.png")) != NULL && (tokens[6] = al_load_bitmap("graficoCatan\\numeros\\9.png")) != NULL && (tokens[7] = al_load_bitmap("graficoCatan\\numeros\\10.png")) != NULL && (tokens[8] = al_load_bitmap("graficoCatan\\numeros\\11.png")) != NULL && (tokens[9] = al_load_bitmap("graficoCatan\\numeros\\12.png")) != NULL)
 								{
-									initOk = true;
-									oceanHex = { { 'N',seaN },{ 'L',seaL },{ 'M',seaM },{ 'O',seaO },{ 'P',seaP },{ 'T',seaT } };
-									resourcesHex = { { 'N',desierto },{ 'L',colinas },{ 'M',bosques },{ 'O',pasto },{ 'P',montañas },{ 'T',campos } };
+									if ((fontForAmountOfBuildings = al_load_ttf_font("graficoCatan\\font\\scribish.ttf", 62, 0)) != NULL)
+									{
+										initOk = true;
+										oceanHex = { { 'N',seaN },{ 'L',seaL },{ 'M',seaM },{ 'O',seaO },{ 'P',seaP },{ 'T',seaT } };
+										resourcesHex = { { 'N',desierto },{ 'L',colinas },{ 'M',bosques },{ 'O',pasto },{ 'P',montañas },{ 'T',campos } };
+									}
 								}
 							}
 						}
@@ -46,7 +49,7 @@ void mapViewer::update()
 		viewRobber();
 		viewPendingConstruction();
 		viewBuildings();
-		//viewBankTrade();
+		viewAmountOfBuildingsLeft();
 	}
 	else
 	{
@@ -157,15 +160,25 @@ void mapViewer::viewPendingConstruction()
 	switch (pendingConstruction.type)
 	{
 	case SETTLEMENT:
-		al_draw_tinted_bitmap(settlement1Bitmap, al_map_rgba_f(0.5, 0.5, 0.5, 0.5), gameCoords::myVertexCoords[pendingConstruction.coords].xCoord, gameCoords::myVertexCoords[pendingConstruction.coords].yCoord, 0);
+		al_draw_tinted_bitmap(settlement1Bitmap, al_map_rgba_f(0.5, 0.5, 0.5, 0.5), gameCoords::myVertexCoords[pendingConstruction.coords].xCoord - (al_get_bitmap_width(settlement1Bitmap) / 2.0 ), gameCoords::myVertexCoords[pendingConstruction.coords].yCoord - (al_get_bitmap_height(settlement1Bitmap) / 2.0 ), 0);
 		break;
 	case CITY:
-		al_draw_tinted_bitmap(city1Bitmap, al_map_rgba_f(0.5, 0.5, 0.5, 0.5), gameCoords::myVertexCoords[pendingConstruction.coords].xCoord, gameCoords::myVertexCoords[pendingConstruction.coords].yCoord, 0);
+		al_draw_tinted_bitmap(city1Bitmap, al_map_rgba_f(0.5, 0.5, 0.5, 0.5), gameCoords::myVertexCoords[pendingConstruction.coords].xCoord - (al_get_bitmap_width(city1Bitmap) / 2.0 ), gameCoords::myVertexCoords[pendingConstruction.coords].yCoord - (al_get_bitmap_height(city1Bitmap) / 2.0 ), 0);
 		break;
 	case ROAD:
-		al_draw_tinted_bitmap(road1Bitmap, al_map_rgba_f(0.5, 0.5, 0.5, 0.5), gameCoords::myEdgesCoords[pendingConstruction.coords].xCoord, gameCoords::myEdgesCoords[pendingConstruction.coords].yCoord, 0);
+		al_draw_tinted_rotated_bitmap(road1Bitmap, al_map_rgba_f(0.5, 0.5, 0.5, 0.5), al_get_bitmap_width(road1Bitmap) / 2.0, al_get_bitmap_height(road1Bitmap) / 2.0, gameCoords::myEdgesCoords[pendingConstruction.coords].xCoord, gameCoords::myEdgesCoords[pendingConstruction.coords].yCoord, gameCoords::myEdgesCoords[pendingConstruction.coords].angle, 0);
 		break;
 	}
+}
+
+void mapViewer::viewAmountOfBuildingsLeft()
+{
+	unsigned char amountOfSettlements = myMap->getAmountOfSettlementsLeft();
+	unsigned char amountOfCities = myMap->getAmountOfCitiesLeft();
+	unsigned char amountOfRoads = myMap->getAmountOfRoadsLeft();
+	al_draw_text(fontForAmountOfBuildings, al_color_name("black"), 1401, 765, 0, to_string(amountOfCities).c_str());
+	al_draw_text(fontForAmountOfBuildings, al_color_name("black"), 1479, 765, 0, to_string(amountOfRoads).c_str());
+	al_draw_text(fontForAmountOfBuildings, al_color_name("black"), 1578, 765, 0, to_string(amountOfSettlements).c_str());
 }
 
 mapViewer::~mapViewer()

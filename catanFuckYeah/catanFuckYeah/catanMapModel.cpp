@@ -59,6 +59,22 @@ catanMapModel::catanMapModel()
 	pendingConstruction.type = NO_PCKG;
 }
 
+unsigned char catanMapModel::getRobberPos()
+{
+	return robberPos;
+}
+
+bool catanMapModel::setRobberPos(unsigned char robberPos_)
+{
+	bool ret = false;
+	if (robberPos != robberPos_)
+	{
+		robberPos = robberPos_;
+		notifyAllObservers();
+	}
+	return ret;
+}
+
 string catanMapModel::getMap(void)
 {
 	string mapToReturn;
@@ -139,10 +155,51 @@ bool catanMapModel::setMap(string map_)
 	return ret;
 }
 
-/*bool catanMapModel::setCircularTokens(string circTokens)
+bool catanMapModel::setCircularTokens(string circTokens)
 {
-	//si es valido, notifyAllObservers();
-}*/
+	bool ret = true;
+	size_t found = circTokens.find_first_not_of("\2\3\4\5\6\7\8\9\10\11\12");
+	string aux = circTokens;
+	int count;
+	if (found == string::npos)
+	{
+		for (int i = 2; (i < 13) && ret; i++)
+		{
+			count = 0;
+			size_t aPos = aux.find_first_of(i);
+			while (aPos != string::npos)
+			{
+				aPos = aux.find_first_of(i, aPos);
+				count++;
+			}
+			if ((i != 2) && (i != 7) && (i != 12))
+			{
+				if (count != 2)
+				{
+					ret = false;
+				}
+			}
+			else
+			{
+				if (count != 1)
+				{
+					ret = false;
+				}
+			}
+		}
+		if (ret)
+		{
+			int i = 0;
+			for (auto x : hexagons)
+			{
+				x.circularToken = circTokens[i];
+				i++;
+			}
+			notifyAllObservers();
+		}
+	}
+	return ret;
+}
 
 bool catanMapModel::adjacentToHiddenRoad(string vertex)
 {
@@ -209,38 +266,42 @@ bool catanMapModel::adjacentToLongRoad(string vertex, char player)
 bool catanMapModel::checkAvailableRoad(string edge, char player)
 {
 	bool ret = false;
-	if (existingEdge(edge))
-	{
-		if (freeEdge(edge))
-		{
-			if ((p1UsedVertexList.size() == 2) && (p1SimpleRoads.size() == 1))//capaz analizar ademas cuando tiene 1 settllement y 1 road
-			{
-				list<string>::iterator it = ++p1UsedVertexList.begin();
-				if (vertexAdjacentToRoad(*it, edge)) //el road debe ser adyacente al segundo settlement construido
-				{
-					ret = true;
-				}
-			}
-			else if ((p2UsedVertexList.size() == 2) && (p2SimpleRoads.size() == 1))
-			{
-				list<string>::iterator it = ++p2UsedVertexList.begin();
-				if (vertexAdjacentToRoad(*it, edge)) //el road debe ser adyacente al segundo settlement construido
-				{
-					ret = true;
-				}
-			}
-			else if ((adjacentToOwnBuilding(edge, player)) || (adjacentToOwnRoad(edge, player)))		//contiguo a vertices propios o a un road propio
-			{
-				ret = true;
-			}
-		}
-	}
+	ret = player == 1 ? ((p1LongRoads.size() + p1SimpleRoads.size())<AMOUNT_OF_ROADS)  : ((p2LongRoads.size() + p2SimpleRoads.size()) < AMOUNT_OF_ROADS);
 	if (ret)
 	{
-		pendingConstruction.type = ROAD;
-		pendingConstruction.coords = edge;
-		pendingConstruction.player = player;
-		notifyAllObservers();
+		if (existingEdge(edge))
+		{
+			if (freeEdge(edge))
+			{
+				if ((p1UsedVertexList.size() == 2) && (p1SimpleRoads.size() == 1))//capaz analizar ademas cuando tiene 1 settllement y 1 road
+				{
+					list<string>::iterator it = ++p1UsedVertexList.begin();
+					if (vertexAdjacentToRoad(*it, edge)) //el road debe ser adyacente al segundo settlement construido
+					{
+						ret = true;
+					}
+				}
+				else if ((p2UsedVertexList.size() == 2) && (p2SimpleRoads.size() == 1))
+				{
+					list<string>::iterator it = ++p2UsedVertexList.begin();
+					if (vertexAdjacentToRoad(*it, edge)) //el road debe ser adyacente al segundo settlement construido
+					{
+						ret = true;
+					}
+				}
+				else if ((adjacentToOwnBuilding(edge, player)) || (adjacentToOwnRoad(edge, player)))		//contiguo a vertices propios o a un road propio
+				{
+					ret = true;
+				}
+			}
+		}
+		if (ret)
+		{
+			pendingConstruction.type = ROAD;
+			pendingConstruction.coords = edge;
+			pendingConstruction.player = player;
+			notifyAllObservers();
+		}
 	}
 	return ret;
 }
@@ -274,8 +335,26 @@ bool catanMapModel::buildPendingConstruction()
 	if (ret)
 	{
 		pendingConstruction.type = NO_PCKG;
+		notifyAllObservers();
 	}
 	return ret;
+}
+
+unsigned char catanMapModel::getAmountOfSettlementsLeft()
+{
+	unsigned char count = AMOUNT_OF_SETTLEMENTS;
+	count -= (p1UsedVertexList.size() - p1Cities.size());
+	return count;
+}
+
+unsigned char catanMapModel::getAmountOfCitiesLeft()
+{
+	return (AMOUNT_OF_CITIES - p1Cities.size());
+}
+
+unsigned char catanMapModel::getAmountOfRoadsLeft()
+{
+	return (AMOUNT_OF_ROADS - (p1LongRoads.size() + p1SimpleRoads.size()));
 }
 
 bool catanMapModel::buildRoad(string edge, char player)
@@ -463,7 +542,6 @@ list<string> catanMapModel::getP1Settlements()
 	}
 	return settlements;
 }
-
 
 list<string> catanMapModel::getP1Cities()
 {
@@ -812,21 +890,47 @@ bool catanMapModel::adjacentToOwnRoad(string edge, char player)
 bool catanMapModel::checkAvailableSettlement(string vertex, char player)
 {
 	bool ret = false;
-	if (existingVertex(vertex))
+	bool max = player == 1 ? ((p1UsedVertexList.size() - p1Cities.size()) < AMOUNT_OF_SETTLEMENTS) : ((p2UsedVertexList.size() - p2Cities.size()) < AMOUNT_OF_SETTLEMENTS);
+	if (max)
 	{
-		if ((player == 1) || (player == 2))
+		if (existingVertex(vertex))
 		{
-			if (!adjacentToHiddenRoad(vertex))
+			if (player == 1)
 			{
-				if (!adjacentToSimpleRoad(vertex))
+				for (auto x : p1UsedVertexList)
 				{
-					if (adjacentToLongRoad(vertex, player) || ((player == 1) && (p1UsedVertexList.size() < 2)) || ((player == 2) && (p2UsedVertexList.size() < 2)))
+					if (x == vertex)
 					{
-						pendingConstruction.type = SETTLEMENT;
-						pendingConstruction.coords = vertex;
-						pendingConstruction.player = player;
-						notifyAllObservers();
-						ret = true;
+						max = false;
+						break;
+					}
+				}
+			}
+			else if (player == 2)
+			{
+				for (auto x : p2UsedVertexList)
+				{
+					if (x == vertex)
+					{
+						max = false;
+						break;
+					}
+				}
+			}
+			if (max && ((player == 1) || (player == 2)))
+			{
+				if (!adjacentToHiddenRoad(vertex))
+				{
+					if (!adjacentToSimpleRoad(vertex))
+					{
+						if (adjacentToLongRoad(vertex, player) || ((player == 1) && (p1UsedVertexList.size() < 2)) || ((player == 2) && (p2UsedVertexList.size() < 2)))
+						{
+							pendingConstruction.type = SETTLEMENT;
+							pendingConstruction.coords = vertex;
+							pendingConstruction.player = player;
+							notifyAllObservers();
+							ret = true;
+						}
 					}
 				}
 			}
@@ -868,18 +972,21 @@ bool catanMapModel::checkAvailableCity(string vertex, char player)
 	bool ret = false;
 	if (player == 1)
 	{
-		list<string>::iterator it;
-		for (it = p1UsedVertexList.begin(); (it != p1UsedVertexList.end()) && !ret; it++)		//itero para ver si ya hay settlement construido
+		if(p1Cities.size() < AMOUNT_OF_CITIES)
 		{
-			ret = !(it->compare(vertex));			//si esta ocupado ret = true
-			if (ret == true)
+			list<string>::iterator it;
+			for (it = p1UsedVertexList.begin(); (it != p1UsedVertexList.end()) && !ret; it++)		//itero para ver si ya hay settlement construido
 			{
-				list<string>::iterator iter;
-				for (iter = p1Cities.begin(); (iter != p1Cities.end()) && ret; iter++)			//itero para ver si ya es una ciudad
+				ret = !(it->compare(vertex));			//si esta ocupado ret = true
+				if (ret == true)
 				{
-					if (!iter->compare(*it))
+					list<string>::iterator iter;
+					for (iter = p1Cities.begin(); (iter != p1Cities.end()) && ret; iter++)			//itero para ver si ya es una ciudad
 					{
-						ret = false;
+						if (!iter->compare(*it))
+						{
+							ret = false;
+						}
 					}
 				}
 			}
@@ -887,18 +994,21 @@ bool catanMapModel::checkAvailableCity(string vertex, char player)
 	}
 	else if (player == 2)
 	{
-		list<string>::iterator it;
-		for (it = p2UsedVertexList.begin(); (it != p2UsedVertexList.end()) && !ret; it++)		//itero para ver si ya hay settlement construido
+		if (p2Cities.size() < AMOUNT_OF_CITIES)
 		{
-			ret = !(it->compare(vertex));			//si esta ocupado ret = true
-			if (ret == true)
+			list<string>::iterator it;
+			for (it = p2UsedVertexList.begin(); (it != p2UsedVertexList.end()) && !ret; it++)		//itero para ver si ya hay settlement construido
 			{
-				list<string>::iterator iter;
-				for (iter = p2Cities.begin(); (iter != p2Cities.end()) && ret; iter++)			//itero para ver si ya es una ciudad
+				ret = !(it->compare(vertex));			//si esta ocupado ret = true
+				if (ret == true)
 				{
-					if (!iter->compare(*it))
+					list<string>::iterator iter;
+					for (iter = p2Cities.begin(); (iter != p2Cities.end()) && ret; iter++)			//itero para ver si ya es una ciudad
 					{
-						ret = false;
+						if (!iter->compare(*it))
+						{
+							ret = false;
+						}
 					}
 				}
 			}
@@ -922,23 +1032,26 @@ unsigned char catanMapModel::getP1LongestRoad()
 	{
 		allRoads.push_back(x);
 	}
-	road * firstRoad = endpointSearchRec(allRoads.front());	//busca un camino en una punta
-	for (auto x : allRoads)	//borra todas las marcas que haya hecho la recursividad anterior
+	if (allRoads.size() > 0)
 	{
-		x->visited = false;
-	}
-	longestRoadSearchRec(firstRoad, longestRoad, 0);
-	for (auto x : allRoads)
-	{
-		if (!(x->visited))
+		road * firstRoad = endpointSearchRec(allRoads.front());	//busca un camino en una punta
+		for (auto x : allRoads)	//borra todas las marcas que haya hecho la recursividad anterior
 		{
-			endpointSearchRec(x);
-			for(auto x : allRoads)
+			x->visited = false;
+		}
+		longestRoadSearchRec(firstRoad, longestRoad, 0);
+		for (auto x : allRoads)
+		{
+			if (!(x->visited))
 			{
-				x->visited = false;
+				endpointSearchRec(x);
+				for (auto x : allRoads)
+				{
+					x->visited = false;
+				}
+				longestRoadSearchRec(x, longestRoad, 0);
+				break;
 			}
-			longestRoadSearchRec(x,longestRoad,0);
-			break;
 		}
 	}
 	return longestRoad;
@@ -962,6 +1075,7 @@ void catanMapModel::longestRoadSearchRec(road * actualRoad, unsigned char & long
 {
 	if (hasUnvisitedNeighbours(actualRoad) != nullptr)
 	{
+		actualRoad->visited = true;
 		for (auto x : actualRoad->adjacentConstructedRoads)
 		{
 			if (!(x->visited))
@@ -993,15 +1107,37 @@ road * catanMapModel::hasUnvisitedNeighbours(road * actualRoad)
 	}	
 	return ret;
 }
+
 unsigned char catanMapModel::getP2LongestRoad()
 {
 	unsigned char longestRoad = 0;
-	list<road *> allRoads = p1LongRoads;
-	for (auto x : p1SimpleRoads)
+	list<road *> allRoads = p2LongRoads;
+	for (auto x : p2SimpleRoads)	//carga en allRoads todos los roads
 	{
 		allRoads.push_back(x);
 	}
-
+	if (allRoads.size() > 0)
+	{
+		road * firstRoad = endpointSearchRec(allRoads.front());	//busca un camino en una punta
+		for (auto x : allRoads)	//borra todas las marcas que haya hecho la recursividad anterior
+		{
+			x->visited = false;
+		}
+		longestRoadSearchRec(firstRoad, longestRoad, 0);
+		for (auto x : allRoads)
+		{
+			if (!(x->visited))
+			{
+				endpointSearchRec(x);
+				for (auto x : allRoads)
+				{
+					x->visited = false;
+				}
+				longestRoadSearchRec(x, longestRoad, 0);
+				break;
+			}
+		}
+	}
 	return longestRoad;
 }
 
@@ -1107,6 +1243,11 @@ bool catanMapModel::adjacentRoads(string road1, string road2)
 		}
 	}
 	return ret;
+}
+
+void catanMapModel::notify()
+{
+	notifyAllObservers();
 }
 
 catanMapModel::~catanMapModel()

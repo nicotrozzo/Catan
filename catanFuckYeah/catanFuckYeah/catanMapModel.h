@@ -21,7 +21,7 @@ typedef struct
 
 typedef struct 
 {
-	unsigned char res;
+	resourceType res;
 	unsigned char resCount;
 }resource_t;
 
@@ -32,10 +32,10 @@ typedef struct
 	unsigned char player;
 }construction_t;
 
-typedef struct
+typedef struct roada
 {
 	string edge;
-	list<road *> adjacentConstructedRoads;
+	list<struct roada *> adjacentConstructedRoads;
 	bool visited;
 }road;
 
@@ -56,12 +56,12 @@ class catanMapModel : public EDASubject
 {
 public:
 	catanMapModel();
-	unsigned char getRobberPos() { return robberPos; }
-	void setRobberPos(unsigned char robberPos_) { robberPos = robberPos_; }
+	unsigned char getRobberPos();
+	bool setRobberPos(unsigned char robberPos_);
 	string getMap();
 	string getCircularTokens();
 	bool setMap(string map_);						//EL MODELO ES MODIFICADO
-													//bool setCircularTokens(string circTokens);	//EL MODELO ES MODIFICADO
+	bool setCircularTokens(string circTokens);	   //EL MODELO ES MODIFICADO
 	
 	bool checkAvailableRoad(string edge, char player);	//devuelve true si el jugador indicado puede construir un camino en ese lado
 	bool checkAvailableSettlement(string vertex, char player);	//devuelve true si el vertice seleccionado es valido para la construccion de un settlement
@@ -71,6 +71,9 @@ public:
 	void cancelConstruction();
 	bool buildPendingConstruction();						//EL MODELO ES MODIFICADO
 
+	unsigned char getAmountOfSettlementsLeft();
+	unsigned char getAmountOfCitiesLeft();
+	unsigned char getAmountOfRoadsLeft();
 	list<string> getP1BuiltVertexes();	//devuelve todos los vertices ocupados por el jugador, tanto settlements como cities
 	list<string> getP1Settlements();
 	list<string> getP1Cities();			//devuelve todos los cities contruidos por el jugador 1
@@ -84,6 +87,8 @@ public:
 	unsigned char getP1LongestRoad();
 	unsigned char getP2LongestRoad();
 	list<pepe> getSelectedHex(unsigned int diceValue);
+
+	void notify();
 	~catanMapModel();	//BORRAR TODOS LOS ROADS
 private:
 	unsigned char robberPos;
@@ -111,9 +116,9 @@ private:
 	bool existingVertex(string vertex);
 	bool existingEdge(string edge);
 	
-	bool buildRoad(string edge, char player);		//EL MODELO ES MODIFICADO
-	bool buildSettlement(string edge, char player);	//EL MODELO ES MODIFICADO
-	bool buildCity(string vertex, char player);		//EL MODELO ES MODIFICADO				
+	bool buildRoad(string edge, char player);		
+	bool buildSettlement(string edge, char player);	
+	bool buildCity(string vertex, char player);				
 
 	/*Metodos para buscar vertices con puerto*/
 	string greater2CharVertex(unsigned int pieceNum);
