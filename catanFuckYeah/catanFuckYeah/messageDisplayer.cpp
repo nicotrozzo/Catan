@@ -10,7 +10,7 @@ messageDisplayer::messageDisplayer()
 	angle = 0;
 	if ((messageShowBitmap = al_load_bitmap("graficoCatan\\menues\\messageShow.png")) != NULL)
 	{
-		if ((fontForMessageShow = al_load_ttf_font("graficoCatan\\font\\scribish", 71, 0)) != NULL)
+		if ((fontForMessageShow = al_load_ttf_font("graficoCatan\\font\\scribish.ttf", 71, 0)) != NULL)
 		{
 			if ((refreshBitmap = al_load_bitmap("graficoCatan\\refresh.png")) != NULL)
 			{
@@ -26,6 +26,7 @@ void messageDisplayer::refresh()
 	if (initOk)
 	{
 		showMessage();
+		showRefresh();
 		al_flip_display();
 	}
 }
@@ -43,7 +44,7 @@ void messageDisplayer::setMessage(string message)
 void messageDisplayer::showMessage()
 {
 	al_draw_bitmap(messageShowBitmap, 323,330,0);
-	al_draw_text(fontForMessageShow, al_color_name("black"), 344, 422, 0, message.c_str());
+	al_draw_text(fontForMessageShow, al_color_name("white"), 344, 410, 0, message.c_str());
 }
 
 void messageDisplayer::showRefresh()
@@ -58,7 +59,7 @@ void messageDisplayer::showRefresh()
 			angle = 0;
 		}
 	}
-	al_draw_rotated_bitmap(refreshBitmap, al_get_bitmap_width(refreshBitmap) / 2.0, al_get_bitmap_height(refreshBitmap) / 2.0, 1575, 935, angle, 0);
+	al_draw_rotated_bitmap(refreshBitmap, al_get_bitmap_width(refreshBitmap) / 2.0, al_get_bitmap_height(refreshBitmap) / 2.0, 800, 528, angle, 0);
 }
 
 messageDisplayer::~messageDisplayer()
