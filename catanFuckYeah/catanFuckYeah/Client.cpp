@@ -3,7 +3,7 @@
 
 client::client() : deadline(*IO_handler)
 {
-	client_resolver = new boost::asio::ip::tcp::resolver(*IO_handler);
+	hasToAsyncConnect = true;
 }
 
 /*PREGUNTAR QUE PASA, SI ES BLOQUEANTE O QUE CARAJO*/
@@ -12,24 +12,40 @@ void client::startConnection(const char* host)
 {
 	if (!connected)
 	{
-		endpoint = client_resolver->resolve(boost::asio::ip::tcp::resolver::query(host, PORT_STR));
+		boost::asio::ip::tcp::endpoint endpoint(boost::asio::ip::address::from_string(host), PORT);
+		//endpoint = client_resolver->resolve(boost::asio::ip::tcp::resolver::query(host, PORT_STR));
 		//boost::asio::connect(*socket, endpoint, error);	//BLOQUEANTE
 
 		deadline.expires_from_now(boost::posix_time::milliseconds(750));
-		error = boost::asio::error::would_block;		
-		boost::asio::async_connect(*socket,endpoint,boost::lambda::var(error) = boost::lambda::_1 );
-		deadline.async_wait(boost::lambda::var(error) = boost::asio::error::timed_out);
-		IO_handler->run_one();
-		
-		if (!error)
+		error = boost::asio::error::would_block;
+		if (hasToAsyncConnect)
 		{
-			connected = true;
-			socket->non_blocking(true);
+			socket->async_connect(endpoint,
+				[this](boost::system::error_code error)
+				{
+					if (!error)
+					{
+						cout << "ENTRE!" << endl;
+						connected = true;
+						hasToAsyncConnect = false;
+						socket->non_blocking(true);
+					}
+					else
+					{
+						cout << "Entre con error" << endl;
+					}
+				}
+			);
+			deadline.async_wait(
+				[this](boost::system::error_code error)
+				{
+					hasToAsyncConnect = true;
+					cout << "Not timeout?" << endl;
+					cout << error << " : " << error.message() << endl;
+				}
+			);
+			hasToAsyncConnect = false;
 		}
+		IO_handler->run_one();
 	}
-}
-
-client::~client()
-{
-	delete client_resolver;
 }
