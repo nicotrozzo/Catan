@@ -62,13 +62,15 @@ private:
 	//genericFSM * innerFSM;
 	string name;
 
-	mainEventGenerator& evGen;
+	mainEventGenerator playingFSMEvGen;
 	quitButtonController * quitController;
 	connectionEstablisher * establisher;
 	handShakingFSM * handFSM;
 	netwEventGenerator * netwReceiver;
 	netwEmisor * emisor;
 	playingFSM * gameFSM;
+	mainEventGenerator& evGen;
+
 public:
 	bossFSM(quitButtonController * qControl,connectionEstablisher * establish,mainEventGenerator * eventGen, netwEventGenerator * netwEvG, string name);
 };

@@ -6,6 +6,7 @@ class inputStateController : public EDAInputController
 public:
 	inputStateController();
 	void setEv(playingFSMEvTypes ev);
+	inputControllerTypes getType() { return CTRL_STATE; }
 	bool parseMouseEvent(mouseEvent * ev) {}
 	bool parseKeyboardEvent(keyboardEvent * ev) {}
 	~inputStateController();

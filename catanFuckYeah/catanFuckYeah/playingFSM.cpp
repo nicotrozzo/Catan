@@ -67,6 +67,18 @@ void playingFSM::sendToNetwControllers(networkingEv * netwPackage)
 	}
 }
 
+playingFSM::~playingFSM()
+{
+	for (auto x : allInputControllers)
+	{
+		delete x;
+	}
+	for (auto x : allNetworkingControllers)
+	{
+		delete x;
+	}
+}
+
 /*ACTION ROUTINES FOR FSM*/
 
 /*

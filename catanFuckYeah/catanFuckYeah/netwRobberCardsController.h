@@ -3,7 +3,7 @@
 class netwRobberCardsController : public EDANetworkingController
 {
 public:
-	netwRobberCardsController();
+	netwRobberCardsController(catanGameModel * game);
 	bool parseNetworkingEvent(networkingEv * package);
 	netwControllerTypes getType() { return CTRL_ROBBERCARDS; }
 	~netwRobberCardsController();

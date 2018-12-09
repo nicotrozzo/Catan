@@ -2,8 +2,9 @@
 
 
 
-netwOfferTradeController::netwOfferTradeController()
+netwOfferTradeController::netwOfferTradeController(catanGameModel * game)
 {
+	gameModel = game;
 }
 
 bool netwOfferTradeController::parseNetworkingEvent(networkingEv * ev)
