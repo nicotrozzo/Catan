@@ -127,6 +127,7 @@ public:
 	playingFSM(bool iStart, catanGameModel * game, std::vector<EDAInputController *> inputControllers, std::vector<EDANetworkingController *> networkingControllers );	//recibe como parametro true si le toca empezar al jugador propio	
 	void sendToInputControllers(inputEv *input);
 	void sendToNetwControllers(networkingEv *netwPackage);
+	~playingFSM();
 };
 
 enum robberStates : stateTypes { WAIT_USER, WAIT_OPPONENT, WAIT_ROBBMOVE };

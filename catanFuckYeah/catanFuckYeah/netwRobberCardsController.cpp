@@ -2,8 +2,9 @@
 
 
 
-netwRobberCardsController::netwRobberCardsController()
+netwRobberCardsController::netwRobberCardsController(catanGameModel * game)
 {
+	gameModel = game;
 }
 
 bool netwRobberCardsController::parseNetworkingEvent(networkingEv * package)

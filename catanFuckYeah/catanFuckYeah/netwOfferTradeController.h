@@ -3,7 +3,7 @@
 class netwOfferTradeController : public EDANetworkingController
 {
 public:
-	netwOfferTradeController();
+	netwOfferTradeController(catanGameModel * game);
 	virtual bool parseNetworkingEvent(networkingEv * ev);
 	virtual netwControllerTypes getType() { return CTRL_OFFERTRADE; }
 	~netwOfferTradeController();

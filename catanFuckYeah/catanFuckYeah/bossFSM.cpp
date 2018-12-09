@@ -11,7 +11,15 @@
 #include "inputHexagonController.h"
 #include "inputStateController.h"
 #include "inputTickAndXController.h"
-#include "input"
+
+#include "netwBankTradeController.h"
+#include "netwAckController.h"
+#include "netwConstructionController.h"
+#include "netwDicesController.h"
+#include "netwOfferTradeController.h"
+#include "netwRobberCardsController.h"
+#include "netwRobberMoveController.h"
+#include "netwYNController.h"
 
 bossFSM::bossFSM(quitButtonController * qControl, connectionEstablisher * establish, mainEventGenerator * eventGen, netwEventGenerator * netw,string name) : evGen(*eventGen),genericFSM(&fsmTable[0][0], 6, 7, START_MENU)
 {
@@ -136,9 +144,67 @@ void bossFSM::newGame(genericEvent * ev)
 	delete handFSM;
 	bool iStart = temp->isPlayer1Playing();
 	vector<EDAInputController *> playingFSMInpControllers;
-	vector<EDAInputController *> playingFSMNetwControllers;
-	playingFSMInpControllers.push_back(new )
-	gameFSM = new playingFSM(iStart,temp,)
+	EDAInputController * controllerToAdd;
+	for (int i = 0; i < 6; i++)
+	{
+		switch (i)
+		{
+		case 0:
+			controllerToAdd = new inputActionButtonController(temp);
+			break;
+		case 1:
+			controllerToAdd = new inputCardsController(temp);
+			break;
+		case 2:
+			controllerToAdd = new inputEdgeAndVertexController(temp);
+			break;
+		case 3:
+			controllerToAdd = new inputHexagonController(temp);
+			break;
+		case 4:
+			controllerToAdd = new inputStateController;
+			break;
+		case 5:
+			controllerToAdd = new inputTickAndXController(temp);
+			break;
+		}
+		playingFSMEvGen.attach(controllerToAdd);
+		playingFSMInpControllers[i] = controllerToAdd;
+	}
+	EDANetworkingController * netwControllerToAdd;
+	vector<EDANetworkingController *> playingFSMNetwControllers;
+	for (int i = 0; i < 6; i++)
+	{
+		switch (i)
+		{
+		case 0:
+			netwControllerToAdd = new netwBankTradeController(temp);
+			break;
+		case 1:
+			netwControllerToAdd = new netwConstructionController(temp);
+			break;
+		case 2:
+			netwControllerToAdd = new netwDicesController(temp);
+			break;
+		case 3:
+			netwControllerToAdd = new netwOfferTradeController(temp);
+			break;
+		case 4:
+			netwControllerToAdd = new netwRobberCardsController(temp);
+			break;
+		case 5:
+			netwControllerToAdd = new netwYNController(temp);
+			break;
+		case 6:
+			netwControllerToAdd = new netwAckController(temp);
+			break;
+		}
+		playingFSMEvGen.attach(netwControllerToAdd);
+		playingFSMNetwControllers[i] = netwControllerToAdd;
+	}
+	
+
+	gameFSM = new playingFSM(iStart,temp,playingFSMInpControllers,)
 }
 
 void bossFSM::closeConnection(genericEvent * ev)

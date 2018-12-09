@@ -1,8 +1,8 @@
 #include "netwBankTradeController.h"
 
-netwBankTradeController::netwBankTradeController()
+netwBankTradeController::netwBankTradeController(catanGameModel*game)
 {
-
+	gameModel = game;
 }
 
 bool netwBankTradeController::parseNetworkingEvent(networkingEv * package)
