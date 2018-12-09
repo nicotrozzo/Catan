@@ -14,7 +14,7 @@ private:
 #define TX(x) (static_cast<void (genericFSM::* )(genericEvent *)>(&bossFSM::x)) //casteo a funcion, por visual
 
 	const fsmCell fsmTable[6][7] = {
-	//	   INPUT_EVENT								DONE								OUT	 								QUIT							CLOSE_DISPLAY					 NETWORKING_EVENT							TIMER_EVENT
+	//	   INPUT_EVENT								DONE_EV								OUT_EV	 								QUIT							CLOSE_DISPLAY					 NETWORKING_EVENT							TIMER_EVENT
 	{ { START_MENU,TX(sendToStartMenu)},{ WAITING_CONNECTION,TX(newEstablisher) },{ START_MENU,TX(stMnError) },			{ START_MENU,TX(closeStMn) },		{ START_MENU,TX(closeStMn) },		  { START_MENU,TX(doNothing) },				 { START_MENU,TX(refreshStMn) } },				//START_MENU
 	{ { WAITING_CONNECTION,TX(sendQuitController)},{ HANDSHAKING,TX(newHandshaking) },{ START_MENU,TX(newStMn) },		{ START_MENU,TX(newStMn) },		{ WAITING_CONNECTION,TX(closeWaiting) },{ WAITING_CONNECTION,TX(doNothing) },  { WAITING_CONNECTION,TX(refreshWait) } },	//WAITING_CONNECTION
 	{ { HANDSHAKING,TX(sendQuitController) },		{ PLAYING,TX(newGame) },		  { START_MENU,TX(closeConnection) },{ WAITING_TO_QUIT,TX(finishHandshaking) },		  { HANDSHAKING,TX(closeHandshaking) },	{ HANDSHAKING,TX(sendToNetwFSM) },	{ HANDSHAKING,TX(sendTimerEv) } },			//HANDSHAKING

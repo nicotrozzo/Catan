@@ -6,7 +6,7 @@
 
 using namespace std;
 
-enum implEvent : eventTypes { INPUT_EVENT, DONE, OUT, QUIT, CLOSE_DISPLAY , NETWORKING_EVENT , TIMER_EVENT};
+enum implEvent : eventTypes { INPUT_EVENT, DONE_EV, OUT_EV, QUIT, CLOSE_DISPLAY , NETWORKING_EVENT , TIMER_EVENT};
 
 //enunm Forward Declaration
 //it is feasible as long as the type is defined in the code.
@@ -19,7 +19,7 @@ enum networkingEventTypes {
 	DEV_CARD = 0x30, MONOPOLY, YEARS_OF_PLENTY, ROAD_BUILDING, KNIGHT,
 	YES = 0x40, NO,
 	I_WON = 0x50, PLAY_AGAIN, GAME_OVER,
-	ERROR = 0xFE, QUIT
+	ERROR_PCKG = 0xFE, QUIT
 };
 
 class inputEv : public genericEvent

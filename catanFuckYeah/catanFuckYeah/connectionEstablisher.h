@@ -3,11 +3,13 @@
 #include "connector.h"
 #include "eventHandling.h"
 #include <allegro5/allegro.h>
+#include "Client.h"
+#include "Server.h"
 
 class connectionEstablisher : public eventGenerator
 {
 public:
-	connectionEstablisher(const char * host);	
+	connectionEstablisher();	
 	void startConnecting();
 	virtual genericEvent * getEvent();
 	connector * getConnector();					//devuelve un connector (client o server) si se pudo conectar, sino nullptr 
