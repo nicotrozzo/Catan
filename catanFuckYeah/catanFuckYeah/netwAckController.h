@@ -20,6 +20,9 @@ private:
 	bool validAction(cases action_);
 	unsigned char currentAmountCards;
 	unsigned char otherAmountCards;
-	queue<bool> queueOfAck;
+	//queue<bool> queueOfAck;
+	//bool flag;
+	unsigned int amountOfAck;
+	unsigned int numberOfCalls;
 };
 

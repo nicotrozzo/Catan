@@ -4,7 +4,11 @@
 netwAckController::netwAckController(catanGameModel * game)
 {
 	gameModel = game;
+	numberOfCalls = 0;
 	phases = F_PHASE;
+	amountOfAck += ((gameModel->getOtherPlayer().getAmountOfCards() < 7) ? 1 : 0);
+	amountOfAck += ((gameModel->getCurrentPlayer().getAmountOfCards() > 7) ? 1 : 0);
+	amountOfAck += 1;		//le sumo el ack recibido por robber_move
 }
 
 bool netwAckController::parseNetworkingEvent(networkingEv * ev)
@@ -15,28 +19,33 @@ bool netwAckController::parseNetworkingEvent(networkingEv * ev)
 		switch (action)
 		{
 		case ROBBER_CASE:
-			/*currentAmountCards = gameModel->getCurrentPlayer().getAmountOfCards();
-			otherAmountCards = gameModel->getOtherPlayer().getAmountOfCards()
-			if (currentAmountCards >= 7 && otherAmountCards >= 7)
+			/*if (gameModel->isPlayer1Playing())
 			{
+				if (amountOfAck)
+				{
 
-			}
-			else if (currentAmountCards <= 7 && otherAmountCards >= 7)
-			{
-
+				}
+				
 			}*/
-			bool flag;
-			if (gameModel->isPlayer1Playing())
+			switch (numberOfCalls)
 			{
-				flag = ((gameModel->getOtherPlayer().getAmountOfCards() < 7) ? true : false);
-				queueOfAck.push(flag);
-				flag = ((gameModel->getCurrentPlayer().getAmountOfCards() > 7) ? true : false);
-				queueOfAck.push(flag);
+			case 0:
+				if (gameModel->getOtherPlayer().getAmountOfCards() > 7)
+				{
+					
+				}
+				break;
+			case 1:
+				break;
+			case 2:
+				break;
+			case 3:
+				break;
+			default:
+				break;
 			}
-			if (!queueOfAck.empty())
-			{
-
-			}
+			numberOfCalls++;
+			
 			break;
 		case OTHER_CASE:
 			controllerEvent = new playingFSMEv(CHANGE_STATE);
