@@ -202,9 +202,7 @@ void bossFSM::newGame(genericEvent * ev)
 		playingFSMEvGen.attach(netwControllerToAdd);
 		playingFSMNetwControllers[i] = netwControllerToAdd;
 	}
-	
-
-	gameFSM = new playingFSM(iStart,temp,playingFSMInpControllers,)
+	gameFSM = new playingFSM(iStart, temp, playingFSMInpControllers, playingFSMNetwControllers);
 }
 
 void bossFSM::closeConnection(genericEvent * ev)
@@ -222,14 +220,21 @@ void bossFSM::closeHandshaking(genericEvent * ev)
 	delete graficador;
 }
 
-void bossFSM::sendToNetwFSM(genericEvent * ev)
+void bossFSM::sendToHandFSM(genericEvent * ev)
 {
-	//innerFSM->cycle(static_cast<networkingEv *>(ev)->getHeader()) //en realidad hay que mandarle todo el evento, capaz modificar el cycle de la fsm de handshaking para que haga getHeader en vez de getType
-																//sino que el networking event tenga adentro otro evento con getType = getHeader;
+	handFSM->cycle(new handShakingEv(static_cast<networkingEv *>(ev)->getHeader() == handFSM->getExpectedPackage()));
 }
 
 void bossFSM::sendTimerEv(genericEvent * ev)
 {
+	if (static_cast<timerEv *>(ev)->refreshEvent())
+	{
+		graficador->refresh();
+	}
+	else	//si no es un evento de refresh de pantalla, es un error, emite un invalid event
+	{
+		handFSM->cycle(new handShakingEv(false));
+	}
 	//mandar al display de alguna forma si la fuente es allegro
 	//mandar a fsm handshaking como evento invalido para que corte todo
 }

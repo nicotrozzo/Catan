@@ -6,6 +6,17 @@
 #include "netwEmisor.h"
 #include "catanGameSetter.h"
 
+typedef enum handShakingEvTypes : eventTypes {NEXT,INVALID_EVENT};
+
+class handShakingEv : public genericEvent
+{
+public:
+	handShakingEv(bool next) : next(next) {}
+	eventTypes getType() { next ? NEXT : INVALID_EVENT; }
+private:
+	bool next;
+};
+
 class handShakingFSM : public genericFSM
 {
 public:
