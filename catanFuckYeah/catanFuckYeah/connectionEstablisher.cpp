@@ -6,7 +6,9 @@
 #include <cstdlib>
 #include <ctime>
 
-connectionEstablisher::connectionEstablisher(const char *host_) : host(host_)
+#define IP_STR "25.67.43.3"
+
+connectionEstablisher::connectionEstablisher() : host(IP_STR)
 {
 	srand(time(NULL));
 	topEvent = nullptr;
@@ -18,7 +20,7 @@ connectionEstablisher::connectionEstablisher(const char *host_) : host(host_)
 		}
 		else
 		{
-			al_destroy_timer();
+			al_destroy_timer(timer);
 			topEvent = new outEv("Couldn't create allegro event queue");
 		}
 	}

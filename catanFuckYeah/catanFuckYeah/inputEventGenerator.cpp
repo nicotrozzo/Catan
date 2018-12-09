@@ -36,14 +36,18 @@ genericEvent* inputEventGenerator::getEvent()
 			switch (ev.type)
 			{
 			case ALLEGRO_EVENT_MOUSE_BUTTON_UP:
-				if (ev.mouse.button == )
+				if (ev.mouse.button == 1)
 				{
 					ret = new mouseEvent({ static_cast<float>(ev.mouse.x), static_cast<float>(ev.mouse.y) });
 				}
 				break;
 			case ALLEGRO_EVENT_KEY_UP:
-				ret = new keyboardEvent(allegroToAscii(ev.keyboard.keycode))
-					ALLEGRO_KEY_
+				unsigned char caracter = allegroToAscii(ev.keyboard.keycode);
+				if (caracter)
+				{
+					ret = new keyboardEvent(caracter);
+				}
+				
 				break;
 			}
 		}

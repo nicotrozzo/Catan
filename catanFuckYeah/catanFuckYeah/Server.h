@@ -8,7 +8,7 @@ class server : public connector
 {
 public:
 	server();
-	bool startConnection();
+	void startConnection();
 	virtual connectorType getType() { return SERVER; }
 	~server();
 

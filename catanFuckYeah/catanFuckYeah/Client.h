@@ -12,12 +12,9 @@ public:
 	client();
 	void startConnection(const char* host);
 	virtual connectorType getType() { return CLIENT; };
-	~client();
 
 private:
-	boost::asio::ip::tcp::resolver* client_resolver;
-	boost::asio::ip::tcp::resolver::iterator endpoint;
 	boost::asio::deadline_timer deadline;
 	boost::system::error_code error;
+	bool hasToAsyncConnect;
 };
-
