@@ -1,6 +1,6 @@
 #include "mapViewer.h"
 #include "gameCoords.h"
-
+#include <allegro5/allegro_ttf.h>
 
 
 mapViewer::mapViewer(catanMapModel * myMap)

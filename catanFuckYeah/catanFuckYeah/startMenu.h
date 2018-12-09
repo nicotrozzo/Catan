@@ -1,6 +1,8 @@
 #pragma once
 
 #include <string>
+#include <allegro5/allegro.h>
+#include <allegro5/allegro_image.h>
 #include "graphicator.h"
 
 class point
@@ -30,16 +32,15 @@ private:
 class startMenu : public graphicator
 {
 public:
-	dibujator();
+	startMenu();
 	void refresh();
 	bool getInitOk();
-	~dibujator();
+	~startMenu();
 
 private:
 	bool initOk;
 	ALLEGRO_BITMAP * menuBitmap;
 	ALLEGRO_BITMAP *playBitmap;
 	ALLEGRO_BITMAP *exitBitmap;
-	allegroInit allInit;
 };
 
