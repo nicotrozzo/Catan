@@ -15,6 +15,7 @@ public:
 	void refresh();
 	bool getInitOk();
 	void setMessage(std::string message);
+	~waitingGame();
 private:
 	ALLEGRO_BITMAP * bitmapArray[4];
 	ALLEGRO_BITMAP * refreshBitmap;

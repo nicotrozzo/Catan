@@ -6,7 +6,7 @@
 
 using namespace std;
 
-enum implEvent : eventTypes { INPUT_EVENT, DONE_EV, OUT_EV, QUIT, CLOSE_DISPLAY , NETWORKING_EVENT , TIMER_EVENT};
+enum implEvent : eventTypes { INPUT_EVENT, DONE_EV, OUT_EV, QUIT_EV, CLOSE_DISPLAY, NETWORKING_EVENT, TIMER_EVENT };
 
 //enunm Forward Declaration
 //it is feasible as long as the type is defined in the code.
@@ -32,7 +32,7 @@ public:
 class doneEv : public genericEvent
 {
 public:
-	eventTypes getType(void) { return DONE; }
+	eventTypes getType(void) { return DONE_EV; }
 };
 
 class outEv : public genericEvent
@@ -40,8 +40,8 @@ class outEv : public genericEvent
 public:
 	outEv() {}
 	outEv(string detail_) : detail(detail_) {}
-	eventTypes getType(void) { return OUT; }
-	string getDetail() { return detail; } 
+	eventTypes getType(void) { return OUT_EV; }
+	string getDetail() { return detail; }
 private:
 	const string detail;
 };
@@ -49,7 +49,7 @@ private:
 class quitEv : public genericEvent
 {
 public:
-	eventTypes getType(void) { return QUIT; }
+	eventTypes getType(void) { return QUIT_EV; }
 };
 
 class closeDisplayEv : public genericEvent
