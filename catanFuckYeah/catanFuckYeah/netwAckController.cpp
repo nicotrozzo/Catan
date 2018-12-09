@@ -4,6 +4,7 @@
 netwAckController::netwAckController(catanGameModel * game)
 {
 	gameModel = game;
+	phases = F_PHASE;
 }
 
 bool netwAckController::parseNetworkingEvent(networkingEv * ev)
@@ -24,9 +25,17 @@ bool netwAckController::parseNetworkingEvent(networkingEv * ev)
 			{
 
 			}*/
+			bool flag;
 			if (gameModel->isPlayer1Playing())
 			{
-				if (gameModel->getOtherPlayer().getAmountOfCards() > 7)
+				flag = ((gameModel->getOtherPlayer().getAmountOfCards() < 7) ? true : false);
+				queueOfAck.push(flag);
+				flag = ((gameModel->getCurrentPlayer().getAmountOfCards() > 7) ? true : false);
+				queueOfAck.push(flag);
+			}
+			if (!queueOfAck.empty())
+			{
+
 			}
 			break;
 		case OTHER_CASE:
