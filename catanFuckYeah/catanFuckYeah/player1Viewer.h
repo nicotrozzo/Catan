@@ -2,6 +2,8 @@
 #include "catanPlayerModel.h"
 #include "observer.h"
 #include <allegro5/allegro_color.h>
+#include <allegro5/allegro.h>
+#include <allegro5/allegro_font.h>
 #include <string>
 
 class player1Viewer : public observer

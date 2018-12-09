@@ -124,7 +124,6 @@
   <ItemGroup>
     <ClCompile Include="catanGameSetter.cpp" />
     <ClCompile Include="EDANetworkingController.cpp" />
-    <ClCompile Include="exitViewer.cpp" />
     <ClCompile Include="gameCoords.cpp" />
     <ClCompile Include="gameModelViewer.cpp" />
     <ClCompile Include="inputActionButtonController.cpp" />
@@ -141,7 +140,6 @@
     <ClCompile Include="netwConstructionController.cpp" />
     <ClCompile Include="netwDicesController.cpp" />
     <ClCompile Include="netwOfferTradeController.cpp" />
-    <ClCompile Include="networkingObserver.cpp" />
     <ClCompile Include="netwRobberCardsController.cpp" />
     <ClCompile Include="netwRobberMoveController.cpp" />
     <ClCompile Include="netwYNController.cpp" />
@@ -177,7 +175,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="catanGameSetter.h" />
-    <ClInclude Include="exitViewer.h" />
     <ClInclude Include="gameCoords.h" />
     <ClInclude Include="gameGraphicator.h" />
     <ClInclude Include="gameModelViewer.h" />
@@ -198,7 +195,6 @@
     <ClInclude Include="netwConstructionController.h" />
     <ClInclude Include="netwDicesController.h" />
     <ClInclude Include="netwOfferTradeController.h" />
-    <ClInclude Include="networkingObserver.h" />
     <ClInclude Include="netwRobberCardsController.h" />
     <ClInclude Include="netwRobberMoveController.h" />
     <ClInclude Include="netwYNController.h" />

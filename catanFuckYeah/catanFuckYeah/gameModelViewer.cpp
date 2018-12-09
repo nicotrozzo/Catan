@@ -1,5 +1,5 @@
 #include "gameModelViewer.h"
-
+#include <allegro5/allegro_ttf.h>
 
 gameModelViewer::gameModelViewer(catanGameModel *myGame)
 {

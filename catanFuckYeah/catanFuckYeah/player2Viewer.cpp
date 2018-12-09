@@ -1,4 +1,5 @@
 #include "player2Viewer.h"
+#include <allegro5/allegro_ttf.h>
 
 
 player2Viewer::player2Viewer(catanPlayerModel * player2)

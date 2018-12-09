@@ -8,8 +8,8 @@ startMenu::startMenu()
 	{
 		initOk = true;
 		al_draw_bitmap(menuBitmap, 0, 0, 0);
-		al_draw_bitmap(playBitmap, al_get_display_width(allInit.getDisplay()) / 4, al_get_display_height(allInit.getDisplay()) / 2, 0);
-		al_draw_bitmap(exitBitmap, 2 * al_get_display_width(allInit.getDisplay()) / 4, al_get_display_height(allInit.getDisplay()) / 2, 0);
+		al_draw_bitmap(playBitmap, 410, 500, 0);
+		al_draw_bitmap(exitBitmap, 820, 500, 0);
 	}
 }
 
@@ -19,9 +19,9 @@ void startMenu::refresh()
 		al_flip_display();
 }
 
-void startMenu::getInitOk()
+bool startMenu::getInitOk()
 {
-	return initOK;
+	return initOk;
 }
 
 startMenu::~startMenu()

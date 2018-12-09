@@ -1,9 +1,11 @@
 #pragma once
 #include "catanGameModel.h"
-#include "allegroInit.h"
 #include "observer.h"
 #include "gameCoords.h"
 #include <allegro5/allegro_color.h>
+#include <allegro5/allegro.h>
+#include <allegro5/allegro_image.h>
+#include <allegro5/allegro_font.h>
 
 
 class gameModelViewer : public observer
