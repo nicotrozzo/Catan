@@ -1,5 +1,8 @@
 #include "waitingGame.h"
 
+using namespace std;
+
+
 waitingGame::waitingGame()
 {
 	initOk = false;
