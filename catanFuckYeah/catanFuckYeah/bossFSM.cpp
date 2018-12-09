@@ -3,6 +3,8 @@
 #include "connectionEstablisher.h"
 #include "handShakingFSM.h"
 #include "waitingGame.h"
+#include "gameGraphicator.h"
+#include "messageDisplayer.h"
 
 /*Para crear controllers de playingFSM*/
 #include "inputActionButtonController.h"
@@ -131,10 +133,6 @@ void bossFSM::closeWaiting(genericEvent * ev)
 	delete graficador;
 }
 
-void bossFSM::refreshWait(genericEvent * ev)
-{
-	graficador->refresh();
-}
 
 /*Crea la fsm de playing*/
 void bossFSM::newGame(genericEvent * ev)
@@ -210,6 +208,14 @@ void bossFSM::newGame(genericEvent * ev)
 void bossFSM::closeConnection(genericEvent * ev)
 {
 	delete graficador;
+	if (handFSM != nullptr)
+	{
+		delete handFSM;
+	}
+	if (gameFSM != nullptr)
+	{
+		delete handFSM;
+	}
 }
 
 void bossFSM::finishHandshaking(genericEvent * ev)
@@ -246,7 +252,10 @@ void bossFSM::sendTimerEv(genericEvent * ev)
 
 void bossFSM::sendInputEv(genericEvent * ev)
 {
-	gameFSM->sendToInputControllers(static_cast<inputEv *>(ev));
+	if (gameFSM != nullptr)
+	{
+		gameFSM->sendToInputControllers(static_cast<inputEv *>(ev));
+	}
 	if(static_cast<inputEv *>(ev)->getInputEvType() == INP_MOUSE_EVENT)
 	{
 		quitController->parseMouseEvent(static_cast<mouseEvent *>(ev));
@@ -265,13 +274,23 @@ void bossFSM::sendInputEv(genericEvent * ev)
 
 void bossFSM::finishGame(genericEvent * ev)
 {
-
 	graficador = new messageDisplayer;
 	static_cast<messageDisplayer *>(graficador)->setMessage("Esperando para salir...");
 }
 
 void bossFSM::closeGame(genericEvent * ev)
 {
+	if (gameFSM != nullptr)
+	{
+		delete gameFSM;
+	}
+
+	fsmEvent = new outEv;
+}
+
+void bossFSM::closeWaitingAck(genericEvent * ev)
+{
+	destroyAll(ev);
 	fsmEvent = new outEv;
 }
 
@@ -289,20 +308,35 @@ void bossFSM::destroyAll(genericEvent * ev)
 
 void bossFSM::sendNetwEv(genericEvent * ev)
 {
-	//innerFSM->cycle(static_cast<networkingEv *>(ev)->additional);
+	gameFSM->sendToNetwControllers(static_cast<networkingEv *>(ev));
+	playingFSMEvent * evento = static_cast<playingFSMEvent *>(playingFSMEvGen.getNextEvent());
+	if (evento != nullptr)
+	{
+		gameFSM->cycle(evento);
+		delete evento;
+	}
+}
+
+void bossFSM::parseNetwEv(genericEvent * ev)
+{
+/*	switch(static_cast<networkingEv *>(ev)->getHeader())
+	{
+	case:
+		break;
+	case:
+		break;
+	case:
+		break;
+	}*/
 }
 
 void bossFSM::sendGameOver(genericEvent * ev)
 {
-
+	emisor->sendPackage(GAME_OVER);
 }
 
 void bossFSM::closeRematch(genericEvent * ev)
 {
 	fsmEvent = new outEv;
 }
-
-void bossFSM::(genericEvent * ev)
-{
-
-}
+<

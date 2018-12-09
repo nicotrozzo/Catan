@@ -1,6 +1,6 @@
 #pragma once
 #include "inputEventGenerator.h"
-#define FPS .3
+#define FPS 1/50.0
 
 
 inputEventGenerator::inputEventGenerator(ALLEGRO_DISPLAY * disp) : allegroQueue(nullptr)
