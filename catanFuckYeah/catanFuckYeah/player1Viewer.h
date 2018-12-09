@@ -17,6 +17,7 @@ private:
 	ALLEGRO_FONT * fontForName;
 	ALLEGRO_FONT * fontForResources;
 	ALLEGRO_FONT * fontForAmountOfCards;
+	ALLEGRO_FONT * fontForLongestRoad;
 	bool initOk;
 	void viewVictoryPoints();
 	void viewNameIs();

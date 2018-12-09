@@ -11,7 +11,10 @@ player2Viewer::player2Viewer(catanPlayerModel * player2)
 		{
 			if ((fontForAmountOfCards = al_load_ttf_font("graficoCatan\\font\\scribish.ttf", 59, 0)) != NULL)
 			{
-				initOk = true;
+				if ((fontForLongestRoad = al_load_ttf_font("graficoCatan\\font\\scribish.ttf", 30, 0)) != NULL)
+				{
+					initOk = true;
+				}
 			}
 		}
 	}
@@ -40,6 +43,7 @@ void player2Viewer::viewNameIs()
 
 void player2Viewer::viewLongestRoad()
 {
+	al_draw_text(fontForLongestRoad, al_color_name("black"), 74, 794, 0, to_string(player->getLongestRoad()).c_str());
 }
 
 void player2Viewer::viewAmountOfCards()
