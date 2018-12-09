@@ -23,6 +23,8 @@
 #define OFFSET_TRADE_Y 64
 #define OFFSET_EXIT_X 80
 #define OFFSET_EXIT_Y 80
+#define OFFSET_EXIT_X caca jfefern
+#define OFFSET_EXIT_Y caca
 #define OFFSET_HEXAGON_X 90
 #define OFFSET_HEXAGON_Y 90
 #define OFFSET_VERTEX_X 30

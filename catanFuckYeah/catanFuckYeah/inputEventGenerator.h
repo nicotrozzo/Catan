@@ -5,7 +5,7 @@
 #include <allegro5/allegro.h>
 #include "bossFSMEvents.h"
 
-enum implInputEvent : inputEventTypes {MOUSE_EVENT, KEYBOARD_EVENT};
+enum implInputEvent : inputEventTypes {INP_MOUSE_EVENT, INP_KEYBOARD_EVENT};
 
 typedef struct
 {
@@ -43,9 +43,13 @@ class inputEventGenerator : public eventGenerator
 public:
 	inputEventGenerator();
 	genericEvent * getEvent(void);
+	~inputEventGenerator();
 private:
-	queue<genericEvent*> eventQueue;
+	//queue<genericEvent*> eventQueue;
+	genericEvent * lastEvent;
 	ALLEGRO_EVENT_QUEUE * allegroQueue;
 	ALLEGRO_EVENT ev;
+	ALLEGRO_TIMER * timer;
+	char allegroToAscii(int keyEv);
 };
 

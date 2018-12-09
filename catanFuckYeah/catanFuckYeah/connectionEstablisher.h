@@ -27,5 +27,6 @@ private:
 	bool connectionEstablished();				//devuelve true si se establecio la conexion
 	genericEvent *getConnectionEv();			
 	genericEvent * topEvent;
+	bool connecting;
 };
 

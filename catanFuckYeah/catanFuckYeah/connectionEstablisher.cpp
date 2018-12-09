@@ -10,7 +10,7 @@
 
 connectionEstablisher::connectionEstablisher() : host(IP_STR)
 {
-	srand(time(NULL));
+	connecting = false;
 	topEvent = nullptr;
 	if ((timer = al_create_timer((rand() % 3000 + 2000) / 1000.0)) != NULL) //crea un timer con un evento en un tiempo aleatorio entre 2000 y 5000ms
 	{
@@ -42,6 +42,7 @@ void connectionEstablisher::startConnecting()
 		}
 		currentConnector = clientToHear;
 		al_start_timer(timer);
+		connecting = true;
 	}
 }
 
@@ -49,24 +50,31 @@ genericEvent * connectionEstablisher::getEvent()
 {
 	if(topEvent == nullptr)	
 	{
-		if (currentConnector->getType() == CLIENT)
+		if (connecting)
 		{
-			if (!al_is_event_queue_empty(queue))
+			if (currentConnector->getType() == CLIENT)
 			{
-				ALLEGRO_EVENT ret_event;
-				al_get_next_event(queue, &ret_event);
-				if (ret_event.type == ALLEGRO_EVENT_TIMER)
+				if (!al_is_event_queue_empty(queue))
 				{
-					changeConnector();		//pasa de escuchar un client a un server
+					ALLEGRO_EVENT ret_event;
+					al_get_next_event(queue, &ret_event);
+					if (ret_event.type == ALLEGRO_EVENT_TIMER)
+					{
+						changeConnector();		//pasa de escuchar un client a un server
+					}
 				}
 			}
+			genericEvent* ret = nullptr;
+			if (!currentConnector->isConnected())
+			{
+				ret = getConnectionEv();
+			}
+			return ret;
 		}
-		genericEvent* ret = nullptr;
-		if (!currentConnector->isConnected())	
+		else
 		{
-			ret = getConnectionEv();
+			return nullptr;
 		}
-		return ret;
 	}
 	else if (topEvent->getType() == DONE_EV)	//si entra aca significa que se conecto en el primer intento, o que se siguio llamando despues de emitir el DONE_EV
 	{

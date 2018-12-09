@@ -2,6 +2,7 @@
 
 #include <string>
 #include "allegroInit.h"
+#include "graphicator.h"
 
 class point
 {
@@ -27,15 +28,18 @@ private:
 };
 
 
-class dibujator
+class startMenu : public graphicator
 {
 public:
 	dibujator();
-	bool menuImageLoad();
-
+	void refresh();
+	ALLEGRO_DISPLAY * getDisplay();
+	bool getInitOk();
 	~dibujator();
 
 private:
+	bool initOk;
+	ALLEGRO_DISPLAY * display;
 	ALLEGRO_BITMAP * menuBitmap;
 	ALLEGRO_BITMAP *playBitmap;
 	ALLEGRO_BITMAP *exitBitmap;

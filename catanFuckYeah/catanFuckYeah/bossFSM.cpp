@@ -2,28 +2,42 @@
 #include "bossFSMEvents.h"
 #include "connectionEstablisher.h"
 #include "handShakingFSM.h"
-
-bossFSM::bossFSM() : genericFSM(&fsmTable[0][0], 6, 7, START_MENU) 
+#include "waitingGame.h"
+bossFSM::bossFSM(quitButtonController * qControl, connectionEstablisher * establish) : genericFSM(&fsmTable[0][0], 6, 7, START_MENU)
 {
-	//evGen.attach(quitController);
+	graficador = new startMenu;
+	quitController = qControl;
+	establisher = establish;
+	if (!static_cast<startMenu *>(graficador)->getInitOk())
+	{
+		delete graficador;
+		fsmEvent = new closeDisplayEv;
+	}
+		//evGen.attach(quitController);
 	//innerFSM = new startMenuFSM();	//esta fsm debe crear en su constructor el display		
-	
 }
 
 /*Action routines*/
-void bossFSM::sendToStartMenu(genericEvent * ev)
+void bossFSM::sendToStMnControllers(genericEvent * ev)
 {
-	//innerFSM->cycle(ev);	
+	if (static_cast<inputEv *>(ev)->getInputEvType() == INP_MOUSE_EVENT)
+	{
+		quitController->parseMouseEvent(static_cast<mouseEvent *>(ev));
+	}
+	else if (static_cast<inputEv *>(ev)->getInputEvType() == INP_KEYBOARD_EVENT)
+	{
+		quitController->parseKeyboardEvent(static_cast<keyboardEvent *>(ev));
+	}
 }
 
 void bossFSM::newEstablisher(genericEvent * ev)
-{
-	//startMenuFSM->getDisplay()
-	//detach;
-	//delete innerFSM;
-	//innerFSM = new connectionEstablisher;
-	//atach;
-	//poner a alguien a mirar el boton de quit (fsm?)
+{	
+	graphicator * temp = new waitingGame(static_cast<startMenu*>(graficador)->getDisplay());
+	delete graficador;
+	graficador = temp;
+	establisher->startConnecting();
+	static_cast<waitingGame *>(graficador)->setMessage("Buscando oponente...");
+	quitController->toggleState();
 }
 
 void bossFSM::stMnError(genericEvent * ev)
@@ -40,12 +54,19 @@ void bossFSM::closeStMn(genericEvent * ev)
 
 void bossFSM::refreshStMn(genericEvent * ev)
 {
-	//innerFSM->cycle(static_cast<timerEv *>(ev));	
+	if (static_cast<timerEv *>(ev)->refreshEvent())
+	{
+		graficador->refresh();
+	}
 }
 
 void bossFSM::sendQuitController(genericEvent * ev)
 {
-	//quitController->event(static_cast<inputEv *>(ev)->aditionalInfo()));
+	if (ev->getType() == INPUT_EVENT)
+	{
+		inputEv inEvent = static_cast<ip>();
+	}
+	quitController->event(static_cast<inputEv *>(ev)->aditionalInfo()));
 }
 
 void bossFSM::newHandshaking(genericEvent * ev)

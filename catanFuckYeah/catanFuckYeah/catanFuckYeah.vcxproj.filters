@@ -39,15 +39,18 @@
     <Filter Include="Archivos de origen\MVC: Controllers">
       <UniqueIdentifier>{27a66a51-8888-4c81-b0bd-d1806e7a645d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archivos de encabezado\EV GENERATORS">
+      <UniqueIdentifier>{1fbc10f1-e0fa-46c9-9c13-5463444cc100}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de origen\EV GENERATORS">
+      <UniqueIdentifier>{06221f89-c51e-4385-816f-e5cbb1b0a0ed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="eventHandling.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
-    <ClCompile Include="inputEventGenerator.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="catanGameModel.cpp">
@@ -182,6 +185,15 @@
     <ClCompile Include="netwRobberMoveController.cpp">
       <Filter>Archivos de origen\MVC: Controllers</Filter>
     </ClCompile>
+    <ClCompile Include="inputEventGenerator.cpp">
+      <Filter>Archivos de origen\EV GENERATORS</Filter>
+    </ClCompile>
+    <ClCompile Include="timerEventGenerator.cpp">
+      <Filter>Archivos de origen\EV GENERATORS</Filter>
+    </ClCompile>
+    <ClCompile Include="waitingGame.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="catanGameModel.h">
@@ -286,9 +298,6 @@
     <ClInclude Include="gameEventGenerator.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="inputEventGenerator.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="quitPackageReceiver.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
@@ -327,6 +336,18 @@
     </ClInclude>
     <ClInclude Include="netwBankTradeController.h">
       <Filter>Archivos de encabezado\MVC: Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="inputEventGenerator.h">
+      <Filter>Archivos de encabezado\EV GENERATORS</Filter>
+    </ClInclude>
+    <ClInclude Include="timerEventGenerator.h">
+      <Filter>Archivos de encabezado\EV GENERATORS</Filter>
+    </ClInclude>
+    <ClInclude Include="graphicator.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="waitingGame.h">
+      <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

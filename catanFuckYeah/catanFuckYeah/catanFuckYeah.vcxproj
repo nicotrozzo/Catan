@@ -169,11 +169,14 @@
     <ClCompile Include="networkingFSM.cpp" />
     <ClCompile Include="playingFSM.cpp" />
     <ClCompile Include="Server.cpp" />
+    <ClCompile Include="timerEventGenerator.cpp" />
+    <ClCompile Include="waitingGame.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="exitViewer.h" />
     <ClInclude Include="gameCoords.h" />
     <ClInclude Include="gameModelViewer.h" />
+    <ClInclude Include="graphicator.h" />
     <ClInclude Include="inputActionButtonController.h" />
     <ClInclude Include="allegroInit.h" />
     <ClInclude Include="inputCardsController.h" />
@@ -219,6 +222,8 @@
     <ClInclude Include="observer.h" />
     <ClInclude Include="playingFSM.h" />
     <ClInclude Include="Server.h" />
+    <ClInclude Include="timerEventGenerator.h" />
+    <ClInclude Include="waitingGame.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

@@ -1,42 +1,48 @@
 #include <iostream>
+#include <allegro5/allegro.h>
 #include "bossFSM.h"
+#include "inputEventGenerator.h"
+#include "timerEventGenerator.h"
+#include "quitButtonController.h"
+#include "connectionEstablisher.h"
 
-#define FPS 1
+#define TIMEOUT_SECS 150
 
-
-
-
-int main(void)
+int main(int argc,char * argv[])
 {
-	bossFSM fsm;
-	//simpleEventGenerator s;	//generador de UN tipo de eventos
-	mouseEventGenerator m;	//mouse
-	timerEventGenerator refreshTimer(FPS);	//timer para refrescar pantalla
-	//timerEventGenerator timeout(); ver en que momento crearlo
-	keyboardEventGenerator k;	//keyboard 
-	
-	mainEventGenerator eventGen;	//generador de eventos de TODO el programa
-
-	eventGen.attach(&a);	//registro fuente de eventos
-
-	do
+	if (initFrontEnd())
 	{
-		genericEvent * ev;
-		ev = eventGen.getNextEvent();
-		if (ev->getType != NO_EVENT)
-		{
-			fsm.cycle(ev);
-		}
-		delete ev;
-	} while (!fsm.getEvent());
-	delete fsm.getEvent();
+		inputEventGenerator inputEvGen;	//mouse, teclado y refresh de pantalla
+		timerEventGenerator timeout(TIMEOUT_SECS);
+		quitButtonController quitButton;
+		connectionEstablisher establisher;
+		mainEventGenerator eventGen;	//generador de eventos de TODO el programa
 
+		eventGen.attach(&inputEvGen);	//registro fuente de eventos
+		eventGen.attach(&timeout);
+		eventGen.attach(&quitButton);
+		bossFSM fsm(&quitButton,&establisher,);
+		do
+		{
+			genericEvent * ev;
+			ev = eventGen.getNextEvent();
+			if (ev != nullptr)
+			{
+				fsm.cycle(ev);
+				delete ev;
+			}
+		} while (!fsm.getEvent());
+		delete fsm.getEvent();
+	}
+	else
+	{
+		cout << "No se pudo inicializar correctamente el juego" << endl;
+	}
 	return 0;
 }
 
-/*
-{} 
-{}
-{}
-{}
-*/
+bool initFrontEnd()
+{
+	return al_init();
+	srand(time(NULL));
+}
