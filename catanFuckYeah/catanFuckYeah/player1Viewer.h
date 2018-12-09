@@ -11,6 +11,7 @@ class player1Viewer : public observer
 public:
 	player1Viewer(catanPlayerModel * player1);
 	void update();
+	bool getInitOk();
 	~player1Viewer();
 private:
 	catanPlayerModel * player;

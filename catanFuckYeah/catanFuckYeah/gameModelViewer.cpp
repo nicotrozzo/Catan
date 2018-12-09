@@ -67,6 +67,11 @@ void gameModelViewer::update()
 	}
 }
 
+bool gameModelViewer::getInitOk()
+{
+	return initOk;
+}
+
 void gameModelViewer::viewDices()
 {
 	unsigned char dice1 = myGame->getDice1();

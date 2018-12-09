@@ -14,6 +14,7 @@ class mapViewer : public observer
 public:
 	mapViewer(catanMapModel * myMap);
 	void update();
+	bool getInitOk();
 	~mapViewer();
 private:
 	bool initOk;

@@ -40,6 +40,11 @@ void player1Viewer::update()
 	}
 }
 
+bool player1Viewer::getInitOk()
+{
+	return initOk;
+}
+
 
 void player1Viewer::viewVictoryPoints()
 {

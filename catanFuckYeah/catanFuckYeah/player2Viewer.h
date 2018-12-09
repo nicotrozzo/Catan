@@ -12,6 +12,7 @@ class player2Viewer : public observer
 public:
 	player2Viewer(catanPlayerModel * player2);
 	void update();
+	bool getInitOk();
 	~player2Viewer();
 private:
 	catanPlayerModel * player;

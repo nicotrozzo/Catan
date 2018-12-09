@@ -13,6 +13,7 @@ class gameModelViewer : public observer
 public:
 	gameModelViewer(catanGameModel *myGame);
 	void update();
+	bool getInitOk();
 	~gameModelViewer();
 private:
 	catanGameModel * myGame;

@@ -36,6 +36,10 @@ void player2Viewer::update()
 	}
 
 }
+bool player2Viewer::getInitOk()
+{
+	return initOk;
+}
 void player2Viewer::viewNameIs()
 {
 	string name = player->getName();

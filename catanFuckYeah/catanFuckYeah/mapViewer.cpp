@@ -57,6 +57,11 @@ void mapViewer::update()
 	}
 }
 
+bool mapViewer::getInitOk()
+{
+	return initOk;
+}
+
 void mapViewer::viewWallpaper()
 {
 	al_draw_bitmap(wallpaperBitmap, 0, 0, 0);
@@ -183,29 +188,29 @@ void mapViewer::viewAmountOfBuildingsLeft()
 
 mapViewer::~mapViewer()
 {
-	al_bitmap_destroy(montañas);
-	al_bitmap_destroy(colinas);
-	al_bitmap_destroy(pasto);
-	al_bitmap_destroy(campos);
-	al_bitmap_destroy(bosques);
-	al_bitmap_destroy(desierto);
-	al_bitmap_destroy(seaN);
-	al_bitmap_destroy(seaL);
-	al_bitmap_destroy(seaM);
-	al_bitmap_destroy(seaO);
-	al_bitmap_destroy(seaP);
-	al_bitmap_destroy(seaT);
-	al_bitmap_destroy(robberBitmap);
-	al_bitmap_destroy(settlement1Bitmap);
-	al_bitmap_destroy(settlement2Bitmap);
-	al_bitmap_destroy(city1Bitmap);
-	al_bitmap_destroy(city2Bitmap);
-	al_bitmap_destroy(road1Bitmap);
-	al_bitmap_destroy(road2Bitmap);
-	al_bitmap_destroy(wallpaperBitmap);
+	al_destroy_bitmap(montañas);
+	al_destroy_bitmap(colinas);
+	al_destroy_bitmap(pasto);
+	al_destroy_bitmap(campos);
+	al_destroy_bitmap(bosques);
+	al_destroy_bitmap(desierto);
+	al_destroy_bitmap(seaN);
+	al_destroy_bitmap(seaL);
+	al_destroy_bitmap(seaM);
+	al_destroy_bitmap(seaO);
+	al_destroy_bitmap(seaP);
+	al_destroy_bitmap(seaT);
+	al_destroy_bitmap(robberBitmap);
+	al_destroy_bitmap(settlement1Bitmap);
+	al_destroy_bitmap(settlement2Bitmap);
+	al_destroy_bitmap(city1Bitmap);
+	al_destroy_bitmap(city2Bitmap);
+	al_destroy_bitmap(road1Bitmap);
+	al_destroy_bitmap(road2Bitmap);
+	al_destroy_bitmap(wallpaperBitmap);
 	for (int i = 0; i < 10; i++)
 	{
-		al_bitmap_destroy(tokens[i]);
+		al_destroy_bitmap(tokens[i]);
 	}
 	al_destroy_font(fontForAmountOfBuildings);
 
