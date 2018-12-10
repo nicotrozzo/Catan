@@ -215,7 +215,7 @@ void playingFSM::tradeControllers(genericEvent * ev)
 
 	inputTickAndXController * controllerToAdd = static_cast<inputTickAndXController*>(getInputController(CTRL_TICKANDX));	//agrega un controller de networking que solo espera que le manden SETTLEMENT
 	inputCardsController * cardsControllerToAdd = static_cast<inputCardsController*>(getInputController(CTRL_CARDS));
-	if (static_cast<playingFSMCardsEv *>(ev)->isBankTrade())
+	if (!static_cast<playingFSMCardsEv *>(ev)->isOfferTrade())
 	{
 		controllerToAdd->setActionToDo(TICK_BANK_TRADE);
 		cardsControllerToAdd->setFunction(BANK_TRADE);
