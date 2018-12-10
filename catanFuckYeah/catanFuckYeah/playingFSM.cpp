@@ -8,6 +8,10 @@
 #include "inputTickAndXController.h"
 #include "netwConstructionController.h"
 #include "inputStateController.h"
+#include "gameModelViewer.h"
+#include "mapViewer.h"
+#include "player1Viewer.h"
+#include "player2Viewer.h"
 
 using namespace std;
 
@@ -15,12 +19,20 @@ playingFSM::playingFSM(bool iStart, catanGameModel * game, std::vector<EDAInputC
 {
 	robberfsm = nullptr;
 	emisor = em;
+	gameViewer = new gameModelViewer(game);
+	game->attach(gameViewer);
+	mapView = new mapViewer(game->getMap());
+	game->getMap()->attach(mapView);
 	if (iStart)
 	{
 		currentInputControllers.push_back(getInputController(CTRL_EDGE_AND_VERTEX));
 
 		currentInputControllers.push_back(getInputController(CTRL_ACTION_BUTTON)); //capaz este no vaya, solo el primero para los primeros roads y settlements
 
+		p1view = new player1Viewer(game->getCurrentPlayer());
+		game->getCurrentPlayer()->attach(p1view);
+		p2view = new player2Viewer(game->getOtherPlayer());
+		game->getOtherPlayer()->attach(p2view);
 		//inputControllerList.push_back(new );
 	}
 	else
@@ -28,6 +40,14 @@ playingFSM::playingFSM(bool iStart, catanGameModel * game, std::vector<EDAInputC
 		netwConstructionController * controllerToAdd = static_cast<netwConstructionController *>(getNetworkingController(CTRL_CONSTRUCTION));	//agrega un controller de networking que solo espera que le manden SETTLEMENT
 		controllerToAdd->setExpectedPackage(SETTLEMENT);
 		currentNetworkingControllers.push_back(controllerToAdd);
+		p2view = new player2Viewer(game->getCurrentPlayer());
+		game->getCurrentPlayer()->attach(p2view);
+		p1view = new player1Viewer(game->getOtherPlayer());
+		game->getOtherPlayer()->attach(p1view);
+	}
+	if (!p1view->getInitOk() || !p2view->getInitOk() || !gameViewer->getInitOk() || !mapView->getInitOk())
+	{
+		fsmEvent = new outEv("Error en la inicializacion de los graficos del juego");
 	}
 }
 
@@ -89,6 +109,22 @@ playingFSM::~playingFSM()
 	}
 	allInputControllers.clear();
 	allNetworkingControllers.clear();
+	gameModel->detach(gameViewer);
+	delete gameViewer;
+	gameModel->getMap()->detach(mapView);
+	delete mapView;
+	if (gameModel->isPlayer1Playing())
+	{
+		gameModel->getCurrentPlayer()->detach(p1view);
+		gameModel->getOtherPlayer()->detach(p2view);
+	}
+	else
+	{
+		gameModel->getCurrentPlayer()->detach(p2view);
+		gameModel->getOtherPlayer()->detach(p1view);
+	}
+	delete p1view;
+	delete p2view;
 }
 
 /*ACTION ROUTINES FOR FSM*/

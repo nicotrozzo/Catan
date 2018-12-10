@@ -110,8 +110,6 @@ private:
 
 	void oppRobberControllers(genericEvent* ev);	
 	void waitingControllers(genericEvent* ev);
-	void(genericEvent* ev);
-	void(genericEvent* ev);
 
 	catanGameModel * gameModel;
 	
@@ -120,6 +118,11 @@ private:
 	std::list<EDAInputController *> currentInputControllers;
 	std::list<EDANetworkingController *> currentNetworkingControllers;
 
+	gameModelViewer * gameViewer;
+	mapViewer * mapView;
+	player1Viewer * p1view;
+	player2Viewer * p2view;
+	
 	EDAInputController * getInputController(inputControllerTypes type);		//busca el controller de input solicitado en el vector de controllers de input
 	EDANetworkingController * getNetworkingController(netwControllerTypes type);	//busca el controller de networking solicitado en el vector de controller de networking
 	netwEmisor * emisor;
