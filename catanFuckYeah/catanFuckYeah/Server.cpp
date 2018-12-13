@@ -30,6 +30,7 @@ void server::startConnection()
 }
 
 
+
 server::~server()
 {
 	server_acceptor->close();

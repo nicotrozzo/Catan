@@ -18,3 +18,4 @@ private:
 	boost::system::error_code error;
 	bool hasToAsyncConnect;
 };
+

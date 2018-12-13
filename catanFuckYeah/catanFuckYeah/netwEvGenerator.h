@@ -13,9 +13,9 @@ public:
 	genericEvent * getEvent();
 private:
 	connector * establishedConnector;
-	genericEvent * getNetwEv(string message);
+	genericEvent * getNetwEv(string message,networkingEventTypes header);
 	bool emptyPackage(networkingEventTypes header);
-	string parseMessage(char * buf, size_t len);
+	string parseMessage(unsigned char * buf, size_t len,networkingEventTypes & header);
 };	
 
 

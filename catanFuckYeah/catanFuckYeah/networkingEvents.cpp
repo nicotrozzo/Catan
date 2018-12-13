@@ -10,7 +10,7 @@ nameIsPckg::nameIsPckg(string name_) : networkingEv(NAME_IS)
 	if (name_.length() > 1)
 	{
 		name = name_.substr(1, name_[1]);
-		if (name.length() == name_[1])
+		if (name.length() == name_[0])
 		{
 			error = false;
 		}
@@ -26,7 +26,7 @@ string nameIsPckg::getName(void)
 /*		MAP_IS		*/	
 mapIsPckg::mapIsPckg(string map_) : networkingEv(MAP_IS)
 {
-	map = map_.substr(1, PORT_COUNT + TERRAIN_COUNT);
+	map = map_.substr(0, PORT_COUNT + TERRAIN_COUNT);
 	if (map.length() != (PORT_COUNT + TERRAIN_COUNT))
 	{
 		error = true;
@@ -42,7 +42,7 @@ string mapIsPckg::getMap()
 /*		CIRCULAR_TOKENS		*/	
 circTokensPckg::circTokensPckg(string tokens) : networkingEv(CIRCULAR_TOKENS)
 {
-	circTokens = tokens.substr(1);
+	circTokens = tokens;
 	if (circTokens.length() != TERRAIN_COUNT)
 	{
 		error = true;
@@ -57,10 +57,10 @@ string circTokensPckg::getTokens(void)
 /*		OFFER_TRADE		*/
 offerTradePckg::offerTradePckg(string offer) : networkingEv(OFFER_TRADE)
 {
-	if (offer.length() >= (offer[1] + offer[2] + 3))
+	if (offer.length() >= (offer[0] + offer[1] + 2))
 	{
-		ownRes = offer.substr(3, offer[1]);
-		oppRes = offer.substr(3 + offer[1], offer[2]);
+		ownRes = offer.substr(2, offer[0]);
+		oppRes = offer.substr(2 + offer[0], offer[1]);
 	}
 	else
 	{
@@ -81,10 +81,10 @@ string offerTradePckg::getOppResources(void)
 /*		BANK_TRADE		*/	
 bankTradePckg::bankTradePckg(string offer) : networkingEv(BANK_TRADE)
 {
-	if (offer.length() >= offer[1] + 3)
+	if (offer.length() >= offer[0] + 2)
 	{
-		oppRes = offer.substr(2, offer[1]);
-		bankRes = offer[2 + offer[1]];
+		oppRes = offer.substr(1, offer[0]);
+		bankRes = offer[1 + offer[0]];
 	}
 	else
 	{
@@ -107,8 +107,8 @@ dicesArePckg::dicesArePckg(string dices) : networkingEv(DICES_ARE)
 {
 	if (dices.length() >= 2)
 	{
-		dice1 = dices[1] - '0';
-		dice2 = dices[2] - '0';
+		dice1 = dices[0] - '0';
+		dice2 = dices[1] - '0';
 		error = ((dice1 > 6) || (dice2 > 6));
 	}
 	else
@@ -131,10 +131,10 @@ unsigned char dicesArePckg::getDice2(void)
 robberCardsPckg::robberCardsPckg(string robbCards) : networkingEv(ROBBER_CARDS)
 {
 	error = true;
-	if (robbCards.length() > 1)
+	if (robbCards.length() > 0)
 	{
-		cardCount = robbCards[1];
-		cards = robbCards.substr(2, cardCount);
+		cardCount = robbCards[0];
+		cards = robbCards.substr(1, cardCount);
 		if (cards.length() == cardCount)
 		{
 			error = false;	//paquete bien formado
@@ -151,9 +151,9 @@ string robberCardsPckg::getCards(void)
 robberMovePckg::robberMovePckg(string move) : networkingEv(ROBBER_MOVE)
 {
 	error = true;
-	if (move.length() > 1)
+	if (move.length() > 0)
 	{
-		newPos = move[1];
+		newPos = move[0];
 		error = !((newPos >= 'A') && (newPos <= 'S'));
 	}
 }
@@ -164,12 +164,12 @@ unsigned char robberMovePckg::getNewRobberPos(void)
 }
 
 /*			SETTLEMENT,ROAD,CITY		*/
-buildPckg::buildPckg(string pckg) : networkingEv(static_cast<networkingEventTypes>(pckg[0]))
+buildPckg::buildPckg(string pckg, networkingEventTypes buildType) : networkingEv(buildType)
 {
-	if(!error)
+	if((buildType == SETTLEMENT)||((buildType == CITY))||((buildType == ROAD)))
 	{
-		coords = pckg.substr(2, pckg[1]);
-		if (coords.length() != pckg[1])
+		coords = pckg.substr(1, pckg[0]);
+		if (coords.length() != pckg[0])
 		{
 			error = true;
 		}

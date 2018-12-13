@@ -86,18 +86,8 @@ private:
 class buildPckg : public networkingEv
 {
 public:
-	buildPckg(string pckg);	//para settlement, road y city
+	buildPckg(string pckg, networkingEventTypes buildType);	//para settlement, road y city
 	string getCoords();
 private:
 	string coords;
 };
-
-/*
-class devCardsPckg : public networkingEv
-{
-public:
-
-private:
-
-};
-*/

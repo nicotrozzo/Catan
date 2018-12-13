@@ -25,8 +25,9 @@ genericEvent * netwEventGenerator::getEvent(void)
 		{
 			if (establishedConnector->receiveMessage())
 			{
-				messageReceived = parseMessage(establishedConnector->getMessage(), establishedConnector->getMessageLenght());
-				ret = getNetwEv(messageReceived);
+				networkingEventTypes header;
+				messageReceived = parseMessage(establishedConnector->getMessage(), establishedConnector->getMessageLenght(),header);
+				ret = getNetwEv(messageReceived,header);
 			}
 		}
 	}
@@ -41,7 +42,7 @@ void netwEventGenerator::setConnector(connector * con)
 	}
 }
 
-string netwEventGenerator::parseMessage(char * buf, size_t len)
+string netwEventGenerator::parseMessage(unsigned char * buf, size_t len, networkingEventTypes& header)
 {
 	if (buf[0] == CIRCULAR_TOKENS)
 	{
@@ -54,13 +55,13 @@ string netwEventGenerator::parseMessage(char * buf, size_t len)
 		}
 	}
 	buf[len] = '\0';
-	return to_string(buf);
+	header = static_cast<networkingEventTypes>(buf[0]);
+	return reinterpret_cast<const char *>(&buf[1]);
 }
 
-genericEvent * netwEventGenerator::getNetwEv(string message)
+genericEvent * netwEventGenerator::getNetwEv(string message, networkingEventTypes header)
 {
 	genericEvent * ret = nullptr;
-	networkingEventTypes header = static_cast<networkingEventTypes>(message[0]);
 	if (!emptyPackage(header))
 	{
 		switch (header)
@@ -90,7 +91,7 @@ genericEvent * netwEventGenerator::getNetwEv(string message)
 			ret = new robberMovePckg(message);
 			break;
 		case SETTLEMENT: case ROAD: case CITY:
-			ret = new buildPckg(message);
+			ret = new buildPckg(message,header);
 			break;
 		}
 	}

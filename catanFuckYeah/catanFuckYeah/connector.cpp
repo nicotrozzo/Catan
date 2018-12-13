@@ -11,7 +11,7 @@ connector::connector()
 }
 
 /*Devuelve false si intento mandar el mensaje y no pudo*/
-bool connector::sendMessage(const char * msg, size_t length_)
+bool connector::sendMessage(const unsigned char * msg, size_t length_)
 {
 	bool ret = false;
 	boost::system::error_code error;
@@ -39,7 +39,7 @@ bool connector::receiveMessage()
 	do
 	{
 		len = socket->read_some(boost::asio::buffer(buf), error);
-	} while (error.value() == WSAEWOULDBLOCK);
+	} while ((error.value() == WSAEWOULDBLOCK) && (socket->available() != 0));
 
 	if (!error)
 	{
@@ -65,7 +65,7 @@ bool connector::isConnected()
 }
 
 
-char * connector::getMessage()
+unsigned char * connector::getMessage()
 {
 	messageRead = true;
 	return buf;
