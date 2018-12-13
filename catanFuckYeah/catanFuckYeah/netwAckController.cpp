@@ -13,8 +13,8 @@ void netwAckController::init()
 	if (!initial)
 	{
 		phases = I_PHASE;
-		amountOfAckExpected += ((gameModel->getOtherPlayer().getAmountOfCards() < 7) ? 1 : 0);
-		amountOfAckExpected += ((gameModel->getCurrentPlayer().getAmountOfCards() > 7) ? 1 : 0);
+		amountOfAckExpected += ((gameModel->getOtherPlayer()->getAmountOfCards() <= 7) ? 1 : 0);
+		amountOfAckExpected += ((gameModel->getCurrentPlayer()->getAmountOfCards() > 7) ? 1 : 0);
 		amountOfAckExpected += 1;		//le sumo el ack recibido por robber_move
 		initial = 1;
 	}
@@ -29,14 +29,7 @@ bool netwAckController::parseNetworkingEvent(networkingEv * ev)
 		{
 		case ROBBER_CASE:
 			init();
-			/*if (gameModel->isPlayer1Playing())
-			{
-				if (amountOfAck)
-				{
-
-				}
-				
-			}*/
+			setPhase();
 			if (checkPhase())
 			{
 				switch (phases)
@@ -61,6 +54,7 @@ bool netwAckController::parseNetworkingEvent(networkingEv * ev)
 				default:
 					break;
 				}
+				ret = true;
 			}
 			else
 			{
@@ -112,19 +106,23 @@ bool netwAckController::checkPhase()
 
 void netwAckController::setPhase()
 {
-	if ((gameModel->getOtherPlayer().getAmountOfCards() > 7) && (phases == I_PHASE))
+	if ((gameModel->getOtherPlayer()->getAmountOfCards() <= 7) && (phases == I_PHASE))
 	{
 		phases == F_PHASE;
 	}
-	else if ((gameModel->getOtherPlayer().getAmountOfCards() <= 7) && (phases == I_PHASE) && (gameModel->getCurrentPlayer().getAmountOfCards() > 7))
+	else if ((phases == I_PHASE) && (gameModel->getCurrentPlayer()->getAmountOfCards() > 7))
 	{
 		phases = S_PHASE;
 	}
-	else if ((gameModel->getCurrentPlayer().getAmountOfCards() > 7) && (phases == F_PHASE))
+	else if (phases == I_PHASE)
+	{
+		phases = T_PHASE;
+	}
+	else if ((gameModel->getCurrentPlayer()->getAmountOfCards() > 7) && (phases == F_PHASE))
 	{
 		phases = S_PHASE;
 	}
-	else if ((gameModel->getCurrentPlayer().getAmountOfCards() <= 7) && (phases == F_PHASE))
+	else if ((gameModel->getCurrentPlayer()->getAmountOfCards() <= 7) && (phases == F_PHASE))
 	{
 		phases = T_PHASE;
 	}

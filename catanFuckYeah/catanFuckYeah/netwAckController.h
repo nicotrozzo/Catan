@@ -23,8 +23,6 @@ private:
 	bool checkPhase();
 	void setPhase();
 	void init();
-	//queue<bool> queueOfAck;
-	//bool flag;
 	unsigned int amountOfAckExpected;
 	unsigned int numberOfCalls;
 	bool initial;
