@@ -6,8 +6,10 @@
 #include "inputHexagonController.h"
 #include "inputEdgeAndVertexController.h"
 #include "inputTickAndXController.h"
-#include "netwConstructionController.h"
 #include "inputStateController.h"
+#include "netwConstructionController.h"
+#include "netwAckController.h"
+#include "netwBankTradeController.h"
 #include "gameModelViewer.h"
 #include "mapViewer.h"
 #include "player1Viewer.h"
@@ -242,25 +244,28 @@ void playingFSM::buildControllers(genericEvent * ev)
 
 void playingFSM::myRobberControllers(genericEvent * ev)
 {
-/*	currentNetworkingControllers.clear();
+	currentNetworkingControllers.clear();
 	currentInputControllers.clear();
-	if (gameModel->getOtherPlayer.getCards().totalCardsCount() > 7)	//si el otro jugador tiene que mandar sus robberCards
+	if (gameModel->getOtherPlayer()->getAmountOfCards() > 7)	//si el otro jugador tiene que mandar sus robberCards
 	{
 		currentNetworkingControllers.push_back(getNetworkingController(CTRL_ROBBERCARDS));
 	}
-	else if(gameModel->getCurrentPlayer.getCards().totalCardsCount > 7)
+	else if(gameModel->getCurrentPlayer()->getAmountOfCards() > 7)
 	{
 		inputCardsController * cardsToAdd = static_cast<inputCardsController *>(getInputController(CTRL_CARDS));
 		cardsToAdd->setFunction(ROBBER_CARDS);
 		currentInputControllers.push_back(cardsToAdd);
+		netwAckController * controllerToAdd = static_cast<netwAckController *>(getNetworkingController(CTRL_ACK));
+		controllerToAdd->setAction(ROBBER_CASE);
+		currentNetworkingControllers.push_back(controllerToAdd);
 	}
 	else
 	{
-		EDANetworkingController * controllerToAdd = getNetworkingController(GENERIC_NETW_CONTROLLER);
-		controllerToAdd->setExpectedPackage(ACK);
+		netwAckController * controllerToAdd = static_cast<netwAckController *>(getNetworkingController(CTRL_ACK));
+		controllerToAdd->setAction(ROBBER_CASE);
 		currentNetworkingControllers.push_back(controllerToAdd);
 		currentInputControllers.push_back(getInputController(CTRL_HEXAGON));
-	}*/
+	}
 }
 
 void playingFSM::error(genericEvent * ev)
@@ -293,7 +298,18 @@ void playingFSM::ackController(genericEvent * ev)
 {
 	currentNetworkingControllers.clear();
 	currentInputControllers.clear();
-	currentNetworkingControllers.push_back(getNetworkingController());
+	netwAckController * controllerToAdd = static_cast<netwAckController *>(getNetworkingController(CTRL_ACK));
+	controllerToAdd->setAction(OTHER_CASE);
+	currentNetworkingControllers.push_back(controllerToAdd);
+}
+
+void playingFSM::robbAckController(genericEvent * ev)
+{
+	currentNetworkingControllers.clear();
+	currentInputControllers.clear();
+	netwAckController * controllerToAdd = static_cast<netwAckController *>(getNetworkingController(CTRL_ACK));
+	controllerToAdd->setAction(ROBBER_CASE);
+	currentNetworkingControllers.push_back(controllerToAdd);
 }
 
 void playingFSM::myTurnPassControllers(genericEvent * ev)
