@@ -137,7 +137,7 @@ bool inputTickAndXController::selectionCall(bool yes)
 			ret = gameModel->construct();
 			if (ret)
 			{
-				construction_t building = gameModel->getMap().getPendingConstruction();
+				construction_t building = gameModel->getMap()->getPendingConstruction();
 				evType = TICK_EV;
 				netEmisorEv->sendPackage(building.type, to_string(building.coords.length()) + building.coords);
 			}
