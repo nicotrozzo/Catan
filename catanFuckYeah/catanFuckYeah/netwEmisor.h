@@ -9,9 +9,9 @@ public:
 	netwEmisor(connector *);
 	void setConnector(connector *);
 	void sendPackage(networkingEventTypes header, string info = "");
-	void sendTrade(networkingEventTypes header, int ownResCount, string ownRes, int oppResCount, string oppRes);
+	void sendTrade(networkingEventTypes header, unsigned char ownResCount, string ownRes, unsigned char oppResCount, string oppRes);
 private:
 	connector * establishedConnector;
-	char messageToSend[512];
+	unsigned char messageToSend[512];
 	bool variableLength(networkingEventTypes header);
 };

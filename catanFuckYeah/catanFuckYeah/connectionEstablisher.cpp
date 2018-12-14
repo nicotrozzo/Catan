@@ -6,7 +6,7 @@
 #include <cstdlib>
 #include <ctime>
 
-#define IP_STR "25.67.43.3"
+#define IP_STR "25.79.20.36"
 
 connectionEstablisher::connectionEstablisher() : host(IP_STR)
 {
@@ -115,7 +115,9 @@ genericEvent *connectionEstablisher::getConnectionEv()
 void connectionEstablisher::changeConnector()
 {
 	al_destroy_event_queue(queue);
+	queue = NULL;
 	al_destroy_timer(timer);
+	timer = NULL;
 	serverToHear = new server;
 	currentConnector = static_cast<connector *>(serverToHear);
 	delete clientToHear;

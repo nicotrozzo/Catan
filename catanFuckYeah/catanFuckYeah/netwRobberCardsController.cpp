@@ -17,6 +17,10 @@ bool netwRobberCardsController::parseNetworkingEvent(networkingEv * package)
 		{
 			controllerEvent = new playingFSMErrorEv("Error en las cartas descartadas por robber adversario");
 		}
+		else
+		{
+			controllerEvent = new playingFSMEvent(CARDS_EV);
+		}
 	}
 	return ret;
 }

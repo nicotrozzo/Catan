@@ -85,7 +85,7 @@ private:
 	{ { MY_TURN,TX(myTurnControllers) },	{BUILDING,TX(doNothing) },				{BUILDING,TX(ackController)},			{BUILDING,TX(doNothing)},				{BUILDING,TX(error)} },		 //BUILDING
 												//lo emite el tick controller			 //lo emite el tick controller
 	{ { MY_TURN,TX(myTurnControllers) },	{PREPARE_TRADE,TX(ackController)},		{PREPARE_TRADE,TX(netwYNControllers)},	{PREPARE_TRADE,TX(doNothing)},			{PREPARE_TRADE,TX(error)} },	 //PREPARE_TRADE
-	{ { MY_TURN,TX(myTurnControllers) },	{MY_ROBBER,TX(doNothing) },				{MY_ROBBER,TX(myRobberControllers) },	{MY_ROBBER,TX(myRobberControllers)},	{MY_ROBBER,TX(error)} },		//MY_ROBBER
+	{ { MY_TURN,TX(myTurnControllers) },	{MY_ROBBER,TX(robbAckController) },				{MY_ROBBER,TX(myRobberControllers) },	{MY_ROBBER,TX(myRobberControllers)},	{MY_ROBBER,TX(error)} },		//MY_ROBBER
 	{ { OPP_TURN,TX(oppTurnControllers)},	{WAITING_DICES,TX(doNothing)},			{WAITING_DICES, TX(doNothing)},			{OPP_ROBBER,TX(oppRobberControllers)},	{WAITING_DICES,TX(error)} },	//WAITING_DICES
 	{ { MY_TURN,TX(myTurnPassControllers)},	{WAITING_PLAYER,TX(waitingControllers)},{OPP_TURN, TX(doNothing)},				{OPP_TURN,TX(doNothig)},				{OPP_TURN,TX(error)} },		 //OPP_TURN
 	{ { OPP_TURN,TX(oppTurnControllers) },	{OPP_ROBBER,TX(doNothing)},				{OPP_ROBBER, TX(doNothing)},			{OPP_ROBBER, TX(doNothing)},			{OPP_ROBBER,TX(error)} },		 //OPP_ROBBER
@@ -104,14 +104,13 @@ private:
 	void myTurnControllers(genericEvent* ev);
 	void netwYNControllers(genericEvent* ev);
 	void ackController(genericEvent * ev);
+	void robbAckController(genericEvent * ev);
 	void myTurnPassControllers(genericEvent* ev);
 	
 	void doNothing(genericEvent* ev) {}
 
 	void oppRobberControllers(genericEvent* ev);	
 	void waitingControllers(genericEvent* ev);
-	void(genericEvent* ev);
-	void(genericEvent* ev);
 
 	catanGameModel * gameModel;
 	
@@ -120,6 +119,11 @@ private:
 	std::list<EDAInputController *> currentInputControllers;
 	std::list<EDANetworkingController *> currentNetworkingControllers;
 
+	gameModelViewer * gameViewer;
+	mapViewer * mapView;
+	player1Viewer * p1view;
+	player2Viewer * p2view;
+	
 	EDAInputController * getInputController(inputControllerTypes type);		//busca el controller de input solicitado en el vector de controllers de input
 	EDANetworkingController * getNetworkingController(netwControllerTypes type);	//busca el controller de networking solicitado en el vector de controller de networking
 	netwEmisor * emisor;

@@ -28,17 +28,17 @@ void catanGameSetter::setInitialPlayer(unsigned char player)
 {
 	if (player == 1)
 	{
-		player1playing = true;
+		player1Playing = true;
 	}
 	else if (player == 2)
 	{
-		player1playing = false;
+		player1Playing = false;
 	}
 }
 
 bool catanGameSetter::setCircularTokens(string tokens)
 {
-	return map.setCircularToken(tokens);
+	return map.setCircularTokens(tokens);
 }
 
 catanGameSetter::~catanGameSetter()

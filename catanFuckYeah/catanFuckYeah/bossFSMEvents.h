@@ -6,7 +6,7 @@
 
 using namespace std;
 
-enum implEvent : eventTypes { INPUT_EVENT, DONE_EV, OUT_EV, QUIT_EV, CLOSE_DISPLAY, NETWORKING_EVENT, TIMER_EVENT };
+enum implEvent : eventTypes { INPUT_EVENT, DONE_EV, OUT_EV, QUIT_EV, CLOSE_DISPLAY , NETWORKING_EVENT , TIMER_EVENT};
 
 //enunm Forward Declaration
 //it is feasible as long as the type is defined in the code.
@@ -41,7 +41,7 @@ public:
 	outEv() {}
 	outEv(string detail_) : detail(detail_) {}
 	eventTypes getType(void) { return OUT_EV; }
-	string getDetail() { return detail; }
+	string getDetail() { return detail; } 
 private:
 	const string detail;
 };
@@ -67,7 +67,7 @@ public:
 	bool getError() { return error; }
 private:
 	networkingEventTypes header;
-	bool validHeader(char);
+	bool validHeader(networkingEventTypes);
 protected:
 	bool error;			//en caso que este mal formado el paquete o sea un header invalido
 };
