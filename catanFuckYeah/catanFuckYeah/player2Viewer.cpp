@@ -10,7 +10,7 @@ player2Viewer::player2Viewer(catanPlayerModel * player2)
 	{
 		if ((fontForName = al_load_ttf_font("graficoCatan\\font\\scribish.ttf", 59, 0)) != NULL)
 		{
-			if ((fontForAmountOfCards = al_load_ttf_font("graficoCatan\\font\\scribish.ttf", 59, 0)) != NULL)
+			if ((fontForAmountOfCards = al_load_ttf_font("graficoCatan\\font\\scribish.ttf", 40, 0)) != NULL)
 			{
 				if ((fontForLongestRoad = al_load_ttf_font("graficoCatan\\font\\scribish.ttf", 30, 0)) != NULL)
 				{
@@ -36,14 +36,23 @@ void player2Viewer::update()
 	}
 
 }
+
 bool player2Viewer::getInitOk()
 {
 	return initOk;
 }
+
 void player2Viewer::viewNameIs()
 {
 	string name = player->getName();
-	al_draw_text(fontForName, al_color_name("black"), 27, 686, 0, name.c_str());
+	if (name.size() == 0)
+	{
+		al_draw_text(fontForName, al_color_name("black"), 27, 686, 0, "Player2");
+	}
+	else
+	{
+		al_draw_text(fontForName, al_color_name("black"), 27, 686, 0, (name.substr(0,6)).c_str());
+	}
 }
 
 void player2Viewer::viewLongestRoad()

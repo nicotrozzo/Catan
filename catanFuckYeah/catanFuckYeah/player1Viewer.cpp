@@ -12,7 +12,7 @@ player1Viewer::player1Viewer(catanPlayerModel * player1)
 		{
 			if ((fontForResources = al_load_ttf_font("graficoCatan\\font\\scribish.ttf", 31, 0)) != NULL)
 			{
-				if ((fontForAmountOfCards = al_load_ttf_font("graficoCatan\\font\\scribish.ttf", 59, 0)) != NULL)
+				if ((fontForAmountOfCards = al_load_ttf_font("graficoCatan\\font\\scribish.ttf", 40, 0)) != NULL)
 				{
 					if ((fontForLongestRoad = al_load_ttf_font("graficoCatan\\font\\scribish.ttf", 30, 0)) != NULL)
 					{
@@ -56,7 +56,14 @@ void player1Viewer::viewVictoryPoints()
 void player1Viewer::viewNameIs()
 {
 	string name = player->getName();
-	al_draw_text(fontForName, al_color_name("black"), 27, 25, 0, name.c_str());
+	if (name.size() == 0)
+	{
+		al_draw_text(fontForName, al_color_name("black"), 27, 25, 0, "Player1");
+	}
+	else
+	{
+		al_draw_text(fontForName, al_color_name("black"), 27, 25, 0, (name.substr(0,6)).c_str());
+	}
 }
 
 void player1Viewer::viewResources()
