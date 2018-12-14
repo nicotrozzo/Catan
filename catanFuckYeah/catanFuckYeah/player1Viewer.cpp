@@ -50,7 +50,7 @@ void player1Viewer::viewVictoryPoints()
 {
 	unsigned char victoryPoints = player->getVictoryPoints();
 	string points = to_string(victoryPoints);
-	al_draw_text(fontForVictoryPoints, al_color_name("black"), 148, 573, 0, points.c_str());
+	al_draw_text(fontForVictoryPoints, al_color_name("black"), 148, 576, 0, points.c_str());
 }
 
 void player1Viewer::viewNameIs()
@@ -58,11 +58,11 @@ void player1Viewer::viewNameIs()
 	string name = player->getName();
 	if (name.size() == 0)
 	{
-		al_draw_text(fontForName, al_color_name("black"), 27, 25, 0, "Player1");
+		al_draw_text(fontForName, al_color_name("black"), 27, 28, 0, "Player1");
 	}
 	else
 	{
-		al_draw_text(fontForName, al_color_name("black"), 27, 25, 0, (name.substr(0,6)).c_str());
+		al_draw_text(fontForName, al_color_name("black"), 27, 28, 0, (name.substr(0,6)).c_str());
 	}
 }
 
@@ -73,16 +73,16 @@ void player1Viewer::viewResources()
 	unsigned char wool = (player->getCards()).wool;
 	unsigned char wheat = (player->getCards()).wheat;
 	unsigned char wood = (player->getCards()).wood;
-	al_draw_text(fontForResources, al_color_name("black"), 12, 148, 0, to_string(ore).c_str());
-	al_draw_text(fontForResources, al_color_name("black"), 112, 148, 0, to_string(wheat).c_str());
-	al_draw_text(fontForResources, al_color_name("black"), 212, 148, 0, to_string(brick).c_str());
-	al_draw_text(fontForResources, al_color_name("black"), 53, 272, 0, to_string(wood).c_str());
-	al_draw_text(fontForResources, al_color_name("black"), 156, 272, 0, to_string(wool).c_str());
+	al_draw_text(fontForResources, al_color_name("black"), 12, 150, 0, to_string(ore).c_str());
+	al_draw_text(fontForResources, al_color_name("black"), 112, 150, 0, to_string(wheat).c_str());
+	al_draw_text(fontForResources, al_color_name("black"), 212, 150, 0, to_string(brick).c_str());
+	al_draw_text(fontForResources, al_color_name("black"), 53, 275, 0, to_string(wood).c_str());
+	al_draw_text(fontForResources, al_color_name("black"), 156, 275, 0, to_string(wool).c_str());
 }
 
 void player1Viewer::viewLongestRoads()
 {
-	al_draw_text(fontForLongestRoad, al_color_name("black"), 74, 466, 0, to_string(player->getLongestRoad()).c_str());
+	al_draw_text(fontForLongestRoad, al_color_name("black"), 74, 469, 0, to_string(player->getLongestRoad()).c_str());
 }
 
 void player1Viewer::viewAmountOfCards()
