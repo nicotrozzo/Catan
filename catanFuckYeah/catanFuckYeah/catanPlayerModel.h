@@ -30,7 +30,6 @@ public:
 	bool incResource(unsigned char resource, unsigned char count);
 	bool decResource(unsigned char resource);
 	bool decResource(unsigned char resource, unsigned char count);
-	void notify();
 	~catanPlayerModel();
 private:
 	cards myCards;

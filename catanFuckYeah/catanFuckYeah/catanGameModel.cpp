@@ -10,7 +10,7 @@ catanGameModel::catanGameModel()
 	dice1 = 0;
 	dice2 = 0;
 	longestRoadPlayer = 0;
-	//ver de poner quien arranca jugando
+	player1Playing = rand() % 2;
 }
 
 bool catanGameModel::dicesThrown(unsigned char dice1, unsigned char dice2)
@@ -32,20 +32,23 @@ bool catanGameModel::dicesThrown(unsigned char dice1, unsigned char dice2)
 		cities = map.getP1Cities();
 		for (auto y : hexagonos)
 		{
-			for (auto x : vertex)
+			if (y.letter != map.getRobberPos())
 			{
-				found = x.find(y.letter);
-				if (found != string::npos)
+				for (auto x : vertex)
 				{
-					player1.incResource(y.hexResource);	//si tiene una construccion adyacente al hexagono
+					found = x.find(y.letter);
+					if (found != string::npos)
+					{
+						player1.incResource(y.hexResource);	//si tiene una construccion adyacente al hexagono
+					}
 				}
-			}
-			for (auto x : cities)
-			{
-				found = x.find(y.letter);
-				if (found != string::npos)
+				for (auto x : cities)
 				{
-					player1.incResource(y.hexResource);	//si tiene una citi adyacente al hexagono le asigno un recurso mas
+					found = x.find(y.letter);
+					if (found != string::npos)
+					{
+						player1.incResource(y.hexResource);	//si tiene una citi adyacente al hexagono le asigno un recurso mas
+					}
 				}
 			}
 		}
@@ -72,13 +75,7 @@ bool catanGameModel::dicesThrown(unsigned char dice1, unsigned char dice2)
 		}
 		ret = true;
 	}
-	if (ret)
-	{
-		map.notify();
-		player1.notify();
-		player2.notify();
-		notifyAllObservers();
-	}
+	notifyAllObservers();
 	return ret;
 }
 
@@ -119,7 +116,7 @@ bool catanGameModel::validResourceForConstruct(networkingEventTypes type)
 
 bool catanGameModel::validConstruction(networkingEventTypes type, string coords)
 {
-	bool ret = true;
+	bool ret = false;
 	unsigned char player = (player1Playing ? 1 : 2);
 	if (validResourceForConstruct(type))
 	{
@@ -142,13 +139,8 @@ bool catanGameModel::validConstruction(networkingEventTypes type, string coords)
 	}
 	if (ret)
 	{
-		if (!constructing)
-		{
-			constructing = true;
-			notifyAllObservers();
-			player1.notify();
-			player2.notify();
-		}
+		constructing = true;
+		notifyAllObservers();
 	}
 	return ret;
 }
@@ -159,17 +151,33 @@ en validConstruction()
 bool catanGameModel::construct()
 {
 	bool ret = false;
+	networkingEventTypes type;
 	unsigned char player = (player1Playing ? 1 : 2);
 	if (constructing)
 	{
-		ret = map.buildPendingConstruction();
-		if (ret)
+		type = map.buildPendingConstruction();
+		switch (type)
 		{
+		case SETTLEMENT:
+			getCurrentPlayer()->decResource(BRICK);
+			getCurrentPlayer()->decResource(WHEAT);
+			getCurrentPlayer()->decResource(WOOD);
+			getCurrentPlayer()->decResource(WOOL);
+			break;
+		case ROAD:
+			getCurrentPlayer()->decResource(BRICK);
+			getCurrentPlayer()->decResource(WOOD);
+			break;
+		case CITY:
+			getCurrentPlayer()->decResource(ORE,3);
+			getCurrentPlayer()->decResource(WHEAT,2);
+			break;
+		}
+		if (type != NO_PCKG)
+		{
+			ret = true;
 			constructing = false;
 			updatePlayersVictoryPoints();
-			notifyAllObservers();
-			player1.notify();
-			player2.notify();
 		}
 	}
 	return ret;
@@ -179,8 +187,7 @@ void catanGameModel::cancelConstruction()
 {
 	constructing = false;
 	map.cancelConstruction();
-	player1.notify();
-	player2.notify();
+	notifyAllObservers();
 }
 
 bool catanGameModel::isConstructing()
@@ -217,31 +224,32 @@ void catanGameModel::updatePlayersVictoryPoints()
 	player1.setVictoryPoints(vicPoints1);
 	vicPoints2 += map.getP2Settlements().size() + 2 * map.getP2Cities().size();
 	player2.setVictoryPoints(vicPoints2);
+	notifyAllObservers();
 }
 
 bool catanGameModel::validSelectedCards(string currentPlayerCards, string otherCards)	//en este caso current es el jugador 2 siempre
 {
-	bool ret = true;
-	string possibleRes = RESOURCES_STR;
+	bool ret = false;
+	string possibleRes = "LMOPT";
 	unsigned int currentResCount[] = { 0, 0, 0, 0, 0 };	//cada elemento representa un recurso
 	unsigned int otherResCount[] = { 0, 0, 0, 0, 0 };		
 	unsigned int * pCResCount = currentResCount, *pOResCount = otherResCount;
 	std::size_t currentPos = 0, otherPos = 0;
-	if ((currentPlayerCards.length() <= 9) && (otherCards.length() <= 9))
+	if (((currentPlayerCards.length() <= 9) && (otherCards.length() <= 9)) || (otherCards.size() == 0) ) 
 	{
 		for (auto x : possibleRes)
 		{
 			currentPos = currentPlayerCards.find_first_of(x, currentPos);
 			while (currentPos != std::string::npos)
 			{
-				*pCResCount++;
+				(*pCResCount)++;
 				currentPos = currentPlayerCards.find_first_of(x, currentPos + 1);
 			}
 
 			otherPos = otherCards.find_first_of(x, otherPos);
 			while (otherPos != std::string::npos)
 			{
-				*pOResCount++;
+				(*pOResCount)++;
 				otherPos = otherCards.find_first_of(x, otherPos + 1);
 			}
 			if (((*pCResCount == 0) && (*pOResCount != 0)) || ((*pCResCount != 0) && (*pOResCount == 0)))	//me fijo que no haya mismos recursos seleccionados
@@ -264,6 +272,7 @@ bool catanGameModel::validSelectedCards(string currentPlayerCards, string otherC
 					ret = ((*pCResCount > player2.getCards().wheat ? false : true) && (*pOResCount > player1.getCards().wheat ? false : true));
 					break;
 				default:
+					ret = false;
 					break;
 				}
 			}
@@ -274,6 +283,8 @@ bool catanGameModel::validSelectedCards(string currentPlayerCards, string otherC
 
 			pCResCount++;
 			pOResCount++;
+			currentPos = 0;
+			otherPos = 0;
 		}
 	}
 	return ret;
@@ -287,29 +298,6 @@ bool catanGameModel::playersTrade(string currentPlayerCards, string otherPlayerC
 		for (auto x : currentPlayerCards)
 		{
 			//tiene que modificar los datos miembro internios y que se encargue preprePlayerTrade()... dato a modificar: p1SelectedCardsForTrade
-			switch (x)
-			{
-			case BRICK:
-				p1SelectedCardsForTrade.brick++;
-				break;
-			case WOOD:
-				p1SelectedCardsForTrade.wood++;
-				break;
-			case WOOL:
-				p1SelectedCardsForTrade.wool++;
-				break;
-			case ORE:
-				p1SelectedCardsForTrade.ore++;
-				break;
-			case WHEAT:
-				p1SelectedCardsForTrade.wheat++;
-				break;
-			default:
-				break;
-			}
-		}
-		for (auto x : otherPlayerCards)
-		{
 			switch (x)
 			{
 			case BRICK:
@@ -331,10 +319,30 @@ bool catanGameModel::playersTrade(string currentPlayerCards, string otherPlayerC
 				break;
 			}
 		}
+		for (auto x : otherPlayerCards)
+		{
+			switch (x)
+			{
+			case BRICK:
+				p1SelectedCardsForTrade.brick++;
+				break;
+			case WOOD:
+				p1SelectedCardsForTrade.wood++;
+				break;
+			case WOOL:
+				p1SelectedCardsForTrade.wool++;
+				break;
+			case ORE:
+				p1SelectedCardsForTrade.ore++;
+				break;
+			case WHEAT:
+				p1SelectedCardsForTrade.wheat++;
+				break;
+			default:
+				break;
+			}
+		}
 		ret = true;
-		map.notify();
-		player1.notify();
-		player2.notify();
 		notifyAllObservers();
 	}
 	return ret;
@@ -390,9 +398,6 @@ bool catanGameModel::bankTrade(string playerResource, resourceType bankResource)
 	}
 	if (ret)
 	{
-		map.notify();
-		player1.notify();
-		player2.notify();
 		notifyAllObservers();
 	}
 	return ret;
@@ -404,8 +409,6 @@ bool catanGameModel::robberMoved(unsigned char hex)
 	if (map.setRobberPos(hex))
 	{
 		ret = true;
-		player1.notify();
-		player2.notify();
 		notifyAllObservers();
 	}
 	return ret;
@@ -417,6 +420,7 @@ map<resourceType, unsigned char> catanGameModel::getBankTradeCosts()
 	return map.getBankTradeCosts(player);
 }
 
+/*Devuelve true si se podia seleccionar uno mas de dicho recurso*/
 bool catanGameModel::prepareRobberDiscard(resourceType resource)
 {
 	bool ret = false;
@@ -437,10 +441,10 @@ bool catanGameModel::prepareRobberDiscard(resourceType resource)
 			}
 			break;
 		case WOOD:
-			ret = player1.getCards().brick > p1DiscardRobberCards.brick;
+			ret = player1.getCards().wood > p1DiscardRobberCards.wood;
 			if (ret)
 			{
-				p1DiscardRobberCards.brick++;
+				p1DiscardRobberCards.wood++;
 			}
 			break;
 		case WOOL:
@@ -470,9 +474,6 @@ bool catanGameModel::prepareRobberDiscard(resourceType resource)
 	}
 	if (ret)
 	{
-		map.notify();
-		player1.notify();
-		player2.notify();
 		notifyAllObservers();
 	}
 	return ret;
@@ -490,9 +491,6 @@ void catanGameModel::clearRobberCards()
 	p1DiscardRobberCards.wheat = 0;
 	p1DiscardRobberCards.wool = 0;
 	p1DiscardRobberCards.wood = 0;
-	map.notify();
-	player1.notify();
-	player2.notify();
 	notifyAllObservers();
 }
 
@@ -508,9 +506,6 @@ bool catanGameModel::discardCurrentPlayer()
 		player1.decResource(BRICK,p1DiscardRobberCards.brick);
 		ret = true;
 		selecting = NO_PCKG;
-		map.notify();
-		player1.notify();
-		player2.notify();
 		notifyAllObservers();
 	}
 
@@ -520,13 +515,13 @@ bool catanGameModel::discardCurrentPlayer()
 bool catanGameModel::discardPlayer2(string cards)		//cuando se llama a este metodo es el turno del jugador 2
 {
 	bool ret = true;
-	if (validSelectedCards(cards, ""))
+	if ((floor(player2.getAmountOfCards() / 2.0) == cards.length()) && (player2.getAmountOfCards() > 7) && validSelectedCards(cards, ""))
 	{
 		for (auto x : cards)
 		{
-			while (ret != false)
+			if (!(ret = player2.decResource(x)))
 			{
-				ret = player2.decResource(x);
+				break;
 			}
 		}
 	}
@@ -536,9 +531,6 @@ bool catanGameModel::discardPlayer2(string cards)		//cuando se llama a este meto
 	}
 	if (ret)
 	{
-		map.notify();
-		player1.notify();
-		player2.notify();
 		notifyAllObservers();
 	}
 	return ret;
@@ -556,9 +548,6 @@ void catanGameModel::clearTrades()
 	playerSelectedResource = {DESSERT,0};
 	bankSelectedResource = DESSERT;
 	selecting = NO_PCKG;
-	map.notify();
-	player1.notify();
-	player2.notify();
 	notifyAllObservers();
 }
 
@@ -627,9 +616,6 @@ bool catanGameModel::preparePlayerTrade(resourceType resource, unsigned char pla
 					player == 1 ? p1SelectedCardsForTrade.wood++ : p2SelectedCardsForTrade.wood++;
 					break;
 				}
-				map.notify();
-				player1.notify();
-				player2.notify();
 				notifyAllObservers();
 			}
 		}
@@ -698,9 +684,6 @@ bool catanGameModel::playerTrade()
 		player2.decResource(WOOL, p2SelectedCardsForTrade.wool);
 		player2.decResource(WOOD, p2SelectedCardsForTrade.wood);
 		selecting = NO_PCKG;
-		map.notify();
-		player1.notify();
-		player2.notify();
 		notifyAllObservers();
 		ret = true;
 	}
@@ -765,9 +748,6 @@ bool catanGameModel::prepareBankTrade(resourceType resource, bool player)
 	}
 	if (ret)	//si se modifico algo,avisa a los observers
 	{
-		map.notify();
-		player1.notify();
-		player2.notify();
 		notifyAllObservers();
 	}
 	return ret;
@@ -788,9 +768,6 @@ bool catanGameModel::bankTrade()
 		player1.decResource(playerSelectedResource.res, playerSelectedResource.resCount);	
 		player1.incResource(bankSelectedResource);
 		selecting = static_cast<networkingEventTypes>(0);
-		map.notify();
-		player1.notify();
-		player2.notify();
 		notifyAllObservers();
 		ret = true;
 	}
@@ -843,18 +820,6 @@ bool catanGameModel::gameOver()
 		ret = true;
 	}
 	return ret;
-}
-
-void catanGameModelSetup::setStartingPlayer(char player)
-{
-	if (player == 1)
-	{
-		player1Playing = true;
-	}
-	else
-	{
-		player1Playing = false;
-	}
 }
 
 catanGameModel::~catanGameModel()

@@ -69,7 +69,7 @@ public:
 	
 	construction_t getPendingConstruction();
 	void cancelConstruction();
-	bool buildPendingConstruction();						//EL MODELO ES MODIFICADO
+	networkingEventTypes buildPendingConstruction();		//devuelve el tipo de construccion realizado
 
 	unsigned char getAmountOfSettlementsLeft();
 	unsigned char getAmountOfCitiesLeft();
@@ -88,7 +88,6 @@ public:
 	unsigned char getP2LongestRoad();
 	list<pepe> getSelectedHex(unsigned int diceValue);
 
-	void notify();
 	~catanMapModel();	//BORRAR TODOS LOS ROADS
 private:
 	unsigned char robberPos;
@@ -119,6 +118,8 @@ private:
 	bool buildRoad(string edge, char player);		
 	bool buildSettlement(string edge, char player);	
 	bool buildCity(string vertex, char player);				
+
+	bool initPhaseOk(char player, string coords, networkingEventTypes constType);
 
 	/*Metodos para buscar vertices con puerto*/
 	string greater2CharVertex(unsigned int pieceNum);

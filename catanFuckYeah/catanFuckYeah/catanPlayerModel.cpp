@@ -24,7 +24,6 @@ unsigned char catanPlayerModel::getVictoryPoints()
 void catanPlayerModel::setVictoryPoints(unsigned char points)
 {
 	victoryPoints = points; 
-	notifyAllObservers();
 }
 
 void catanPlayerModel::setName(string name)
@@ -32,14 +31,12 @@ void catanPlayerModel::setName(string name)
 	if (NameIs.length() == 0)
 	{
 		NameIs = name.substr(0, MAX_NAME_LENGTH);
-		notifyAllObservers();
 	}
 }
 
 void catanPlayerModel::setLongestRoad(unsigned char longRoad)
 {
 	longestRoad = longRoad;
-	notifyAllObservers();
 }
 
 unsigned char catanPlayerModel::getLongestRoad()
@@ -80,10 +77,6 @@ bool catanPlayerModel::incResource(unsigned char resource)
 	default:
 		ret = false;
 	}
-	if (ret)
-	{
-		notifyAllObservers();
-	}
 	return ret;
 }
 
@@ -113,74 +106,49 @@ bool catanPlayerModel::incResource(unsigned char resource, unsigned char count)
 			ret = false;
 		}
 	}
-	if (ret)
-	{
-		notifyAllObservers();
-	}
 	return ret;
 }
 
 bool catanPlayerModel::decResource(unsigned char resource)
 {
-	bool ret = true;
+	bool ret = false;
 	switch (resource)
 	{
 	case ORE:
 		if (myCards.ore > 0)
 		{
 			myCards.ore--;
-		}
-		else
-		{
-			ret = false;
+			ret = true;
 		}
 		break;
 	case WOOD:
 		if (myCards.wood > 0)
 		{
 			myCards.wood--;
-		}
-		else
-		{
-			ret = false;
+			ret = true;
 		}
 		break;
 	case WOOL:
 		if (myCards.wool > 0)
 		{
 			myCards.wool--;
-		}
-		else
-		{
-			ret = false;
+			ret = true;
 		}
 		break;
 	case WHEAT:
 		if (myCards.wheat > 0)
 		{
 			myCards.wheat--;
-		}
-		else
-		{
-			ret = false;
+			ret = true;
 		}
 		break;
 	case BRICK:
 		if (myCards.brick > 0)
 		{
 			myCards.brick--;
-		}
-		else
-		{
-			ret = false;
+			ret = true;
 		}
 		break;
-	default:
-		ret = false;
-	}
-	if (ret)
-	{
-		notifyAllObservers();
 	}
 	return ret;
 }
@@ -225,7 +193,7 @@ bool catanPlayerModel::decResource(unsigned char resource, unsigned char count)
 		case WHEAT:
 			if (myCards.wheat - count >= 0)
 			{
-				myCards.wheat--;
+				myCards.wheat-= count;
 			}
 			else
 			{
@@ -235,7 +203,7 @@ bool catanPlayerModel::decResource(unsigned char resource, unsigned char count)
 		case BRICK:
 			if (myCards.brick - count >= 0)
 			{
-				myCards.brick--;
+				myCards.brick-= count;
 			}
 			else
 			{
@@ -246,18 +214,8 @@ bool catanPlayerModel::decResource(unsigned char resource, unsigned char count)
 			ret = false;
 		}
 	}
-	if (ret)
-	{
-		notifyAllObservers();
-	}
 	return ret;
 }
-
-void catanPlayerModel::notify()
-{
-	notifyAllObservers();
-}
-
 
 catanPlayerModel::~catanPlayerModel()
 {

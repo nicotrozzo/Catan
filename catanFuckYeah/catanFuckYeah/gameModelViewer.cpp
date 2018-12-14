@@ -5,7 +5,7 @@ gameModelViewer::gameModelViewer(catanGameModel *myGame)
 {
 	initOk = false;
 	this->myGame = myGame;
-	if ((diceValue1 = al_load_bitmap("graficoCatan\\dados\\1.png")) != NULL && (diceValue2 = al_load_bitmap("graficoCatan\\dados\\2.png")) != NULL(diceValue3 = al_load_bitmap("graficoCatan\\dados\\3.png")) != NULL(diceValue4 = al_load_bitmap("graficoCatan\\dados\\4.png")) != NULL(diceValue5 = al_load_bitmap("graficoCatan\\dados\\5.png")) != NULL(diceValue6 = al_load_bitmap("graficoCatan\\dados\\6.png")) != NULL)
+	if ((diceValue1 = al_load_bitmap("graficoCatan\\dados\\1.png")) != NULL && (diceValue2 = al_load_bitmap("graficoCatan\\dados\\2.png")) != NULL && (diceValue3 = al_load_bitmap("graficoCatan\\dados\\3.png")) != NULL && (diceValue4 = al_load_bitmap("graficoCatan\\dados\\4.png")) != NULL && (diceValue5 = al_load_bitmap("graficoCatan\\dados\\5.png")) != NULL && (diceValue6 = al_load_bitmap("graficoCatan\\dados\\6.png")) != NULL)
 	{
 		if ((tradeMenuBitmap = al_load_bitmap("graficoCatan\\menues\\menuDeTrueque.png")) != NULL)
 		{

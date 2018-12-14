@@ -17,13 +17,12 @@ public:
 	void cancelConstruction();
 	bool isConstructing();
 
-	bool validSelectedCards(string currentPlayerCards, string otherPlayerCards);		//checkea que la transaccion solicitada sea valida, en cuyo case devuelve true
 	bool bankTrade(string playerResource, resourceType  bankResource);		//devuelve false si la transaccion es invalida (ver lo de 2x1 y 3x1)
 	bool robberMoved(unsigned char hex);	//devuelve false y no cambia nada si el lugar no es valido 
 	
 	map<resourceType,unsigned char> getBankTradeCosts();	
 
-	bool prepareRobberDiscard(resourceType resource);
+	bool prepareRobberDiscard(resourceType resource); //Devuelve true si se podia seleccionar uno mas de dicho recurso
 	bool robberCardsReady();
 	void clearRobberCards();
 	bool discardCurrentPlayer();				//devuelve false si era una cantidad invalida de cartas, o no tenia esas cartas
@@ -97,6 +96,7 @@ protected:
 	void updatePlayersVictoryPoints();
 	unsigned char longestRoadPlayer;
 	bool validResourceForConstruct(networkingEventTypes type);
+	bool validSelectedCards(string currentPlayerCards, string otherPlayerCards);		//checkea que la transaccion solicitada sea valida, en cuyo case devuelve true
 
 };
 
