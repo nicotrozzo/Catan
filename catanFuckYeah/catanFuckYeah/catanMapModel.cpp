@@ -689,7 +689,7 @@ map<resourceType, unsigned char> catanMapModel::getBankTradeCosts(unsigned char 
 			}
 			else		//si devuelve DESSERT, tiene 3x1 en todo
 			{
-				for (auto mapIt : ret)
+				for (auto& mapIt : ret)
 				{
 					if (mapIt.second == 4)
 					{
@@ -734,12 +734,26 @@ resourceType catanMapModel::connectsToPort(string vertex)
 				portVertex[3].insert(1, 1, '5');	//el ultimo vertice sera el "05A"
 			}
 		}
+		int j = 0;
 		for (auto temp : portVertex)
 		{
 			if (vertex == temp)
 			{
-				ret = oceanPieces[i].getResource();
+				if (j < 2)
+				{
+					ret = oceanPieces[i].getResource();
+				}
+				else
+				{
+					ret = DESSERT;
+				}
+				break;
 			}
+			j++;
+		}
+		if (ret)
+		{
+			break;
 		}
 	}
 	for (unsigned int i = 3; (i < NUMBER_OF_OCEAN_PIECES) && !ret; i++)
@@ -758,12 +772,26 @@ resourceType catanMapModel::connectsToPort(string vertex)
 			portVertex[3] = (i - 1) + '0';
 			portVertex[3] += portVertex[2];
 		}
+		int j = 0;
 		for (auto temp : portVertex)
 		{
 			if (vertex == temp)
 			{
-				ret = oceanPieces[i].getResource();
+				if (j < 2)
+				{
+					ret = oceanPieces[i].getResource();
+				}
+				else
+				{
+					ret = DESSERT;
+				}
+				break;
 			}
+			j++;
+		}
+		if (ret)
+		{
+			break;
 		}
 	}
 	return ret;
@@ -773,14 +801,14 @@ resourceType catanMapModel::connectsToPort(string vertex)
 string catanMapModel::greater2CharVertex(unsigned int pieceNum)
 {
 	string ret;
-	ret += static_cast<char>(pieceNum + '0');	//en la primera posicion tiene el numero de la pieza
+	ret = static_cast<char>(pieceNum + '0');	//en la primera posicion tiene el numero de la pieza
 	list<string>::iterator it;
 	char maxAscii = 0;
 	char found = 0;
 	bool finished = false;
 	for (it = allVertexes.begin(); (it != allVertexes.end()) && !finished; it++)
 	{
-		if (((*it)[0] == pieceNum) && (it->length() == 2))	//si es un vertice adyacente a esa pieza de mar
+		if (((*it)[0] == (pieceNum+'0')) && (it->length() == 2))	//si es un vertice adyacente a esa pieza de mar
 		{
 			if ((*it)[1] > maxAscii)
 			{
@@ -801,14 +829,14 @@ string catanMapModel::greater2CharVertex(unsigned int pieceNum)
 string catanMapModel::less2CharVertex(unsigned int pieceNum)
 {
 	string ret;
-	ret += static_cast<char>(pieceNum + '0');	//en la primera posicion tiene el numero de la pieza
+	ret	= static_cast<char>(pieceNum + '0');	//en la primera posicion tiene el numero de la pieza
 	list<string>::iterator it;
 	char minAscii = 'Z';
 	char found = 0;
 	bool finished = false;
 	for (it = allVertexes.begin(); (it != allVertexes.end()) && !finished; it++)
 	{
-		if (((*it)[0] == pieceNum) && (it->length() == 2))	//si es un vertice adyacente a esa pieza de mar
+		if (((*it)[0] == (pieceNum+'0')) && (it->length() == 2))	//si es un vertice adyacente a esa pieza de mar
 		{
 			if ((*it)[1] < minAscii)
 			{

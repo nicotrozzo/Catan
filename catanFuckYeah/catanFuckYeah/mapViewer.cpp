@@ -156,7 +156,7 @@ void mapViewer::viewBuildings()
 void mapViewer::viewRobber()
 {
 	unsigned char robberPos = myMap->getRobberPos();
-	al_draw_bitmap(robberBitmap, gameCoords::myHexagonCoords[robberPos].xCoord - al_get_bitmap_width(robberBitmap) / 2, gameCoords::myHexagonCoords[robberPos].yCoord - al_get_bitmap_height(robberBitmap) / 2, 0);
+	al_draw_bitmap(robberBitmap, gameCoords::myHexagonCoords[robberPos].xCoord , gameCoords::myHexagonCoords[robberPos].yCoord - 19, 0);
 }
 
 void mapViewer::viewPendingConstruction()

@@ -15,13 +15,11 @@
 
 using namespace std;
 
-enum { };
-
 const typedef struct
 {
-	float xCoord;
-	float yCoord;
-	float angle;
+	double xCoord;
+	double yCoord;
+	double angle;
 }coords;
 
 class gameCoords

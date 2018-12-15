@@ -6,7 +6,7 @@
 #include <cstdlib>
 #include <ctime>
 
-#define IP_STR "25.79.20.36"
+#define IP_STR "25.79.16.128"
 
 connectionEstablisher::connectionEstablisher() : host(IP_STR)
 {

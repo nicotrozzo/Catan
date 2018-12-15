@@ -11,9 +11,9 @@ gameModelViewer::gameModelViewer(catanGameModel *myGame)
 		{
 			if ((robberDiscardMenuBitmap = al_load_bitmap("graficoCatan\\menues\\menuDeLadron.png")) != NULL)
 			{
-				if ((fontForAmountOfCards = al_load_ttf_font("graficoCatan\\font\\scribish.ttf", 43, 0)) != NULL)
+				if ((fontForAmountOfCards = al_load_ttf_font("graficoCatan\\font\\scribish.ttf", 37, 0)) != NULL)
 				{
-					if ((fontForBankCosts = al_load_ttf_font("graficoCatan\\font\\scribish.ttf", 45, 0)) != NULL)
+					if ((fontForBankCosts = al_load_ttf_font("graficoCatan\\font\\scribish.ttf", 42, 0)) != NULL)
 					{
 						if ((tickBitmap = al_load_bitmap("graficoCatan\\buttons\\yes.png")) != NULL && (crossBitmap = al_load_bitmap("graficoCatan\\buttons\\no.png")) != NULL)
 						{
@@ -51,7 +51,7 @@ void gameModelViewer::update()
 		}
 		if (myGame->isPlayer1Playing())
 		{
-			if ((myGame->isSelecting() == BANK_TRADE) || (myGame->isSelecting() == OFFER_TRADE) || (myGame->isSelecting() == ROBBER_CARDS) || (myGame->isConstructing()) || (myGame->isSelecting()))
+			if ((myGame->isConstructing()) ||(myGame->isSelecting()))
 			{
 				viewTickAndCrossButtons();
 			}
@@ -122,17 +122,21 @@ void gameModelViewer::viewDices()
 
 void gameModelViewer::viewTrade()
 {
-	al_draw_bitmap(tradeMenuBitmap,241,66,0);
+	al_draw_bitmap(tradeMenuBitmap, 0, 0, 0);
+	if (myGame->isSelecting() == BANK_TRADE)
+	{
+		map<resourceType, unsigned char> costs = myGame->getBankTradeCosts();
+		al_draw_text(fontForBankCosts, al_color_name("black"), 489, 118, 0, (to_string(costs[ORE] ) + "x1").c_str());
+		al_draw_text(fontForBankCosts, al_color_name("black"), 668, 118, 0, (to_string(costs[WHEAT] ) + "x1").c_str());
+		al_draw_text(fontForBankCosts, al_color_name("black"), 853, 118, 0, (to_string(costs[WOOL] ) + "x1").c_str());
+		al_draw_text(fontForBankCosts, al_color_name("black"), 1019, 118, 0, (to_string(costs[WOOD] ) + "x1").c_str());
+		al_draw_text(fontForBankCosts, al_color_name("black"), 1199, 118, 0, (to_string(costs[BRICK] ) + "x1").c_str());
+	}
 }
 
 void gameModelViewer::viewRobberDiscard()
 {
-	al_draw_bitmap(robberDiscardMenuBitmap,241,66,0);
-	al_draw_text(fontForBankCosts, al_color_name("black"), 489, 118, 0, (to_string((myGame->getBankTradeCosts())[ORE] + '0') +"x1").c_str());
-	al_draw_text(fontForBankCosts, al_color_name("black"), 668, 118, 0, (to_string((myGame->getBankTradeCosts())[WHEAT] + '0') + "x1").c_str());
-	al_draw_text(fontForBankCosts, al_color_name("black"), 853, 118, 0, (to_string((myGame->getBankTradeCosts())[WOOL] + '0') + "x1").c_str());
-	al_draw_text(fontForBankCosts, al_color_name("black"), 1019, 118, 0, (to_string((myGame->getBankTradeCosts())[WOOD] + '0') + "x1").c_str());
-	al_draw_text(fontForBankCosts, al_color_name("black"), 1199, 118, 0, (to_string((myGame->getBankTradeCosts())[BRICK] + '0') + "x1").c_str());
+	al_draw_bitmap(robberDiscardMenuBitmap,0,0,0);
 }
 
 void gameModelViewer::viewSelectedCards()
@@ -179,31 +183,35 @@ void gameModelViewer::viewSelectedCards()
 			bankAccess += "WHEAT";
 			break;
 		}
-		playerAccess += '1';
-		bankAccess += '2';
-		coords playerCardCoords = { gameCoords::cardsCoords[playerAccess].xCoord, gameCoords::cardsCoords[playerAccess].yCoord };
-		coords bankCardCoords = { gameCoords::cardsCoords[bankAccess].xCoord, gameCoords::cardsCoords[bankAccess].yCoord };
-		al_draw_text(fontForAmountOfCards, al_color_name("black"), playerCardCoords.xCoord, playerCardCoords.yCoord, 0, to_string(playerCards.resCount + '0').c_str());
-		al_draw_text(fontForAmountOfCards, al_color_name("black"), bankCardCoords.xCoord, bankCardCoords.yCoord, 0, "1");
+		if (playerAccess.length() > 0)
+		{
+			playerAccess += '1';
+			bankAccess += '2';
+			coords playerCardCoords = { gameCoords::cardsCoords[playerAccess].xCoord, gameCoords::cardsCoords[playerAccess].yCoord , MAP_NONE };
+			coords bankCardCoords = { gameCoords::cardsCoords[bankAccess].xCoord, gameCoords::cardsCoords[bankAccess].yCoord , MAP_NONE };
+			al_draw_text(fontForAmountOfCards, al_color_name("black"), playerCardCoords.xCoord - 2, playerCardCoords.yCoord, 0, to_string(playerCards.resCount).c_str());
+			al_draw_text(fontForAmountOfCards, al_color_name("black"), bankCardCoords.xCoord - 2, bankCardCoords.yCoord, 0, "1");
+		}
 	}
 	else if (myGame->isSelecting() == OFFER_TRADE)
 	{
 		cards player1Cards = myGame->getP1SelectedCardsForTrade();
+		cards player2Cards = myGame->getP2SelectedCardsForTrade();
 		string ore = "ORE";
 		string brick = "BRICK";
 		string wool = "WOOL";
 		string wood = "WOOD";
 		string wheat = "WHEAT";
-		al_draw_text(fontForAmountOfCards, al_color_name("black"), gameCoords::cardsCoords[ore + '1'].xCoord, gameCoords::cardsCoords[ore].yCoord, 0, to_string(player1Cards.ore).c_str());
-		al_draw_text(fontForAmountOfCards, al_color_name("black"), gameCoords::cardsCoords[brick + '1'].xCoord, gameCoords::cardsCoords[brick].yCoord, 0, to_string(player1Cards.brick).c_str());
-		al_draw_text(fontForAmountOfCards, al_color_name("black"), gameCoords::cardsCoords[wool + '1'].xCoord, gameCoords::cardsCoords[wool].yCoord, 0, to_string(player1Cards.wool).c_str());
-		al_draw_text(fontForAmountOfCards, al_color_name("black"), gameCoords::cardsCoords[wood + '1'].xCoord, gameCoords::cardsCoords[wood].yCoord, 0, to_string(player1Cards.wood).c_str());
-		al_draw_text(fontForAmountOfCards, al_color_name("black"), gameCoords::cardsCoords[wheat + '1'].xCoord, gameCoords::cardsCoords[wheat].yCoord, 0, to_string(player1Cards.wheat).c_str());
-		al_draw_text(fontForAmountOfCards, al_color_name("black"), gameCoords::cardsCoords[ore + '2'].xCoord, gameCoords::cardsCoords[ore].yCoord, 0, to_string(player1Cards.ore).c_str());
-		al_draw_text(fontForAmountOfCards, al_color_name("black"), gameCoords::cardsCoords[brick + '2'].xCoord, gameCoords::cardsCoords[brick].yCoord, 0, to_string(player1Cards.brick).c_str());
-		al_draw_text(fontForAmountOfCards, al_color_name("black"), gameCoords::cardsCoords[wool + '2'].xCoord, gameCoords::cardsCoords[wool].yCoord, 0, to_string(player1Cards.wool).c_str());
-		al_draw_text(fontForAmountOfCards, al_color_name("black"), gameCoords::cardsCoords[wood + '2'].xCoord, gameCoords::cardsCoords[wood].yCoord, 0, to_string(player1Cards.wood).c_str());
-		al_draw_text(fontForAmountOfCards, al_color_name("black"), gameCoords::cardsCoords[wheat + '2'].xCoord, gameCoords::cardsCoords[wheat].yCoord, 0, to_string(player1Cards.wheat).c_str());
+		al_draw_text(fontForAmountOfCards, al_color_name("black"), gameCoords::cardsCoords[ore + '1'].xCoord, gameCoords::cardsCoords[ore + '1'].yCoord, 0, to_string(player1Cards.ore).c_str());
+		al_draw_text(fontForAmountOfCards, al_color_name("black"), gameCoords::cardsCoords[brick + '1'].xCoord, gameCoords::cardsCoords[brick + '1'].yCoord, 0, to_string(player1Cards.brick).c_str());
+		al_draw_text(fontForAmountOfCards, al_color_name("black"), gameCoords::cardsCoords[wool + '1'].xCoord, gameCoords::cardsCoords[wool + '1'].yCoord, 0, to_string(player1Cards.wool).c_str());
+		al_draw_text(fontForAmountOfCards, al_color_name("black"), gameCoords::cardsCoords[wood + '1'].xCoord, gameCoords::cardsCoords[wood + '1'].yCoord, 0, to_string(player1Cards.wood).c_str());
+		al_draw_text(fontForAmountOfCards, al_color_name("black"), gameCoords::cardsCoords[wheat + '1'].xCoord, gameCoords::cardsCoords[wheat + '1'].yCoord, 0, to_string(player1Cards.wheat).c_str());
+		al_draw_text(fontForAmountOfCards, al_color_name("black"), gameCoords::cardsCoords[ore + '2'].xCoord, gameCoords::cardsCoords[ore + '2'].yCoord, 0, to_string(player2Cards.ore).c_str());
+		al_draw_text(fontForAmountOfCards, al_color_name("black"), gameCoords::cardsCoords[brick + '2'].xCoord, gameCoords::cardsCoords[brick + '2'].yCoord, 0, to_string(player2Cards.brick).c_str());
+		al_draw_text(fontForAmountOfCards, al_color_name("black"), gameCoords::cardsCoords[wool + '2'].xCoord, gameCoords::cardsCoords[wool + '2'].yCoord, 0, to_string(player2Cards.wool).c_str());
+		al_draw_text(fontForAmountOfCards, al_color_name("black"), gameCoords::cardsCoords[wood + '2'].xCoord, gameCoords::cardsCoords[wood + '2'].yCoord, 0, to_string(player2Cards.wood).c_str());
+		al_draw_text(fontForAmountOfCards, al_color_name("black"), gameCoords::cardsCoords[wheat + '2'].xCoord, gameCoords::cardsCoords[wheat + '2'].yCoord, 0, to_string(player2Cards.wheat).c_str());
 	}
 	else if (myGame->isSelecting() == ROBBER_CARDS)
 	{
@@ -213,11 +221,11 @@ void gameModelViewer::viewSelectedCards()
 		string wool = "WOOL";
 		string wood = "WOOD";
 		string wheat = "WHEAT";
-		al_draw_text(fontForAmountOfCards, al_color_name("black"), gameCoords::cardsCoords[ore + '1'].xCoord, gameCoords::cardsCoords[ore].yCoord, 0, to_string(player1DiscardCards.ore).c_str());
-		al_draw_text(fontForAmountOfCards, al_color_name("black"), gameCoords::cardsCoords[brick + '1'].xCoord, gameCoords::cardsCoords[brick].yCoord, 0, to_string(player1DiscardCards.brick).c_str());
-		al_draw_text(fontForAmountOfCards, al_color_name("black"), gameCoords::cardsCoords[wool + '1'].xCoord, gameCoords::cardsCoords[wool].yCoord, 0, to_string(player1DiscardCards.wool).c_str());
-		al_draw_text(fontForAmountOfCards, al_color_name("black"), gameCoords::cardsCoords[wood + '1'].xCoord, gameCoords::cardsCoords[wood].yCoord, 0, to_string(player1DiscardCards.wood).c_str());
-		al_draw_text(fontForAmountOfCards, al_color_name("black"), gameCoords::cardsCoords[wheat + '1'].xCoord, gameCoords::cardsCoords[wheat].yCoord, 0, to_string(player1DiscardCards.wheat).c_str());
+		al_draw_text(fontForAmountOfCards, al_color_name("black"), gameCoords::cardsCoords[ore + '1'].xCoord - 2, gameCoords::cardsCoords[ore + '1'].yCoord + 2, 0, to_string(player1DiscardCards.ore).c_str());
+		al_draw_text(fontForAmountOfCards, al_color_name("black"), gameCoords::cardsCoords[brick + '1'].xCoord - 2, gameCoords::cardsCoords[brick + '1'].yCoord + 2, 0, to_string(player1DiscardCards.brick).c_str());
+		al_draw_text(fontForAmountOfCards, al_color_name("black"), gameCoords::cardsCoords[wool + '1'].xCoord - 2, gameCoords::cardsCoords[wool + '1'].yCoord + 2, 0, to_string(player1DiscardCards.wool).c_str());
+		al_draw_text(fontForAmountOfCards, al_color_name("black"), gameCoords::cardsCoords[wood + '1'].xCoord - 2, gameCoords::cardsCoords[wood + '1'].yCoord + 5, 0, to_string(player1DiscardCards.wood).c_str());
+		al_draw_text(fontForAmountOfCards, al_color_name("black"), gameCoords::cardsCoords[wheat + '1'].xCoord - 2, gameCoords::cardsCoords[wheat + '1'].yCoord + 2, 0, to_string(player1DiscardCards.wheat).c_str());
 	}
 }
 

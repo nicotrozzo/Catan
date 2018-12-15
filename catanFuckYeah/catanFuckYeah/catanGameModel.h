@@ -45,7 +45,7 @@ public:
 	bool playerTradeReady();	//devuelve true si el intercambio con el jugador preparado esta listo
 	bool playerTrade();
 	
-	bool playersTrade(string currentPlayerCards, string otherPlayerCards);		//Para el trade del contrario. devuelve false con trueque invalido
+	bool playersTrade(string cardsPlayer1, string cardsPlayer2);		//Para el trade del contrario. devuelve false con trueque invalido
 
 
 	/*prepareBankTrade:
@@ -96,8 +96,8 @@ protected:
 	void updatePlayersVictoryPoints();
 	unsigned char longestRoadPlayer;
 	bool validResourceForConstruct(networkingEventTypes type);
-	bool validSelectedCards(string currentPlayerCards, string otherPlayerCards);		//checkea que la transaccion solicitada sea valida, en cuyo case devuelve true
-
+	bool validSelectedCards(string cardsPlayer1, string cardsPlayer2);		//checkea que la transaccion solicitada sea valida, en cuyo case devuelve true
+	bool p2HasSelectedCards(); //devuelve true si el jugador 2 tiene las selected cards
 };
 
 

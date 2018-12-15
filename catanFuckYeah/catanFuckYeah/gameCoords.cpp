@@ -32,11 +32,11 @@
 
  map<unsigned char, coords> gameCoords::myHexagonCoords = {
 	{ 'A',{ 676,248,MAP_NONE } },{ 'B',{ 820,247,MAP_NONE } },{ 'C',{ 963,248,MAP_NONE } },
-{ 'D',{ 606,373.5,MAP_NONE } },{ 'E',{ 747,373.5,MAP_NONE } },{ 'F',{ 891,373.5,MAP_NONE } },{ 'G',{ 1034,373.5,MAP_NONE } },
-{ 'H',{ 534,499.5,MAP_NONE } },{ 'I',{ 676,499.5,MAP_NONE } },{ 'J',{ 820,499.5,MAP_NONE } },{ 'K',{ 963,498.5,MAP_NONE } },{ 'L',{ 1106,499.5,MAP_NONE } },
-{ 'M',{ 606,626,MAP_NONE } },{ 'N',{ 747,626,MAP_NONE } },{ 'O',{ 891,626,MAP_NONE } },{ 'P',{ 1034,626,MAP_NONE } },
-{ 'Q',{ 676,750.5,MAP_NONE } },{ 'R',{ 820,750.5,MAP_NONE } },{ 'S',{ 964,750.5,MAP_NONE } },
-{ '0',{ 750,125,SEA_0_ROTATION } },{ '1',{ 1105,249,SEA_1_ROTATION } },{ '2',{ 1177,626,SEA_2_ROTATION } },{ '3',{ 891,875,SEA_3_ROTATION } },{ '4',{ 534,750.5,SEA_4_ROTATION } },{ '5',{ 464,373.5,SEA_5_ROTATION } },
+	{ 'D',{ 606,373.5,MAP_NONE } },{ 'E',{ 747,373.5,MAP_NONE } },{ 'F',{ 891,373.5,MAP_NONE } },{ 'G',{ 1034,373.5,MAP_NONE } },
+	{ 'H',{ 534,499.5,MAP_NONE } },{ 'I',{ 676,499.5,MAP_NONE } },{ 'J',{ 820,499.5,MAP_NONE } },{ 'K',{ 963,498.5,MAP_NONE } },{ 'L',{ 1106,499.5,MAP_NONE } },
+	{ 'M',{ 606,626,MAP_NONE } },{ 'N',{ 747,626,MAP_NONE } },{ 'O',{ 891,626,MAP_NONE } },{ 'P',{ 1034,626,MAP_NONE } },
+	{ 'Q',{ 676,750.5,MAP_NONE } },{ 'R',{ 820,750.5,MAP_NONE } },{ 'S',{ 964,750.5,MAP_NONE } },
+	{ '0',{ 750,125,SEA_0_ROTATION } },{ '1',{ 1105,249,SEA_1_ROTATION } },{ '2',{ 1177,626,SEA_2_ROTATION } },{ '3',{ 891,875,SEA_3_ROTATION } },{ '4',{ 534,750.5,SEA_4_ROTATION } },{ '5',{ 464,373.5,SEA_5_ROTATION } },
 };
 
  map<string, coords> gameCoords::cardsCoords = {	//tiene coordenadas de la esquina de arriba a la izq de cada carta de recursos en el trueque
@@ -46,5 +46,5 @@
 
  map<string, coords> gameCoords::buttonCoords = {
  {"END_TURN",{1413,123,MAP_NONE}}, {"EXIT",{1562,9,MAP_NONE}}, {"QUIT",{821,500,MAP_NONE}}, {"PLAY",{410,500,MAP_NONE}},
- {"PLAYER_TRADE",{1530,220,MAP_NONE}}, {"BANK_TRADE",{1413,233,MAP_NONE}}, {"YES",{1413,876,MAP_NONE}}, {"NO",{1540,876,MAP_NONE}}
+ {"PLAYER_TRADE",{1530,220,MAP_NONE}}, {"BANK_TRADE",{1405,220,MAP_NONE}}, {"YES",{1413,876,MAP_NONE}}, {"NO",{1540,876,MAP_NONE}}
  };

@@ -11,6 +11,7 @@ catanGameModel::catanGameModel()
 	dice2 = 0;
 	longestRoadPlayer = 0;
 	player1Playing = rand() % 2;
+	clearTrades();
 }
 
 bool catanGameModel::dicesThrown(unsigned char dice1, unsigned char dice2)
@@ -118,29 +119,32 @@ bool catanGameModel::validConstruction(networkingEventTypes type, string coords)
 {
 	bool ret = false;
 	unsigned char player = (player1Playing ? 1 : 2);
-	if (validResourceForConstruct(type))
+	if (!selecting)
 	{
-		switch (type)
+		if (validResourceForConstruct(type))
 		{
-		case SETTLEMENT:
-			if (!map.checkAvailableSettlement(coords, player))
+			switch (type)
 			{
-				ret = map.checkAvailableCity(coords, player);
+			case SETTLEMENT:
+				if (!map.checkAvailableSettlement(coords, player))
+				{
+					ret = map.checkAvailableCity(coords, player);
+				}
+				else
+				{
+					ret = true;
+				}
+				break;
+			case ROAD:
+				ret = map.checkAvailableRoad(coords, player);
+				break;
 			}
-			else
-			{
-				ret = true;
-			}
-			break;
-		case ROAD:
-			ret = map.checkAvailableRoad(coords, player);
-			break;
 		}
-	}
-	if (ret)
-	{
-		constructing = true;
-		notifyAllObservers();
+		if (ret)
+		{
+			constructing = true;
+			notifyAllObservers();
+		}
 	}
 	return ret;
 }
@@ -227,77 +231,91 @@ void catanGameModel::updatePlayersVictoryPoints()
 	notifyAllObservers();
 }
 
-bool catanGameModel::validSelectedCards(string currentPlayerCards, string otherCards)	//en este caso current es el jugador 2 siempre
+bool catanGameModel::validSelectedCards(string cardsPlayer1, string cardsPlayer2)	//en este caso current es el jugador 2 siempre
 {
-	bool ret = false;
+	bool ret = true;
 	string possibleRes = "LMOPT";
-	unsigned int currentResCount[] = { 0, 0, 0, 0, 0 };	//cada elemento representa un recurso
-	unsigned int otherResCount[] = { 0, 0, 0, 0, 0 };		
-	unsigned int * pCResCount = currentResCount, *pOResCount = otherResCount;
-	std::size_t currentPos = 0, otherPos = 0;
-	if (((currentPlayerCards.length() <= 9) && (otherCards.length() <= 9)) || (otherCards.size() == 0) ) 
+	unsigned int player1ResCount[] = { 0, 0, 0, 0, 0 };	//cada elemento representa un recurso
+	unsigned int player2ResCount[] = { 0, 0, 0, 0, 0 };		
+	unsigned int * p1ResCount = player1ResCount, *p2ResCount = player2ResCount;
+	std::size_t player1Pos = 0, player2Pos = 0;
+	if (((cardsPlayer1.length() <= 9) && (cardsPlayer2.length() <= 9)) || (cardsPlayer1.size() == 0) ) 
 	{
 		for (auto x : possibleRes)
 		{
-			currentPos = currentPlayerCards.find_first_of(x, currentPos);
-			while (currentPos != std::string::npos)
+			player1Pos = cardsPlayer1.find_first_of(x, player1Pos);
+			while (player1Pos != std::string::npos)
 			{
-				(*pCResCount)++;
-				currentPos = currentPlayerCards.find_first_of(x, currentPos + 1);
+				(*p1ResCount)++;
+				player1Pos = cardsPlayer1.find_first_of(x, player1Pos + 1);
 			}
 
-			otherPos = otherCards.find_first_of(x, otherPos);
-			while (otherPos != std::string::npos)
+			player2Pos = cardsPlayer2.find_first_of(x, player2Pos);
+			while (player2Pos != std::string::npos)
 			{
-				(*pOResCount)++;
-				otherPos = otherCards.find_first_of(x, otherPos + 1);
+				(*p2ResCount)++;
+				player2Pos = cardsPlayer2.find_first_of(x, player2Pos + 1);
 			}
-			if (((*pCResCount == 0) && (*pOResCount != 0)) || ((*pCResCount != 0) && (*pOResCount == 0)))	//me fijo que no haya mismos recursos seleccionados
+			if (((*p1ResCount == 0) && (*p2ResCount != 0)) || ((*p1ResCount != 0) && (*p2ResCount == 0)))	//me fijo que no haya mismos recursos seleccionados
 			{
 				switch (x)
 				{
 				case 'L':
-					ret = (((*pCResCount > player2.getCards().brick) ? false : true) && (*pOResCount > player1.getCards().brick ? false : true));
+					ret = (((*p1ResCount > player1.getCards().brick) ? false : true) && (*p2ResCount > player2.getCards().brick ? false : true));
 					break;
 				case 'M':
-					ret = ((*pCResCount > player2.getCards().wood ? false : true) && (*pOResCount > player1.getCards().wood ? false : true));
+					ret = ((*p1ResCount > player1.getCards().wood ? false : true) && (*p2ResCount > player2.getCards().wood ? false : true));
 					break;
 				case 'O':
-					ret = ((*pCResCount > player2.getCards().wool ? false : true) && (*pOResCount > player1.getCards().wool ? false : true));
+					ret = ((*p1ResCount > player1.getCards().wool ? false : true) && (*p2ResCount > player2.getCards().wool ? false : true));
 					break;
 				case 'P':
-					ret = ((*pCResCount > player2.getCards().ore ? false : true) && (*pOResCount > player1.getCards().ore ? false : true));
+					ret = ((*p1ResCount > player1.getCards().ore ? false : true) && (*p2ResCount > player2.getCards().ore ? false : true));
 					break;
 				case 'T':
-					ret = ((*pCResCount > player2.getCards().wheat ? false : true) && (*pOResCount > player1.getCards().wheat ? false : true));
+					ret = ((*p1ResCount > player1.getCards().wheat ? false : true) && (*p2ResCount > player2.getCards().wheat ? false : true));
 					break;
 				default:
 					ret = false;
 					break;
 				}
 			}
+			else if ( (player1Pos != string::npos) && (player2Pos != string::npos) )
+			{
+				ret = false;
+			}
+				
 			if (ret == false)
 			{
 				break;			//consideramos necesario utilizar un break para salir del for ya que si alguna parte del intercambio no esta en condiciones no es necesario analizar las otras componentes de dicho intercambio
 			}
 
-			pCResCount++;
-			pOResCount++;
-			currentPos = 0;
-			otherPos = 0;
+			p1ResCount++;
+			p2ResCount++;
+			player1Pos = 0;
+			player2Pos = 0;
 		}
 	}
 	return ret;
 }
 
-bool catanGameModel::playersTrade(string currentPlayerCards, string otherPlayerCards)
+bool catanGameModel::p2HasSelectedCards()
+{
+	cards pSel = p2SelectedCardsForTrade;
+	cards p2 = player2.getCards();
+	return ((pSel.ore <= p2.ore) && (pSel.brick <= p2.brick) && (pSel.wheat <= p2.wheat) && (pSel.wood <= p2.wood) && (pSel.wool <= p2.wool));
+}
+
+bool catanGameModel::playersTrade(string cardsPlayer1, string cardsPlayer2)
 {
 	bool ret = false;
-	if (validSelectedCards(currentPlayerCards, otherPlayerCards))
+	p2SelectedCardsForTrade = {0,0,0,0,0};
+	p1SelectedCardsForTrade = { 0,0,0,0,0 };
+	if (validSelectedCards(cardsPlayer1, cardsPlayer2))
 	{
-		for (auto x : currentPlayerCards)
+		for (auto x : cardsPlayer2)
 		{
-			//tiene que modificar los datos miembro internios y que se encargue preprePlayerTrade()... dato a modificar: p1SelectedCardsForTrade
+			//tiene que modificar los datos miembro internos y que se encargue preprePlayerTrade()... dato a modificar: p1SelectedCardsForTrade
 			switch (x)
 			{
 			case BRICK:
@@ -319,7 +337,7 @@ bool catanGameModel::playersTrade(string currentPlayerCards, string otherPlayerC
 				break;
 			}
 		}
-		for (auto x : otherPlayerCards)
+		for (auto x : cardsPlayer1)
 		{
 			switch (x)
 			{
@@ -416,65 +434,67 @@ bool catanGameModel::robberMoved(unsigned char hex)
 
 map<resourceType, unsigned char> catanGameModel::getBankTradeCosts()
 {
-	unsigned char player = player1Playing ? 1 : 2;
-	return map.getBankTradeCosts(player);
+	return map.getBankTradeCosts(1);
 }
 
 /*Devuelve true si se podia seleccionar uno mas de dicho recurso*/
 bool catanGameModel::prepareRobberDiscard(resourceType resource)
 {
 	bool ret = false;
-	if (selecting != ROBBER_CARDS)
+	if (!constructing)
 	{
-		selecting = ROBBER_CARDS;
-		notifyAllObservers();
-	}
-	if (p1DiscardRobberCards.totalCardsCount() < player1.getCards().totalCardsCount() / 2)
-	{
-		switch (resource)
+		if (selecting != ROBBER_CARDS)
 		{
-		case BRICK:
-			ret = player1.getCards().brick > p1DiscardRobberCards.brick;
-			if (ret)
-			{
-				p1DiscardRobberCards.brick++;
-			}
-			break;
-		case WOOD:
-			ret = player1.getCards().wood > p1DiscardRobberCards.wood;
-			if (ret)
-			{
-				p1DiscardRobberCards.wood++;
-			}
-			break;
-		case WOOL:
-			ret = player1.getCards().wool > p1DiscardRobberCards.wool;
-			if (ret)
-			{
-				p1DiscardRobberCards.wool++;
-			}
-			break;
-		case ORE:
-			ret = player1.getCards().ore > p1DiscardRobberCards.ore;
-			if (ret)
-			{
-				p1DiscardRobberCards.ore++;
-			}
-			break;
-		case WHEAT:
-			ret = player1.getCards().wheat > p1DiscardRobberCards.wheat;
-			if (ret)
-			{
-				p1DiscardRobberCards.wheat++;
-			}
-			break;
-		default:
-			break;
+			selecting = ROBBER_CARDS;
+			notifyAllObservers();
 		}
-	}
-	if (ret)
-	{
-		notifyAllObservers();
+		if (p1DiscardRobberCards.totalCardsCount() < player1.getCards().totalCardsCount() / 2)
+		{
+			switch (resource)
+			{
+			case BRICK:
+				ret = player1.getCards().brick > p1DiscardRobberCards.brick;
+				if (ret)
+				{
+					p1DiscardRobberCards.brick++;
+				}
+				break;
+			case WOOD:
+				ret = player1.getCards().wood > p1DiscardRobberCards.wood;
+				if (ret)
+				{
+					p1DiscardRobberCards.wood++;
+				}
+				break;
+			case WOOL:
+				ret = player1.getCards().wool > p1DiscardRobberCards.wool;
+				if (ret)
+				{
+					p1DiscardRobberCards.wool++;
+				}
+				break;
+			case ORE:
+				ret = player1.getCards().ore > p1DiscardRobberCards.ore;
+				if (ret)
+				{
+					p1DiscardRobberCards.ore++;
+				}
+				break;
+			case WHEAT:
+				ret = player1.getCards().wheat > p1DiscardRobberCards.wheat;
+				if (ret)
+				{
+					p1DiscardRobberCards.wheat++;
+				}
+				break;
+			default:
+				break;
+			}
+		}
+		if (ret)
+		{
+			notifyAllObservers();
+		}
 	}
 	return ret;
 }
@@ -515,7 +535,7 @@ bool catanGameModel::discardCurrentPlayer()
 bool catanGameModel::discardPlayer2(string cards)		//cuando se llama a este metodo es el turno del jugador 2
 {
 	bool ret = true;
-	if ((floor(player2.getAmountOfCards() / 2.0) == cards.length()) && (player2.getAmountOfCards() > 7) && validSelectedCards(cards, ""))
+	if ((floor(player2.getAmountOfCards() / 2.0) == cards.length()) && (player2.getAmountOfCards() > 7) && validSelectedCards("", cards))
 	{
 		for (auto x : cards)
 		{
@@ -563,60 +583,63 @@ Si devuelve true, MODIFICA EL MODELO
 bool catanGameModel::preparePlayerTrade(resourceType resource, unsigned char player)
 {
 	bool ret = false;
-	if (selecting != OFFER_TRADE)
+	if (!constructing)
 	{
-		selecting = OFFER_TRADE;		//para avisar a los observers
-		notifyAllObservers();
-	}
-	else if( ((player == 1) && (p1SelectedCardsForTrade.totalCardsCount() < 9)) || ((player == 2) && (p2SelectedCardsForTrade.totalCardsCount() < 9)))
-	{
-		if (!selectedResource(resource, (player == 1) ? 2 : 1))	//se fija que el otro jugador no tenga seleccionado ya ese recurso
+		if (selecting != OFFER_TRADE)
 		{
-			ret = true;
-			if (player == 1)	//si es el jugador 1, se fija que tenga la cantidad de cartas suficientes
+			selecting = OFFER_TRADE;		//para avisar a los observers
+			notifyAllObservers();
+		}
+		else if (((player == 1) && (p1SelectedCardsForTrade.totalCardsCount() < 9)) || ((player == 2) && (p2SelectedCardsForTrade.totalCardsCount() < 9)))
+		{
+			if (!selectedResource(resource, (player == 1) ? 2 : 1))	//se fija que el otro jugador no tenga seleccionado ya ese recurso
 			{
-				switch (resource)
+				ret = true;
+				if (player == 1)	//si es el jugador 1, se fija que tenga la cantidad de cartas suficientes
 				{
-				case WHEAT:
-					ret = player1.getCards().wheat > p1SelectedCardsForTrade.wheat;
-					break;
-				case WOOL:
-					ret = player1.getCards().wool > p1SelectedCardsForTrade.wool;
-					break;
-				case BRICK:
-					ret = player1.getCards().brick > p1SelectedCardsForTrade.brick;
-					break;
-				case ORE:
-					ret = player1.getCards().brick > p1SelectedCardsForTrade.brick;
-					break;
-				case WOOD:
-					ret = player1.getCards().brick > p1SelectedCardsForTrade.brick;
-					break;
-				default:
-					ret = false;
+					switch (resource)
+					{
+					case WHEAT:
+						ret = player1.getCards().wheat > p1SelectedCardsForTrade.wheat;
+						break;
+					case WOOL:
+						ret = player1.getCards().wool > p1SelectedCardsForTrade.wool;
+						break;
+					case BRICK:
+						ret = player1.getCards().brick > p1SelectedCardsForTrade.brick;
+						break;
+					case ORE:
+						ret = player1.getCards().ore > p1SelectedCardsForTrade.ore;
+						break;
+					case WOOD:
+						ret = player1.getCards().wood > p1SelectedCardsForTrade.wood;
+						break;
+					default:
+						ret = false;
+					}
 				}
-			}
-			if (ret)
-			{
-				switch (resource)
+				if (ret)
 				{
-				case WHEAT:
-					player == 1 ? p1SelectedCardsForTrade.wheat++ : p2SelectedCardsForTrade.wheat++;
-					break;
-				case WOOL:
-					player == 1 ? p1SelectedCardsForTrade.wool++ : p2SelectedCardsForTrade.wool++;
-					break;
-				case BRICK:
-					player == 1 ? p1SelectedCardsForTrade.brick++ : p2SelectedCardsForTrade.brick++;
-					break;
-				case ORE:
-					player == 1 ? p1SelectedCardsForTrade.ore++ : p2SelectedCardsForTrade.ore++;
-					break;
-				case WOOD:
-					player == 1 ? p1SelectedCardsForTrade.wood++ : p2SelectedCardsForTrade.wood++;
-					break;
+					switch (resource)
+					{
+					case WHEAT:
+						player == 1 ? p1SelectedCardsForTrade.wheat++ : p2SelectedCardsForTrade.wheat++;
+						break;
+					case WOOL:
+						player == 1 ? p1SelectedCardsForTrade.wool++ : p2SelectedCardsForTrade.wool++;
+						break;
+					case BRICK:
+						player == 1 ? p1SelectedCardsForTrade.brick++ : p2SelectedCardsForTrade.brick++;
+						break;
+					case ORE:
+						player == 1 ? p1SelectedCardsForTrade.ore++ : p2SelectedCardsForTrade.ore++;
+						break;
+					case WOOD:
+						player == 1 ? p1SelectedCardsForTrade.wood++ : p2SelectedCardsForTrade.wood++;
+						break;
+					}
+					notifyAllObservers();
 				}
-				notifyAllObservers();
 			}
 		}
 	}
@@ -663,29 +686,32 @@ bool catanGameModel::playerTrade()
 	bool ret = false;
 	if (playerTradeReady())
 	{
-		player1.decResource(ORE,p1SelectedCardsForTrade.ore);
-		player1.decResource(BRICK, p1SelectedCardsForTrade.brick);
-		player1.decResource(WHEAT, p1SelectedCardsForTrade.wheat);
-		player1.decResource(WOOL, p1SelectedCardsForTrade.wool);
-		player1.decResource(WOOD, p1SelectedCardsForTrade.wood);
-		player2.incResource(ORE, p1SelectedCardsForTrade.ore);
-		player2.incResource(BRICK, p1SelectedCardsForTrade.brick);
-		player2.incResource(WHEAT, p1SelectedCardsForTrade.wheat);
-		player2.incResource(WOOL, p1SelectedCardsForTrade.wool);
-		player2.incResource(WOOD, p1SelectedCardsForTrade.wood);
-		player1.incResource(ORE, p2SelectedCardsForTrade.ore);
-		player1.incResource(BRICK, p2SelectedCardsForTrade.brick);
-		player1.incResource(WHEAT, p2SelectedCardsForTrade.wheat);
-		player1.incResource(WOOL, p2SelectedCardsForTrade.wool);
-		player1.incResource(WOOD, p2SelectedCardsForTrade.wood);
-		player2.decResource(ORE, p2SelectedCardsForTrade.ore);
-		player2.decResource(BRICK, p2SelectedCardsForTrade.brick);
-		player2.decResource(WHEAT, p2SelectedCardsForTrade.wheat);
-		player2.decResource(WOOL, p2SelectedCardsForTrade.wool);
-		player2.decResource(WOOD, p2SelectedCardsForTrade.wood);
+		if (p2HasSelectedCards())
+		{
+			player1.decResource(ORE, p1SelectedCardsForTrade.ore);
+			player1.decResource(BRICK, p1SelectedCardsForTrade.brick);
+			player1.decResource(WHEAT, p1SelectedCardsForTrade.wheat);
+			player1.decResource(WOOL, p1SelectedCardsForTrade.wool);
+			player1.decResource(WOOD, p1SelectedCardsForTrade.wood);
+			player2.incResource(ORE, p1SelectedCardsForTrade.ore);
+			player2.incResource(BRICK, p1SelectedCardsForTrade.brick);
+			player2.incResource(WHEAT, p1SelectedCardsForTrade.wheat);
+			player2.incResource(WOOL, p1SelectedCardsForTrade.wool);
+			player2.incResource(WOOD, p1SelectedCardsForTrade.wood);
+			player1.incResource(ORE, p2SelectedCardsForTrade.ore);
+			player1.incResource(BRICK, p2SelectedCardsForTrade.brick);
+			player1.incResource(WHEAT, p2SelectedCardsForTrade.wheat);
+			player1.incResource(WOOL, p2SelectedCardsForTrade.wool);
+			player1.incResource(WOOD, p2SelectedCardsForTrade.wood);
+			player2.decResource(ORE, p2SelectedCardsForTrade.ore);
+			player2.decResource(BRICK, p2SelectedCardsForTrade.brick);
+			player2.decResource(WHEAT, p2SelectedCardsForTrade.wheat);
+			player2.decResource(WOOL, p2SelectedCardsForTrade.wool);
+			player2.decResource(WOOD, p2SelectedCardsForTrade.wood);
+			ret = true;
+		}
 		selecting = NO_PCKG;
-		notifyAllObservers();
-		ret = true;
+		clearTrades();
 	}
 	return ret;
 }
@@ -702,53 +728,56 @@ bool catanGameModel::playerTrade()
 bool catanGameModel::prepareBankTrade(resourceType resource, bool player)
 {
 	bool ret = false;
-	if (selecting != BANK_TRADE)
+	if (!constructing)
 	{
-		selecting = BANK_TRADE;
-		notifyAllObservers();
-	}
-	else if (player)
-	{
-		bankSelectedResource = DESSERT;
-		unsigned char cost = map.getBankTradeCosts(1)[resource];	//obtiene el costo de construir el recurso pedido para el jugador 1
-		switch (resource)
+		if (selecting != BANK_TRADE)
 		{
-		case WHEAT:
-			ret = player1.getCards().wheat >= cost ? true : false;
-			break;
-		case WOOL:
-			ret = player1.getCards().wool >= cost ? true : false;
-			break;
-		case BRICK:
-			ret = player1.getCards().brick >= cost ? true : false;
-			break;
-		case ORE:
-			ret = player1.getCards().ore >= cost ? true : false;
-			break;
-		case WOOD:
-			ret = player1.getCards().wood >= cost ? true : false;
-			break;
+			selecting = BANK_TRADE;
+			notifyAllObservers();
 		}
-		if(ret)
+		else if (player)
 		{
-			playerSelectedResource = { resource, cost };	//pisa el recurso anterior si habia
-		}
-	}
-	else
-	{
-		if (playerSelectedResource.res != DESSERT)	//solo permite modificar si el jugador ya selecciono un recurso
-		{
-			if ((playerSelectedResource.res != resource))	//no permite cambios de un mismo recurso
+			bankSelectedResource = DESSERT;
+			unsigned char cost = map.getBankTradeCosts(1)[resource];	//obtiene el costo de construir el recurso pedido para el jugador 1
+			switch (resource)
 			{
-				bankSelectedResource = resource;
-				ret = true;
+			case WHEAT:
+				ret = player1.getCards().wheat >= cost ? true : false;
+				break;
+			case WOOL:
+				ret = player1.getCards().wool >= cost ? true : false;
+				break;
+			case BRICK:
+				ret = player1.getCards().brick >= cost ? true : false;
+				break;
+			case ORE:
+				ret = player1.getCards().ore >= cost ? true : false;
+				break;
+			case WOOD:
+				ret = player1.getCards().wood >= cost ? true : false;
+				break;
 			}
-
+			if (ret)
+			{
+				playerSelectedResource = { resource, cost };	//pisa el recurso anterior si habia
+			}
 		}
-	}
-	if (ret)	//si se modifico algo,avisa a los observers
-	{
-		notifyAllObservers();
+		else
+		{
+			if (playerSelectedResource.res != DESSERT)	//solo permite modificar si el jugador ya selecciono un recurso
+			{
+				if ((playerSelectedResource.res != resource))	//no permite cambios de un mismo recurso
+				{
+					bankSelectedResource = resource;
+					ret = true;
+				}
+
+			}
+		}
+		if (ret)	//si se modifico algo,avisa a los observers
+		{
+			notifyAllObservers();
+		}
 	}
 	return ret;
 }

@@ -50,7 +50,7 @@ void player1Viewer::viewVictoryPoints()
 {
 	unsigned char victoryPoints = player->getVictoryPoints();
 	string points = to_string(victoryPoints);
-	al_draw_text(fontForVictoryPoints, al_color_name("black"), 148, 576, 0, points.c_str());
+	al_draw_text(fontForVictoryPoints, al_color_name("black"), 148, 575, 0, points.c_str());
 }
 
 void player1Viewer::viewNameIs()
@@ -73,11 +73,11 @@ void player1Viewer::viewResources()
 	unsigned char wool = (player->getCards()).wool;
 	unsigned char wheat = (player->getCards()).wheat;
 	unsigned char wood = (player->getCards()).wood;
-	al_draw_text(fontForResources, al_color_name("black"), 12, 150, 0, to_string(ore).c_str());
-	al_draw_text(fontForResources, al_color_name("black"), 112, 150, 0, to_string(wheat).c_str());
-	al_draw_text(fontForResources, al_color_name("black"), 212, 150, 0, to_string(brick).c_str());
-	al_draw_text(fontForResources, al_color_name("black"), 53, 275, 0, to_string(wood).c_str());
-	al_draw_text(fontForResources, al_color_name("black"), 156, 275, 0, to_string(wool).c_str());
+	al_draw_text(fontForResources, al_color_name("black"), 15, 150, 0, to_string(ore).c_str());
+	al_draw_text(fontForResources, al_color_name("black"), 115, 150, 0, to_string(wheat).c_str());
+	al_draw_text(fontForResources, al_color_name("black"), 215, 150, 0, to_string(brick).c_str());
+	al_draw_text(fontForResources, al_color_name("black"), 56, 275, 0, to_string(wood).c_str());
+	al_draw_text(fontForResources, al_color_name("black"), 159, 275, 0, to_string(wool).c_str());
 }
 
 void player1Viewer::viewLongestRoads()
@@ -88,7 +88,15 @@ void player1Viewer::viewLongestRoads()
 void player1Viewer::viewAmountOfCards()
 {
 	unsigned char amountOfCards = player->getAmountOfCards();
-	al_draw_text(fontForAmountOfCards, al_color_name("black"), 250, 450, 0, to_string(amountOfCards).c_str());
+	if (amountOfCards > 9)
+	{
+		al_draw_text(fontForAmountOfCards, al_color_name("black"), 248, 461, 0, to_string(amountOfCards).c_str());
+	}
+	else
+	{
+
+		al_draw_text(fontForVictoryPoints, al_color_name("black"), 252, 461, 0, to_string(amountOfCards).c_str());
+	}
 }
 
 
