@@ -113,9 +113,6 @@
     <ClCompile Include="genericFSM.cpp">
       <Filter>Archivos de origen\FSM</Filter>
     </ClCompile>
-    <ClCompile Include="handShakingFSM.cpp">
-      <Filter>Archivos de origen\FSM</Filter>
-    </ClCompile>
     <ClCompile Include="playingFSM.cpp">
       <Filter>Archivos de origen\FSM</Filter>
     </ClCompile>
@@ -193,6 +190,12 @@
     </ClCompile>
     <ClCompile Include="messageDisplayer.cpp">
       <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="handShakingClientFSM.cpp">
+      <Filter>Archivos de origen\FSM</Filter>
+    </ClCompile>
+    <ClCompile Include="handShakingServerFSM.cpp">
+      <Filter>Archivos de origen\FSM</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -351,6 +354,12 @@
     </ClInclude>
     <ClInclude Include="gameGraphicator.h">
       <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="handShakingClientFSM.h">
+      <Filter>Archivos de encabezado\FSM</Filter>
+    </ClInclude>
+    <ClInclude Include="handShakingServerFSM.h">
+      <Filter>Archivos de encabezado\FSM</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

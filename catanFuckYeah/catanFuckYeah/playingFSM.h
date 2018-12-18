@@ -4,6 +4,10 @@
 #include "networkingEvents.h"
 #include "EDAInputController.h"
 #include "EDANetworkingController.h"
+#include "gameModelViewer.h"
+#include "mapViewer.h"
+#include "player1Viewer.h"
+#include "player2Viewer.h"
 #include <vector>
 
 enum netwStates : stateTypes { MY_TURN, BUILDING, PREPARE_TRADE , WAITING_REPLY, MY_ROBBER, WAITING_DICES, OPP_TURN, OPP_ROBBER, WAITING_PLAYER  };
@@ -87,7 +91,7 @@ private:
 	{ { MY_TURN,TX(myTurnControllers) },	{PREPARE_TRADE,TX(ackController)},		{PREPARE_TRADE,TX(netwYNControllers)},	{PREPARE_TRADE,TX(doNothing)},			{PREPARE_TRADE,TX(error)} },	 //PREPARE_TRADE
 	{ { MY_TURN,TX(myTurnControllers) },	{MY_ROBBER,TX(robbAckController) },				{MY_ROBBER,TX(myRobberControllers) },	{MY_ROBBER,TX(myRobberControllers)},	{MY_ROBBER,TX(error)} },		//MY_ROBBER
 	{ { OPP_TURN,TX(oppTurnControllers)},	{WAITING_DICES,TX(doNothing)},			{WAITING_DICES, TX(doNothing)},			{OPP_ROBBER,TX(oppRobberControllers)},	{WAITING_DICES,TX(error)} },	//WAITING_DICES
-	{ { MY_TURN,TX(myTurnPassControllers)},	{WAITING_PLAYER,TX(waitingControllers)},{OPP_TURN, TX(doNothing)},				{OPP_TURN,TX(doNothig)},				{OPP_TURN,TX(error)} },		 //OPP_TURN
+	{ { MY_TURN,TX(myTurnPassControllers)},	{WAITING_PLAYER,TX(waitingControllers)},{OPP_TURN, TX(doNothing)},				{OPP_TURN,TX(doNothing)},				{OPP_TURN,TX(error)} },		 //OPP_TURN
 	{ { OPP_TURN,TX(oppTurnControllers) },	{OPP_ROBBER,TX(doNothing)},				{OPP_ROBBER, TX(doNothing)},			{OPP_ROBBER, TX(doNothing)},			{OPP_ROBBER,TX(error)} },		 //OPP_ROBBER
 	{ { OPP_TURN,TX(oppTurnControllers) },	{},										{WAITING_PLAYER, TX(tradeControllers)},	{WAITING_PLAYER, TX(doNothing)},		{WAITING_PLAYER,TX(error)} }	 //WAITING_PLAYER
 	};
@@ -134,7 +138,7 @@ public:
 	~playingFSM();
 };
 
-enum robberStates : stateTypes { WAIT_USER, WAIT_OPPONENT, WAIT_ROBBMOVE };
+/*enum robberStates : stateTypes { WAIT_USER, WAIT_OPPONENT, WAIT_ROBBMOVE };
 
 enum robberFSMEvTypes : eventTypes { INCOMING_ROBBER_CARDS, INCOMING_ROBBER_MOVE, MY_CARDS, MY_CARDS_AND_WAIT };
 
@@ -201,4 +205,4 @@ private:
 	int packageToSend    //paquete a enviar
 public:
 	myRobberFSM(stateTypes initState);
-};
+};*/

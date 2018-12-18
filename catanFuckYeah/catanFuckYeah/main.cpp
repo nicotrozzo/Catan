@@ -12,6 +12,9 @@
 #define TIMEOUT_SECS 150
 #define IP_STR "25.67.43.3"
 
+void deleteFrontEnd(void * display);
+void * initFrontEnd();
+
 int main(int argc,char * argv[])
 {
 	void * info = initFrontEnd();

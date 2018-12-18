@@ -424,7 +424,7 @@ EDANetworkingController * playingFSM::getNetworkingController(netwControllerType
 
 
 
-oppRobberFSM::oppRobberFSM(stateTypes initState) : genericFSM(&fsmTable[0][0], 3, 2, initState)
+/*oppRobberFSM::oppRobberFSM(stateTypes initState) : genericFSM(&fsmTable[0][0], 3, 2, initState)
 {
 	//expectedPackage = ? ; porque a priori no sabria si tengo que espara input por la seleccion de cartas o solo mandar ack y espera respuesta del otro
 	//deberia arrancar en wait_user y que ahi me fij si tengo que descartar cartas o no
@@ -497,4 +497,4 @@ void myRobberFSM::sendMyMove(genericEvent * ev)
 	{
 		new robberCardsPckg(packageToSend->additionalInfo);		//mando el paquete a la otra maquina
 	}
-}
+}*/

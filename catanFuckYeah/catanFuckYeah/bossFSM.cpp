@@ -339,4 +339,3 @@ void bossFSM::closeRematch(genericEvent * ev)
 {
 	fsmEvent = new outEv;
 }
-<

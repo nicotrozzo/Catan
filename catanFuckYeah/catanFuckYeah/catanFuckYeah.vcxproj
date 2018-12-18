@@ -126,6 +126,8 @@
     <ClCompile Include="EDANetworkingController.cpp" />
     <ClCompile Include="gameCoords.cpp" />
     <ClCompile Include="gameModelViewer.cpp" />
+    <ClCompile Include="handShakingClientFSM.cpp" />
+    <ClCompile Include="handShakingServerFSM.cpp" />
     <ClCompile Include="inputActionButtonController.cpp" />
     <ClCompile Include="inputCardsController.cpp" />
     <ClCompile Include="inputEdgeAndVertexController.cpp" />
@@ -160,7 +162,6 @@
     <ClCompile Include="eventHandling.cpp" />
     <ClCompile Include="gameEventGenerator.cpp" />
     <ClCompile Include="genericFSM.cpp" />
-    <ClCompile Include="handShakingFSM.cpp" />
     <ClCompile Include="inputEventGenerator.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="netwEmisor.cpp" />
@@ -178,6 +179,8 @@
     <ClInclude Include="gameGraphicator.h" />
     <ClInclude Include="gameModelViewer.h" />
     <ClInclude Include="graphicator.h" />
+    <ClInclude Include="handShakingClientFSM.h" />
+    <ClInclude Include="handShakingServerFSM.h" />
     <ClInclude Include="inputActionButtonController.h" />
     <ClInclude Include="inputCardsController.h" />
     <ClInclude Include="EDAInputController.h" />

@@ -25,7 +25,7 @@ public:
 	eventType getType() { return ; }
 private:
 	eventType evento;
-}
+};
 
 class buildEvent : public genericEvent
 {
