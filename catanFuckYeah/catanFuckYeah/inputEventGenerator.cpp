@@ -32,8 +32,6 @@ inputEventGenerator::inputEventGenerator(ALLEGRO_DISPLAY * disp) : allegroQueue(
 	}
 	if (error)
 	{
-		//eventQueue.empty();
-		//eventQueue.push(new closeDisplayEv);	//si hay un error en las inicializaciones de allegro se cierra todo
 		lastEvent = new closeDisplayEv;
 	}
 }
@@ -51,6 +49,7 @@ genericEvent* inputEventGenerator::getEvent()
 	{
 		if (al_get_next_event(allegroQueue, &ev))
 		{
+			unsigned char caracter;		//para el evento de teclado
 			switch (ev.type)
 			{
 			case ALLEGRO_EVENT_MOUSE_BUTTON_UP:
@@ -60,7 +59,7 @@ genericEvent* inputEventGenerator::getEvent()
 				}
 				break;
 			case ALLEGRO_EVENT_KEY_UP:
-				unsigned char caracter = allegroToAscii(ev.keyboard.keycode);
+				caracter = allegroToAscii(ev.keyboard.keycode);
 				if (caracter)
 				{
 					ret = new keyboardEvent(caracter);

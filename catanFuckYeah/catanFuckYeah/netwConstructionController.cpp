@@ -41,6 +41,7 @@ bool netwConstructionController::parseNetworkingEvent(networkingEv * ev)
 			}
 		}
 	}
+	return ret;
 }
 
 /*Devuelve true si es un paquete de contruccion*/

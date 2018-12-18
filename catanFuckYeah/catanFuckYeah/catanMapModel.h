@@ -132,7 +132,7 @@ private:
 	road * endpointSearchRec(road * randRoad);
 	void longestRoadSearchRec(road * actualRoad, unsigned char & longestRoad, unsigned char depth);
 	road* hasUnvisitedNeighbours(road * actualRoad);
-
+	bool roadPresent(road* actRoad, list<road*> searchingAdjacents);
 	list< string > allVertexes = {
 		"0A", "0B", "01C",
 		"05A", "0AB", "0BC", "1C",

@@ -118,7 +118,7 @@ bool catanMapModel::setMap(string map_)
 			}
 			else
 			{
-				hexagons[i].hexResource = map_[i];
+				hexagons[i-NUMBER_OF_OCEAN_PIECES].hexResource = map_[i];
 			}
 		}
 		found = oceanPiecesChars.find_first_not_of(RESOURCES_STR);	//verifica que se hayan asignado todas piezas de mar distintas
@@ -157,7 +157,7 @@ bool catanMapModel::setMap(string map_)
 bool catanMapModel::setCircularTokens(string circTokens)
 {
 	bool ret = true;
-	size_t found = circTokens.find_first_not_of("\2\3\4\5\6\7\8\9\10\11\12");
+	size_t found = circTokens.find_first_not_of("\x2\x3\x4\x5\x6\x7\x8\x9\xA\xB\xC");
 	string aux = circTokens;
 	int count;
 	if (found == string::npos)
@@ -165,11 +165,11 @@ bool catanMapModel::setCircularTokens(string circTokens)
 		for (int i = 2; (i < 13) && ret; i++)
 		{
 			count = 0;
-			size_t aPos = aux.find_first_of(i);
+			size_t aPos = aux.find_first_of(i, 0);
 			while (aPos != string::npos)
 			{
-				aPos = aux.find_first_of(i, aPos);
 				count++;
+				aPos = aux.find_first_of(i, aPos+1);
 			}
 			if ((i != 2) && (i != 7) && (i != 12))
 			{
@@ -189,7 +189,7 @@ bool catanMapModel::setCircularTokens(string circTokens)
 		if (ret)
 		{
 			int i = 0;
-			for (auto x : hexagons)
+			for (auto& x : hexagons)
 			{
 				x.circularToken = circTokens[i];
 				i++;
@@ -385,7 +385,7 @@ bool catanMapModel::buildRoad(string edge, char player)
 				{
 					if (adjacentRoads(edge, x->edge))
 					{
-						x->adjacentConstructedRoads.push_back(x);
+						x->adjacentConstructedRoads.push_back(roadToAdd);
 						roadToAdd->adjacentConstructedRoads.push_back(x);
 					}
 				}
@@ -407,7 +407,7 @@ bool catanMapModel::buildRoad(string edge, char player)
 				{
 					if (adjacentRoads(edge, x->edge))
 					{
-						x->adjacentConstructedRoads.push_back(x);
+						x->adjacentConstructedRoads.push_back(roadToAdd);
 						roadToAdd->adjacentConstructedRoads.push_back(x);
 					}
 				}
@@ -432,7 +432,7 @@ bool catanMapModel::buildRoad(string edge, char player)
 				{
 					if (adjacentRoads(edge, x->edge))
 					{
-						x->adjacentConstructedRoads.push_back(x);
+						x->adjacentConstructedRoads.push_back(roadToAdd);
 						roadToAdd->adjacentConstructedRoads.push_back(x);
 					}
 				}
@@ -454,7 +454,7 @@ bool catanMapModel::buildRoad(string edge, char player)
 				{
 					if (adjacentRoads(edge, x->edge))
 					{
-						x->adjacentConstructedRoads.push_back(x);
+						x->adjacentConstructedRoads.push_back(roadToAdd);
 						roadToAdd->adjacentConstructedRoads.push_back(x);
 					}
 				}
@@ -1117,14 +1117,14 @@ bool catanMapModel::checkAvailableCity(string vertex, char player)
 unsigned char catanMapModel::getP1LongestRoad()
 {
 	unsigned char longestRoad = 0;
-	list<road *> allRoads = p1LongRoads;
-	for (auto x : p1SimpleRoads)	//carga en allRoads todos los roads
+	list<road *> allRoads = p1SimpleRoads;
+	for (auto x : p1LongRoads)	//carga en allRoads todos los roads
 	{
 		allRoads.push_back(x);
 	}
 	if (allRoads.size() > 0)
 	{
-		road * firstRoad = endpointSearchRec(allRoads.front());	//busca un camino en una punta
+		road * firstRoad = endpointSearchRec(allRoads.back());	//busca un camino en una punta
 		for (auto x : allRoads)	//borra todas las marcas que haya hecho la recursividad anterior
 		{
 			x->visited = false;
@@ -1134,14 +1134,17 @@ unsigned char catanMapModel::getP1LongestRoad()
 		{
 			if (!(x->visited))
 			{
-				endpointSearchRec(x);
-				for (auto x : allRoads)
+				x = endpointSearchRec(x);
+				for (auto y : allRoads)
 				{
-					x->visited = false;
+					y->visited = false;
 				}
 				longestRoadSearchRec(x, longestRoad, 0);
-				break;
 			}
+		}
+		for (auto x : allRoads)
+		{
+			x->visited = false;
 		}
 	}
 	return longestRoad;
@@ -1163,24 +1166,51 @@ road * catanMapModel::endpointSearchRec(road * randRoad)
 
 void catanMapModel::longestRoadSearchRec(road * actualRoad, unsigned char & longestRoad, unsigned char depth)
 {
+	bool finished = true;
 	if (hasUnvisitedNeighbours(actualRoad) != nullptr)
 	{
+
 		actualRoad->visited = true;
 		for (auto x : actualRoad->adjacentConstructedRoads)
 		{
-			if (!(x->visited))
+			if (!(x->visited) && !roadPresent(x,actualRoad->adjacentConstructedRoads))
 			{
 				longestRoadSearchRec(x, longestRoad, depth + 1);
+				finished = false;
 			}
 		}
 	}
-	else
+	if(finished)
 	{
 		if (depth >= longestRoad)
 		{
 			longestRoad = depth + 1;
 		}
 	}
+}
+
+bool catanMapModel::roadPresent(road* actRoad, list<road*> adjacents)
+{
+	bool ret = false;
+	for (auto x : adjacents)
+	{
+		if (x->visited)
+		{
+			for (auto y : x->adjacentConstructedRoads)
+			{
+				if (y == actRoad)
+				{
+					ret = true;
+					break;
+				}
+			}
+			if (ret)
+			{
+				break;
+			}
+		}
+	}
+	return ret;
 }
 
 /*Devuelve nullptr si no tiene vecinos no visitados, sino devuelve un puntero a algun vecino visitado*/
@@ -1201,14 +1231,14 @@ road * catanMapModel::hasUnvisitedNeighbours(road * actualRoad)
 unsigned char catanMapModel::getP2LongestRoad()
 {
 	unsigned char longestRoad = 0;
-	list<road *> allRoads = p2LongRoads;
-	for (auto x : p2SimpleRoads)	//carga en allRoads todos los roads
+	list<road *> allRoads = p2SimpleRoads;
+	for (auto x : p2LongRoads)	//carga en allRoads todos los roads
 	{
 		allRoads.push_back(x);
 	}
 	if (allRoads.size() > 0)
 	{
-		road * firstRoad = endpointSearchRec(allRoads.front());	//busca un camino en una punta
+		road * firstRoad = endpointSearchRec(allRoads.back());	//busca un camino en una punta
 		for (auto x : allRoads)	//borra todas las marcas que haya hecho la recursividad anterior
 		{
 			x->visited = false;
@@ -1218,14 +1248,17 @@ unsigned char catanMapModel::getP2LongestRoad()
 		{
 			if (!(x->visited))
 			{
-				endpointSearchRec(x);
-				for (auto x : allRoads)
+				x = endpointSearchRec(x);
+				for (auto y : allRoads)
 				{
-					x->visited = false;
+					y->visited = false;
 				}
 				longestRoadSearchRec(x, longestRoad, 0);
-				break;
 			}
+		}
+		for (auto x : allRoads)
+		{
+			x->visited = false;
 		}
 	}
 	return longestRoad;
@@ -1296,42 +1329,45 @@ bool catanMapModel::adjacentRoads(string road1, string road2)
 	unsigned char matches;
 	size_t found;
 	list<string>::iterator it;
-	if (road1.length() == 2)
+	if (road1 != road2) 
 	{
-		for (it = allVertexes.begin(); (it != allVertexes.end()) && !ret; it++)
+		if (road1.length() == 2)
 		{
-			if (vertexAdjacentToRoad(*it, road1))
+			for (it = allVertexes.begin(); (it != allVertexes.end()) && !ret; it++)
 			{
-				ret = vertexAdjacentToRoad(*it, road2);	
+				if (vertexAdjacentToRoad(*it, road1))
+				{
+					ret = vertexAdjacentToRoad(*it, road2);
+				}
 			}
 		}
-	}
-	else if (road1.length() == 3)
-	{
-		for (it = allVertexes.begin(); (it != allVertexes.end()) && !ret; it++)
+		else if (road1.length() == 3)
 		{
-			if (it->length() == 2)
+			for (it = allVertexes.begin(); (it != allVertexes.end()) && !ret; it++)
 			{
-				found = road1.find(*it);
-				if (found == 0)
+				if (it->length() == 2)
 				{
-					ret = vertexAdjacentToRoad(*it, road2);
-				}
-			}
-			else
-			{
-				matches = 0;
-				for (unsigned int i = 0; i < it->length(); i++)
-				{
-					size_t found = road1.find((*it)[i]);	//busca caracter a caracter del vertice siendo evaluado en el camino 
-					if (found != string::npos)				//si lo encontro
+					found = road1.find(*it);
+					if (found == 0)
 					{
-						matches++;
+						ret = vertexAdjacentToRoad(*it, road2);
 					}
 				}
-				if (matches == 3)	//si las tres letras del vertice coinciden las tres del camino, aunque sea en otro orden, son adyacentes
+				else
 				{
-					ret = vertexAdjacentToRoad(*it, road2);
+					matches = 0;
+					for (unsigned int i = 0; i < it->length(); i++)
+					{
+						size_t found = road1.find((*it)[i]);	//busca caracter a caracter del vertice siendo evaluado en el camino 
+						if (found != string::npos)				//si lo encontro
+						{
+							matches++;
+						}
+					}
+					if (matches == 3)	//si las tres letras del vertice coinciden las tres del camino, aunque sea en otro orden, son adyacentes
+					{
+						ret = vertexAdjacentToRoad(*it, road2);
+					}
 				}
 			}
 		}

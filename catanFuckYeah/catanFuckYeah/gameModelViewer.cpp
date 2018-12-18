@@ -11,9 +11,9 @@ gameModelViewer::gameModelViewer(catanGameModel *myGame)
 		{
 			if ((robberDiscardMenuBitmap = al_load_bitmap("graficoCatan\\menues\\menuDeLadron.png")) != NULL)
 			{
-				if ((fontForAmountOfCards = al_load_ttf_font("graficoCatan\\font\\scribish.ttf", 37, 0)) != NULL)
+				if ((fontForAmountOfCards = al_load_ttf_font("graficoCatan\\font\\scribish.ttf", 37 * PROP_Y, 0)) != NULL)
 				{
-					if ((fontForBankCosts = al_load_ttf_font("graficoCatan\\font\\scribish.ttf", 42, 0)) != NULL)
+					if ((fontForBankCosts = al_load_ttf_font("graficoCatan\\font\\scribish.ttf", 42 * PROP_Y, 0)) != NULL)
 					{
 						if ((tickBitmap = al_load_bitmap("graficoCatan\\buttons\\yes.png")) != NULL && (crossBitmap = al_load_bitmap("graficoCatan\\buttons\\no.png")) != NULL)
 						{
@@ -79,64 +79,78 @@ void gameModelViewer::viewDices()
 	switch (dice1)
 	{
 	case 1:
-		al_draw_bitmap(diceValue1, 1384, 416, 0);
+		//al_draw_bitmap(diceValue1, 1384, 416, 0);
+		al_draw_scaled_rotated_bitmap(diceValue1,0,0, 1384, 416,PROP_X,PROP_Y,0, 0);
 		break;
 	case 2:
-		al_draw_bitmap(diceValue2, 1384, 416, 0);
+		//al_draw_bitmap(diceValue2, 1384, 416, 0);
+		al_draw_scaled_rotated_bitmap(diceValue2,0,0, 1384, 416,PROP_X, PROP_Y,0, 0);
 		break;
 	case 3:
-		al_draw_bitmap(diceValue3, 1384, 416, 0);
+		//al_draw_bitmap(diceValue3, 1384, 416, 0);
+		al_draw_scaled_rotated_bitmap(diceValue3, 0, 0, 1384, 416, PROP_X, PROP_Y, 0, 0);
 		break;
 	case 4:
-		al_draw_bitmap(diceValue4, 1384, 416, 0);
+		//al_draw_bitmap(diceValue4, 1384, 416, 0);
+		al_draw_scaled_rotated_bitmap(diceValue4, 0, 0, 1384, 416, PROP_X, PROP_Y, 0, 0);
 		break;
 	case 5:
-		al_draw_bitmap(diceValue5, 1384, 416, 0);
+		//al_draw_bitmap(diceValue5, 1384, 416, 0);
+		al_draw_scaled_rotated_bitmap(diceValue5, 0, 0, 1384, 416, PROP_X, PROP_Y, 0, 0);
 		break;
 	case 6:
-		al_draw_bitmap(diceValue6, 1384, 416, 0);
+		//al_draw_bitmap(diceValue6, 1384, 416, 0);
+		al_draw_scaled_rotated_bitmap(diceValue6, 0, 0, 1384, 416, PROP_X, PROP_Y, 0, 0);
 		break;
 	}
 	switch (dice2)
 	{
 	case 1:
-		al_draw_bitmap(diceValue1, 1510, 485, 0);
+		//al_draw_bitmap(diceValue1, 1510, 485, 0);
+		al_draw_scaled_rotated_bitmap(diceValue1, 0, 0, 1510, 485, PROP_X, PROP_Y, 0, 0);
 		break;
 	case 2:
-		al_draw_bitmap(diceValue2, 1510, 485, 0);
+		//al_draw_bitmap(diceValue2, 1510, 485, 0);
+		al_draw_scaled_rotated_bitmap(diceValue2, 0, 0, 1510, 485, PROP_X, PROP_Y, 0, 0);
 		break;
 	case 3:
-		al_draw_bitmap(diceValue3, 1510, 485, 0);
+		//al_draw_bitmap(diceValue3, 1510, 485, 0);
+		al_draw_scaled_rotated_bitmap(diceValue3, 0, 0, 1510, 485, PROP_X, PROP_Y, 0, 0);
 		break;
 	case 4:
-		al_draw_bitmap(diceValue4, 1510, 485, 0);
+		//al_draw_bitmap(diceValue4, 1510, 485, 0);
+		al_draw_scaled_rotated_bitmap(diceValue4, 0, 0, 1510, 485, PROP_X, PROP_Y, 0, 0);
 		break;
 	case 5:
-		al_draw_bitmap(diceValue5, 1510, 485, 0);
+		//al_draw_bitmap(diceValue5, 1510, 485, 0);
+		al_draw_scaled_rotated_bitmap(diceValue5, 0, 0, 1510, 485, PROP_X, PROP_Y, 0, 0);
 		break;
 	case 6:
-		al_draw_bitmap(diceValue6, 1510, 485, 0);
+		//al_draw_bitmap(diceValue6, 1510, 485, 0);
+		al_draw_scaled_rotated_bitmap(diceValue6, 0, 0, 1510, 485, PROP_X, PROP_Y, 0, 0);
 		break;
 	}
 }
 
 void gameModelViewer::viewTrade()
 {
-	al_draw_bitmap(tradeMenuBitmap, 0, 0, 0);
+	//al_draw_bitmap(tradeMenuBitmap, 0, 0, 0);
+	al_draw_scaled_rotated_bitmap(tradeMenuBitmap,0,0,0,0,PROP_X,PROP_Y,0,0);
 	if (myGame->isSelecting() == BANK_TRADE)
 	{
 		map<resourceType, unsigned char> costs = myGame->getBankTradeCosts();
-		al_draw_text(fontForBankCosts, al_color_name("black"), 489, 118, 0, (to_string(costs[ORE] ) + "x1").c_str());
-		al_draw_text(fontForBankCosts, al_color_name("black"), 668, 118, 0, (to_string(costs[WHEAT] ) + "x1").c_str());
-		al_draw_text(fontForBankCosts, al_color_name("black"), 853, 118, 0, (to_string(costs[WOOL] ) + "x1").c_str());
-		al_draw_text(fontForBankCosts, al_color_name("black"), 1019, 118, 0, (to_string(costs[WOOD] ) + "x1").c_str());
-		al_draw_text(fontForBankCosts, al_color_name("black"), 1199, 118, 0, (to_string(costs[BRICK] ) + "x1").c_str());
+		al_draw_text(fontForBankCosts, al_color_name("black"), 489 * PROP_X, 118 * PROP_Y, 0, (to_string(costs[ORE] ) + "x1").c_str());
+		al_draw_text(fontForBankCosts, al_color_name("black"), 668 * PROP_X, 118 * PROP_Y, 0, (to_string(costs[WHEAT] ) + "x1").c_str());
+		al_draw_text(fontForBankCosts, al_color_name("black"), 853 * PROP_X, 118 * PROP_Y, 0, (to_string(costs[WOOL] ) + "x1").c_str());
+		al_draw_text(fontForBankCosts, al_color_name("black"), 1019 * PROP_X, 118 * PROP_Y, 0, (to_string(costs[WOOD] ) + "x1").c_str());
+		al_draw_text(fontForBankCosts, al_color_name("black"), 1199 * PROP_X, 118 * PROP_Y, 0, (to_string(costs[BRICK] ) + "x1").c_str());
 	}
 }
 
 void gameModelViewer::viewRobberDiscard()
 {
-	al_draw_bitmap(robberDiscardMenuBitmap,0,0,0);
+	//al_draw_bitmap(robberDiscardMenuBitmap,0,0,0);
+	al_draw_scaled_rotated_bitmap(robberDiscardMenuBitmap,0,0,0,0,PROP_X,PROP_Y,0,0);
 }
 
 void gameModelViewer::viewSelectedCards()
@@ -231,20 +245,26 @@ void gameModelViewer::viewSelectedCards()
 
 void gameModelViewer::viewTickAndCrossButtons()
 {
-	al_draw_bitmap(tickBitmap, gameCoords::buttonCoords["YES"].xCoord, gameCoords::buttonCoords["YES"].yCoord, 0);
-	al_draw_bitmap(crossBitmap, gameCoords::buttonCoords["NO"].xCoord, gameCoords::buttonCoords["NO"].yCoord, 0);
+	//al_draw_bitmap(tickBitmap, gameCoords::buttonCoords["YES"].xCoord, gameCoords::buttonCoords["YES"].yCoord, 0);
+	//al_draw_bitmap(crossBitmap, gameCoords::buttonCoords["NO"].xCoord, gameCoords::buttonCoords["NO"].yCoord, 0);
+	al_draw_scaled_rotated_bitmap(tickBitmap,0,0, gameCoords::buttonCoords["YES"].xCoord, gameCoords::buttonCoords["YES"].yCoord, PROP_X,PROP_Y,0,0);
+	al_draw_scaled_rotated_bitmap(crossBitmap, 0, 0, gameCoords::buttonCoords["NO"].xCoord, gameCoords::buttonCoords["NO"].yCoord, PROP_X, PROP_Y, 0, 0);
 }
 
 void gameModelViewer::viewActionButtons()
 {
-	al_draw_bitmap(passButtonBitmap, gameCoords::buttonCoords["END_TURN"].xCoord, gameCoords::buttonCoords["END_TURN"].yCoord, 0);
-	al_draw_bitmap(playerTradeButtonBitmap, gameCoords::buttonCoords["PLAYER_TRADE"].xCoord, gameCoords::buttonCoords["PLAYER_TRADE"].yCoord, 0);
-	al_draw_bitmap(bankTradeButtonBitmap, gameCoords::buttonCoords["BANK_TRADE"].xCoord, gameCoords::buttonCoords["BANK_TRADE"].yCoord, 0);
+	//al_draw_bitmap(passButtonBitmap, gameCoords::buttonCoords["END_TURN"].xCoord, gameCoords::buttonCoords["END_TURN"].yCoord, 0);
+	//al_draw_bitmap(playerTradeButtonBitmap, gameCoords::buttonCoords["PLAYER_TRADE"].xCoord, gameCoords::buttonCoords["PLAYER_TRADE"].yCoord, 0);
+	//al_draw_bitmap(bankTradeButtonBitmap, gameCoords::buttonCoords["BANK_TRADE"].xCoord, gameCoords::buttonCoords["BANK_TRADE"].yCoord, 0);
+	al_draw_scaled_rotated_bitmap(passButtonBitmap, 0,0,gameCoords::buttonCoords["END_TURN"].xCoord, gameCoords::buttonCoords["END_TURN"].yCoord,PROP_X,PROP_Y,0, 0);
+	al_draw_scaled_rotated_bitmap(playerTradeButtonBitmap,0,0, gameCoords::buttonCoords["PLAYER_TRADE"].xCoord, gameCoords::buttonCoords["PLAYER_TRADE"].yCoord, PROP_X,PROP_Y,0,0);
+	al_draw_scaled_rotated_bitmap(bankTradeButtonBitmap, 0,0,gameCoords::buttonCoords["BANK_TRADE"].xCoord, gameCoords::buttonCoords["BANK_TRADE"].yCoord,PROP_X,PROP_Y,0, 0);
 }
 
 void gameModelViewer::viewExitButton()
 {
-	al_draw_bitmap(exitButtonBitmap, gameCoords::buttonCoords["EXIT"].xCoord, gameCoords::buttonCoords["EXIT"].yCoord, 0);
+	//al_draw_bitmap(exitButtonBitmap, gameCoords::buttonCoords["EXIT"].xCoord, gameCoords::buttonCoords["EXIT"].yCoord, 0);
+	al_draw_scaled_rotated_bitmap(exitButtonBitmap,0,0, gameCoords::buttonCoords["EXIT"].xCoord, gameCoords::buttonCoords["EXIT"].yCoord,PROP_X,PROP_Y,0, 0);
 }
 
 gameModelViewer::~gameModelViewer()

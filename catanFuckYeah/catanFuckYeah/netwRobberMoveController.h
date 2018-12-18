@@ -3,7 +3,7 @@
 class netwRobberMoveController : public EDANetworkingController
 {
 public:
-	netwRobberMoveController();
+	netwRobberMoveController(catanGameModel * game);
 	virtual bool parseNetworkingEvent(networkingEv * ev);
 	virtual netwControllerTypes getType() { return CTRL_ROBBERMOVE; }
 	~netwRobberMoveController();

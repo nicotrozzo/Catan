@@ -17,7 +17,7 @@ class mouseEvent : public inputEv
 {
 public:
 	mouseEvent(point p) : coords(p) {}
-	inputEventTypes getInputEvType() { return MOUSE_EVENT; }
+	inputEventTypes getInputEvType() { return INP_MOUSE_EVENT; }
 	point getClickCoords() { return coords; }
 private:
 	//guarda coordenadas del click
@@ -30,7 +30,7 @@ class keyboardEvent : public inputEv
 {
 public:
 	keyboardEvent(char letterPressed) { key = letterPressed; }
-	inputEventTypes getInputEvType() { return KEYBOARD_EVENT; }
+	inputEventTypes getInputEvType() { return INP_KEYBOARD_EVENT; }
 	char getKey() { return key; }
 private:
 	//guarda tecla apretada
@@ -45,7 +45,6 @@ public:
 	genericEvent * getEvent(void);
 	~inputEventGenerator();
 private:
-	//queue<genericEvent*> eventQueue;
 	genericEvent * lastEvent;
 	ALLEGRO_EVENT_QUEUE * allegroQueue;
 	ALLEGRO_EVENT ev;

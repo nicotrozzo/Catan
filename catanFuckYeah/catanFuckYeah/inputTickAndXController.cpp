@@ -70,6 +70,7 @@ bool inputTickAndXController::selectionCall(bool yes)
 	playingFSMEvTypes evType = CHANGE_STATE;
 	if (yes)
 	{
+		construction_t building; //para ver el building pendiente
 		switch (actionToDo)
 		{
 		case TICK_OPP_TRADE:
@@ -105,28 +106,28 @@ bool inputTickAndXController::selectionCall(bool yes)
 				int ownResCount = static_cast<int>(tradeCards[0].totalCardsCount());
 				int oppResCount = static_cast<int>(tradeCards[1].totalCardsCount());
 				string myRes, oppRes;
-				string tradeRes[] = { myRes, oppRes };
+				string* tradeRes[] = { &myRes, &oppRes };
 				for (int i = 0; i < NUMBER_OF_PLAYERS; i++)
 				{
 					for (int j = 0; j < tradeCards[i].brick; j++)
 					{
-						tradeRes[i] += "L";
+						*(tradeRes[i]) += "L";
 					}
 					for (int j = 0; j < tradeCards[i].ore; j++)
 					{
-						tradeRes[i] += "P";
+						*(tradeRes[i]) += "P";
 					}
 					for (int j = 0; j < tradeCards[i].wool; j++)
 					{
-						tradeRes[i] += "O";
+						*(tradeRes[i]) += "O";
 					}
 					for (int j = 0; j < tradeCards[i].wood; j++)
 					{
-						tradeRes[i] += "M";
+						*(tradeRes[i]) += "M";
 					}
 					for (int j = 0; j < tradeCards[i].wheat; j++)
 					{
-						tradeRes[i] += "T";
+						*(tradeRes[i]) += "T";
 					}
 				}
 				netEmisorEv->sendTrade(OFFER_TRADE, ownResCount, myRes, oppResCount, oppRes);
@@ -134,20 +135,23 @@ bool inputTickAndXController::selectionCall(bool yes)
 			}
 			break;
 		case TICK_BUILD:
-			ret = gameModel->construct();
+			if (gameModel->isConstructing())
+			{
+				building = gameModel->getMap()->getPendingConstruction();
+				ret = gameModel->construct();
+			}
 			if (ret)
 			{
-				construction_t building = gameModel->getMap()->getPendingConstruction();
 				evType = TICK_EV;
-				netEmisorEv->sendPackage(building.type, to_string(building.coords.length()) + building.coords);
+				netEmisorEv->sendPackage(building.type, building.coords);
 			}
 			break;
 		case TICK_ROBB_CARDS:
 			if (gameModel->robberCardsReady())
 			{
+				cards myDiscard = gameModel->getP1DiscardRobberCards();
 				if (ret = gameModel->discardCurrentPlayer())
 				{
-					cards myDiscard = gameModel->getP1DiscardRobberCards();
 					string info = "";
 					for (int j = 0; j < myDiscard.brick; j++)
 					{

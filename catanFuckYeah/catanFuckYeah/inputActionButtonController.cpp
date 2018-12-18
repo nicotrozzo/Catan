@@ -3,9 +3,9 @@
 #include "gameDefines.h"
 #include "playingFSM.h"
 
-inputActionButtonController::inputActionButtonController(catanGameModel * game) : gameModel(game)
+inputActionButtonController::inputActionButtonController(catanGameModel * game, netwEmisor *emisor) : gameModel(game)
 {
-	netEmisorEv = nullptr;
+	netEmisorEv = emisor;
 }
 
 
@@ -37,17 +37,21 @@ bool inputActionButtonController::parseMouseEvent(mouseEvent * ev)
 		bCoords.y = gameCoords::buttonCoords[tradeButtons[i]].yCoord;
 		if ((mouseCoords.x >= bCoords.x) && (mouseCoords.x - bCoords.x <= OFFSET_TRADE_X))
 		{
-			if (tradeButtons[i] == "PLAYER_TRADE")
+			if ((mouseCoords.y >= bCoords.y) && (mouseCoords.y - bCoords.y <= OFFSET_TRADE_Y))
 			{
-				ret = gameModel->preparePlayerTrade(DESSERT, 1);
-			}
-			else if(tradeButtons[i] == "BANK_TRADE")
-			{
-				ret = gameModel->prepareBankTrade(DESSERT, 1);
-			}
-			if (ret)
-			{
-				controllerEvent = new playingFSMCardsEv(tradeButtons[i] == "PLAYER_TRADE" ? true : false);
+
+				if (tradeButtons[i] == "PLAYER_TRADE")
+				{
+					ret = gameModel->preparePlayerTrade(DESSERT, 1);
+				}
+				else if (tradeButtons[i] == "BANK_TRADE")
+				{
+					ret = gameModel->prepareBankTrade(DESSERT, 1);
+				}
+				if (ret)
+				{
+					controllerEvent = new playingFSMCardsEv(tradeButtons[i] == "PLAYER_TRADE" ? true : false);
+				}
 			}
 		}
 	}

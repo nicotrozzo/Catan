@@ -126,14 +126,10 @@ bool catanGameModel::validConstruction(networkingEventTypes type, string coords)
 			switch (type)
 			{
 			case SETTLEMENT:
-				if (!map.checkAvailableSettlement(coords, player))
-				{
-					ret = map.checkAvailableCity(coords, player);
-				}
-				else
-				{
-					ret = true;
-				}
+				ret = map.checkAvailableSettlement(coords, player);
+				break;
+			case CITY:
+				ret = map.checkAvailableCity(coords, player);
 				break;
 			case ROAD:
 				ret = map.checkAvailableRoad(coords, player);
@@ -315,7 +311,7 @@ bool catanGameModel::playersTrade(string cardsPlayer1, string cardsPlayer2)
 	{
 		for (auto x : cardsPlayer2)
 		{
-			//tiene que modificar los datos miembro internos y que se encargue preprePlayerTrade()... dato a modificar: p1SelectedCardsForTrade
+			//tiene que modificar los datos miembro internos y que se encargue playerTrade()... dato a modificar: p1SelectedCardsForTrade
 			switch (x)
 			{
 			case BRICK:
@@ -361,6 +357,7 @@ bool catanGameModel::playersTrade(string cardsPlayer1, string cardsPlayer2)
 			}
 		}
 		ret = true;
+		selecting = OFFER_TRADE;
 		notifyAllObservers();
 	}
 	return ret;

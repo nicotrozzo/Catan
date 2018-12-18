@@ -24,14 +24,17 @@ bool inputEdgeAndVertexController::parseMouseEvent(mouseEvent * ev)
 			{
 				if (!gameModel->isConstructing())
 				{
-					if (ret = gameModel->validConstruction(SETTLEMENT, x.first))
+					if ((ret = gameModel->validConstruction(SETTLEMENT, x.first)) || (ret = gameModel->validConstruction(CITY, x.first)))
 					{
 						controllerEvent = new playingFSMEvent(TICK_EV);
 					}
 				}
 				else
 				{
-					ret = gameModel->validConstruction(SETTLEMENT, x.first);		//no generera evento, solo cambia la construccion
+					if (!(ret = gameModel->validConstruction(SETTLEMENT, x.first)))	//no generera evento, solo cambia la construccion
+					{
+						ret = (ret = gameModel->validConstruction(CITY, x.first));
+					}
 				}
 			}
 		}

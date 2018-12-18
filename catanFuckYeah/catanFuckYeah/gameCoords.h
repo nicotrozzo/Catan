@@ -1,6 +1,14 @@
 #pragma once
 #include <map>
 #include <string>
+
+#define DIS_W	1642
+#define DIS_H	1000
+#define MY_DIS_W 1067.0 
+#define MY_DIS_H 650.0
+#define PROP_X (MY_DIS_W/DIS_W)
+#define PROP_Y (MY_DIS_H/DIS_H)
+
 #define PI 3.14159265359
 #define SEA_0_ROTATION PI
 #define SEA_1_ROTATION (PI*4/3)

@@ -1,8 +1,5 @@
 #include "catanGameSetter.h"
 
-catanGameSetter::catanGameSetter()
-{
-}
 
 void catanGameSetter::setMyName(string name)
 {
@@ -39,8 +36,4 @@ void catanGameSetter::setInitialPlayer(unsigned char player)
 bool catanGameSetter::setCircularTokens(string tokens)
 {
 	return map.setCircularTokens(tokens);
-}
-
-catanGameSetter::~catanGameSetter()
-{
 }

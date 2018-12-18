@@ -48,7 +48,7 @@ bool netwAckController::parseNetworkingEvent(networkingEv * ev)
 					}
 					else
 					{
-						controllerEvent = new playingFSMErrorEv("Error reciving ack in robber final stage");
+						controllerEvent = new playingFSMErrorEv("Error receiving ack in robber final stage");
 					}
 					break;
 				default:
@@ -71,10 +71,13 @@ bool netwAckController::parseNetworkingEvent(networkingEv * ev)
 
 bool netwAckController::setAction(cases action_)
 {
+	bool ret = false;
 	if (validAction(action_))
 	{
 		action = action_;
+		ret = true;
 	}
+	return ret;
 }
 
 bool netwAckController::validAction(cases action_)

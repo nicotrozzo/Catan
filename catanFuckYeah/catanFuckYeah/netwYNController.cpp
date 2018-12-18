@@ -15,10 +15,7 @@ bool netwYNController::parseNetworkingEvent(genericEvent * ev)
 		if (gameModel->isSelecting() == OFFER_TRADE)
 		{
 			gameModel->playerTrade();
-		}
-		else
-		{
-			controllerEvent = new playingFSMErrorEv("Error en respuesta de la oferta enviada");
+			ret = true;
 		}
 	}
 	else if (static_cast<networkingEv *>(ev)->getHeader() == NO)
@@ -26,10 +23,7 @@ bool netwYNController::parseNetworkingEvent(genericEvent * ev)
 		if (gameModel->isSelecting() == OFFER_TRADE)
 		{
 			gameModel->clearTrades();
-		}
-		else
-		{
-			controllerEvent = new playingFSMErrorEv("Error en respuesta de la oferta enviada");
+			ret = true;
 		}
 	}
 	return ret;

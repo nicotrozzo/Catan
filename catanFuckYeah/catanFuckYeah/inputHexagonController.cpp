@@ -3,9 +3,9 @@
 #include "gameCoords.h"
 
 
-inputHexagonController::inputHexagonController(catanGameModel * game) : gameModel(game)
+inputHexagonController::inputHexagonController(catanGameModel * game, netwEmisor* emisor) : gameModel(game)
 {
-
+	netEmisor = emisor;
 }
 
 
@@ -22,7 +22,12 @@ bool  inputHexagonController::parseMouseEvent(mouseEvent * ev)
 		{
 			if (abs(mouseCoords.y - clickCoords.y) <= OFFSET_HEXAGON_Y/2)
 			{
-				ret = gameModel->robberMoved('A' + i);
+				if (ret = gameModel->robberMoved('A' + i))
+				{
+					string send;
+					send += 'A' + i;
+					netEmisor->sendPackage(ROBBER_MOVE, send);
+				}
 			}
 		}
 		
