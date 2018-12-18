@@ -9,7 +9,7 @@
 class connectionEstablisher : public eventGenerator
 {
 public:
-	connectionEstablisher();	
+	connectionEstablisher(string host);	
 	void startConnecting();
 	virtual genericEvent * getEvent();
 	connector * getConnector();					//devuelve un connector (client o server) si se pudo conectar, sino nullptr 

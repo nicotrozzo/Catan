@@ -7,10 +7,10 @@
 #include "connectionEstablisher.h"
 #include "handShakingFSM.h"
 #include "netwEvGenerator.h"
+#include "gameCoords.h"
 
 #define TIMEOUT_SECS 150
-#define DISPLAY_WIDHT	1642
-#define DISPLAY_HEIGHT	1000
+#define IP_STR "25.67.43.3"
 
 int main(int argc,char * argv[])
 {
@@ -21,7 +21,7 @@ int main(int argc,char * argv[])
 		inputEventGenerator inputEvGen(static_cast<ALLEGRO_DISPLAY *>(info));	//mouse, teclado y refresh de pantalla
 		timerEventGenerator timeout(TIMEOUT_SECS);
 		quitButtonController quitButton;
-		connectionEstablisher establisher;
+		connectionEstablisher establisher(IP_STR);
 		netwEventGenerator netwReceiver;
 		mainEventGenerator eventGen;	//generador de eventos de TODO el programa
 		eventGen.attach(&inputEvGen);	//registro fuente de eventos
@@ -55,7 +55,7 @@ void * initFrontEnd()
 	srand(time(NULL));
 	if (al_init())
 	{
-		ALLEGRO_DISPLAY * display = al_create_display(DISPLAY_WIDHT,DISPLAY_HEIGHT);
+		ALLEGRO_DISPLAY * display = al_create_display(MY_DIS_W,MY_DIS_H);
 		if (display != NULL)
 		{
 			ret = display;
@@ -68,6 +68,6 @@ void deleteFrontEnd(void * display)
 {
 	if (display != nullptr)
 	{
-		al_destroy_display(static_cast<ALLEGRO_DISPLAY *>(display))
+		al_destroy_display(static_cast<ALLEGRO_DISPLAY *>(display));
 	}
 }

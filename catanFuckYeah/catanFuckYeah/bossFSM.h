@@ -3,7 +3,6 @@
 #include "eventHandling.h"
 #include "genericFSM.h"
 #include "quitButtonController.h"
-#include "allegroInit.h"
 #include "startMenu.h"
 #include "handShakingFSM.h"
 #include "netwEvGenerator.h"
@@ -62,7 +61,6 @@ private:
 	void doNothing(genericEvent * ev) {}
 
 	graphicator * graficador;
-	//genericFSM * innerFSM;
 	string name;
 
 	mainEventGenerator playingFSMEvGen;

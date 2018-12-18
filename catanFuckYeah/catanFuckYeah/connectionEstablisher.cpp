@@ -6,9 +6,7 @@
 #include <cstdlib>
 #include <ctime>
 
-#define IP_STR "25.67.43.3"
-
-connectionEstablisher::connectionEstablisher() : host(IP_STR)
+connectionEstablisher::connectionEstablisher(string host) : host(host.c_str())
 {
 	connecting = false;
 	topEvent = nullptr;

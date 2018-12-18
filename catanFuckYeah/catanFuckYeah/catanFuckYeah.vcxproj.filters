@@ -119,9 +119,6 @@
     <ClCompile Include="playingFSM.cpp">
       <Filter>Archivos de origen\FSM</Filter>
     </ClCompile>
-    <ClCompile Include="allegroInit.cpp">
-      <Filter>Archivos de origen\MVC: Viewers</Filter>
-    </ClCompile>
     <ClCompile Include="gameCoords.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
@@ -261,9 +258,6 @@
     </ClInclude>
     <ClInclude Include="bossFSM.h">
       <Filter>Archivos de encabezado\FSM</Filter>
-    </ClInclude>
-    <ClInclude Include="allegroInit.h">
-      <Filter>Archivos de encabezado\MVC: Viewers</Filter>
     </ClInclude>
     <ClInclude Include="gameCoords.h">
       <Filter>Archivos de encabezado</Filter>
