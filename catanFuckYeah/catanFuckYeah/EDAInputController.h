@@ -2,7 +2,7 @@
 #include "inputEventGenerator.h"
 #include "netwEmisor.h"
 
-typedef enum inputControllerTypes { CTRL_ACTION_BUTTON, CTRL_EDGE_AND_VERTEX, CTRL_CARDS, CTRL_HEXAGON, CTRL_TICKANDX , CTRL_STATE};
+enum inputControllerTypes { CTRL_ACTION_BUTTON, CTRL_EDGE_AND_VERTEX, CTRL_CARDS, CTRL_HEXAGON, CTRL_TICKANDX , CTRL_STATE};
 
 class EDAInputController : public eventGenerator
 {

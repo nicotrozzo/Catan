@@ -1,4 +1,5 @@
 #include "EDANetworkingController.h"
+#include "playingFSM.h"
 
 EDANetworkingController::EDANetworkingController() : controllerEvent(nullptr)
 {
@@ -20,7 +21,7 @@ bool EDANetworkingController::parseNetworkingEvent(networkingEv * ev)
 	bool ret = false;
 	if (ev->getHeader() == expectedPackage)
 	{
-		controllerEvent = new ;	//despues ver que significa este evento
+//		controllerEvent = new ;	//despues ver que significa este evento
 		ret = true;
 	}
 	return ret;

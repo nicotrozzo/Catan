@@ -1,5 +1,5 @@
 #include "netwConstructionController.h"
-
+#include "playingFSM.h"
 
 
 netwConstructionController::netwConstructionController(catanGameModel * game) : gameModel(game)

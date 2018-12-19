@@ -23,7 +23,7 @@
 
 using namespace std;
 
-const typedef struct
+typedef struct
 {
 	double xCoord;
 	double yCoord;
@@ -33,9 +33,9 @@ const typedef struct
 class gameCoords
 {
 public:
-	static map<string, coords> myVertexCoords;
-	static map<string, coords> myEdgesCoords;
-	static map<unsigned char, coords> myHexagonCoords;
-	static map<string, coords> buttonCoords;
-	static map<string, coords> cardsCoords;
+	static map<string, const coords> myVertexCoords;
+	static map<string, const coords> myEdgesCoords;
+	static map<unsigned char,const coords> myHexagonCoords;
+	static map<string, const coords> buttonCoords;
+	static map<string, const coords> cardsCoords;
 };

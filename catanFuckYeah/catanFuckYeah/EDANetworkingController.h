@@ -2,9 +2,8 @@
 #include "networkingEvents.h"
 #include "eventHandling.h"
 #include "catanGameModel.h"
-#include "playingFSM.h"
 
-typedef enum netwControllerTypes { GENERIC_NETW_CONTROLLER,CTRL_CONSTRUCTION, CTRL_DICES,CTRL_BANKTRADE,CTRL_OFFERTRADE, CTRL_ROBBERCARDS, CTRL_ROBBERMOVE, CTRL_YN, CTRL_ACK};
+enum netwControllerTypes { GENERIC_NETW_CONTROLLER,CTRL_CONSTRUCTION, CTRL_DICES,CTRL_BANKTRADE,CTRL_OFFERTRADE, CTRL_ROBBERCARDS, CTRL_ROBBERMOVE, CTRL_YN, CTRL_ACK};
 
 class EDANetworkingController : public eventGenerator 
 {

@@ -89,9 +89,6 @@
     <ClCompile Include="netwEmisor.cpp">
       <Filter>Archivos de origen\NETWORKING</Filter>
     </ClCompile>
-    <ClCompile Include="gameEventGenerator.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
     <ClCompile Include="startMenu.cpp">
       <Filter>Archivos de origen\MVC: Viewers</Filter>
     </ClCompile>
@@ -294,9 +291,6 @@
     </ClInclude>
     <ClInclude Include="quitButton.h">
       <Filter>Archivos de encabezado\MVC: Models</Filter>
-    </ClInclude>
-    <ClInclude Include="gameEventGenerator.h">
-      <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="quitPackageReceiver.h">
       <Filter>Archivos de encabezado</Filter>

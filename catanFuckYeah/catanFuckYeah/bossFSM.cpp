@@ -1,7 +1,8 @@
 #include "bossFSM.h"
 #include "bossFSMEvents.h"
 #include "connectionEstablisher.h"
-#include "handShakingFSM.h"
+#include "handShakingServerFSM.h"
+#include "handShakingClientFSM.h"
 #include "waitingGame.h"
 #include "gameGraphicator.h"
 #include "messageDisplayer.h"
@@ -143,13 +144,13 @@ void bossFSM::newGame(genericEvent * ev)
 	delete handFSM;
 	bool iStart = temp->isPlayer1Playing();
 	vector<EDAInputController *> playingFSMInpControllers;
-	EDAInputController * controllerToAdd;
+	EDAInputController * controllerToAdd = nullptr;
 	for (int i = 0; i < 6; i++)
 	{
 		switch (i)
 		{
 		case 0:
-			controllerToAdd = new inputActionButtonController(temp);	//ALGUNOS VAN A NECESITAR EL EMISOR
+			controllerToAdd = new inputActionButtonController(temp,emisor);	//ALGUNOS VAN A NECESITAR EL EMISOR
 			break;
 		case 1:
 			controllerToAdd = new inputCardsController(temp);
@@ -158,19 +159,19 @@ void bossFSM::newGame(genericEvent * ev)
 			controllerToAdd = new inputEdgeAndVertexController(temp);
 			break;
 		case 3:
-			controllerToAdd = new inputHexagonController(temp);
+			controllerToAdd = new inputHexagonController(temp,emisor);
 			break;
 		case 4:
 			controllerToAdd = new inputStateController;
 			break;
 		case 5:
-			controllerToAdd = new inputTickAndXController(temp);
+			controllerToAdd = new inputTickAndXController(temp,emisor);
 			break;
 		}
 		playingFSMEvGen.attach(controllerToAdd);
 		playingFSMInpControllers[i] = controllerToAdd;
 	}
-	EDANetworkingController * netwControllerToAdd;
+	EDANetworkingController * netwControllerToAdd = nullptr;
 	vector<EDANetworkingController *> playingFSMNetwControllers;
 	for (int i = 0; i < 6; i++)
 	{

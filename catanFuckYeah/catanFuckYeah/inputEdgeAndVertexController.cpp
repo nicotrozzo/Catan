@@ -14,8 +14,6 @@ bool inputEdgeAndVertexController::parseMouseEvent(mouseEvent * ev)
 {
 	bool ret = false;
 	point mouseCoords = ev->getClickCoords();
-	point vCoords;
-	point eCoords;
 	for (auto x : gameCoords::myVertexCoords)
 	{
 		if ( ABS(mouseCoords.x - x.second.xCoord) <= OFFSET_VERTEX_X)

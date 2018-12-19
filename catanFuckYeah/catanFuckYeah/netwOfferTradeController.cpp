@@ -1,5 +1,5 @@
 #include "netwOfferTradeController.h"
-
+#include "playingFSM.h"
 
 
 netwOfferTradeController::netwOfferTradeController(catanGameModel * game)

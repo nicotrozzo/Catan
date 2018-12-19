@@ -1,5 +1,5 @@
 #include "netwAckController.h"
-
+#include "playingFSM.h"
 
 netwAckController::netwAckController(catanGameModel * game)
 {
@@ -111,7 +111,7 @@ void netwAckController::setPhase()
 {
 	if ((gameModel->getOtherPlayer()->getAmountOfCards() <= 7) && (phases == I_PHASE))
 	{
-		phases == F_PHASE;
+		phases = F_PHASE;
 	}
 	else if ((phases == I_PHASE) && (gameModel->getCurrentPlayer()->getAmountOfCards() > 7))
 	{

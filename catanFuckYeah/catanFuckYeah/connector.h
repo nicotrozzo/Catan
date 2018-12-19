@@ -9,7 +9,7 @@ using namespace std;
 
 //enunm Forward Declaration
 //it is feasible as long as the type is defined in the code.
-typedef enum connectorType{ CLIENT, SERVER };
+enum connectorType{ CLIENT, SERVER };
 
 class connector
 {

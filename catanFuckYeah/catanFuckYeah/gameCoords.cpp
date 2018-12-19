@@ -1,6 +1,6 @@
 #include "gameCoords.h"
 
- map<string, coords> gameCoords::myVertexCoords = {
+ map<string, const coords> gameCoords::myVertexCoords = {
 	{ "0A",{ 676*PROP_X,165*PROP_Y ,MAP_NONE } },{ "0B",{ 820 * PROP_X,165 * PROP_Y,MAP_NONE } },{ "01C",{ 966 * PROP_X,165 * PROP_Y,MAP_NONE } },
 	{ "05A",{ 606 * PROP_X,206 * PROP_Y,MAP_NONE } },{ "0AB",{ 747 * PROP_X,206 * PROP_Y,MAP_NONE } },{ "0BC",{ 891 * PROP_X,206 * PROP_Y,MAP_NONE } },{ "1C",{ 1034 * PROP_X,206 * PROP_Y,MAP_NONE } },
 	{ "5AD",{ 606 * PROP_X,290 * PROP_Y,MAP_NONE } },{ "ABE",{ 747 * PROP_X,290 * PROP_Y,MAP_NONE } },{ "BCF",{ 891 * PROP_X,290 * PROP_Y,MAP_NONE } },{ "1CG",{ 1034 * PROP_X,290 * PROP_Y,MAP_NONE } },
@@ -15,7 +15,7 @@
 	{ "34Q",{ 676 * PROP_X,833 * PROP_Y,MAP_NONE } },{ "3R",{ 820 * PROP_X,833 * PROP_Y,MAP_NONE } },{ "3S",{ 966 * PROP_X,833 * PROP_Y,MAP_NONE } }
 };
 
- map<string, coords> gameCoords::myEdgesCoords = {
+ map<string, const coords> gameCoords::myEdgesCoords = {
 	{ "0A5",{ 641*PROP_X,185.5*PROP_Y,MAP_ALPHA } },{ "0AB",{ 711.5*PROP_X,185.5*PROP_Y,MAP_BETA } },{ "0BA",{ 783.5*PROP_X,185.5*PROP_Y,MAP_ALPHA } },{ "0BC",{ 855.5*PROP_X,185.5*PROP_Y,MAP_BETA } },{ "0C",{ 928.5*PROP_X,185.5*PROP_Y,MAP_ALPHA } },{ "1CO",{ 1000 * PROP_X,185.5*PROP_Y,MAP_BETA } },
 	{ "5A",{ 606 * PROP_X,248 * PROP_Y,MAP_VERTICAL } },{ "AB",{ 747 * PROP_X,248 * PROP_Y,MAP_VERTICAL } },{ "BC",{ 891 * PROP_X,248 * PROP_Y,MAP_VERTICAL } },{ "1CG",{ 1034 * PROP_X,248 * PROP_Y,MAP_VERTICAL } },
 	{ "5DA",{ 569 * PROP_X,311 * PROP_Y,MAP_ALPHA } },{ "AD",{ 640 * PROP_X,311 * PROP_Y,MAP_BETA } },{ "AE",{ 711.5*PROP_X,311 * PROP_Y,MAP_ALPHA } },{ "BE",{ 783.5*PROP_X,311 * PROP_Y,MAP_BETA } },{ "BF",{ 855.5*PROP_X,311 * PROP_Y,MAP_ALPHA } },{ "CF",{ 928.5*PROP_X,311 * PROP_Y,MAP_BETA } },{ "CG",{ 1000 * PROP_X,311 * PROP_Y,MAP_ALPHA } },{ "1GC",{ 1072 * PROP_X,311 * PROP_Y,MAP_BETA } },
@@ -29,7 +29,7 @@
 	{ "4Q3",{ 641 * PROP_X,813 * PROP_Y,MAP_BETA } },{ "3Q",{ 711.5*PROP_X,813 * PROP_Y,MAP_ALPHA } },{ "3RQ",{ 783.5*PROP_X,813 * PROP_Y,MAP_BETA } },{ "3RS",{ 855.5*PROP_X,813 * PROP_Y,MAP_ALPHA } },{ "3SR",{ 928.5*PROP_X,813 * PROP_Y,MAP_BETA } },{ "3S2",{ 1000 * PROP_X,813 * PROP_Y,MAP_ALPHA } }
 };
 
- map<unsigned char, coords> gameCoords::myHexagonCoords = {
+ map<unsigned char,const coords> gameCoords::myHexagonCoords = {
 	{ 'A',{ 676 * PROP_X,248 * PROP_Y,MAP_NONE } },{ 'B',{ 820 * PROP_X,247 * PROP_Y,MAP_NONE } },{ 'C',{ 963 * PROP_X,248 * PROP_Y,MAP_NONE } },
 	{ 'D',{ 606 * PROP_X,373.5*PROP_Y,MAP_NONE } },{ 'E',{ 747 * PROP_X,373.5*PROP_Y,MAP_NONE } },{ 'F',{ 891 * PROP_X,373.5*PROP_Y,MAP_NONE } },{ 'G',{ 1034 * PROP_X,373.5*PROP_Y,MAP_NONE } },
 	{ 'H',{ 534 * PROP_X,499.5*PROP_Y,MAP_NONE } },{ 'I',{ 676 * PROP_X,499.5*PROP_Y,MAP_NONE } },{ 'J',{ 820 * PROP_X,499.5*PROP_Y,MAP_NONE } },{ 'K',{ 963 * PROP_X,498.5*PROP_Y,MAP_NONE } },{ 'L',{ 1106 * PROP_X,499.5*PROP_Y,MAP_NONE } },
@@ -38,12 +38,12 @@
 	{ '0',{ 750 * PROP_X,125 * PROP_Y,SEA_0_ROTATION } },{ '1',{ 1105 * PROP_X,249 * PROP_Y,SEA_1_ROTATION } },{ '2',{ 1177 * PROP_X,626 * PROP_Y,SEA_2_ROTATION } },{ '3',{ 891 * PROP_X,875 * PROP_Y,SEA_3_ROTATION } },{ '4',{ 534 * PROP_X,750.5*PROP_Y,SEA_4_ROTATION } },{ '5',{ 464 * PROP_X,373.5*PROP_Y,SEA_5_ROTATION } },
 };
 
- map<string, coords> gameCoords::cardsCoords = {	//tiene coordenadas de la esquina de arriba a la izq de cada carta de recursos en el trueque
+ map<string, const coords> gameCoords::cardsCoords = {	//tiene coordenadas de la esquina de arriba a la izq de cada carta de recursos en el trueque
 	 {"ORE1",{460 * PROP_X,170 * PROP_Y,MAP_NONE}}, {"WHEAT1",{637 * PROP_X,170 * PROP_Y,MAP_NONE}}, {"WOOL1",{818 * PROP_X,170 * PROP_Y,MAP_NONE}}, {"WOOD1",{995 * PROP_X,170 * PROP_Y,MAP_NONE}}, {"BRICK1",{1171 * PROP_X,170 * PROP_Y,MAP_NONE}},
 	 {"ORE2",{460 * PROP_X,552 * PROP_Y,MAP_NONE}}, {"WHEAT2",{637 * PROP_X,552 * PROP_Y,MAP_NONE}}, {"WOOL2",{818 * PROP_X,552 * PROP_Y,MAP_NONE}}, {"WOOD2",{995 * PROP_X,552 * PROP_Y,MAP_NONE}}, {"BRICK2",{1171 * PROP_X,552 * PROP_Y,MAP_NONE}}
  };
 
- map<string, coords> gameCoords::buttonCoords = {
+ map<string, const coords> gameCoords::buttonCoords = {
  {"END_TURN",{1413 * PROP_X,123 * PROP_Y,MAP_NONE}}, {"EXIT",{1562 * PROP_X,9 * PROP_Y,MAP_NONE}}, {"QUIT",{821 * PROP_X,500 * PROP_Y,MAP_NONE}}, {"PLAY",{410 * PROP_X,500 * PROP_Y,MAP_NONE}},
  {"PLAYER_TRADE",{1530 * PROP_X,220 * PROP_Y,MAP_NONE}}, {"BANK_TRADE",{1405 * PROP_X,220 * PROP_Y,MAP_NONE}}, {"YES",{1413 * PROP_X,876 * PROP_Y,MAP_NONE}}, {"NO",{1540 * PROP_X,876 * PROP_Y,MAP_NONE}}
  };

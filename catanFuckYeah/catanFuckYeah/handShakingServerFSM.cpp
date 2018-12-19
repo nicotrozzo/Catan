@@ -61,6 +61,16 @@ void handShakingServerFSM::sendStart(genericEvent * ev)
 	}
 }
 
+catanGameModel * handShakingServerFSM::getCatanGame(void)
+{
+	catanGameModel * ret = nullptr;
+	if (fsmEvent != nullptr)
+	{
+		ret = static_cast<catanGameModel *>(game);
+	}
+	return ret;
+}
+
 void handShakingServerFSM::endHandshaking(genericEvent * ev)
 {
 	fsmEvent = new doneEv;

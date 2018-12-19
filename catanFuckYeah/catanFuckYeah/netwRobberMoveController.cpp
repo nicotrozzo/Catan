@@ -1,5 +1,5 @@
 #include "netwRobberMoveController.h"
-
+#include "playingFSM.h"
 
 
 netwRobberMoveController::netwRobberMoveController(catanGameModel * game) : gameModel(game)

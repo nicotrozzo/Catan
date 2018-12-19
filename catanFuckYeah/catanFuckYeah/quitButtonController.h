@@ -5,8 +5,8 @@ class quitButtonController : public eventGenerator
 {
 public:
 	quitButtonController();
-	void parseMouseEvent(mouseEvent * ev);
-	void parseKeyboardEvent(keyboardEvent * ev);
+	bool parseMouseEvent(mouseEvent * ev);
+	bool parseKeyboardEvent(keyboardEvent * ev);
 	genericEvent * getEvent();
 	void toggleState();
 private:

@@ -1,5 +1,5 @@
 #include "netwRobberCardsController.h"
-
+#include "playingFSM.h"
 
 
 netwRobberCardsController::netwRobberCardsController(catanGameModel * game)

@@ -1,4 +1,5 @@
 #include "netwBankTradeController.h"
+#include "playingFSM.h"
 
 netwBankTradeController::netwBankTradeController(catanGameModel*game)
 {

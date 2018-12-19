@@ -1,5 +1,5 @@
 #include "netwDicesController.h"
-
+#include "playingFSM.h"
 
 
 netwDicesController::netwDicesController(catanGameModel * game) : gameModel(game)
