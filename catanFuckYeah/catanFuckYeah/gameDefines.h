@@ -32,7 +32,8 @@
 #define OFFSET_VERTEX_Y (30*PROP_Y)
 #define OFFSET_EDGE_X (30*PROP_X)
 #define OFFSET_EDGE_Y (30*PROP_Y)
-
+#define OFFSET_PLAY_X (371*PROP_X)	
+#define OFFSET_PLAY_Y (136*PROP_Y)
 
 typedef enum resourceType { BRICK = 'L', WOOD, DESSERT, WOOL, ORE, WHEAT = 'T'};
 

@@ -58,10 +58,13 @@ void * initFrontEnd()
 	srand(time(NULL));
 	if (al_init())
 	{
-		ALLEGRO_DISPLAY * display = al_create_display(MY_DIS_W,MY_DIS_H);
-		if (display != NULL)
+		if (al_init_image_addon())
 		{
-			ret = display;
+			ALLEGRO_DISPLAY * display = al_create_display(MY_DIS_W, MY_DIS_H);
+			if (display != NULL)
+			{
+				ret = display;
+			}
 		}
 	}
 	return ret;

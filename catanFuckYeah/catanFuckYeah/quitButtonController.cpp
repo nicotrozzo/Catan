@@ -5,6 +5,7 @@
 quitButtonController::quitButtonController()
 {
 	controllerEvent = nullptr;
+	startMenu = true;
 }
 
 bool quitButtonController::parseMouseEvent(mouseEvent * ev)
@@ -26,15 +27,14 @@ bool quitButtonController::parseMouseEvent(mouseEvent * ev)
 				}
 			}
 			dispCoords = gameCoords::buttonCoords["PLAY"];
-			cout << "FALTA AGREGAR OFFSET_PLAY_X Y OFFSET_PLAY_Y" << endl;
-			/*if ((mouseCoords.x >= dispCoords.xCoord) && (mouseCoords.x - dispCoords.xCoord <= OFFSET_PLAY_X))
+			if ((mouseCoords.x >= dispCoords.xCoord) && (mouseCoords.x - dispCoords.xCoord <= OFFSET_PLAY_X))
 			{
 				if ((mouseCoords.y >= dispCoords.yCoord) && (mouseCoords.y - dispCoords.yCoord <= OFFSET_PLAY_Y))
 				{
 					controllerEvent = new doneEv();
 					ret = true;
 				}
-			}*/
+			}
 		}
 		else
 		{
