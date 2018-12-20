@@ -9,8 +9,8 @@ startMenu::startMenu()
 	{
 		initOk = true;
 		al_draw_scaled_rotated_bitmap(menuBitmap, 0, 0, 0, 0, PROP_X, PROP_Y, 0, 0);
-		al_draw_scaled_rotated_bitmap(playBitmap, 0, 0, 410, 500, PROP_X, PROP_Y, 0, 0);
-		al_draw_scaled_rotated_bitmap(exitBitmap, 0, 0, 820, 500, PROP_X, PROP_Y, 0, 0);
+		al_draw_scaled_rotated_bitmap(playBitmap, 0, 0, gameCoords::buttonCoords["PLAY"].xCoord, gameCoords::buttonCoords["PLAY"].yCoord, PROP_X, PROP_Y, 0, 0);
+		al_draw_scaled_rotated_bitmap(exitBitmap, 0, 0, gameCoords::buttonCoords["QUIT"].xCoord, gameCoords::buttonCoords["QUIT"].yCoord, PROP_X, PROP_Y, 0, 0);
 	}
 }
 
