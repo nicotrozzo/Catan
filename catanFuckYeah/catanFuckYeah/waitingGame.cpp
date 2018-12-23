@@ -17,7 +17,11 @@ waitingGame::waitingGame()
 		{
 			if ((fontForMessage = al_load_ttf_font("graficoCatan\\font\\TravelingTypewriter.ttf", 30,0))!=NULL)
 			{
-				initOk = true;
+				if ((exitButtonBitmap = al_load_bitmap("graficoCatan\\buttons\\gameExitButton.png")) != NULL)
+				{
+
+					initOk = true;
+				}
 			}
 		}
 	}
@@ -27,6 +31,7 @@ void waitingGame::refresh()
 {
 	showWallpapers();
 	showRefresh();
+	showExitButton();
 	showMessage();
 	al_flip_display();
 }
@@ -44,6 +49,11 @@ void waitingGame::setMessage(string message)
 bool waitingGame::getInitOk()
 {
 	return initOk;
+}
+
+void waitingGame::showExitButton()
+{
+	al_draw_scaled_rotated_bitmap(exitButtonBitmap, 0, 0, gameCoords::buttonCoords["EXIT"].xCoord, gameCoords::buttonCoords["EXIT"].yCoord, PROP_X, PROP_Y, 0, 0);
 }
 
 void waitingGame::showWallpapers()
@@ -84,4 +94,5 @@ waitingGame::~waitingGame()
 		al_destroy_bitmap(bitmapArray[i]);
 	}
 	al_destroy_font(fontForMessage);
+	al_destroy_bitmap(exitButtonBitmap);
 }

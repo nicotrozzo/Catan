@@ -19,8 +19,10 @@ public:
 private:
 	ALLEGRO_BITMAP * bitmapArray[4];
 	ALLEGRO_BITMAP * refreshBitmap;
+	ALLEGRO_BITMAP * exitButtonBitmap;
 	ALLEGRO_FONT * fontForMessage;
 	std::string message;
+	void showExitButton();
 	void showMessage();
 	void showWallpapers();
 	void showRefresh();
