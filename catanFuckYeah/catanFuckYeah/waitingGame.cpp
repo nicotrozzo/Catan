@@ -1,4 +1,5 @@
 #include "waitingGame.h"
+#include "gameDefines.h"
 
 using namespace std;
 
@@ -72,7 +73,7 @@ void waitingGame::showRefresh()
 			angle = 0;
 		}
 	}
-	al_draw_rotated_bitmap(refreshBitmap, al_get_bitmap_width(refreshBitmap) / 2.0, al_get_bitmap_height(refreshBitmap) / 2.0, 1575, 935, angle, 0);
+	al_draw_rotated_bitmap(refreshBitmap, al_get_bitmap_width(refreshBitmap) / 2.0, al_get_bitmap_height(refreshBitmap) / 2.0, 1575*PROP_X, 935*PROP_Y, angle, 0);
 }
 
 waitingGame::~waitingGame()
