@@ -1,5 +1,8 @@
 #include <iostream>
 #include <allegro5/allegro.h>
+#include <allegro5/allegro_color.h>
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
 #include "bossFSM.h"
 #include "inputEventGenerator.h"
 #include "timerEventGenerator.h"
@@ -31,6 +34,7 @@ int main(int argc,char * argv[])
 		eventGen.attach(&timeout);
 		eventGen.attach(&quitButton);
 		eventGen.attach(&netwReceiver);
+		eventGen.attach(&establisher);
 		bossFSM fsm(&quitButton,&establisher,&eventGen,&netwReceiver,name);
 		do
 		{
@@ -58,12 +62,18 @@ void * initFrontEnd()
 	srand(time(NULL));
 	if (al_init())
 	{
-		if (al_init_image_addon())
+		if (al_init_font_addon())
 		{
-			ALLEGRO_DISPLAY * display = al_create_display(MY_DIS_W, MY_DIS_H);
-			if (display != NULL)
+			if (al_init_ttf_addon())
 			{
-				ret = display;
+				if (al_init_image_addon())
+				{
+					ALLEGRO_DISPLAY * display = al_create_display(MY_DIS_W, MY_DIS_H);
+					if (display != NULL)
+					{
+						ret = display;
+					}
+				}
 			}
 		}
 	}

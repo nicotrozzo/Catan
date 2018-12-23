@@ -16,7 +16,10 @@ getNextEvent(void)
 	for(eventGenerator * evg:generators)
 	{
 		genericEvent * temp = evg->getEvent();
-		eventQueue.push(temp);
+		if (temp != nullptr)
+		{
+			eventQueue.push(temp);
+		}
 	}
 	
 	

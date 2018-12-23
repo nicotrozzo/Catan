@@ -69,7 +69,13 @@ bool quitButtonController::parseKeyboardEvent(keyboardEvent * ev)
 
 genericEvent * quitButtonController::getEvent()
 {
-	return controllerEvent;
+	genericEvent * ret = nullptr;
+	if (controllerEvent != nullptr)
+	{
+		ret = controllerEvent;
+		controllerEvent = nullptr;
+	}
+	return ret;
 }
 
 void quitButtonController::toggleState()

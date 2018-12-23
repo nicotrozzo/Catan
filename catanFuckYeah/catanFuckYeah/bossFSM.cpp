@@ -53,10 +53,18 @@ void bossFSM::sendToStMnControllers(genericEvent * ev)
 
 void bossFSM::newEstablisher(genericEvent * ev)
 {	
+	establisher->startConnecting();
 	delete graficador;
 	graficador = new waitingGame;
-	establisher->startConnecting();
-	static_cast<waitingGame *>(graficador)->setMessage("Buscando oponente...");
+	if (static_cast<waitingGame *>(graficador)->getInitOk())
+	{
+		static_cast<waitingGame *>(graficador)->setMessage("Buscando oponente...");
+	}
+	else
+	{
+		delete graficador;
+		fsmEvent = new closeDisplayEv;
+	}
 	quitController->toggleState();
 }
 
