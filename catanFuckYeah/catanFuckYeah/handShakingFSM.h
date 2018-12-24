@@ -20,7 +20,7 @@ private:
 class handShakingFSM : public genericFSM
 {
 public:
-	handShakingFSM(const fsmCell * const table, const unsigned int rows, const unsigned int columns, stateTypes initState) : genericFSM(table, rows, columns, initState) {}
+	handShakingFSM(const fsmCell * const table, const unsigned int rows, const unsigned int columns, stateTypes initState) : genericFSM(table, rows, columns, initState) { game = new catanGameSetter; }
 	virtual catanGameModel * getCatanGame(void) = 0; 
 	networkingEventTypes getExpectedPackage() { return expectedPackage; }
 

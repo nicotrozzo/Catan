@@ -4,7 +4,6 @@
 catanPlayerModel::catanPlayerModel() : myCards({ 0,0,0,0,0 })
 {
 	victoryPoints = 0;
-	NameIs = "";
 }
 
 unsigned char catanPlayerModel::getAmountOfCards()
