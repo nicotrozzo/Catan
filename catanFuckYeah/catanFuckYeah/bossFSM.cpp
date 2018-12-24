@@ -136,6 +136,7 @@ void bossFSM::newStMn(genericEvent * ev)
 		delete graficador;
 		fsmEvent = new closeDisplayEv;
 	}
+	establisher->stopConnection();
 }
 
 void bossFSM::closeWaiting(genericEvent * ev)

@@ -112,10 +112,7 @@ genericEvent *connectionEstablisher::getConnectionEv()
 
 void connectionEstablisher::changeConnector()
 {
-	al_destroy_event_queue(queue);
-	queue = NULL;
-	al_destroy_timer(timer);
-	timer = NULL;
+	al_stop_timer(timer);
 	serverToHear = new server;
 	currentConnector = static_cast<connector *>(serverToHear);
 	delete clientToHear;
@@ -124,6 +121,9 @@ void connectionEstablisher::changeConnector()
 void connectionEstablisher::stopConnection()
 {
 	delete currentConnector;	//si deciden parar la conexion, hay que destruir al connector que estaba escuchando
+	connecting = false;
+	topEvent = nullptr;
+	al_stop_timer(timer);
 }
 
 connector *connectionEstablisher::getConnector()
