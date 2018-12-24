@@ -6,6 +6,7 @@ handShakingServerFSM::handShakingServerFSM(string playerName_, netwEmisor * emis
 	game = new catanGameSetter;
 	game->setMyName(playerName_);
 	communicator = emisor;
+	communicator->sendPackage(NAME);
 	expectedPackage = NAME_IS;
 }
 
