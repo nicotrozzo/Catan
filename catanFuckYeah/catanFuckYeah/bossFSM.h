@@ -11,6 +11,8 @@
 #include "EDAInputController.h"
 #include "EDANetworkingController.h"
 #include "connectionEstablisher.h"
+#include "timerEventGenerator.h"
+
 
 enum implStates : stateTypes { START_MENU, WAITING_CONNECTION, HANDSHAKING, PLAYING, REMATCH, WAITING_TO_QUIT };
 
@@ -68,12 +70,13 @@ private:
 	connectionEstablisher * establisher;
 	handShakingFSM * handFSM;
 	netwEventGenerator * netwReceiver;
+	timerEventGenerator * answerTimer;
 	netwEmisor * emisor;
 	playingFSM * gameFSM;
 	mainEventGenerator& evGen;
 
 public:
-	bossFSM(quitButtonController * qControl,connectionEstablisher * establish,mainEventGenerator * eventGen, netwEventGenerator * netwEvG, string name);
+	bossFSM(quitButtonController * qControl,connectionEstablisher * establish,mainEventGenerator * eventGen, netwEventGenerator * netwEvG, string name, timerEventGenerator * timeout);
 };
 
 

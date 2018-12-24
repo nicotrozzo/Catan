@@ -24,8 +24,9 @@
 #include "netwRobberMoveController.h"
 #include "netwYNController.h"
 
-bossFSM::bossFSM(quitButtonController * qControl, connectionEstablisher * establish, mainEventGenerator * eventGen, netwEventGenerator * netw,string name) : evGen(*eventGen),genericFSM(&fsmTable[0][0], 6, 7, START_MENU)
+bossFSM::bossFSM(quitButtonController * qControl, connectionEstablisher * establish, mainEventGenerator * eventGen, netwEventGenerator * netw,string name, timerEventGenerator * timeout) : evGen(*eventGen),genericFSM(&fsmTable[0][0], 6, 7, START_MENU)
 {
+	answerTimer = timeout;
 	graficador = new startMenu;
 	quitController = qControl;
 	establisher = establish;
@@ -120,7 +121,7 @@ void bossFSM::newHandshaking(genericEvent * ev)
 	}
 	evGen.detach(establisher);
 	evGen.attach(handFSM);
-	static_cast<waitingGame *>(graficador)->setMessage("Oponente encontrado.\nPreparando juego...");
+	static_cast<waitingGame *>(graficador)->setMessage("Oponente encontrado!\nPreparando juego...");
 
 	//crear/attachear/arrancar generador de eventos de timer de 2,5 minutos
 }
@@ -140,6 +141,7 @@ void bossFSM::newStMn(genericEvent * ev)
 void bossFSM::closeWaiting(genericEvent * ev)
 {
 	delete graficador;
+	fsmEvent = new closeDisplayEv;
 }
 
 
@@ -235,6 +237,7 @@ void bossFSM::finishHandshaking(genericEvent * ev)
 void bossFSM::closeHandshaking(genericEvent * ev)
 {
 	delete graficador;
+	fsmEvent = new outEv;
 }
 
 void bossFSM::sendToHandFSM(genericEvent * ev)
