@@ -28,7 +28,14 @@ void catanPlayerModel::setVictoryPoints(unsigned char points)
 
 void catanPlayerModel::setName(string name)
 {
-	NameIs = name.substr(0, MAX_NAME_LENGTH);
+	if (name.length() > MAX_NAME_LENGTH)
+	{
+		NameIs = name.substr(0, MAX_NAME_LENGTH);
+	}
+	else
+	{
+		NameIs = name;
+	}
 }
 
 void catanPlayerModel::setLongestRoad(unsigned char longRoad)
