@@ -13,7 +13,7 @@
 #include "gameCoords.h"
 
 #define TIMEOUT_SECS 150
-#define IP_STR "25.67.43.3"
+#define IP_STR "25.79.20.36"
 
 void deleteFrontEnd(void * display);
 void * initFrontEnd();
