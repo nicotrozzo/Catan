@@ -72,6 +72,10 @@ void bossFSM::newEstablisher(genericEvent * ev)
 void bossFSM::stMnError(genericEvent * ev)
 {
 	closeStMn(ev);
+	if (ev->getType() == OUT_EV)
+	{
+		cout << "Error: " << static_cast<outEv *>(ev)->getDetail() << endl;
+	}
 }
 
 void bossFSM::closeStMn(genericEvent * ev)
@@ -137,6 +141,10 @@ void bossFSM::newStMn(genericEvent * ev)
 		fsmEvent = new closeDisplayEv;
 	}
 	establisher->stopConnection();
+	if (ev->getType() == OUT_EV)
+	{
+		cout << "Error: " << static_cast<outEv *>(ev)->getDetail() << endl;
+	}
 }
 
 void bossFSM::closeWaiting(genericEvent * ev)
@@ -227,6 +235,10 @@ void bossFSM::closeConnection(genericEvent * ev)
 	if (gameFSM != nullptr)
 	{
 		delete handFSM;
+	}
+	if (ev->getType() == OUT_EV)
+	{
+		cout << "Error: " << static_cast<outEv *>(ev)->getDetail() << endl;
 	}
 }
 
