@@ -3,9 +3,10 @@
 #include "gameDefines.h"
 #include "playingFSM.h"
 
-inputActionButtonController::inputActionButtonController(catanGameModel * game, netwEmisor *emisor) : gameModel(game)
+inputActionButtonController::inputActionButtonController(catanGameModel * game, netwEmisor *emisor, timerEventGenerator * ansTimer) : gameModel(game)
 {
 	netEmisorEv = emisor;
+	answerTimer = ansTimer;
 }
 
 
@@ -27,6 +28,7 @@ bool inputActionButtonController::parseMouseEvent(mouseEvent * ev)
 			{
 				netEmisorEv->sendPackage(PASS);
 				controllerEvent = new playingFSMEvent(CHANGE_STATE);
+				answerTimer->startTimer();
 			}
 		}
 	}

@@ -35,6 +35,7 @@ bossFSM::bossFSM(quitButtonController * qControl, connectionEstablisher * establ
 	if (!static_cast<startMenu *>(graficador)->getInitOk())
 	{
 		delete graficador;
+		graficador = nullptr;
 		fsmEvent = new closeDisplayEv;
 	}
 }
@@ -65,6 +66,7 @@ void bossFSM::newEstablisher(genericEvent * ev)
 	{
 		delete graficador;
 		fsmEvent = new closeDisplayEv;
+		graficador = nullptr;
 	}
 	quitController->toggleState();
 }
@@ -89,10 +91,7 @@ void bossFSM::refreshStMn(genericEvent * ev)
 {
 	if (graficador != nullptr)
 	{
-		if (static_cast<timerEv *>(ev)->refreshEvent())
-		{
-			graficador->refresh();
-		}
+		graficador->refresh();
 	}
 }
 
@@ -121,11 +120,11 @@ void bossFSM::newHandshaking(genericEvent * ev)
 	emisor = new netwEmisor(connect);
 	if (connect->getType() == SERVER)
 	{
-		handFSM = new handShakingServerFSM(name,emisor);
+		handFSM = new handShakingServerFSM(name,emisor,answerTimer);
 	}
 	else
 	{
-		handFSM = new handShakingClientFSM(name,emisor);
+		handFSM = new handShakingClientFSM(name,emisor,answerTimer);
 	}
 	evGen.detach(establisher);
 	evGen.attach(handFSM);
@@ -142,6 +141,7 @@ void bossFSM::newStMn(genericEvent * ev)
 	if (!static_cast<startMenu *>(graficador)->getInitOk())
 	{
 		delete graficador;
+		graficador = nullptr;
 		fsmEvent = new closeDisplayEv;
 	}
 	establisher->stopConnection();
@@ -154,6 +154,7 @@ void bossFSM::newStMn(genericEvent * ev)
 void bossFSM::closeWaiting(genericEvent * ev)
 {
 	delete graficador;
+	graficador = nullptr;
 	fsmEvent = new closeDisplayEv;
 }
 
@@ -167,6 +168,7 @@ void bossFSM::newGame(genericEvent * ev)
 	catanGameModel * temp = handFSM->getCatanGame();
 	evGen.detach(handFSM);
 	delete handFSM;
+	handFSM = nullptr;
 	bool iStart = temp->isPlayer1Playing();
 	vector<EDAInputController *> playingFSMInpControllers;
 	EDAInputController * controllerToAdd = nullptr;
@@ -175,7 +177,7 @@ void bossFSM::newGame(genericEvent * ev)
 		switch (i)
 		{
 		case 0:
-			controllerToAdd = new inputActionButtonController(temp,emisor);	//ALGUNOS VAN A NECESITAR EL EMISOR
+			controllerToAdd = new inputActionButtonController(temp,emisor,answerTimer);	
 			break;
 		case 1:
 			controllerToAdd = new inputCardsController(temp);
@@ -184,13 +186,13 @@ void bossFSM::newGame(genericEvent * ev)
 			controllerToAdd = new inputEdgeAndVertexController(temp);
 			break;
 		case 3:
-			controllerToAdd = new inputHexagonController(temp,emisor);
+			controllerToAdd = new inputHexagonController(temp,emisor, answerTimer);
 			break;
 		case 4:
 			controllerToAdd = new inputStateController;
 			break;
 		case 5:
-			controllerToAdd = new inputTickAndXController(temp,emisor);
+			controllerToAdd = new inputTickAndXController(temp,emisor, answerTimer);
 			break;
 		}
 		playingFSMEvGen.attach(controllerToAdd);
@@ -234,15 +236,18 @@ void bossFSM::newGame(genericEvent * ev)
 void bossFSM::closeConnection(genericEvent * ev)
 {
 	delete graficador;
+	graficador = nullptr;
 	if (handFSM != nullptr)
 	{
 		evGen.detach(handFSM);
 		delete handFSM;
+		handFSM = nullptr;
 	}
 	if (gameFSM != nullptr)
 	{
 		evGen.detach(gameFSM);
 		delete gameFSM;
+		gameFSM = nullptr;
 	}
 	if (ev->getType() == OUT_EV)
 	{
@@ -252,12 +257,14 @@ void bossFSM::closeConnection(genericEvent * ev)
 
 void bossFSM::finishHandshaking(genericEvent * ev)
 {
+	emisor->sendPackage(QUIT);
 	fsmEvent = new outEv;
 }
 
 void bossFSM::closeHandshaking(genericEvent * ev)
 {
 	delete graficador;
+	graficador = nullptr;
 	fsmEvent = new outEv;
 }
 
@@ -293,16 +300,11 @@ void bossFSM::sendToHandFSM(genericEvent * ev)
 
 void bossFSM::sendTimerEv(genericEvent * ev)
 {
-	if (static_cast<timerEv *>(ev)->refreshEvent())
+	if (graficador != nullptr)
 	{
 		graficador->refresh();
 	}
-	else	//si no es un evento de refresh de pantalla, es un error, emite un invalid event
-	{
-		handShakingEv * evento = new handShakingEv(false);
-		handFSM->cycle(evento);
-		delete evento;
-	}
+	
 }
 
 
@@ -330,6 +332,11 @@ void bossFSM::sendInputEv(genericEvent * ev)
 
 void bossFSM::finishGame(genericEvent * ev)
 {
+	emisor->sendPackage(QUIT);
+	if (graficador != nullptr)
+	{
+		delete graficador;
+	}
 	graficador = new messageDisplayer;
 	static_cast<messageDisplayer *>(graficador)->setMessage("Esperando para salir...");
 }
@@ -340,6 +347,7 @@ void bossFSM::closeGame(genericEvent * ev)
 	{
 		evGen.detach(gameFSM);
 		delete gameFSM;
+		gameFSM = nullptr;
 	}
 
 	fsmEvent = new outEv;
@@ -357,16 +365,19 @@ void bossFSM::destroyAll(genericEvent * ev)
 	{
 		evGen.detach(gameFSM);
 		delete gameFSM;
+		gameFSM = nullptr;
 	}
 	if (emisor != nullptr)
 	{
 		delete emisor;
+		emisor = nullptr;
 	}
 }
 
 void bossFSM::sendNetwEv(genericEvent * ev)
 {
 	gameFSM->sendToNetwControllers(static_cast<networkingEv *>(ev));
+	answerTimer->stopTimer();
 	playingFSMEvent * evento = static_cast<playingFSMEvent *>(playingFSMEvGen.getNextEvent());
 	if (evento != nullptr)
 	{

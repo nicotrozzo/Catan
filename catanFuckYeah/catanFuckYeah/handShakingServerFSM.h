@@ -33,7 +33,7 @@ private:
 
 	netwEmisor * communicator;
 public:
-	handShakingServerFSM(string, netwEmisor *emisor);
+	handShakingServerFSM(string, netwEmisor *emisor, timerEventGenerator * ansTimer);
 	virtual catanGameModel * getCatanGame(void);
 };
 

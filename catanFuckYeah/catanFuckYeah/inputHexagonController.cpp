@@ -3,9 +3,10 @@
 #include "gameCoords.h"
 
 
-inputHexagonController::inputHexagonController(catanGameModel * game, netwEmisor* emisor) : gameModel(game)
+inputHexagonController::inputHexagonController(catanGameModel * game, netwEmisor* emisor, timerEventGenerator * ansTimer) : gameModel(game)
 {
 	netEmisor = emisor;
+	answerTimer = ansTimer;
 }
 
 

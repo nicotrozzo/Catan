@@ -28,6 +28,7 @@ timerEventGenerator::timerEventGenerator(double speed_secs)
 
 void timerEventGenerator::startTimer()
 {
+	al_stop_timer(timer);
 	al_start_timer(timer);
 	timerStarted = true;
 }
@@ -48,7 +49,7 @@ genericEvent * timerEventGenerator::getEvent()
 		{
 			if (al_get_next_event(queue, &ev))
 			{
-				ret = new timerEv(false);	//emite evento de timer en false para avisar que no es de refresh de pantalla
+				ret = new outEv("Timeout");	
 			}
 		}
 	}

@@ -2,13 +2,14 @@
 #include "EDAInputController.h"
 #include "catanGameModel.h"
 #include "netwEmisor.h"
+#include "timerEventGenerator.h"
 
 typedef enum tickActions_t{ TICK_OPP_TRADE, TICK_BANK_TRADE, TICK_OWN_TRADE, TICK_BUILD, TICK_ROBB_CARDS};
 
 class inputTickAndXController :	public EDAInputController
 {
 public:
-	inputTickAndXController(catanGameModel * game, netwEmisor * emisor);
+	inputTickAndXController(catanGameModel * game, netwEmisor * emisor, timerEventGenerator * ansTimer);
 	virtual inputControllerTypes getType() { return CTRL_TICKANDX; }
 	/*La variable actionToDo indica que debe hacer cuando aprietan:
 		-TICK_OPP_TRADE:	* tick hace la transaccion ( playerTrade() ), si devuelve false ALTO ERROR. NO PREGUNTAR PLAYERTRADEREADY() 
@@ -30,6 +31,7 @@ public:
 
 private:
 	catanGameModel * gameModel;
+	timerEventGenerator * answerTimer;
 	tickActions_t actionToDo;
 	bool validAction(tickActions_t action);
 	bool selectionCall(bool yes);

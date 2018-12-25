@@ -5,6 +5,7 @@
 #include "bossFSMEvents.h"
 #include "netwEmisor.h"
 #include "catanGameSetter.h"
+#include "timerEventGenerator.h"
 
 enum handShakingEvTypes : eventTypes {NEXT,INVALID_EVENT};
 
@@ -22,12 +23,13 @@ private:
 class handShakingFSM : public genericFSM
 {
 public:
-	handShakingFSM(const fsmCell * const table, const unsigned int rows, const unsigned int columns, stateTypes initState) : genericFSM(table, rows, columns, initState) { game = new catanGameSetter; }
+	handShakingFSM(const fsmCell * const table, const unsigned int rows, const unsigned int columns, stateTypes initState, timerEventGenerator * ansTimer) : genericFSM(table, rows, columns, initState), answerTimer(ansTimer) { game = new catanGameSetter; }
 	virtual catanGameModel * getCatanGame(void) = 0; 
 	networkingEventTypes getExpectedPackage() { return expectedPackage; }
 
 protected:
 	catanGameSetter * game;	//catanGameSetter es herencia de catanGame (que tiene las variables protected), con setters
+	timerEventGenerator * answerTimer;
 	networkingEventTypes expectedPackage;
 	string info2send;
 };

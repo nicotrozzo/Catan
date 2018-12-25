@@ -66,7 +66,7 @@ genericEvent* inputEventGenerator::getEvent()
 				}
 				break;
 			case ALLEGRO_EVENT_TIMER:
-				ret = new timerEv(true);
+				ret = new timerEv;
 				break;
 			case ALLEGRO_EVENT_DISPLAY_CLOSE:
 				ret = new closeDisplayEv;

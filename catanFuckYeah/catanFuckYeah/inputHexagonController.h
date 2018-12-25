@@ -2,11 +2,12 @@
 #include "EDAInputController.h"
 #include "catanGameModel.h"
 #include "netwEmisor.h"
+#include "timerEventGenerator.h"
 
 class inputHexagonController : public EDAInputController
 {
 public:
-	inputHexagonController(catanGameModel * game, netwEmisor* emisor);
+	inputHexagonController(catanGameModel * game, netwEmisor* emisor, timerEventGenerator * ansTimer);
 	/*
 		Si el click cae en un hexagono:
 		gameModel->robberMoved(hexagonoClickeado) si devuelve true, controllerEvent = algo del robber
@@ -18,6 +19,7 @@ public:
 	~inputHexagonController();
 private:
 	catanGameModel * gameModel;
+	timerEventGenerator * answerTimer;
 	netwEmisor * netEmisor;
 };
 

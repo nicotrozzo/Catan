@@ -3,10 +3,11 @@
 #include "gameCoords.h"
 #include "playingFSM.h"
 
-inputTickAndXController::inputTickAndXController(catanGameModel * game, netwEmisor * emisor)
+inputTickAndXController::inputTickAndXController(catanGameModel * game, netwEmisor * emisor, timerEventGenerator * ansTimer)
 {
 	netEmisorEv = emisor;
 	gameModel = game;
+	answerTimer = ansTimer;
 }
 
 bool inputTickAndXController::parseMouseEvent(mouseEvent * ev)
@@ -96,6 +97,7 @@ bool inputTickAndXController::selectionCall(bool yes)
 						message += myRes;
 					}
 					netEmisorEv->sendPackage(BANK_TRADE, to_string(message.length() + bankRes.length()) + message + bankRes);
+					answerTimer->startTimer();
 				}
 			}
 			break;
@@ -144,6 +146,7 @@ bool inputTickAndXController::selectionCall(bool yes)
 			{
 				evType = TICK_EV;
 				netEmisorEv->sendPackage(building.type, building.coords);
+				answerTimer->startTimer();
 			}
 			break;
 		case TICK_ROBB_CARDS:

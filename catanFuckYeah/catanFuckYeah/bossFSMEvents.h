@@ -75,10 +75,8 @@ protected:
 class timerEv : public genericEvent
 {
 public:
-	timerEv(bool refresh_);
+	timerEv() {}
 	eventTypes getType(void) { return TIMER_EVENT; }
-	bool refreshEvent();
 private:
-	bool refresh;
 };
 

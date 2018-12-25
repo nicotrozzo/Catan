@@ -24,7 +24,7 @@ playingFSM::playingFSM(bool iStart, catanGameModel * game, std::vector<EDAInputC
 	gameViewer = new gameModelViewer(game);
 	game->attach(gameViewer);
 	mapView = new mapViewer(game->getMap());
-	game->getMap()->attach(mapView);
+	game->attach(mapView);
 	if (iStart)
 	{
 		currentInputControllers.push_back(getInputController(CTRL_EDGE_AND_VERTEX));
@@ -32,9 +32,9 @@ playingFSM::playingFSM(bool iStart, catanGameModel * game, std::vector<EDAInputC
 		currentInputControllers.push_back(getInputController(CTRL_ACTION_BUTTON)); //capaz este no vaya, solo el primero para los primeros roads y settlements
 
 		p1view = new player1Viewer(game->getCurrentPlayer());
-		game->getCurrentPlayer()->attach(p1view);
+		game->attach(p1view);
 		p2view = new player2Viewer(game->getOtherPlayer());
-		game->getOtherPlayer()->attach(p2view);
+		game->attach(p2view);
 		//inputControllerList.push_back(new );
 	}
 	else
@@ -43,9 +43,9 @@ playingFSM::playingFSM(bool iStart, catanGameModel * game, std::vector<EDAInputC
 		controllerToAdd->setExpectedPackage(SETTLEMENT);
 		currentNetworkingControllers.push_back(controllerToAdd);
 		p2view = new player2Viewer(game->getCurrentPlayer());
-		game->getCurrentPlayer()->attach(p2view);
+		game->attach(p2view);
 		p1view = new player1Viewer(game->getOtherPlayer());
-		game->getOtherPlayer()->attach(p1view);
+		game->attach(p1view);
 	}
 	if (!p1view->getInitOk() || !p2view->getInitOk() || !gameViewer->getInitOk() || !mapView->getInitOk())
 	{
@@ -96,6 +96,7 @@ void playingFSM::sendToNetwControllers(networkingEv * netwPackage)
 	else if (!read)
 	{
 		fsmEvent = new outEv("Unexpected network event");
+		emisor->sendPackage(ERROR_PCKG);
 	}
 }
 
@@ -112,19 +113,11 @@ playingFSM::~playingFSM()
 	allInputControllers.clear();
 	allNetworkingControllers.clear();
 	gameModel->detach(gameViewer);
+	gameModel->detach(mapView);
+	gameModel->detach(p1view);
+	gameModel->detach(p2view);
 	delete gameViewer;
-	gameModel->getMap()->detach(mapView);
 	delete mapView;
-	if (gameModel->isPlayer1Playing())
-	{
-		gameModel->getCurrentPlayer()->detach(p1view);
-		gameModel->getOtherPlayer()->detach(p2view);
-	}
-	else
-	{
-		gameModel->getCurrentPlayer()->detach(p2view);
-		gameModel->getOtherPlayer()->detach(p1view);
-	}
 	delete p1view;
 	delete p2view;
 }

@@ -3,18 +3,20 @@
 
 
 /*Para el handshaking de client*/
-handShakingClientFSM::handShakingClientFSM(string playerName_, netwEmisor * emisor) : handShakingFSM(&fsmTable[0][0], 6, 2, WAIT_NAME_REQUEST_C)
+handShakingClientFSM::handShakingClientFSM(string playerName_, netwEmisor * emisor, timerEventGenerator * ansTimer) : handShakingFSM(&fsmTable[0][0], 6, 2, WAIT_NAME_REQUEST_C, ansTimer)
 {
 	info2send = playerName_;
 	communicator = emisor;
 	expectedPackage = NAME;
 	alternatePackages.clear();
+	answerTimer->startTimer();
 }
 
 void handShakingClientFSM::error(genericEvent * ev)
 {
 	expectedPackage = NO_PCKG;
 	fsmEvent = new outEv("Handshaking error");
+	answerTimer->stopTimer();
 }
 
 void handShakingClientFSM::sendName(genericEvent * ev)
@@ -22,12 +24,14 @@ void handShakingClientFSM::sendName(genericEvent * ev)
 	game->setMyName(info2send);
 	communicator->sendPackage(NAME_IS, info2send);
 	expectedPackage = ACK;
+	answerTimer->startTimer();
 }
 
 void handShakingClientFSM::sendNameReq(genericEvent * ev)
 {
 	communicator->sendPackage(NAME);
 	expectedPackage = NAME_IS;
+	answerTimer->startTimer();
 }
 
 void handShakingClientFSM::saveName(genericEvent * ev)
@@ -36,6 +40,7 @@ void handShakingClientFSM::saveName(genericEvent * ev)
 	game->setOppName(opponentName);
 	communicator->sendPackage(ACK);
 	expectedPackage = MAP_IS;
+	answerTimer->startTimer();
 }
 
 void handShakingClientFSM::saveMap(genericEvent * ev)
@@ -45,11 +50,13 @@ void handShakingClientFSM::saveMap(genericEvent * ev)
 	{
 		communicator->sendPackage(ACK);
 		expectedPackage = CIRCULAR_TOKENS;
+		answerTimer->startTimer();
 	}
 	else
 	{
 		fsmEvent = new outEv("Error de comunicacion");
 		communicator->sendPackage(ERROR_PCKG);
+		answerTimer->stopTimer();
 	}
 }
 
@@ -61,11 +68,13 @@ void handShakingClientFSM::saveTokens(genericEvent * ev)
 		communicator->sendPackage(ACK);
 		expectedPackage = I_START;
 		alternatePackages = { YOU_START,PLAY_WITH_DEV };
+		answerTimer->startTimer();
 	}
 	else
 	{
 		fsmEvent = new outEv("Error de comunicacion");
 		communicator->sendPackage(ERROR_PCKG);
+		answerTimer->stopTimer();
 	}
 }
 
@@ -75,6 +84,7 @@ void handShakingClientFSM::endHandshaking(genericEvent * ev)
 	{
 		communicator->sendPackage(NO);
 		alternatePackages.remove(PLAY_WITH_DEV);	//no volvera a llegar un evento valido por este paquete
+		answerTimer->startTimer();
 	}
 	else
 	{
@@ -87,6 +97,7 @@ void handShakingClientFSM::endHandshaking(genericEvent * ev)
 			game->setInitialPlayer(2);	//arranca el servidor
 			communicator->sendPackage(ACK);
 		}
+		answerTimer->stopTimer();
 		fsmEvent = new doneEv;
 	}
 }
