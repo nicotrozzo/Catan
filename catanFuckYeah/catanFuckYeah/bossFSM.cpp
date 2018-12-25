@@ -163,6 +163,7 @@ void bossFSM::newGame(genericEvent * ev)
 {
 	delete graficador;
 	graficador = new gameGraphicator;
+	graficador->refresh();
 	catanGameModel * temp = handFSM->getCatanGame();
 	evGen.detach(handFSM);
 	delete handFSM;
