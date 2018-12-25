@@ -81,14 +81,18 @@ void bossFSM::stMnError(genericEvent * ev)
 void bossFSM::closeStMn(genericEvent * ev)
 {
 	delete graficador;
+	graficador = nullptr;
 	fsmEvent = new outEv;
 }
 
 void bossFSM::refreshStMn(genericEvent * ev)
 {
-	if (static_cast<timerEv *>(ev)->refreshEvent())
+	if (graficador != nullptr)
 	{
-		graficador->refresh();
+		if (static_cast<timerEv *>(ev)->refreshEvent())
+		{
+			graficador->refresh();
+		}
 	}
 }
 
