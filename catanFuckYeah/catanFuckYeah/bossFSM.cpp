@@ -193,7 +193,7 @@ void bossFSM::newGame(genericEvent * ev)
 			break;
 		}
 		playingFSMEvGen.attach(controllerToAdd);
-		playingFSMInpControllers[i] = controllerToAdd;
+		playingFSMInpControllers.push_back(controllerToAdd);
 	}
 	EDANetworkingController * netwControllerToAdd = nullptr;
 	vector<EDANetworkingController *> playingFSMNetwControllers;
@@ -224,7 +224,7 @@ void bossFSM::newGame(genericEvent * ev)
 			break;
 		}
 		playingFSMEvGen.attach(netwControllerToAdd);
-		playingFSMNetwControllers[i] = netwControllerToAdd;
+		playingFSMNetwControllers.push_back(netwControllerToAdd);
 	}
 	gameFSM = new playingFSM(iStart, temp, playingFSMInpControllers, playingFSMNetwControllers, emisor);
 	evGen.attach(gameFSM);
