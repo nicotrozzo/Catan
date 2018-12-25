@@ -7,9 +7,9 @@
 nameIsPckg::nameIsPckg(string name_) : networkingEv(NAME_IS)
 {
 	error = true;
-	if (name_.length() > 1)
+	if (name_.length() > 0)
 	{
-		name = name_.substr(1, name_[1]);
+		name = name_.substr(1, name_[0]);
 		if (name.length() == name_[0])
 		{
 			error = false;

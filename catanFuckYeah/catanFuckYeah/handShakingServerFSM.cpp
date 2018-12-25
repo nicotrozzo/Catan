@@ -8,6 +8,7 @@ handShakingServerFSM::handShakingServerFSM(string playerName_, netwEmisor * emis
 	communicator = emisor;
 	communicator->sendPackage(NAME);
 	expectedPackage = NAME_IS;
+	info2send = playerName_;
 }
 
 void handShakingServerFSM::error(genericEvent * ev)
