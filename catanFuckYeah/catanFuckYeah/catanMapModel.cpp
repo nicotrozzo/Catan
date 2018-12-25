@@ -122,7 +122,7 @@ bool catanMapModel::setMap(string map_)
 			}
 		}
 		found = oceanPiecesChars.find_first_not_of(RESOURCES_STR);	//verifica que se hayan asignado todas piezas de mar distintas
-		if (found != string::npos)
+		if (found == string::npos)
 		{
 			for (int i = 0; (i < HEX_COUNT) && !error; i++)	//valida hexagonos
 			{
