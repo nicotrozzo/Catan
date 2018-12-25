@@ -19,7 +19,7 @@ void handShakingServerFSM::error(genericEvent * ev)
 
 void handShakingServerFSM::saveName(genericEvent * ev)
 {
-	string opponentName = static_cast<nameIsPckg *>(ev)->getName();
+	string opponentName = static_cast<handShakingEv *>(ev)->getInfo();
 	game->setOppName(opponentName);
 	communicator->sendPackage(ACK);
 	expectedPackage = NAME;

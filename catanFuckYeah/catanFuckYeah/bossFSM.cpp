@@ -243,7 +243,30 @@ void bossFSM::closeHandshaking(genericEvent * ev)
 
 void bossFSM::sendToHandFSM(genericEvent * ev)
 {
-	handShakingEv * evento = new handShakingEv(static_cast<networkingEv *>(ev)->getHeader() == handFSM->getExpectedPackage());
+	string info2send = "";
+	handShakingEv * evento;
+	if (static_cast<networkingEv *>(ev)->getHeader() == handFSM->getExpectedPackage())
+	{
+		switch (static_cast<networkingEv *>(ev)->getHeader())
+		{
+		case NAME_IS:
+			info2send = static_cast<nameIsPckg *>(ev)->getName();
+			break;
+		case MAP_IS:
+			info2send = static_cast<mapIsPckg *>(ev)->getMap();
+			break;
+		case CIRCULAR_TOKENS:
+			info2send = static_cast<circTokensPckg *>(ev)->getTokens();
+			break; 
+		default:
+			info2send += static_cast<networkingEv *>(ev)->getHeader();	//por las dudas, le manda el evento del que provenia
+		}
+		evento = new handShakingEv(true,info2send);
+	}
+	else
+	{
+		evento = new handShakingEv(false);
+	}
 	handFSM->cycle(evento);
 	delete evento;
 }

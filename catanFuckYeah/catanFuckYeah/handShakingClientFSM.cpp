@@ -32,7 +32,7 @@ void handShakingClientFSM::sendNameReq(genericEvent * ev)
 
 void handShakingClientFSM::saveName(genericEvent * ev)
 {
-	string opponentName = static_cast<nameIsPckg *>(ev)->getName();
+	string opponentName = static_cast<handShakingEv *>(ev)->getInfo();
 	game->setOppName(opponentName);
 	communicator->sendPackage(ACK);
 	expectedPackage = MAP_IS;
@@ -40,7 +40,7 @@ void handShakingClientFSM::saveName(genericEvent * ev)
 
 void handShakingClientFSM::saveMap(genericEvent * ev)
 {
-	string map = static_cast<mapIsPckg *>(ev)->getMap();
+	string map = static_cast<handShakingEv *>(ev)->getInfo();
 	if (game->setMap(map))
 	{
 		communicator->sendPackage(ACK);
@@ -55,7 +55,7 @@ void handShakingClientFSM::saveMap(genericEvent * ev)
 
 void handShakingClientFSM::saveTokens(genericEvent * ev)
 {
-	string tok = static_cast<circTokensPckg *>(ev)->getTokens();
+	string tok = static_cast<handShakingEv *>(ev)->getInfo();
 	if (game->setCircularTokens(tok))
 	{
 		communicator->sendPackage(ACK);
@@ -71,14 +71,14 @@ void handShakingClientFSM::saveTokens(genericEvent * ev)
 
 void handShakingClientFSM::endHandshaking(genericEvent * ev)
 {
-	if ((static_cast<networkingEv *>(ev)->getHeader()) == PLAY_WITH_DEV)
+	if ((static_cast<handShakingEv *>(ev)->getInfo())[0] == PLAY_WITH_DEV)
 	{
 		communicator->sendPackage(NO);
 		alternatePackages.remove(PLAY_WITH_DEV);	//no volvera a llegar un evento valido por este paquete
 	}
 	else
 	{
-		if ((static_cast<networkingEv *>(ev)->getHeader()) == YOU_START)
+		if ((static_cast<handShakingEv *>(ev)->getInfo())[0] == YOU_START)
 		{
 			game->setInitialPlayer(1);	//el servidor me dijo que empiece, le aviso al juego
 		}

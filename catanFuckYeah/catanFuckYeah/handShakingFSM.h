@@ -11,10 +11,12 @@ enum handShakingEvTypes : eventTypes {NEXT,INVALID_EVENT};
 class handShakingEv : public genericEvent
 {
 public:
-	handShakingEv(bool next) : next(next) {}
+	handShakingEv(bool next,string info_ = "") : next(next), info(info_) {}
 	eventTypes getType() { return (next ? NEXT : INVALID_EVENT); }
+	string getInfo() { return info; }
 private:
 	bool next;
+	string info;
 };
 
 class handShakingFSM : public genericFSM
