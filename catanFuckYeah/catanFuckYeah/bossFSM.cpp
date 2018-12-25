@@ -160,6 +160,7 @@ void bossFSM::newGame(genericEvent * ev)
 	delete graficador;
 	graficador = new gameGraphicator;
 	catanGameModel * temp = handFSM->getCatanGame();
+	evGen.detach(handFSM);
 	delete handFSM;
 	bool iStart = temp->isPlayer1Playing();
 	vector<EDAInputController *> playingFSMInpControllers;
@@ -230,11 +231,13 @@ void bossFSM::closeConnection(genericEvent * ev)
 	delete graficador;
 	if (handFSM != nullptr)
 	{
+		evGen.detach(handFSM);
 		delete handFSM;
 	}
 	if (gameFSM != nullptr)
 	{
-		delete handFSM;
+		evGen.detach(gameFSM);
+		delete gameFSM;
 	}
 	if (ev->getType() == OUT_EV)
 	{
@@ -330,6 +333,7 @@ void bossFSM::closeGame(genericEvent * ev)
 {
 	if (gameFSM != nullptr)
 	{
+		evGen.detach(gameFSM);
 		delete gameFSM;
 	}
 
@@ -346,6 +350,7 @@ void bossFSM::destroyAll(genericEvent * ev)
 {
 	if (gameFSM != nullptr)
 	{
+		evGen.detach(gameFSM);
 		delete gameFSM;
 	}
 	if (emisor != nullptr)
