@@ -23,7 +23,7 @@ void netwAckController::init()
 bool netwAckController::parseNetworkingEvent(networkingEv * ev)
 {
 	bool ret = false;
-	if (ev->getHeader() == CTRL_ACK)
+	if (ev->getHeader() == ACK)
 	{
 		switch (action)
 		{
