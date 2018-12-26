@@ -34,25 +34,29 @@ bool inputEdgeAndVertexController::parseMouseEvent(mouseEvent * ev)
 						ret = (ret = gameModel->validConstruction(CITY, x.first));
 					}
 				}
+				break;
 			}
 		}
 	}
-	for (auto x : gameCoords::myEdgesCoords)
+	if (!ret)
 	{
-		if (ABS(mouseCoords.x - x.second.xCoord) <= OFFSET_EDGE_X)
+		for (auto x : gameCoords::myEdgesCoords)
 		{
-			if (ABS(mouseCoords.y - x.second.yCoord) <= OFFSET_EDGE_Y)
+			if (ABS(mouseCoords.x - x.second.xCoord) <= OFFSET_EDGE_X)
 			{
-				if (!gameModel->isConstructing())
+				if (ABS(mouseCoords.y - x.second.yCoord) <= OFFSET_EDGE_Y)
 				{
-					if (ret = gameModel->validConstruction(ROAD, x.first))
+					if (!gameModel->isConstructing())
 					{
-						controllerEvent = new playingFSMEvent(TICK_EV);
+						if (ret = gameModel->validConstruction(ROAD, x.first))
+						{
+							controllerEvent = new playingFSMEvent(TICK_EV);
+						}
 					}
-				}
-				else
-				{
-					ret = gameModel->validConstruction(ROAD, x.first);
+					else
+					{
+						ret = gameModel->validConstruction(ROAD, x.first);
+					}
 				}
 			}
 		}
