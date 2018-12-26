@@ -848,6 +848,11 @@ bool catanGameModel::gameOver()
 	return ret;
 }
 
+void catanGameModel::notify()
+{
+	notifyAllObservers();
+}
+
 catanGameModel::~catanGameModel()
 {
 

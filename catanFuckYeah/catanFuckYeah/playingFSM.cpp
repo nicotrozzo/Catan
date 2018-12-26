@@ -51,6 +51,10 @@ playingFSM::playingFSM(bool iStart, catanGameModel * game, std::vector<EDAInputC
 	{
 		fsmEvent = new outEv("Error en la inicializacion de los graficos del juego");
 	}
+	else
+	{
+		game->notify();
+	}
 }
 
 void playingFSM::sendToInputControllers(inputEv * input)
