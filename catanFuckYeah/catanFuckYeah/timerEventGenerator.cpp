@@ -43,14 +43,10 @@ genericEvent * timerEventGenerator::getEvent()
 {
 	genericEvent * ret = nullptr;
 	if (timerStarted)
-	{
-		bool empty = false;
-		while ((!empty) && (ret == nullptr))
+	{	
+		if (al_get_next_event(queue, &ev))
 		{
-			if (al_get_next_event(queue, &ev))
-			{
-				ret = new outEv("Timeout");	
-			}
+			ret = new outEv("Timeout");	
 		}
 	}
 	return ret;
