@@ -11,7 +11,17 @@ public:
 	virtual inputControllerTypes getType() = 0;
 	virtual bool parseMouseEvent(mouseEvent * ev) = 0;
 	virtual bool parseKeyboardEvent(keyboardEvent * ev) = 0;
-	genericEvent * getEvent() { return controllerEvent; }
+	genericEvent * getEvent()
+	{
+		genericEvent * temp = nullptr;
+		if (controllerEvent != nullptr)
+		{
+			temp = controllerEvent;
+			controllerEvent = nullptr;
+		}
+		return temp; 
+	}
+
 protected:
 	genericEvent * controllerEvent;
 	netwEmisor * netEmisorEv;		//ver que apunte al mismo que tiene hecha la conexion
