@@ -97,13 +97,21 @@ void handShakingClientFSM::endHandshaking(genericEvent * ev)
 		{
 			game->setInitialPlayer(1);	//el servidor me dijo que empiece, le aviso al juego
 		}
-		else
+		else if ((static_cast<handShakingEv *>(ev)->getInfo())[0] == I_START)
 		{
 			game->setInitialPlayer(2);	//arranca el servidor
 			communicator->sendPackage(ACK);
 		}
-		answerTimer->stopTimer();
-		fsmEvent = new doneEv;
+		else
+		{
+			error(ev);
+		}
+		if (fsmEvent == nullptr)
+		{
+			answerTimer->stopTimer();
+			fsmEvent = new doneEv;
+		}
+
 	}
 }
 
