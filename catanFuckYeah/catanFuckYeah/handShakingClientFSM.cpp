@@ -2,6 +2,11 @@
 #include "networkingEvents.h"
 
 
+bool handShakingClientFSM::clientFSM()
+{
+	return true;
+}
+
 /*Para el handshaking de client*/
 handShakingClientFSM::handShakingClientFSM(string playerName_, netwEmisor * emisor, timerEventGenerator * ansTimer) : handShakingFSM(&fsmTable[0][0], 6, 2, WAIT_NAME_REQUEST_C, ansTimer)
 {
@@ -110,4 +115,9 @@ catanGameModel * handShakingClientFSM::getCatanGame(void)
 		ret = static_cast<catanGameModel *>(game);
 	}
 	return ret;
+}
+
+list<networkingEventTypes> handShakingClientFSM::getListOfAlternatePackages()
+{
+	return alternatePackages;
 }

@@ -33,9 +33,11 @@ private:
 
 	list<networkingEventTypes> alternatePackages;
 	netwEmisor * communicator;
+	bool clientFSM();
 public:
 	handShakingClientFSM(string, netwEmisor * emisor, timerEventGenerator * ansTimer);
 	virtual catanGameModel * getCatanGame(void);
+	list<networkingEventTypes> getListOfAlternatePackages();
 };
 
 

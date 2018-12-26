@@ -77,6 +77,11 @@ void handShakingServerFSM::endHandshaking(genericEvent * ev)
 	fsmEvent = new doneEv;
 }
 
+bool handShakingServerFSM::clientFSM()
+{
+	return false;
+}
+
 catanGameModel * handShakingServerFSM::getCatanGame(void)
 {
 	catanGameModel * ret = nullptr;

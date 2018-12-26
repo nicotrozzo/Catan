@@ -26,7 +26,7 @@ public:
 	handShakingFSM(const fsmCell * const table, const unsigned int rows, const unsigned int columns, stateTypes initState, timerEventGenerator * ansTimer) : genericFSM(table, rows, columns, initState), answerTimer(ansTimer) { game = new catanGameSetter; }
 	virtual catanGameModel * getCatanGame(void) = 0; 
 	networkingEventTypes getExpectedPackage() { return expectedPackage; }
-
+	virtual bool clientFSM() = 0;
 protected:
 	catanGameSetter * game;	//catanGameSetter es herencia de catanGame (que tiene las variables protected), con setters
 	timerEventGenerator * answerTimer;

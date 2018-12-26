@@ -290,6 +290,19 @@ void bossFSM::sendToHandFSM(genericEvent * ev)
 		}
 		evento = new handShakingEv(true,info2send);
 	}
+	else if (handFSM->clientFSM())
+	{
+		list<networkingEventTypes> altPack = static_cast<handShakingClientFSM *>(handFSM)->getListOfAlternatePackages();
+		for (auto x : altPack)
+		{
+			if (x == static_cast<networkingEv *>(ev)->getHeader())
+			{
+				info2send += static_cast<networkingEv *>(ev)->getHeader();
+				evento = new handShakingEv(true, info2send);
+				break;
+			}
+		}
+	}
 	else
 	{
 		evento = new handShakingEv(false);

@@ -31,6 +31,8 @@ private:
 	void sendStart(genericEvent * ev);
 	void endHandshaking(genericEvent * ev);
 
+
+	bool clientFSM();
 	netwEmisor * communicator;
 public:
 	handShakingServerFSM(string, netwEmisor *emisor, timerEventGenerator * ansTimer);
