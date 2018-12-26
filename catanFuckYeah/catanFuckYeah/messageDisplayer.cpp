@@ -60,7 +60,7 @@ void messageDisplayer::showRefresh()
 			angle = 0;
 		}
 	}
-	al_draw_rotated_bitmap(refreshBitmap, al_get_bitmap_width(refreshBitmap) / 2.0, al_get_bitmap_height(refreshBitmap) / 2.0, 800, 528, angle, 0);
+	al_draw_rotated_bitmap(refreshBitmap, al_get_bitmap_width(refreshBitmap) / 2.0, al_get_bitmap_height(refreshBitmap) / 2.0, 800 * PROP_X, 528 * PROP_Y, angle, 0);
 }
 
 messageDisplayer::~messageDisplayer()
