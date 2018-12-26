@@ -29,5 +29,11 @@ bool EDANetworkingController::parseNetworkingEvent(networkingEv * ev)
 
 genericEvent* EDANetworkingController::getEvent(void)
 {
-	return controllerEvent;
+	genericEvent * temp = nullptr;
+	if (controllerEvent != nullptr)
+	{
+		temp = controllerEvent;
+		controllerEvent = nullptr;
+	}
+	return temp;
 }
