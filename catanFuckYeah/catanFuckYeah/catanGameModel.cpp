@@ -121,7 +121,8 @@ bool catanGameModel::validConstruction(networkingEventTypes type, string coords)
 	unsigned char player = (player1Playing ? 1 : 2);
 	if (!selecting)
 	{
-		if (validResourceForConstruct(type))
+		bool initState = initState = (player1Playing ? map.getP1Roads().size() < 2 : map.getP2Roads().size() < 2);
+		if ((validResourceForConstruct(type)) || initState)
 		{
 			switch (type)
 			{
