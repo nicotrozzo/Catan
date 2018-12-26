@@ -17,7 +17,7 @@
 
 using namespace std;
 
-playingFSM::playingFSM(bool iStart, catanGameModel * game, std::vector<EDAInputController *> inputControllers, std::vector<EDANetworkingController *> networkingControllers, netwEmisor * em) : genericFSM(&fsmTable[0][0], 8, 6, iStart ? MY_TURN : OPP_TURN), allInputControllers(inputControllers) , allNetworkingControllers(networkingControllers)
+playingFSM::playingFSM(bool iStart, catanGameModel * game, std::vector<EDAInputController *> inputControllers, std::vector<EDANetworkingController *> networkingControllers, netwEmisor * em) : genericFSM(&fsmTable[0][0], 8, 5, iStart ? MY_TURN : OPP_TURN), allInputControllers(inputControllers) , allNetworkingControllers(networkingControllers)
 {
 	robberfsm = nullptr;
 	emisor = em;
