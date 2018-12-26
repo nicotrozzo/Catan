@@ -1,4 +1,5 @@
 #include "messageDisplayer.h"
+#include "gameDefines.h"
 #include <allegro5/allegro_ttf.h>
 
 using namespace std;
@@ -43,7 +44,7 @@ void messageDisplayer::setMessage(string message)
 
 void messageDisplayer::showMessage()
 {
-	al_draw_bitmap(messageShowBitmap, 323,330,0);
+	al_draw_bitmap(messageShowBitmap, 323*PROP_X,330*PROP_Y,0);
 	al_draw_text(fontForMessageShow, al_color_name("white"), 344, 410, 0, message.c_str());
 }
 
