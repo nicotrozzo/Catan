@@ -21,10 +21,10 @@ playingFSM::playingFSM(bool iStart, catanGameModel * game, std::vector<EDAInputC
 {
 	robberfsm = nullptr;
 	emisor = em;
-	gameViewer = new gameModelViewer(game);
-	game->attach(gameViewer);
 	mapView = new mapViewer(game->getMap());
 	game->attach(mapView);
+	gameViewer = new gameModelViewer(game);
+	game->attach(gameViewer);
 	if (iStart)
 	{
 		currentInputControllers.push_back(getInputController(CTRL_EDGE_AND_VERTEX));
