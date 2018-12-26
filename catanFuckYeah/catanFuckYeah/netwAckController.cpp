@@ -63,6 +63,7 @@ bool netwAckController::parseNetworkingEvent(networkingEv * ev)
 			break;
 		case OTHER_CASE:
 			controllerEvent = new playingFSMEvent(CHANGE_STATE);
+			ret = true;
 			break;
 		}
 	}
