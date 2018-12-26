@@ -271,7 +271,7 @@ void bossFSM::closeHandshaking(genericEvent * ev)
 void bossFSM::sendToHandFSM(genericEvent * ev)
 {
 	string info2send = "";
-	handShakingEv * evento;
+	handShakingEv * evento = nullptr;
 	if (static_cast<networkingEv *>(ev)->getHeader() == handFSM->getExpectedPackage())
 	{
 		switch (static_cast<networkingEv *>(ev)->getHeader())
@@ -301,6 +301,10 @@ void bossFSM::sendToHandFSM(genericEvent * ev)
 				evento = new handShakingEv(true, info2send);
 				break;
 			}
+		}
+		if (evento == nullptr)
+		{
+			evento = new handShakingEv(false);
 		}
 	}
 	else
