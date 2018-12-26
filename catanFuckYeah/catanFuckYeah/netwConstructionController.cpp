@@ -2,15 +2,17 @@
 #include "playingFSM.h"
 
 
-netwConstructionController::netwConstructionController(catanGameModel * game) : gameModel(game)
+netwConstructionController::netwConstructionController(catanGameModel * game, netwEmisor * netEmisor) : gameModel(game)
 {
 	expectsOnePackage = false;
+	emisor = netEmisor;
 }
 
-netwConstructionController::netwConstructionController(catanGameModel * game, networkingEventTypes package) : EDANetworkingController(((package == CITY) || (package == SETTLEMENT) || (package == ROAD)) ? expectedPackage = package : static_cast<networkingEventTypes>(0)) , gameModel(game)
+netwConstructionController::netwConstructionController(catanGameModel * game, netwEmisor * netEmisor, networkingEventTypes package) : EDANetworkingController(((package == CITY) || (package == SETTLEMENT) || (package == ROAD)) ? expectedPackage = package : static_cast<networkingEventTypes>(0)) , gameModel(game)
 {
 	expectedPackage = package;
 	expectsOnePackage = true;
+	emisor = netEmisor;
 }
 
 /*Asigna un paquete esperado al controller, ahora pasara a reaccionar solo ante la llegada de dicho paquete*/
@@ -38,6 +40,7 @@ bool netwConstructionController::parseNetworkingEvent(networkingEv * ev)
 			else
 			{
 				gameModel->construct();
+				emisor->sendPackage(ACK);
 			}
 		}
 	}
