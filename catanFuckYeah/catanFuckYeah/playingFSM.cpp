@@ -40,9 +40,7 @@ playingFSM::playingFSM(bool iStart, catanGameModel * game, std::vector<EDAInputC
 	}
 	else
 	{
-		netwConstructionController * controllerToAdd = static_cast<netwConstructionController *>(getNetworkingController(CTRL_CONSTRUCTION));	//agrega un controller de networking que solo espera que le manden SETTLEMENT
-		controllerToAdd->setExpectedPackage(SETTLEMENT);
-		currentNetworkingControllers.push_back(controllerToAdd);
+		currentNetworkingControllers.push_back(static_cast<netwConstructionController *>(getNetworkingController(CTRL_CONSTRUCTION)));
 		p2view = new player2Viewer(gameModel->getCurrentPlayer());
 		gameModel->attach(p2view);
 		p1view = new player1Viewer(gameModel->getOtherPlayer());
