@@ -19,22 +19,23 @@ using namespace std;
 
 playingFSM::playingFSM(bool iStart, catanGameModel * game, std::vector<EDAInputController *> inputControllers, std::vector<EDANetworkingController *> networkingControllers, netwEmisor * em) : genericFSM(&fsmTable[0][0], 8, 5, iStart ? MY_TURN : OPP_TURN), allInputControllers(inputControllers) , allNetworkingControllers(networkingControllers)
 {
+	gameModel = game;
 	robberfsm = nullptr;
 	emisor = em;
 	mapView = new mapViewer(game->getMap());
-	game->attach(mapView);
+	gameModel->attach(mapView);
 	gameViewer = new gameModelViewer(game);
-	game->attach(gameViewer);
+	gameModel->attach(gameViewer);
 	if (iStart)
 	{
 		currentInputControllers.push_back(getInputController(CTRL_EDGE_AND_VERTEX));
 
 		currentInputControllers.push_back(getInputController(CTRL_ACTION_BUTTON)); //capaz este no vaya, solo el primero para los primeros roads y settlements
 
-		p1view = new player1Viewer(game->getCurrentPlayer());
-		game->attach(p1view);
-		p2view = new player2Viewer(game->getOtherPlayer());
-		game->attach(p2view);
+		p1view = new player1Viewer(gameModel->getCurrentPlayer());
+		gameModel->attach(p1view);
+		p2view = new player2Viewer(gameModel->getOtherPlayer());
+		gameModel->attach(p2view);
 		//inputControllerList.push_back(new );
 	}
 	else
@@ -42,10 +43,10 @@ playingFSM::playingFSM(bool iStart, catanGameModel * game, std::vector<EDAInputC
 		netwConstructionController * controllerToAdd = static_cast<netwConstructionController *>(getNetworkingController(CTRL_CONSTRUCTION));	//agrega un controller de networking que solo espera que le manden SETTLEMENT
 		controllerToAdd->setExpectedPackage(SETTLEMENT);
 		currentNetworkingControllers.push_back(controllerToAdd);
-		p2view = new player2Viewer(game->getCurrentPlayer());
-		game->attach(p2view);
-		p1view = new player1Viewer(game->getOtherPlayer());
-		game->attach(p1view);
+		p2view = new player2Viewer(gameModel->getCurrentPlayer());
+		gameModel->attach(p2view);
+		p1view = new player1Viewer(gameModel->getOtherPlayer());
+		gameModel->attach(p1view);
 	}
 	if (!p1view->getInitOk() || !p2view->getInitOk() || !gameViewer->getInitOk() || !mapView->getInitOk())
 	{
@@ -53,7 +54,7 @@ playingFSM::playingFSM(bool iStart, catanGameModel * game, std::vector<EDAInputC
 	}
 	else
 	{
-		game->notify();
+		gameModel->notify();
 	}
 }
 
