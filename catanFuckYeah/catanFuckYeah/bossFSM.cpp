@@ -208,7 +208,7 @@ void bossFSM::newGame(genericEvent * ev)
 			netwControllerToAdd = new netwBankTradeController(temp);
 			break;
 		case 1:
-			netwControllerToAdd = new netwConstructionController(temp);
+			netwControllerToAdd = new netwConstructionController(temp,emisor);
 			break;
 		case 2:
 			netwControllerToAdd = new netwDicesController(temp);
