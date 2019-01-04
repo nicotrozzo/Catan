@@ -13,7 +13,7 @@
 #include "gameCoords.h"
 
 #define TIMEOUT_SECS 150
-#define IP_STR "25.79.16.128"
+#define IP_STR "25.79.20.36"
 
 void deleteFrontEnd(void * display);
 void * initFrontEnd();
@@ -24,7 +24,7 @@ int main(int argc,char * argv[])
 	void * info = initFrontEnd();
 	if (info != nullptr)
 	{
-		string name = "Nicogil";
+		string name = "Nico";
 		inputEventGenerator inputEvGen(static_cast<ALLEGRO_DISPLAY *>(info));	//mouse, teclado y refresh de pantalla
 		timerEventGenerator timeout(TIMEOUT_SECS);
 		quitButtonController quitButton;
