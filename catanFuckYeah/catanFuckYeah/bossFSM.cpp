@@ -252,10 +252,7 @@ void bossFSM::closeConnection(genericEvent * ev)
 		delete gameFSM;
 		gameFSM = nullptr;
 	}
-	if (ev->getType() == OUT_EV)
-	{
-		cout << "Error: " << static_cast<outEv *>(ev)->getDetail() << endl;
-	}
+	cout << "Error: " << static_cast<outEv *>(ev)->getDetail() << endl;
 }
 
 void bossFSM::finishHandshaking(genericEvent * ev)
