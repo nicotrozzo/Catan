@@ -343,6 +343,11 @@ void playingFSM::myTurnPassControllers(genericEvent * ev)
 			currentInputControllers.push_back(controllerToAdd);
 		}
 	}
+	else
+	{
+		myTurnControllers(ev);
+		gameModel->dicesThrown(0, 0);	//cambia de turno
+	}
 }
 
 void playingFSM::oppRobberControllers(genericEvent * ev)
