@@ -11,6 +11,7 @@ catanGameModel::catanGameModel()
 	dice2 = 0;
 	longestRoadPlayer = 0;
 	player1Playing = rand() % 2;
+	player1Started = player1Playing;
 	clearTrades();
 }
 
@@ -121,26 +122,29 @@ bool catanGameModel::validConstruction(networkingEventTypes type, string coords)
 	unsigned char player = (player1Playing ? 1 : 2);
 	if (!selecting)
 	{
-		bool initState = initState = (player1Playing ? map.getP1Roads().size() < 2 : map.getP2Roads().size() < 2);
-		if ((validResourceForConstruct(type)) || initState)
+		if (initConstructionOk(player))
 		{
-			switch (type)
+			bool initState = (player1Playing ? map.getP1Roads().size() < 2 : map.getP2Roads().size() < 2);	//si esta en el estado inicial, no necesita recursos para construir
+			if ((validResourceForConstruct(type)) || initState)
 			{
-			case SETTLEMENT:
-				ret = map.checkAvailableSettlement(coords, player);
-				break;
-			case CITY:
-				ret = map.checkAvailableCity(coords, player);
-				break;
-			case ROAD:
-				ret = map.checkAvailableRoad(coords, player);
-				break;
+				switch (type)
+				{
+				case SETTLEMENT:
+					ret = map.checkAvailableSettlement(coords, player);
+					break;
+				case CITY:
+					ret = map.checkAvailableCity(coords, player);
+					break;
+				case ROAD:
+					ret = map.checkAvailableRoad(coords, player);
+					break;
+				}
 			}
-		}
-		if (ret)
-		{
-			constructing = true;
-			notifyAllObservers();
+			if (ret)
+			{
+				constructing = true;
+				notifyAllObservers();
+			}
 		}
 	}
 	return ret;
@@ -301,6 +305,50 @@ bool catanGameModel::p2HasSelectedCards()
 	cards pSel = p2SelectedCardsForTrade;
 	cards p2 = player2.getCards();
 	return ((pSel.ore <= p2.ore) && (pSel.brick <= p2.brick) && (pSel.wheat <= p2.wheat) && (pSel.wood <= p2.wood) && (pSel.wool <= p2.wool));
+}
+
+bool catanGameModel::initConstructionOk(unsigned char player)
+{
+	bool ret = false;
+	if (player == 1)
+	{
+		if (player1Started)
+		{
+			ret = map.getP1Roads().size() == 0;
+			if (!ret)
+			{
+				ret = map.getP2Roads().size() >= 2;
+			}
+		}
+		else
+		{
+			ret = true;
+			if (map.getP2Roads().size() == 1)
+			{
+				ret = map.getP1Roads().size() < 2;
+			}
+		}
+	}
+	else if (player == 2)
+	{
+		if (!player1Started)	//si arranco el jugador 2
+		{
+			ret = map.getP2Roads().size() == 0;
+			if (!ret)
+			{
+				ret = map.getP1Roads().size() >= 2;
+			}
+		}
+		else
+		{
+			ret = true;
+			if (map.getP1Roads().size() == 1)
+			{
+				ret = map.getP2Roads().size() < 2;
+			}
+		}
+	}
+	return ret;
 }
 
 bool catanGameModel::playersTrade(string cardsPlayer1, string cardsPlayer2)

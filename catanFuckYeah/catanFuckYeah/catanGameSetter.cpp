@@ -26,10 +26,12 @@ void catanGameSetter::setInitialPlayer(unsigned char player)
 	if (player == 1)
 	{
 		player1Playing = true;
+		player1Started = true;
 	}
 	else if (player == 2)
 	{
 		player1Playing = false;
+		player1Started = false;
 	}
 }
 
