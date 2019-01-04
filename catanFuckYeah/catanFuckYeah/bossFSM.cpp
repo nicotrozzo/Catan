@@ -365,6 +365,7 @@ void bossFSM::closeGame(genericEvent * ev)
 		evGen.detach(gameFSM);
 		delete gameFSM;
 		gameFSM = nullptr;
+		emisor->sendPackage(ERROR_PCKG);		//manda error para no tener que esperar el ACK y avisarle al oponente que se fue
 	}
 
 	fsmEvent = new outEv;
