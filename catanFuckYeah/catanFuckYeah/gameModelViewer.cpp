@@ -37,6 +37,7 @@ void gameModelViewer::update()
 {
 	if (initOk)
 	{
+		viewTurn();
 		if (!myGame->initState())
 		{
 			viewExitButton();
@@ -62,6 +63,10 @@ void gameModelViewer::update()
 					viewActionButtons();
 				}
 			}
+		}
+		else if (myGame->isPlayer1Playing() && ((myGame->isConstructing()) || (myGame->isSelecting())))
+		{
+			viewTickAndCrossButtons();
 		}
 	}
 	else
@@ -268,6 +273,13 @@ void gameModelViewer::viewExitButton()
 {
 	//al_draw_bitmap(exitButtonBitmap, gameCoords::buttonCoords["EXIT"].xCoord, gameCoords::buttonCoords["EXIT"].yCoord, 0);
 	al_draw_scaled_rotated_bitmap(exitButtonBitmap,0,0, gameCoords::buttonCoords["EXIT"].xCoord, gameCoords::buttonCoords["EXIT"].yCoord,PROP_X,PROP_Y,0, 0);
+}
+
+void gameModelViewer::viewTurn()
+{
+	//MOSTRAR EN ALGUN LADO DE QUIEN ES EL TURNO
+	string text = myGame->getCurrentPlayer()->getName() + "'s turn";
+	al_draw_text(fontForAmountOfCards, al_color_name("black"), 0, 0, 0, text.c_str());
 }
 
 gameModelViewer::~gameModelViewer()
