@@ -37,33 +37,36 @@ void gameModelViewer::update()
 {
 	if (initOk)
 	{
-		viewExitButton();
-		viewDices();
-		if ((myGame->isSelecting() == BANK_TRADE) || (myGame->isSelecting() == OFFER_TRADE))
+		if (!myGame->initState())
 		{
-			viewTrade();
-			viewSelectedCards();
-		}
-		else if (myGame->isSelecting() == ROBBER_CARDS)
-		{
-			viewRobberDiscard();
-			viewSelectedCards();
-		}
-		if (myGame->isPlayer1Playing())
-		{
-			if ((myGame->isConstructing()) ||(myGame->isSelecting()))
+			viewExitButton();
+			viewDices();
+			if ((myGame->isSelecting() == BANK_TRADE) || (myGame->isSelecting() == OFFER_TRADE))
 			{
-				viewTickAndCrossButtons();
+				viewTrade();
+				viewSelectedCards();
 			}
-			else
+			else if (myGame->isSelecting() == ROBBER_CARDS)
 			{
-				viewActionButtons();
+				viewRobberDiscard();
+				viewSelectedCards();
+			}
+			if (myGame->isPlayer1Playing())
+			{
+				if ((myGame->isConstructing()) || (myGame->isSelecting()))
+				{
+					viewTickAndCrossButtons();
+				}
+				else
+				{
+					viewActionButtons();
+				}
 			}
 		}
 	}
 	else
 	{
-		cout << "mal en gameModelViewer" << endl;
+		cout << "Error en gameModelViewer" << endl;
 	}
 }
 

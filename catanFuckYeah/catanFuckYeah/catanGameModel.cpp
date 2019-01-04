@@ -19,29 +19,53 @@ bool catanGameModel::dicesThrown(unsigned char dice1, unsigned char dice2)
 {
 	//tiene que cambiar el jugador que esta jugando
 	//tiene que asignar recursos a los player que esten en el casillero que haya salido
-	this->dice1 = dice1;
-	this->dice2 = dice2;
 	bool ret = false;
-	list<pepe> hexagonos;
-	list<string> vertex;
-	list<string> cities;
-	size_t found;
 	player1Playing = !player1Playing;
-	if ((dice1 + dice2) != 7)
+	if (dice1 != 0)
 	{
-		hexagonos = map.getSelectedHex(dice1 + dice2);
-		vertex = map.getP1BuiltVertexes();
-		cities = map.getP1Cities();
-		for (auto y : hexagonos)
+		this->dice1 = dice1;
+		this->dice2 = dice2;
+		list<pepe> hexagonos;
+		list<string> vertex;
+		list<string> cities;
+		size_t found;
+		if ((dice1 + dice2) != 7)
 		{
-			if (y.letter != map.getRobberPos())
+			hexagonos = map.getSelectedHex(dice1 + dice2);
+			vertex = map.getP1BuiltVertexes();
+			cities = map.getP1Cities();
+			for (auto y : hexagonos)
+			{
+				if (y.letter != map.getRobberPos())
+				{
+					for (auto x : vertex)
+					{
+						found = x.find(y.letter);
+						if (found != string::npos)
+						{
+							player1.incResource(y.hexResource);	//si tiene una construccion adyacente al hexagono
+						}
+					}
+					for (auto x : cities)
+					{
+						found = x.find(y.letter);
+						if (found != string::npos)
+						{
+							player1.incResource(y.hexResource);	//si tiene una citi adyacente al hexagono le asigno un recurso mas
+						}
+					}
+				}
+			}
+			vertex = map.getP2BuiltVertexes();
+			cities = map.getP2Cities();
+			for (auto y : hexagonos)
 			{
 				for (auto x : vertex)
 				{
 					found = x.find(y.letter);
 					if (found != string::npos)
 					{
-						player1.incResource(y.hexResource);	//si tiene una construccion adyacente al hexagono
+						player2.incResource(y.hexResource);	//si tiene una construccion adyacente al hexagono
 					}
 				}
 				for (auto x : cities)
@@ -49,33 +73,12 @@ bool catanGameModel::dicesThrown(unsigned char dice1, unsigned char dice2)
 					found = x.find(y.letter);
 					if (found != string::npos)
 					{
-						player1.incResource(y.hexResource);	//si tiene una citi adyacente al hexagono le asigno un recurso mas
+						player2.incResource(y.hexResource);	//si tiene una citi adyacente al hexagono le asigno un recurso mas
 					}
 				}
 			}
+			ret = true;
 		}
-		vertex = map.getP2BuiltVertexes();
-		cities = map.getP2Cities();
-		for (auto y : hexagonos)
-		{
-			for (auto x : vertex)
-			{
-				found = x.find(y.letter);
-				if (found != string::npos)
-				{
-					player2.incResource(y.hexResource);	//si tiene una construccion adyacente al hexagono
-				}
-			}
-			for (auto x : cities)
-			{
-				found = x.find(y.letter);
-				if (found != string::npos)
-				{
-					player2.incResource(y.hexResource);	//si tiene una citi adyacente al hexagono le asigno un recurso mas
-				}
-			}
-		}
-		ret = true;
 	}
 	notifyAllObservers();
 	return ret;

@@ -23,7 +23,7 @@ bool inputActionButtonController::parseMouseEvent(mouseEvent * ev)
 	{
 		if ((mouseCoords.y >= bCoords.y) && (mouseCoords.y - bCoords.y <= OFFSET_END_TURN_Y))
 		{
-			if (!gameModel->hasToConstruct())
+			if (!gameModel->initState())
 			{
 				ret = true;
 				netEmisorEv->sendPackage(PASS);
