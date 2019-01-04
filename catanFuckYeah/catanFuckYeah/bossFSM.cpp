@@ -324,6 +324,20 @@ void bossFSM::sendTimerEv(genericEvent * ev)
 	
 }
 
+void bossFSM::sendTimerEvent(genericEvent * ev)
+{
+	playingFSMEvent * evento = static_cast<playingFSMEvent *>(playingFSMEvGen.getNextEvent());
+	if (evento != nullptr)
+	{
+		gameFSM->cycle(evento);
+		delete evento;
+	}
+	if (graficador != nullptr)
+	{
+		graficador->refresh();
+	}
+}
+
 
 void bossFSM::sendInputEv(genericEvent * ev)
 {
