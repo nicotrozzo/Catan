@@ -38,9 +38,9 @@ void gameModelViewer::update()
 	if (initOk)
 	{
 		viewTurn();
+		viewExitButton();
 		if (!myGame->initState())
 		{
-			viewExitButton();
 			viewDices();
 			if ((myGame->isSelecting() == BANK_TRADE) || (myGame->isSelecting() == OFFER_TRADE))
 			{
