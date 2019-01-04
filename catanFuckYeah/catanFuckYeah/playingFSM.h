@@ -86,7 +86,7 @@ private:
 																					//lo emite el edgeandvertex controller
 	{ { WAITING_DICES,TX(passControllers)},	{PREPARE_TRADE,TX(tradeControllers)},	{BUILDING,TX(buildControllers)},		{MY_ROBBER,TX(myRobberControllers)},	{MY_TURN,TX(error)} },		 //MY_TURN
 																					//lo emite el tick controller																																	 //lo emite el tick controller																																	 //lo emite el tick controller									 	
-	{ { MY_TURN,TX(myTurnControllers) },	{BUILDING,TX(doNothing) },				{BUILDING,TX(ackController)},			{BUILDING,TX(doNothing)},				{BUILDING,TX(error)} },		 //BUILDING
+	{ { MY_TURN,TX(finishedBuilding) },	{BUILDING,TX(doNothing) },				{BUILDING,TX(ackController)},			{BUILDING,TX(doNothing)},				{BUILDING,TX(error)} },		 //BUILDING
 												//lo emite el tick controller			 //lo emite el tick controller
 	{ { MY_TURN,TX(myTurnControllers) },	{PREPARE_TRADE,TX(ackController)},		{PREPARE_TRADE,TX(netwYNControllers)},	{PREPARE_TRADE,TX(doNothing)},			{PREPARE_TRADE,TX(error)} },	 //PREPARE_TRADE
 	{ { MY_TURN,TX(myTurnControllers) },	{MY_ROBBER,TX(robbAckController) },				{MY_ROBBER,TX(myRobberControllers) },	{MY_ROBBER,TX(myRobberControllers)},	{MY_ROBBER,TX(error)} },		//MY_ROBBER
@@ -106,6 +106,7 @@ private:
 	void myRobberControllers(genericEvent* ev);
 	void error(genericEvent* ev);
 	void myTurnControllers(genericEvent* ev);
+	void finishedBuilding(genericEvent* ev);
 	void netwYNControllers(genericEvent* ev);
 	void ackController(genericEvent * ev);
 	void robbAckController(genericEvent * ev);

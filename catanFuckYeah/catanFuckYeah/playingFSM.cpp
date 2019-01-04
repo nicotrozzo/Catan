@@ -286,6 +286,17 @@ void playingFSM::myTurnControllers(genericEvent * ev)
 	currentInputControllers.push_back(getInputController(CTRL_ACTION_BUTTON));
 }
 
+void playingFSM::finishedBuilding(genericEvent * ev)
+{
+	myTurnControllers(ev);
+	if (gameModel->initState() && !gameModel->hasToConstruct())
+	{
+		inputStateController *controllerToAdd = static_cast<inputStateController *>(getInputController(CTRL_STATE));
+		controllerToAdd->setEv(CHANGE_STATE);
+		currentInputControllers.push_back(controllerToAdd);
+	}
+}
+
 void playingFSM::netwYNControllers(genericEvent * ev)
 {
 	currentNetworkingControllers.clear();
@@ -313,21 +324,24 @@ void playingFSM::robbAckController(genericEvent * ev)
 
 void playingFSM::myTurnPassControllers(genericEvent * ev)
 {
-	unsigned int dice1 = rand() % 6 + 1;
-	unsigned int dice2 = rand() % 6 + 1;
-	string info2send;
-	info2send += dice1;
-	info2send += dice2;
-	emisor->sendPackage(DICES_ARE, info2send);
-	if (gameModel->dicesThrown(dice1, dice2))
+	if (!gameModel->initState())
 	{
-		myTurnControllers(ev);
-	}
-	else
-	{
-		inputStateController *controllerToAdd = static_cast<inputStateController *>(getInputController(CTRL_STATE));
-		controllerToAdd->setEv(ROBBER_EV);
-		currentInputControllers.push_back(controllerToAdd);
+		unsigned int dice1 = rand() % 6 + 1;
+		unsigned int dice2 = rand() % 6 + 1;
+		string info2send;
+		info2send += dice1;
+		info2send += dice2;
+		emisor->sendPackage(DICES_ARE, info2send);
+		if (gameModel->dicesThrown(dice1, dice2))
+		{
+			myTurnControllers(ev);
+		}
+		else
+		{
+			inputStateController *controllerToAdd = static_cast<inputStateController *>(getInputController(CTRL_STATE));
+			controllerToAdd->setEv(ROBBER_EV);
+			currentInputControllers.push_back(controllerToAdd);
+		}
 	}
 }
 
