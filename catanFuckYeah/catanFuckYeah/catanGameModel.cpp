@@ -890,6 +890,11 @@ bool catanGameModel::hasToConstruct()
 	return ret;
 }
 
+bool catanGameModel::initState()
+{
+	return (map.getP1Roads().size() < 2) || (map.getP2Roads.size() < 2);
+}
+
 catanPlayerModel *catanGameModel::getCurrentPlayer()
 {
 	catanPlayerModel *ret = nullptr;
