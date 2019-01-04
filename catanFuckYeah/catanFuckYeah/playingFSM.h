@@ -10,7 +10,7 @@
 #include "player2Viewer.h"
 #include <vector>
 
-enum netwStates : stateTypes { MY_TURN, BUILDING, PREPARE_TRADE , WAITING_REPLY, MY_ROBBER, WAITING_DICES, OPP_TURN, OPP_ROBBER, WAITING_PLAYER  };
+enum netwStates : stateTypes { MY_TURN, BUILDING, PREPARE_TRADE , MY_ROBBER, WAITING_DICES, OPP_TURN, OPP_ROBBER, WAITING_PLAYER  };
 
 enum playingFSMEvTypes : eventTypes {CHANGE_STATE, CARDS_EV, TICK_EV,ROBBER_EV, ERROR_EV};
 
