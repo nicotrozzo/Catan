@@ -194,6 +194,10 @@ void playingFSM::passControllers(genericEvent * ev)
 	currentInputControllers.clear();
 	currentNetworkingControllers.clear();
 	currentNetworkingControllers.push_back(getNetworkingController(CTRL_DICES));
+	if (gameModel->initState())
+	{
+		gameModel->dicesThrown(0, 0);
+	}
 }
 
 void playingFSM::oppTurnControllers(genericEvent * ev)
