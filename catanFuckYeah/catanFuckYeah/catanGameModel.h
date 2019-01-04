@@ -68,6 +68,7 @@ public:
 	resourceType getBankSelectedResource() { return bankSelectedResource; }
 
 	bool isPlayer1Playing();	//devuelve true si es el turno del jugador 1
+	bool hasToConstruct();	//devuelve true si el jugador actual tiene que construir por estar en el estado inicial 
 	catanPlayerModel *getCurrentPlayer();
 	catanPlayerModel *getOtherPlayer();
 	catanMapModel *getMap();

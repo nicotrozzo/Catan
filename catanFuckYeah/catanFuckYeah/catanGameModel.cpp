@@ -854,6 +854,42 @@ bool catanGameModel::isPlayer1Playing()
 	return player1Playing;
 }
 
+bool catanGameModel::hasToConstruct()
+{
+	bool ret = false;
+	if (player1Playing)
+	{
+		if (player1Started)
+		{
+			ret = (map.getP1Roads().size() == 0);
+			if (!ret)
+			{
+				ret = ((map.getP2Roads().size() == 2) && ((map.getP1Roads().size() < 2)));
+			}
+		}
+		else
+		{
+			ret = (map.getP2Roads().size() == 1);
+		}
+	}
+	else
+	{
+		if (!player1Started)
+		{
+			ret = (map.getP2Roads().size() == 0);
+			if (!ret)
+			{
+				ret = ((map.getP1Roads().size() == 2) && ((map.getP2Roads().size() < 2)));
+			}
+		}
+		else
+		{
+			ret = (map.getP1Roads().size() == 1);
+		}
+	}
+	return ret;
+}
+
 catanPlayerModel *catanGameModel::getCurrentPlayer()
 {
 	catanPlayerModel *ret = nullptr;
