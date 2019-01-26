@@ -24,7 +24,16 @@ int main(int argc,char * argv[])
 	void * info = initFrontEnd();
 	if (info != nullptr)
 	{
-		string name = "Fedegil";
+		string name;
+		if (argc == 2)
+		{
+			name = argv[1];
+		}
+		else
+		{
+			name = nullptr;
+		}
+	//	string name = "Fedegil";
 		inputEventGenerator inputEvGen(static_cast<ALLEGRO_DISPLAY *>(info));	//mouse, teclado y refresh de pantalla
 		timerEventGenerator timeout(TIMEOUT_SECS);
 		quitButtonController quitButton;
