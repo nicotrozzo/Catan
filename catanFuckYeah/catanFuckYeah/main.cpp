@@ -33,7 +33,6 @@ int main(int argc,char * argv[])
 		{
 			name = nullptr;
 		}
-	//	string name = "Fedegil";
 		inputEventGenerator inputEvGen(static_cast<ALLEGRO_DISPLAY *>(info));	//mouse, teclado y refresh de pantalla
 		timerEventGenerator timeout(TIMEOUT_SECS);
 		quitButtonController quitButton;
