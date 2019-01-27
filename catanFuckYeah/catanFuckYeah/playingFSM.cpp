@@ -40,8 +40,9 @@ playingFSM::playingFSM(bool iStart, catanGameModel * game, std::vector<EDAInputC
 	}
 	else
 	{
-		netwConstructionController * controllerToAdd = static_cast<netwConstructionController *>(getNetworkingController(CTRL_CONSTRUCTION));	//agrega un controller de networking que solo espera que le manden SETTLEMENT
-		controllerToAdd->setExpectedPackage(SETTLEMENT);
+		currentNetworkingControllers.push_back(static_cast<netwConstructionController *>(getNetworkingController(CTRL_CONSTRUCTION)));
+		EDANetworkingController * controllerToAdd = getNetworkingController(GENERIC_NETW_CONTROLLER);	//agrega un controller de networking que solo espera que le manden PASS
+		controllerToAdd->setExpectedPackage(PASS);
 		currentNetworkingControllers.push_back(controllerToAdd);
 		p2view = new player2Viewer(gameModel->getCurrentPlayer());
 		gameModel->attach(p2view);
@@ -193,13 +194,17 @@ void playingFSM::passControllers(genericEvent * ev)
 	currentInputControllers.clear();
 	currentNetworkingControllers.clear();
 	currentNetworkingControllers.push_back(getNetworkingController(CTRL_DICES));
+	if (gameModel->initState())
+	{
+		gameModel->dicesThrown(0, 0);
+	}
 }
 
 void playingFSM::oppTurnControllers(genericEvent * ev)
 {
 	currentInputControllers.clear();
 	currentNetworkingControllers.clear();
-	EDANetworkingController * controllerToAdd = getNetworkingController(GENERIC_NETW_CONTROLLER);	//agrega un controller de networking que solo espera que le manden SETTLEMENT
+	EDANetworkingController * controllerToAdd = getNetworkingController(GENERIC_NETW_CONTROLLER);	//agrega un controller de networking que solo espera que le manden PASS
 	controllerToAdd->setExpectedPackage(PASS);
 	currentNetworkingControllers.push_back(controllerToAdd);
 	currentNetworkingControllers.push_back(getNetworkingController(CTRL_CONSTRUCTION));
@@ -285,6 +290,17 @@ void playingFSM::myTurnControllers(genericEvent * ev)
 	currentInputControllers.push_back(getInputController(CTRL_ACTION_BUTTON));
 }
 
+void playingFSM::finishedBuilding(genericEvent * ev)
+{
+	myTurnControllers(ev);
+	if (gameModel->initState() && !gameModel->hasToConstruct())
+	{
+		inputStateController *controllerToAdd = static_cast<inputStateController *>(getInputController(CTRL_STATE));
+		controllerToAdd->setEv(CHANGE_STATE);
+		currentInputControllers.push_back(controllerToAdd);
+	}
+}
+
 void playingFSM::netwYNControllers(genericEvent * ev)
 {
 	currentNetworkingControllers.clear();
@@ -312,17 +328,29 @@ void playingFSM::robbAckController(genericEvent * ev)
 
 void playingFSM::myTurnPassControllers(genericEvent * ev)
 {
-	unsigned int dice1 = rand() % 6 + 1;
-	unsigned int dice2 = rand() % 6 + 1;
-	if (gameModel->dicesThrown(dice1, dice2))
+	if (!gameModel->initState())
 	{
-		myTurnControllers(ev);
+		unsigned int dice1 = rand() % 6 + 1;
+		unsigned int dice2 = rand() % 6 + 1;
+		string info2send;
+		info2send += dice1;
+		info2send += dice2;
+		emisor->sendPackage(DICES_ARE, info2send);
+		if (gameModel->dicesThrown(dice1, dice2))
+		{
+			myTurnControllers(ev);
+		}
+		else
+		{
+			inputStateController *controllerToAdd = static_cast<inputStateController *>(getInputController(CTRL_STATE));
+			controllerToAdd->setEv(ROBBER_EV);
+			currentInputControllers.push_back(controllerToAdd);
+		}
 	}
 	else
 	{
-		inputStateController *controllerToAdd = static_cast<inputStateController *>(getInputController(CTRL_STATE));
-		controllerToAdd->setEv(ROBBER_EV);
-		currentInputControllers.push_back(controllerToAdd);
+		myTurnControllers(ev);
+		gameModel->dicesThrown(0, 0);	//cambia de turno
 	}
 }
 

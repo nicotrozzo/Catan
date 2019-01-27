@@ -40,6 +40,7 @@ private:
 	void viewTickAndCrossButtons();
 	void viewActionButtons();			//viewer de bank trade, player trade y pass button
 	void viewExitButton();
+	void viewTurn();
 	bool initOk;
 };
 

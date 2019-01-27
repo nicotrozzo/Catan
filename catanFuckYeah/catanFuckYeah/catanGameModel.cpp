@@ -11,6 +11,7 @@ catanGameModel::catanGameModel()
 	dice2 = 0;
 	longestRoadPlayer = 0;
 	player1Playing = rand() % 2;
+	player1Started = player1Playing;
 	clearTrades();
 }
 
@@ -18,29 +19,53 @@ bool catanGameModel::dicesThrown(unsigned char dice1, unsigned char dice2)
 {
 	//tiene que cambiar el jugador que esta jugando
 	//tiene que asignar recursos a los player que esten en el casillero que haya salido
-	this->dice1 = dice1;
-	this->dice2 = dice2;
 	bool ret = false;
-	list<pepe> hexagonos;
-	list<string> vertex;
-	list<string> cities;
-	size_t found;
 	player1Playing = !player1Playing;
-	if ((dice1 + dice2) != 7)
+	if (dice1 != 0)
 	{
-		hexagonos = map.getSelectedHex(dice1 + dice2);
-		vertex = map.getP1BuiltVertexes();
-		cities = map.getP1Cities();
-		for (auto y : hexagonos)
+		this->dice1 = dice1;
+		this->dice2 = dice2;
+		list<pepe> hexagonos;
+		list<string> vertex;
+		list<string> cities;
+		size_t found;
+		if ((dice1 + dice2) != 7)
 		{
-			if (y.letter != map.getRobberPos())
+			hexagonos = map.getSelectedHex(dice1 + dice2);
+			vertex = map.getP1BuiltVertexes();
+			cities = map.getP1Cities();
+			for (auto y : hexagonos)
+			{
+				if (y.letter != map.getRobberPos())
+				{
+					for (auto x : vertex)
+					{
+						found = x.find(y.letter);
+						if (found != string::npos)
+						{
+							player1.incResource(y.hexResource);	//si tiene una construccion adyacente al hexagono
+						}
+					}
+					for (auto x : cities)
+					{
+						found = x.find(y.letter);
+						if (found != string::npos)
+						{
+							player1.incResource(y.hexResource);	//si tiene una citi adyacente al hexagono le asigno un recurso mas
+						}
+					}
+				}
+			}
+			vertex = map.getP2BuiltVertexes();
+			cities = map.getP2Cities();
+			for (auto y : hexagonos)
 			{
 				for (auto x : vertex)
 				{
 					found = x.find(y.letter);
 					if (found != string::npos)
 					{
-						player1.incResource(y.hexResource);	//si tiene una construccion adyacente al hexagono
+						player2.incResource(y.hexResource);	//si tiene una construccion adyacente al hexagono
 					}
 				}
 				for (auto x : cities)
@@ -48,33 +73,12 @@ bool catanGameModel::dicesThrown(unsigned char dice1, unsigned char dice2)
 					found = x.find(y.letter);
 					if (found != string::npos)
 					{
-						player1.incResource(y.hexResource);	//si tiene una citi adyacente al hexagono le asigno un recurso mas
+						player2.incResource(y.hexResource);	//si tiene una citi adyacente al hexagono le asigno un recurso mas
 					}
 				}
 			}
+			ret = true;
 		}
-		vertex = map.getP2BuiltVertexes();
-		cities = map.getP2Cities();
-		for (auto y : hexagonos)
-		{
-			for (auto x : vertex)
-			{
-				found = x.find(y.letter);
-				if (found != string::npos)
-				{
-					player2.incResource(y.hexResource);	//si tiene una construccion adyacente al hexagono
-				}
-			}
-			for (auto x : cities)
-			{
-				found = x.find(y.letter);
-				if (found != string::npos)
-				{
-					player2.incResource(y.hexResource);	//si tiene una citi adyacente al hexagono le asigno un recurso mas
-				}
-			}
-		}
-		ret = true;
 	}
 	notifyAllObservers();
 	return ret;
@@ -121,26 +125,29 @@ bool catanGameModel::validConstruction(networkingEventTypes type, string coords)
 	unsigned char player = (player1Playing ? 1 : 2);
 	if (!selecting)
 	{
-		bool initState = initState = (player1Playing ? map.getP1Roads().size() < 2 : map.getP2Roads().size() < 2);
-		if ((validResourceForConstruct(type)) || initState)
+		if (initConstructionOk(player))
 		{
-			switch (type)
+			bool initState = (player1Playing ? map.getP1Roads().size() < 2 : map.getP2Roads().size() < 2);	//si esta en el estado inicial, no necesita recursos para construir
+			if ((validResourceForConstruct(type)) || initState)
 			{
-			case SETTLEMENT:
-				ret = map.checkAvailableSettlement(coords, player);
-				break;
-			case CITY:
-				ret = map.checkAvailableCity(coords, player);
-				break;
-			case ROAD:
-				ret = map.checkAvailableRoad(coords, player);
-				break;
+				switch (type)
+				{
+				case SETTLEMENT:
+					ret = map.checkAvailableSettlement(coords, player);
+					break;
+				case CITY:
+					ret = map.checkAvailableCity(coords, player);
+					break;
+				case ROAD:
+					ret = map.checkAvailableRoad(coords, player);
+					break;
+				}
 			}
-		}
-		if (ret)
-		{
-			constructing = true;
-			notifyAllObservers();
+			if (ret)
+			{
+				constructing = true;
+				notifyAllObservers();
+			}
 		}
 	}
 	return ret;
@@ -301,6 +308,50 @@ bool catanGameModel::p2HasSelectedCards()
 	cards pSel = p2SelectedCardsForTrade;
 	cards p2 = player2.getCards();
 	return ((pSel.ore <= p2.ore) && (pSel.brick <= p2.brick) && (pSel.wheat <= p2.wheat) && (pSel.wood <= p2.wood) && (pSel.wool <= p2.wool));
+}
+
+bool catanGameModel::initConstructionOk(unsigned char player)
+{
+	bool ret = false;
+	if (player == 1)
+	{
+		if (player1Started)
+		{
+			ret = map.getP1Roads().size() == 0;
+			if (!ret)
+			{
+				ret = map.getP2Roads().size() >= 2;
+			}
+		}
+		else
+		{
+			ret = true;
+			if (map.getP2Roads().size() == 1)
+			{
+				ret = map.getP1Roads().size() < 2;
+			}
+		}
+	}
+	else if (player == 2)
+	{
+		if (!player1Started)	//si arranco el jugador 2
+		{
+			ret = map.getP2Roads().size() == 0;
+			if (!ret)
+			{
+				ret = map.getP1Roads().size() >= 2;
+			}
+		}
+		else
+		{
+			ret = true;
+			if (map.getP1Roads().size() == 1)
+			{
+				ret = map.getP2Roads().size() < 2;
+			}
+		}
+	}
+	return ret;
 }
 
 bool catanGameModel::playersTrade(string cardsPlayer1, string cardsPlayer2)
@@ -804,6 +855,47 @@ bool catanGameModel::bankTrade()
 bool catanGameModel::isPlayer1Playing()
 {
 	return player1Playing;
+}
+
+bool catanGameModel::hasToConstruct()
+{
+	bool ret = false;
+	if (player1Playing)
+	{
+		if (player1Started)
+		{
+			ret = (map.getP1Roads().size() == 0);
+			if (!ret)
+			{
+				ret = ((map.getP2Roads().size() == 2) && ((map.getP1Roads().size() < 2)));
+			}
+		}
+		else
+		{
+			ret = (map.getP2Roads().size() == 1);
+		}
+	}
+	else
+	{
+		if (!player1Started)
+		{
+			ret = (map.getP2Roads().size() == 0);
+			if (!ret)
+			{
+				ret = ((map.getP1Roads().size() == 2) && ((map.getP2Roads().size() < 2)));
+			}
+		}
+		else
+		{
+			ret = (map.getP1Roads().size() == 1);
+		}
+	}
+	return ret;
+}
+
+bool catanGameModel::initState()
+{
+	return (map.getP1Roads().size() < 2) || (map.getP2Roads().size() < 2);
 }
 
 catanPlayerModel *catanGameModel::getCurrentPlayer()

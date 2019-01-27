@@ -67,10 +67,9 @@ public:
 	resource_t getPlayerSelectedResource() { return playerSelectedResource; }
 	resourceType getBankSelectedResource() { return bankSelectedResource; }
 
-
-	//bool waitingAccept();
-	//bool waitingCards();
 	bool isPlayer1Playing();	//devuelve true si es el turno del jugador 1
+	bool hasToConstruct();	//devuelve true si el jugador actual tiene que construir por estar en el estado inicial 
+	bool initState();		//devuelve true si todavia no se construyeron los dos primeros roads y settlements
 	catanPlayerModel *getCurrentPlayer();
 	catanPlayerModel *getOtherPlayer();
 	catanMapModel *getMap();
@@ -81,6 +80,7 @@ public:
 	~catanGameModel();
 protected:
 	bool player1Playing;	//true si es el turno del jugador 1, false si es el turno del jugador 2
+	bool player1Started;	//true si empezo jugando el jugador 1
 	catanPlayerModel player1;
 	catanPlayerModel player2;
 	cards p1SelectedCardsForTrade;
@@ -99,6 +99,7 @@ protected:
 	bool validResourceForConstruct(networkingEventTypes type);
 	bool validSelectedCards(string cardsPlayer1, string cardsPlayer2);		//checkea que la transaccion solicitada sea valida, en cuyo case devuelve true
 	bool p2HasSelectedCards(); //devuelve true si el jugador 2 tiene las selected cards
+	bool initConstructionOk(unsigned char player);
 };
 
 

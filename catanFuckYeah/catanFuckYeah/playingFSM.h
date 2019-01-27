@@ -10,7 +10,7 @@
 #include "player2Viewer.h"
 #include <vector>
 
-enum netwStates : stateTypes { MY_TURN, BUILDING, PREPARE_TRADE , WAITING_REPLY, MY_ROBBER, WAITING_DICES, OPP_TURN, OPP_ROBBER, WAITING_PLAYER  };
+enum netwStates : stateTypes { MY_TURN, BUILDING, PREPARE_TRADE , MY_ROBBER, WAITING_DICES, OPP_TURN, OPP_ROBBER, WAITING_PLAYER  };
 
 enum playingFSMEvTypes : eventTypes {CHANGE_STATE, CARDS_EV, TICK_EV,ROBBER_EV, ERROR_EV};
 
@@ -86,14 +86,14 @@ private:
 																					//lo emite el edgeandvertex controller
 	{ { WAITING_DICES,TX(passControllers)},	{PREPARE_TRADE,TX(tradeControllers)},	{BUILDING,TX(buildControllers)},		{MY_ROBBER,TX(myRobberControllers)},	{MY_TURN,TX(error)} },		 //MY_TURN
 																					//lo emite el tick controller																																	 //lo emite el tick controller																																	 //lo emite el tick controller									 	
-	{ { MY_TURN,TX(myTurnControllers) },	{BUILDING,TX(doNothing) },				{BUILDING,TX(ackController)},			{BUILDING,TX(doNothing)},				{BUILDING,TX(error)} },		 //BUILDING
+	{ { MY_TURN,TX(finishedBuilding) },	{BUILDING,TX(doNothing) },				{BUILDING,TX(ackController)},			{BUILDING,TX(doNothing)},				{BUILDING,TX(error)} },		 //BUILDING
 												//lo emite el tick controller			 //lo emite el tick controller
 	{ { MY_TURN,TX(myTurnControllers) },	{PREPARE_TRADE,TX(ackController)},		{PREPARE_TRADE,TX(netwYNControllers)},	{PREPARE_TRADE,TX(doNothing)},			{PREPARE_TRADE,TX(error)} },	 //PREPARE_TRADE
 	{ { MY_TURN,TX(myTurnControllers) },	{MY_ROBBER,TX(robbAckController) },				{MY_ROBBER,TX(myRobberControllers) },	{MY_ROBBER,TX(myRobberControllers)},	{MY_ROBBER,TX(error)} },		//MY_ROBBER
 	{ { OPP_TURN,TX(oppTurnControllers)},	{WAITING_DICES,TX(doNothing)},			{WAITING_DICES, TX(doNothing)},			{OPP_ROBBER,TX(oppRobberControllers)},	{WAITING_DICES,TX(error)} },	//WAITING_DICES
 	{ { MY_TURN,TX(myTurnPassControllers)},	{WAITING_PLAYER,TX(waitingControllers)},{OPP_TURN, TX(doNothing)},				{OPP_TURN,TX(doNothing)},				{OPP_TURN,TX(error)} },		 //OPP_TURN
 	{ { OPP_TURN,TX(oppTurnControllers) },	{OPP_ROBBER,TX(doNothing)},				{OPP_ROBBER, TX(doNothing)},			{OPP_ROBBER, TX(doNothing)},			{OPP_ROBBER,TX(error)} },		 //OPP_ROBBER
-	{ { OPP_TURN,TX(oppTurnControllers) },	{},										{WAITING_PLAYER, TX(tradeControllers)},	{WAITING_PLAYER, TX(doNothing)},		{WAITING_PLAYER,TX(error)} }	 //WAITING_PLAYER
+	{ { OPP_TURN,TX(oppTurnControllers) },	{WAITING_PLAYER,TX(doNothing)},			{WAITING_PLAYER, TX(tradeControllers)},	{WAITING_PLAYER, TX(doNothing)},		{WAITING_PLAYER,TX(error)} }	 //WAITING_PLAYER
 	};
 	
 	//ver cards event que mierd hacer en estado de prepareTrade
@@ -106,6 +106,7 @@ private:
 	void myRobberControllers(genericEvent* ev);
 	void error(genericEvent* ev);
 	void myTurnControllers(genericEvent* ev);
+	void finishedBuilding(genericEvent* ev);
 	void netwYNControllers(genericEvent* ev);
 	void ackController(genericEvent * ev);
 	void robbAckController(genericEvent * ev);

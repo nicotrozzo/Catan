@@ -41,6 +41,13 @@ bool netwConstructionController::parseNetworkingEvent(networkingEv * ev)
 			{
 				gameModel->construct();
 				emisor->sendPackage(ACK);
+				if(gameModel->initState() && (ev->getHeader() == ROAD) )
+				{
+					if (!gameModel->hasToConstruct())
+					{
+						controllerEvent = new playingFSMEvent(CHANGE_STATE);
+					}
+				}
 			}
 		}
 	}

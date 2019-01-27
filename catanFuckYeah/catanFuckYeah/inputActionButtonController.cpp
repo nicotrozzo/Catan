@@ -23,9 +23,9 @@ bool inputActionButtonController::parseMouseEvent(mouseEvent * ev)
 	{
 		if ((mouseCoords.y >= bCoords.y) && (mouseCoords.y - bCoords.y <= OFFSET_END_TURN_Y))
 		{
-			ret = gameModel->dicesThrown(gameModel->getDice1(), gameModel->getDice2());	
-			if (ret)
+			if (!gameModel->initState())
 			{
+				ret = true;
 				netEmisorEv->sendPackage(PASS);
 				controllerEvent = new playingFSMEvent(CHANGE_STATE);
 				answerTimer->startTimer();
@@ -41,18 +41,20 @@ bool inputActionButtonController::parseMouseEvent(mouseEvent * ev)
 		{
 			if ((mouseCoords.y >= bCoords.y) && (mouseCoords.y - bCoords.y <= OFFSET_TRADE_Y))
 			{
-
-				if (tradeButtons[i] == "PLAYER_TRADE")
+				if (!gameModel->initState())
 				{
-					ret = gameModel->preparePlayerTrade(DESSERT, 1);
-				}
-				else if (tradeButtons[i] == "BANK_TRADE")
-				{
-					ret = gameModel->prepareBankTrade(DESSERT, 1);
-				}
-				if (ret)
-				{
-					controllerEvent = new playingFSMCardsEv(tradeButtons[i] == "PLAYER_TRADE" ? true : false);
+					if (tradeButtons[i] == "PLAYER_TRADE")
+					{
+						ret = gameModel->preparePlayerTrade(DESSERT, 1);
+					}
+					else if (tradeButtons[i] == "BANK_TRADE")
+					{
+						ret = gameModel->prepareBankTrade(DESSERT, 1);
+					}
+					if (ret)
+					{
+						controllerEvent = new playingFSMCardsEv(tradeButtons[i] == "PLAYER_TRADE" ? true : false);
+					}
 				}
 			}
 		}

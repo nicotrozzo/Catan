@@ -200,7 +200,7 @@ void bossFSM::newGame(genericEvent * ev)
 	}
 	EDANetworkingController * netwControllerToAdd = nullptr;
 	vector<EDANetworkingController *> playingFSMNetwControllers;
-	for (int i = 0; i < 7; i++)
+	for (int i = 0; i < 8; i++)
 	{
 		switch (i)
 		{
@@ -224,6 +224,9 @@ void bossFSM::newGame(genericEvent * ev)
 			break;
 		case 6:
 			netwControllerToAdd = new netwAckController(temp);
+			break;
+		case 7:
+			netwControllerToAdd = new EDANetworkingController;
 			break;
 		}
 		playingFSMEvGen.attach(netwControllerToAdd);
@@ -249,10 +252,7 @@ void bossFSM::closeConnection(genericEvent * ev)
 		delete gameFSM;
 		gameFSM = nullptr;
 	}
-	if (ev->getType() == OUT_EV)
-	{
-		cout << "Error: " << static_cast<outEv *>(ev)->getDetail() << endl;
-	}
+	cout << "Error: " << static_cast<outEv *>(ev)->getDetail() << endl;
 }
 
 void bossFSM::finishHandshaking(genericEvent * ev)
@@ -324,6 +324,20 @@ void bossFSM::sendTimerEv(genericEvent * ev)
 	
 }
 
+void bossFSM::sendTimerEvent(genericEvent * ev)
+{
+	playingFSMEvent * evento = static_cast<playingFSMEvent *>(playingFSMEvGen.getNextEvent());
+	if (evento != nullptr)
+	{
+		gameFSM->cycle(evento);
+		delete evento;
+	}
+	if (graficador != nullptr)
+	{
+		graficador->refresh();
+	}
+}
+
 
 void bossFSM::sendInputEv(genericEvent * ev)
 {
@@ -365,6 +379,7 @@ void bossFSM::closeGame(genericEvent * ev)
 		evGen.detach(gameFSM);
 		delete gameFSM;
 		gameFSM = nullptr;
+		emisor->sendPackage(ERROR_PCKG);		//manda error para no tener que esperar el ACK y avisarle al oponente que se fue
 	}
 
 	fsmEvent = new outEv;
