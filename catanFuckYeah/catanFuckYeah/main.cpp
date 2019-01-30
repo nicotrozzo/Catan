@@ -25,7 +25,7 @@ int main(int argc,char * argv[])
 	if (info != nullptr)
 	{
 		string name;
-		if (argc == 2)
+		if (argc >= 2)
 		{
 			name = argv[1];
 		}
