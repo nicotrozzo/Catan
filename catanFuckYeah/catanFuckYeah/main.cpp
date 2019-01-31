@@ -13,57 +13,82 @@
 #include "gameCoords.h"
 
 #define TIMEOUT_SECS 150
-#define IP_STR "25.79.16.128"
+#define IP_LENGTH 12
 
 void deleteFrontEnd(void * display);
 void * initFrontEnd();
+bool checkIP(char* IP);
 
 
 int main(int argc,char * argv[])
 {
+	char * ip = argv[1];
 	void * info = initFrontEnd();
 	if (info != nullptr)
 	{
 		string name;
-		if (argc >= 2)
+		if (argc == 3)
 		{
-			name = argv[1];
+			name = argv[2];
 		}
 		else
 		{
 			name = nullptr;
 		}
-		inputEventGenerator inputEvGen(static_cast<ALLEGRO_DISPLAY *>(info));	//mouse, teclado y refresh de pantalla
-		timerEventGenerator timeout(TIMEOUT_SECS);
-		quitButtonController quitButton;
-		connectionEstablisher establisher(IP_STR);
-		netwEventGenerator netwReceiver;
-		mainEventGenerator eventGen;	//generador de eventos de TODO el programa
-		eventGen.attach(&inputEvGen);	//registro fuente de eventos
-		eventGen.attach(&timeout);
-		eventGen.attach(&quitButton);
-		eventGen.attach(&netwReceiver);
-		eventGen.attach(&establisher);
-		bossFSM fsm(&quitButton,&establisher,&eventGen,&netwReceiver,name,&timeout);
-		do
+		if (checkIP(ip))
 		{
-			genericEvent * ev;
-			ev = eventGen.getNextEvent();
-			if (ev != nullptr)
+			inputEventGenerator inputEvGen(static_cast<ALLEGRO_DISPLAY *>(info));	//mouse, teclado y refresh de pantalla
+			timerEventGenerator timeout(TIMEOUT_SECS);
+			quitButtonController quitButton;
+			connectionEstablisher establisher(ip);
+			netwEventGenerator netwReceiver;
+			mainEventGenerator eventGen;	//generador de eventos de TODO el programa
+			eventGen.attach(&inputEvGen);	//registro fuente de eventos
+			eventGen.attach(&timeout);
+			eventGen.attach(&quitButton);
+			eventGen.attach(&netwReceiver);
+			eventGen.attach(&establisher);
+			bossFSM fsm(&quitButton, &establisher, &eventGen, &netwReceiver, name, &timeout);
+			do
 			{
-				fsm.cycle(ev);
-				delete ev;
-			}
-		} while (!fsm.getEvent());
-		delete fsm.getEvent();
-		deleteFrontEnd(info);
+				genericEvent * ev;
+				ev = eventGen.getNextEvent();
+				if (ev != nullptr)
+				{
+					fsm.cycle(ev);
+					delete ev;
+				}
+			} while (!fsm.getEvent());
+			delete fsm.getEvent();
+			deleteFrontEnd(info);
+		}
+		else
+		{
+			cout << "IP incorrecta." << endl;
+		}
 	}
 	else
 	{
-		cout << "No se pudo inicializar correctamente el juego" << endl;
+		cout << "No se pudo inicializar correctamente el juego." << endl;
 	}
 	return 0;
 }
+
+
+bool checkIP(char* IP)
+{
+	bool ok = true;
+	for (int i = 0; i < IP_LENGTH; i++)
+	{
+		if (IP[i] != '.' && isalpha(IP[i]))
+		{
+			ok = false;
+		}
+	}
+	return ok;
+}
+
+
 
 void * initFrontEnd()
 {
