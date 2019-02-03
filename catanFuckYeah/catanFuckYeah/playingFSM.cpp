@@ -193,10 +193,14 @@ void playingFSM::passControllers(genericEvent * ev)
 {
 	currentInputControllers.clear();
 	currentNetworkingControllers.clear();
-	currentNetworkingControllers.push_back(getNetworkingController(CTRL_DICES));
 	if (gameModel->initState())
 	{
 		gameModel->dicesThrown(0, 0);
+		currentNetworkingControllers.push_back(getNetworkingController(CTRL_CONSTRUCTION));
+	}
+	else
+	{
+		currentNetworkingControllers.push_back(getNetworkingController(CTRL_DICES));
 	}
 }
 
@@ -287,7 +291,10 @@ void playingFSM::myTurnControllers(genericEvent * ev)
 	currentNetworkingControllers.clear();
 	currentInputControllers.clear();
 	currentInputControllers.push_back(getInputController(CTRL_EDGE_AND_VERTEX));
-	currentInputControllers.push_back(getInputController(CTRL_ACTION_BUTTON));
+	if (!gameModel->initState())
+	{
+		currentInputControllers.push_back(getInputController(CTRL_ACTION_BUTTON));
+	}
 }
 
 void playingFSM::finishedBuilding(genericEvent * ev)
@@ -330,6 +337,8 @@ void playingFSM::myTurnPassControllers(genericEvent * ev)
 {
 	if (!gameModel->initState())
 	{
+		currentInputControllers.clear();
+		currentNetworkingControllers.clear();
 		unsigned int dice1 = rand() % 6 + 1;
 		unsigned int dice2 = rand() % 6 + 1;
 		string info2send;
@@ -350,6 +359,7 @@ void playingFSM::myTurnPassControllers(genericEvent * ev)
 	else
 	{
 		myTurnControllers(ev);
+		
 		gameModel->dicesThrown(0, 0);	//cambia de turno
 	}
 }
