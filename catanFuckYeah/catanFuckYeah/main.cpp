@@ -78,7 +78,7 @@ int main(int argc,char * argv[])
 bool checkIP(char* IP)
 {
 	bool ok = true;
-	for (int i = 0; i < IP_LENGTH; i++)
+	for (int i = 0; IP[i] != '\0'; i++)
 	{
 		if (IP[i] != '.' && isalpha(IP[i]))
 		{
