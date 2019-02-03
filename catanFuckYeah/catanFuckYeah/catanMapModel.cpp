@@ -353,6 +353,16 @@ unsigned char catanMapModel::getAmountOfRoadsLeft()
 	return (AMOUNT_OF_ROADS - (p1LongRoads.size() + p1SimpleRoads.size()));
 }
 
+unsigned char catanMapModel::getHexResource(unsigned char letter)
+{
+	unsigned char ret = 0;
+	if ((letter >= 'A') && (letter <= 'S'))
+	{
+		ret = hexagons[letter - 'A'].hexResource;
+	}
+	return ret;
+}
+
 bool catanMapModel::buildRoad(string edge, char player)
 {
 	bool ret = false;

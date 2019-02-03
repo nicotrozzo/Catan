@@ -74,6 +74,7 @@ public:
 	unsigned char getAmountOfSettlementsLeft();
 	unsigned char getAmountOfCitiesLeft();
 	unsigned char getAmountOfRoadsLeft();
+	unsigned char getHexResource(unsigned char letter);
 	list<string> getP1BuiltVertexes();	//devuelve todos los vertices ocupados por el jugador, tanto settlements como cities
 	list<string> getP1Settlements();
 	list<string> getP1Cities();			//devuelve todos los cities contruidos por el jugador 1
