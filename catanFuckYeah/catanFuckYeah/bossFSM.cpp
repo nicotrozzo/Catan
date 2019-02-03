@@ -138,6 +138,18 @@ void bossFSM::newStMn(genericEvent * ev)
 	delete graficador;
 	graficador = new startMenu;		
 	quitController->toggleState();
+	if (handFSM != nullptr)
+	{
+		evGen.detach(handFSM);
+		delete handFSM;
+		handFSM = nullptr;
+	}
+	if (gameFSM != nullptr)
+	{
+		evGen.detach(gameFSM);
+		delete gameFSM;
+		gameFSM = nullptr;
+	}
 	if (!static_cast<startMenu *>(graficador)->getInitOk())
 	{
 		delete graficador;
@@ -252,7 +264,10 @@ void bossFSM::closeConnection(genericEvent * ev)
 		delete gameFSM;
 		gameFSM = nullptr;
 	}
-	cout << "Error: " << static_cast<outEv *>(ev)->getDetail() << endl;
+	if (ev->getType() == OUT_EV)
+	{
+		cout << "Error: " << static_cast<outEv *>(ev)->getDetail() << endl;
+	}
 }
 
 void bossFSM::finishHandshaking(genericEvent * ev)
