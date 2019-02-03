@@ -128,7 +128,7 @@ void bossFSM::newHandshaking(genericEvent * ev)
 	}
 	evGen.detach(establisher);
 	evGen.attach(handFSM);
-	static_cast<waitingGame *>(graficador)->setMessage("Opponent found!\nPrepearing game...");
+	static_cast<waitingGame *>(graficador)->setMessage("Opponent encontrado!\nPreparando juego...");
 
 	//crear/attachear/arrancar generador de eventos de timer de 2,5 minutos
 }
