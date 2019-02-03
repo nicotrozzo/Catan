@@ -195,7 +195,9 @@ void playingFSM::passControllers(genericEvent * ev)
 	if (gameModel->initState())
 	{
 		gameModel->dicesThrown(0, 0);
-		currentNetworkingControllers.push_back(getNetworkingController(CTRL_CONSTRUCTION));
+		inputStateController *controllerToAdd = static_cast<inputStateController *>(getInputController(CTRL_STATE));
+		controllerToAdd->setEv(CHANGE_STATE);
+		currentInputControllers.push_back(controllerToAdd);
 	}
 	else
 	{
@@ -207,12 +209,15 @@ void playingFSM::oppTurnControllers(genericEvent * ev)
 {
 	currentInputControllers.clear();
 	currentNetworkingControllers.clear();
-	EDANetworkingController * controllerToAdd = getNetworkingController(GENERIC_NETW_CONTROLLER);	//agrega un controller de networking que solo espera que le manden PASS
-	controllerToAdd->setExpectedPackage(PASS);
-	currentNetworkingControllers.push_back(controllerToAdd);
 	currentNetworkingControllers.push_back(getNetworkingController(CTRL_CONSTRUCTION));
-	currentNetworkingControllers.push_back(getNetworkingController(CTRL_BANKTRADE));
-	currentNetworkingControllers.push_back(getNetworkingController(CTRL_OFFERTRADE));
+	if (!gameModel->initState())
+	{
+		EDANetworkingController * controllerToAdd = getNetworkingController(GENERIC_NETW_CONTROLLER);	//agrega un controller de networking que solo espera que le manden PASS
+		controllerToAdd->setExpectedPackage(PASS);
+		currentNetworkingControllers.push_back(controllerToAdd);
+		currentNetworkingControllers.push_back(getNetworkingController(CTRL_BANKTRADE));
+		currentNetworkingControllers.push_back(getNetworkingController(CTRL_OFFERTRADE));
+	}
 }
 
 void playingFSM::tradeControllers(genericEvent * ev)
