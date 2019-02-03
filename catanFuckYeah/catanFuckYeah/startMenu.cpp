@@ -17,7 +17,7 @@ startMenu::startMenu()
 
 void startMenu::refresh()
 {
-		al_flip_display();
+	al_flip_display();
 }
 
 bool startMenu::getInitOk()
