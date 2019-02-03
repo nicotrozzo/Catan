@@ -872,7 +872,7 @@ bool catanGameModel::hasToConstruct()
 		}
 		else
 		{
-			ret = (map.getP2Roads().size() == 1);
+			ret = (map.getP2Roads().size() == 1) && && (map.getP1Roads().size() < 2);
 		}
 	}
 	else
@@ -887,7 +887,7 @@ bool catanGameModel::hasToConstruct()
 		}
 		else
 		{
-			ret = (map.getP1Roads().size() == 1);
+			ret = (map.getP1Roads().size() == 1) && (map.getP2Roads().size() < 2);
 		}
 	}
 	return ret;
