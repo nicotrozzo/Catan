@@ -176,9 +176,6 @@
     <ClCompile Include="timerEventGenerator.cpp">
       <Filter>Archivos de origen\EV GENERATORS</Filter>
     </ClCompile>
-    <ClCompile Include="waitingGame.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
     <ClCompile Include="catanGameSetter.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
@@ -193,6 +190,9 @@
     </ClCompile>
     <ClCompile Include="handShakingServerFSM.cpp">
       <Filter>Archivos de origen\FSM</Filter>
+    </ClCompile>
+    <ClCompile Include="waitingGame.cpp">
+      <Filter>Archivos de origen\MVC: Viewers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -334,9 +334,6 @@
     <ClInclude Include="graphicator.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="waitingGame.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="catanGameSetter.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
@@ -354,6 +351,9 @@
     </ClInclude>
     <ClInclude Include="handShakingServerFSM.h">
       <Filter>Archivos de encabezado\FSM</Filter>
+    </ClInclude>
+    <ClInclude Include="waitingGame.h">
+      <Filter>Archivos de encabezado\MVC: Viewers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
