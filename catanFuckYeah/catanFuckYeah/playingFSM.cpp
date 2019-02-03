@@ -188,7 +188,6 @@ void playingFSM::prepareOppRobber(genericEvent * ev)
 }
 */
 
-
 void playingFSM::passControllers(genericEvent * ev)
 {
 	currentInputControllers.clear();
