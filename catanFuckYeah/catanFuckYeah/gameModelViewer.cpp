@@ -279,7 +279,7 @@ void gameModelViewer::viewTurn()
 {
 	//MOSTRAR EN ALGUN LADO DE QUIEN ES EL TURNO
 	string text = myGame->getCurrentPlayer()->getName() + "'s turn";
-	al_draw_text(fontForAmountOfCards, al_color_name("black"), 0, 0, 0, text.c_str());
+	al_draw_text(fontForAmountOfCards, al_color_name("black"), 600*PROP_X, 3, 0, text.c_str());
 }
 
 gameModelViewer::~gameModelViewer()
