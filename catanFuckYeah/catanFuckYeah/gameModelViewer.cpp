@@ -87,43 +87,43 @@ void gameModelViewer::viewDices()
 	switch (dice1)
 	{
 	case 1:
-		al_draw_scaled_rotated_bitmap(diceValue1,0,0, 1384, 416,PROP_X,PROP_Y,0, 0);
+		al_draw_scaled_rotated_bitmap(diceValue1,0,0, 1384 * PROP_X, 416 * PROP_Y,PROP_X,PROP_Y,0, 0);
 		break;
 	case 2:
-		al_draw_scaled_rotated_bitmap(diceValue2,0,0, 1384, 416,PROP_X, PROP_Y,0, 0);
+		al_draw_scaled_rotated_bitmap(diceValue2,0,0, 1384 * PROP_X, 416 * PROP_Y,PROP_X, PROP_Y,0, 0);
 		break;
 	case 3:
-		al_draw_scaled_rotated_bitmap(diceValue3, 0, 0, 1384, 416, PROP_X, PROP_Y, 0, 0);
+		al_draw_scaled_rotated_bitmap(diceValue3, 0, 0, 1384 * PROP_X, 416 * PROP_Y, PROP_X, PROP_Y, 0, 0);
 		break;
 	case 4:
-		al_draw_scaled_rotated_bitmap(diceValue4, 0, 0, 1384, 416, PROP_X, PROP_Y, 0, 0);
+		al_draw_scaled_rotated_bitmap(diceValue4, 0, 0, 1384 * PROP_X, 416 * PROP_Y, PROP_X, PROP_Y, 0, 0);
 		break;
 	case 5:
-		al_draw_scaled_rotated_bitmap(diceValue5, 0, 0, 1384, 416, PROP_X, PROP_Y, 0, 0);
+		al_draw_scaled_rotated_bitmap(diceValue5, 0, 0, 1384 * PROP_X, 416 * PROP_Y, PROP_X, PROP_Y, 0, 0);
 		break;
 	case 6:
-		al_draw_scaled_rotated_bitmap(diceValue6, 0, 0, 1384, 416, PROP_X, PROP_Y, 0, 0);
+		al_draw_scaled_rotated_bitmap(diceValue6, 0, 0, 1384 * PROP_X, 416 * PROP_Y, PROP_X, PROP_Y, 0, 0);
 		break;
 	}
 	switch (dice2)
 	{
 	case 1:
-		al_draw_scaled_rotated_bitmap(diceValue1, 0, 0, 1510, 485, PROP_X, PROP_Y, 0, 0);
+		al_draw_scaled_rotated_bitmap(diceValue1, 0, 0, 1510 * PROP_X, 485 * PROP_Y, PROP_X, PROP_Y, 0, 0);
 		break;
 	case 2:
-		al_draw_scaled_rotated_bitmap(diceValue2, 0, 0, 1510, 485, PROP_X, PROP_Y, 0, 0);
+		al_draw_scaled_rotated_bitmap(diceValue2, 0, 0, 1510 * PROP_X, 485 * PROP_Y, PROP_X, PROP_Y, 0, 0);
 		break;
 	case 3:
-		al_draw_scaled_rotated_bitmap(diceValue3, 0, 0, 1510, 485, PROP_X, PROP_Y, 0, 0);
+		al_draw_scaled_rotated_bitmap(diceValue3, 0, 0, 1510 * PROP_X, 485 * PROP_Y, PROP_X, PROP_Y, 0, 0);
 		break;
 	case 4:
-		al_draw_scaled_rotated_bitmap(diceValue4, 0, 0, 1510, 485, PROP_X, PROP_Y, 0, 0);
+		al_draw_scaled_rotated_bitmap(diceValue4, 0, 0, 1510 * PROP_X, 485 * PROP_Y, PROP_X, PROP_Y, 0, 0);
 		break;
 	case 5:
-		al_draw_scaled_rotated_bitmap(diceValue5, 0, 0, 1510, 485, PROP_X, PROP_Y, 0, 0);
+		al_draw_scaled_rotated_bitmap(diceValue5, 0, 0, 1510 * PROP_X, 485 * PROP_Y, PROP_X, PROP_Y, 0, 0);
 		break;
 	case 6:
-		al_draw_scaled_rotated_bitmap(diceValue6, 0, 0, 1510, 485, PROP_X, PROP_Y, 0, 0);
+		al_draw_scaled_rotated_bitmap(diceValue6, 0, 0, 1510 * PROP_X, 485 * PROP_Y, PROP_X, PROP_Y, 0, 0);
 		break;
 	}
 }
