@@ -179,9 +179,6 @@
     <ClCompile Include="catanGameSetter.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="netwAckController.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
     <ClCompile Include="messageDisplayer.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
@@ -193,6 +190,9 @@
     </ClCompile>
     <ClCompile Include="waitingGame.cpp">
       <Filter>Archivos de origen\MVC: Viewers</Filter>
+    </ClCompile>
+    <ClCompile Include="netwAckController.cpp">
+      <Filter>Archivos de origen\MVC: Controllers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -337,9 +337,6 @@
     <ClInclude Include="catanGameSetter.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="netwAckController.h">
-      <Filter>Archivos de encabezado</Filter>
-    </ClInclude>
     <ClInclude Include="messageDisplayer.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
@@ -354,6 +351,9 @@
     </ClInclude>
     <ClInclude Include="waitingGame.h">
       <Filter>Archivos de encabezado\MVC: Viewers</Filter>
+    </ClInclude>
+    <ClInclude Include="netwAckController.h">
+      <Filter>Archivos de encabezado\MVC: Controllers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
