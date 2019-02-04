@@ -372,7 +372,7 @@ void playingFSM::oppRobberControllers(genericEvent * ev)
 {
 	currentInputControllers.clear();
 	currentNetworkingControllers.clear();
-	if (gameModel->getOtherPlayer().getAmountOfCards() > 7)	//si el jugador propio (other player xq no es su turno) tiene mas de 7 cartas, se tiene que descartar
+	if (gameModel->getOtherPlayer()->getAmountOfCards() > 7)	//si el jugador propio (other player xq no es su turno) tiene mas de 7 cartas, se tiene que descartar
 	{
 		EDAInputController * controllerToAdd = getInputController(CTRL_CARDS);
 		static_cast<inputCardsController *>(controllerToAdd)->setFunction(ROBBER_CARDS);	//le avisa al controller que espera cartas de robber
@@ -382,7 +382,7 @@ void playingFSM::oppRobberControllers(genericEvent * ev)
 		currentInputControllers.push_back(controllerToAdd);
 		gameModel->prepareRobberDiscard(DESSERT);
 	}
-	else if(gameModel->getCurrentPlayer().getAmountOfCards() > 7)
+	else if(gameModel->getCurrentPlayer()->getAmountOfCards() > 7)
 	{
 		currentNetworkingControllers.push_back(getNetworkingController(CTRL_ROBBERCARDS));
 		emisor->sendPackage(ACK);
