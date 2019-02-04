@@ -7,7 +7,7 @@ netwYNController::netwYNController(catanGameModel * game) : gameModel(game)
 
 }
 
-bool netwYNController::parseNetworkingEvent(genericEvent * ev)
+bool netwYNController::parseNetworkingEvent(networkingEv * ev)
 {
 	bool ret = false;
 	if (static_cast<networkingEv *>(ev)->getHeader() == YES)

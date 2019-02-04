@@ -4,7 +4,7 @@ class netwYNController : public EDANetworkingController
 {
 public:
 	netwYNController(catanGameModel * game);
-	virtual bool parseNetworkingEvent(genericEvent * ev);
+	virtual bool parseNetworkingEvent(networkingEv * ev);
 	virtual netwControllerTypes getType() { return CTRL_YN; }
 
 	~netwYNController();
