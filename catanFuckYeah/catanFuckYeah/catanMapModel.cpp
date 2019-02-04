@@ -120,7 +120,7 @@ bool catanMapModel::setMap(string map_)
 			else
 			{
 				hexagons[i-NUMBER_OF_OCEAN_PIECES].hexResource = map_[i];
-				if (map_[i] == 7)
+				if (map_[i] == DESSERT)
 				{
 					robberPos = i - NUMBER_OF_OCEAN_PIECES + 'A';
 				}
