@@ -1,9 +1,9 @@
 #include "netwRobberMoveController.h"
 #include "playingFSM.h"
 
-
-netwRobberMoveController::netwRobberMoveController(catanGameModel * game) : gameModel(game)
+netwRobberMoveController::netwRobberMoveController(catanGameModel * game,netwEmisor * emisor_) : gameModel(game)
 {
+	emisor = emisor_;
 }
 
 bool netwRobberMoveController::parseNetworkingEvent(networkingEv * ev)
@@ -16,6 +16,7 @@ bool netwRobberMoveController::parseNetworkingEvent(networkingEv * ev)
 		if (gameModel->robberMoved(robberPckg->getNewRobberPos()))
 		{
 			controllerEvent = new playingFSMEvent(CHANGE_STATE);
+			emisor->sendPackage(ACK);
 		}
 		else
 		{

@@ -247,7 +247,7 @@ void bossFSM::newGame(genericEvent * ev)
 			netwControllerToAdd = new EDANetworkingController;
 			break;
 		case 8:
-			netwControllerToAdd = new netwRobberMoveController(temp);
+			netwControllerToAdd = new netwRobberMoveController(temp, emisor);
 			break;
 		}
 		playingFSMEvGen.attach(netwControllerToAdd);
