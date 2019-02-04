@@ -49,7 +49,7 @@ bool netwConstructionController::parseNetworkingEvent(networkingEv * ev)
 						controllerEvent = new playingFSMEvent(CHANGE_STATE);
 					}
 				}
-				else if (!gameModel->initState() && prevInitState)	//si acaba de salir del estado inicial, emite un tick event
+				else if( (!gameModel->initState() && prevInitState) && !gameModel->isPlayer1Playing())	//si acaba de salir del estado inicial, emite un tick event
 				{
 					controllerEvent = new playingFSMEvent(TICK_EV);
 				}
