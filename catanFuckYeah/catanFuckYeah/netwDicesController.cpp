@@ -21,6 +21,7 @@ bool netwDicesController::parseNetworkingEvent(networkingEv * ev)
 		{
 			controllerEvent = new playingFSMEvent(ROBBER_EV);
 		}
+		ret = true;
 	}
 	return ret;
 }
