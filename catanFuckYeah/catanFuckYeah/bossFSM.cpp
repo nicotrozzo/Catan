@@ -157,6 +157,8 @@ void bossFSM::newStMn(genericEvent * ev)
 		fsmEvent = new closeDisplayEv;
 	}
 	establisher->stopConnection();
+	netwReceiver->setConnector(nullptr);
+	emisor->setConnector(nullptr);
 	if (ev->getType() == OUT_EV)
 	{
 		cout << "Error: " << static_cast<outEv *>(ev)->getDetail() << endl;

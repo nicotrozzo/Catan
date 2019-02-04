@@ -36,10 +36,7 @@ genericEvent * netwEventGenerator::getEvent(void)
 
 void netwEventGenerator::setConnector(connector * con)
 {
-	if (establishedConnector == nullptr)
-	{
-		establishedConnector = con;
-	}
+	establishedConnector = con;
 }
 
 string netwEventGenerator::parseMessage(unsigned char * buf, size_t len, networkingEventTypes& header)

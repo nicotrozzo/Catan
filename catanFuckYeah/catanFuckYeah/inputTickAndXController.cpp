@@ -91,7 +91,7 @@ bool inputTickAndXController::selectionCall(bool yes)
 					{
 						message += myRes;
 					}
-					netEmisorEv->sendPackage(BANK_TRADE, to_string(message.length()) + message + bankRes);
+					netEmisorEv->sendPackage(BANK_TRADE, message + bankRes);
 					answerTimer->startTimer();
 				}
 			}

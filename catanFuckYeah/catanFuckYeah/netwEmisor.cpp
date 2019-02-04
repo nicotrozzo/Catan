@@ -16,10 +16,7 @@ netwEmisor::netwEmisor(connector * establishedConnector_)
 
 void netwEmisor::setConnector(connector * con)
 {
-	if (establishedConnector == nullptr)
-	{
-		establishedConnector = con;
-	}
+	establishedConnector = con;
 }
 
 void netwEmisor::sendPackage(networkingEventTypes header, string info)
