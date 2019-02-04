@@ -39,6 +39,7 @@ bool netwConstructionController::parseNetworkingEvent(networkingEv * ev)
 			}
 			else
 			{
+				bool prevInitState = gameModel->initState();
 				gameModel->construct();
 				emisor->sendPackage(ACK);
 				if(gameModel->initState() && (ev->getHeader() == ROAD) )
@@ -47,6 +48,10 @@ bool netwConstructionController::parseNetworkingEvent(networkingEv * ev)
 					{
 						controllerEvent = new playingFSMEvent(CHANGE_STATE);
 					}
+				}
+				else if (!gameModel->initState() && prevInitState)	//si acaba de salir del estado inicial, emite un tick event
+				{
+					controllerEvent = new playingFSMEvent(TICK_EV);
 				}
 			}
 		}
