@@ -218,7 +218,7 @@ void bossFSM::newGame(genericEvent * ev)
 	}
 	EDANetworkingController * netwControllerToAdd = nullptr;
 	vector<EDANetworkingController *> playingFSMNetwControllers;
-	for (int i = 0; i < 8; i++)
+	for (int i = 0; i < 9; i++)
 	{
 		switch (i)
 		{
@@ -245,6 +245,9 @@ void bossFSM::newGame(genericEvent * ev)
 			break;
 		case 7:
 			netwControllerToAdd = new EDANetworkingController;
+			break;
+		case 8:
+			netwControllerToAdd = new netwRobberMoveController(temp);
 			break;
 		}
 		playingFSMEvGen.attach(netwControllerToAdd);
