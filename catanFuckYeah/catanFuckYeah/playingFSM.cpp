@@ -263,20 +263,41 @@ void playingFSM::myRobberControllers(genericEvent * ev)
 	}
 	else if(gameModel->getCurrentPlayer()->getAmountOfCards() > 7)
 	{
-		inputCardsController * cardsToAdd = static_cast<inputCardsController *>(getInputController(CTRL_CARDS));
-		cardsToAdd->setFunction(ROBBER_CARDS);
-		currentInputControllers.push_back(cardsToAdd);
-		netwAckController * controllerToAdd = static_cast<netwAckController *>(getNetworkingController(CTRL_ACK));
-		controllerToAdd->setAction(ROBBER_CASE);
-		currentNetworkingControllers.push_back(controllerToAdd);
+		myRobberCards();
 	}
 	else
 	{
-		netwAckController * controllerToAdd = static_cast<netwAckController *>(getNetworkingController(CTRL_ACK));
-		controllerToAdd->setAction(ROBBER_CASE);
-		currentNetworkingControllers.push_back(controllerToAdd);
-		currentInputControllers.push_back(getInputController(CTRL_HEXAGON));
+		myRobberMove();
 	}
+}
+
+void playingFSM::robbCardsReady(genericEvent * ev)
+{
+	netwAckController * controllerToAdd = static_cast<netwAckController *>(getNetworkingController(CTRL_ACK));
+	controllerToAdd->setAction(ROBBER_CARDS_CASE);
+	currentNetworkingControllers.push_back(controllerToAdd);
+}
+
+void playingFSM::myCardsSent(genericEvent * ev)
+{
+	if (gameModel->getCurrentPlayer()->getAmountOfCards() > 7)
+	{
+		currentNetworkingControllers.push_back(getNetworkingController(CTRL_ROBBERCARDS));
+	}
+	else
+	{
+		currentNetworkingControllers.push_back(getNetworkingController(CTRL_ROBBERMOVE));
+	}
+}
+
+void playingFSM::prepareRobbMove(genericEvent * ev)
+{
+	myRobberMove();
+}
+
+void playingFSM::waitRobbMove(genericEvent * ev)
+{
+	currentNetworkingControllers.push_back(getNetworkingController(CTRL_ROBBERMOVE));
 }
 
 void playingFSM::error(genericEvent * ev)
@@ -328,13 +349,20 @@ void playingFSM::ackController(genericEvent * ev)
 	currentNetworkingControllers.push_back(controllerToAdd);
 }
 
-void playingFSM::robbAckController(genericEvent * ev)
+
+
+void playingFSM::oppCardsReady(genericEvent * ev)
 {
 	currentNetworkingControllers.clear();
 	currentInputControllers.clear();
-	netwAckController * controllerToAdd = static_cast<netwAckController *>(getNetworkingController(CTRL_ACK));
-	controllerToAdd->setAction(ROBBER_CASE);
-	currentNetworkingControllers.push_back(controllerToAdd);
+	if (gameModel->getCurrentPlayer()->getAmountOfCards() > 7)
+	{
+		myRobberCards();
+	}
+	else
+	{
+		myRobberMove();
+	}
 }
 
 void playingFSM::myTurnPassControllers(genericEvent * ev)
@@ -374,13 +402,7 @@ void playingFSM::oppRobberControllers(genericEvent * ev)
 	currentNetworkingControllers.clear();
 	if (gameModel->getOtherPlayer()->getAmountOfCards() > 7)	//si el jugador propio (other player xq no es su turno) tiene mas de 7 cartas, se tiene que descartar
 	{
-		EDAInputController * controllerToAdd = getInputController(CTRL_CARDS);
-		static_cast<inputCardsController *>(controllerToAdd)->setFunction(ROBBER_CARDS);	//le avisa al controller que espera cartas de robber
-		currentInputControllers.push_back(controllerToAdd);	//espera cartas
-		controllerToAdd = getInputController(CTRL_TICKANDX);
-		static_cast<inputTickAndXController *>(controllerToAdd)->setActionToDo(TICK_ROBB_CARDS);
-		currentInputControllers.push_back(controllerToAdd);
-		gameModel->prepareRobberDiscard(DESSERT);
+		myRobberCards();
 	}
 	else if(gameModel->getCurrentPlayer()->getAmountOfCards() > 7)
 	{
@@ -431,6 +453,26 @@ EDANetworkingController * playingFSM::getNetworkingController(netwControllerType
 		}
 	}
 	return ret;
+}
+
+void playingFSM::myRobberCards()
+{
+	EDAInputController * controllerToAdd = getInputController(CTRL_CARDS);
+	static_cast<inputCardsController *>(controllerToAdd)->setFunction(ROBBER_CARDS);	//le avisa al controller que espera cartas de robber
+	currentInputControllers.push_back(controllerToAdd);	//espera cartas
+	controllerToAdd = getInputController(CTRL_TICKANDX);
+	static_cast<inputTickAndXController *>(controllerToAdd)->setActionToDo(TICK_ROBB_CARDS);
+	currentInputControllers.push_back(controllerToAdd);
+	gameModel->prepareRobberDiscard(DESSERT);	//empieza a seleccionar
+}
+
+
+void playingFSM::myRobberMove()
+{
+	netwAckController * controllerToAdd = static_cast<netwAckController *>(getNetworkingController(CTRL_ACK));
+	controllerToAdd->setAction(OTHER_CASE);
+	currentNetworkingControllers.push_back(controllerToAdd);
+	currentInputControllers.push_back(getInputController(CTRL_HEXAGON));
 }
 
 /*void playingFSM::sendToRobberFSM(genericEvent * ev)

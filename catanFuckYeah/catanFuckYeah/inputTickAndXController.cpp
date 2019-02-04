@@ -172,6 +172,7 @@ bool inputTickAndXController::selectionCall(bool yes)
 						info += "T";
 					}
 					netEmisorEv->sendPackage(ROBBER_CARDS, info);
+					evType = TICK_EV;
 				}
 			}
 			break;

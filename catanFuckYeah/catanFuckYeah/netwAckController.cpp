@@ -4,11 +4,11 @@
 netwAckController::netwAckController(catanGameModel * game)
 {
 	gameModel = game;
-	initial = 0;
-	init();
+	//initial = 0;
+	//init();
 }
 
-void netwAckController::init()
+/*void netwAckController::init()
 {
 	if (!initial)
 	{
@@ -18,7 +18,7 @@ void netwAckController::init()
 		amountOfAckExpected += 1;		//le sumo el ack recibido por robber_move
 		initial = 1;
 	}
-}
+}*/
 
 bool netwAckController::parseNetworkingEvent(networkingEv * ev)
 {
@@ -27,7 +27,11 @@ bool netwAckController::parseNetworkingEvent(networkingEv * ev)
 	{
 		switch (action)
 		{
-		case ROBBER_CASE:
+		case ROBBER_CARDS_CASE:
+			controllerEvent = new playingFSMEvent(ROBBER_EV);
+			ret = true;
+			break;
+		/*case ROBBER_CASE:
 			init();
 			setPhase();
 			if (checkPhase())
@@ -60,7 +64,7 @@ bool netwAckController::parseNetworkingEvent(networkingEv * ev)
 			{
 				controllerEvent = new playingFSMErrorEv("Error reciving ack in robber stage");
 			}
-			break;
+			break;*/
 		case OTHER_CASE:
 			controllerEvent = new playingFSMEvent(CHANGE_STATE);
 			ret = true;
@@ -83,10 +87,10 @@ bool netwAckController::setAction(cases action_)
 
 bool netwAckController::validAction(cases action_)
 {
-	return (action_ >= ROBBER_CASE && action_ <= OTHER_CASE);
+	return (action_ >= ROBBER_CARDS_CASE && action_ <= OTHER_CASE);
 }
 
-bool netwAckController::checkPhase()
+/*bool netwAckController::checkPhase()
 {
 	bool ret = false;
 	if ((amountOfAckExpected == 3) && (phases == I_PHASE))
@@ -106,9 +110,9 @@ bool netwAckController::checkPhase()
 		ret = false;
 	}
 	return ret;
-}
+}*/
 
-void netwAckController::setPhase()
+/*void netwAckController::setPhase()
 {
 	if ((gameModel->getOtherPlayer()->getAmountOfCards() <= 7) && (phases == I_PHASE))
 	{
@@ -130,7 +134,7 @@ void netwAckController::setPhase()
 	{
 		phases = T_PHASE;
 	}
-}
+}*/
 
 netwAckController::~netwAckController()
 {
