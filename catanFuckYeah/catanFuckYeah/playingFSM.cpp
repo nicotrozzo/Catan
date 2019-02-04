@@ -346,8 +346,8 @@ void playingFSM::myTurnPassControllers(genericEvent * ev)
 		unsigned int dice1 = rand() % 6 + 1;
 		unsigned int dice2 = rand() % 6 + 1;
 		string info2send;
-		info2send += dice1;
-		info2send += dice2;
+		info2send += dice1 + '0';
+		info2send += dice2 + '0';
 		emisor->sendPackage(DICES_ARE, info2send);
 		if (gameModel->dicesThrown(dice1, dice2))
 		{
