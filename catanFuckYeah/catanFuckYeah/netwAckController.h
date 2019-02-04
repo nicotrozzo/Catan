@@ -2,8 +2,8 @@
 #include "EDANetworkingController.h"
 #include <queue>
 
-typedef enum cases { ROBBER_CARDS_CASE, OTHER_CASE };
-typedef enum robberPhases { I_PHASE, F_PHASE, S_PHASE, T_PHASE };
+typedef enum cases { ROBBER_CARDS_CASE, DICES_CASE,OTHER_CASE };
+//typedef enum robberPhases { I_PHASE, F_PHASE, S_PHASE, T_PHASE };
 
 class netwAckController : public EDANetworkingController
 {
@@ -18,6 +18,7 @@ private:
 	cases action;
 	//robberPhases phases;
 	bool validAction(cases action_);
+	bool received;
 	/*unsigned char currentAmountCards;
 	unsigned char otherAmountCards;
 	bool checkPhase();
