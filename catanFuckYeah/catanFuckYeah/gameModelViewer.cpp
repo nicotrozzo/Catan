@@ -63,6 +63,10 @@ void gameModelViewer::update()
 					viewActionButtons();
 				}
 			}
+			else if (myGame->isSelecting())
+			{
+				viewTickAndCrossButtons();
+			}
 		}
 		else if (myGame->isPlayer1Playing() && ((myGame->isConstructing()) || (myGame->isSelecting())))
 		{
