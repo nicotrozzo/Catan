@@ -370,7 +370,7 @@ void playingFSM::myTurnPassControllers(genericEvent * ev)
 
 void playingFSM::oppRobberControllers(genericEvent * ev)
 {
-/*	currentInputControllers.clear();
+	currentInputControllers.clear();
 	currentNetworkingControllers.clear();
 	if (gameModel->getOtherPlayer().getAmountOfCards() > 7)	//si el jugador propio (other player xq no es su turno) tiene mas de 7 cartas, se tiene que descartar
 	{
@@ -380,17 +380,18 @@ void playingFSM::oppRobberControllers(genericEvent * ev)
 		controllerToAdd = getInputController(CTRL_TICKANDX);
 		static_cast<inputTickAndXController *>(controllerToAdd)->setActionToDo(TICK_ROBB_CARDS);
 		currentInputControllers.push_back(controllerToAdd);
+		gameModel->prepareRobberDiscard(DESSERT);
 	}
 	else if(gameModel->getCurrentPlayer().getAmountOfCards() > 7)
 	{
 		currentNetworkingControllers.push_back(getNetworkingController(CTRL_ROBBERCARDS));
-		//send ACK
+		emisor->sendPackage(ACK);
 	}
 	else
 	{
 		currentNetworkingControllers.push_back(getNetworkingController(CTRL_ROBBERMOVE));
-		//send ACK
-	}*/
+		emisor->sendPackage(ACK);
+	}
 }
 
 void playingFSM::waitingControllers(genericEvent * ev)

@@ -117,7 +117,3 @@ bool inputCardsController::selectCall(resourceType resource, unsigned char playe
 	}
 	return ret;
 }
-
-inputCardsController::~inputCardsController()
-{
-}

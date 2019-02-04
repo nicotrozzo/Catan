@@ -518,8 +518,9 @@ bool catanGameModel::prepareRobberDiscard(resourceType resource)
 		{
 			selecting = ROBBER_CARDS;
 			notifyAllObservers();
+			ret = true;
 		}
-		if (p1DiscardRobberCards.totalCardsCount() < player1.getCards().totalCardsCount() / 2)
+		else if (p1DiscardRobberCards.totalCardsCount() < player1.getCards().totalCardsCount() / 2)
 		{
 			switch (resource)
 			{
