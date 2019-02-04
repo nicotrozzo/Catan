@@ -266,14 +266,6 @@ void playingFSM::myRobberControllers(genericEvent * ev)
 		netwAckController * controllerToAdd = static_cast<netwAckController *>(getNetworkingController(CTRL_ACK));
 		controllerToAdd->setAction(DICES_CASE);
 		currentNetworkingControllers.push_back(controllerToAdd);
-		if (gameModel->getCurrentPlayer()->getAmountOfCards() > 7)
-		{
-			myRobberCards();
-		}
-		else
-		{
-			myRobberMove();
-		}
 	}
 }
 

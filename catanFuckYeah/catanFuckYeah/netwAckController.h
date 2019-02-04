@@ -18,7 +18,6 @@ private:
 	cases action;
 	//robberPhases phases;
 	bool validAction(cases action_);
-	bool received;
 	/*unsigned char currentAmountCards;
 	unsigned char otherAmountCards;
 	bool checkPhase();

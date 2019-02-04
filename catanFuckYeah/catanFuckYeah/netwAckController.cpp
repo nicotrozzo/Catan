@@ -28,11 +28,8 @@ bool netwAckController::parseNetworkingEvent(networkingEv * ev)
 		switch (action)
 		{
 		case DICES_CASE:
-			if (!received)
-			{
-				ret = true;
-				received = true;
-			}
+			controllerEvent = new playingFSMEvent(CARDS_EV);
+			ret = true;
 			break;
 		case ROBBER_CARDS_CASE:
 			controllerEvent = new playingFSMEvent(ROBBER_EV);
@@ -87,7 +84,6 @@ bool netwAckController::setAction(cases action_)
 	if (validAction(action_))
 	{
 		action = action_;
-		received = false;
 		ret = true;
 	}
 	return ret;
