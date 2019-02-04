@@ -133,7 +133,7 @@ void bossFSM::newHandshaking(genericEvent * ev)
 	//crear/attachear/arrancar generador de eventos de timer de 2,5 minutos
 }
 
-void bossFSM::newStMn(genericEvent * ev)
+void bossFSM::newStMn1(genericEvent * ev)
 {
 	delete graficador;
 	graficador = new startMenu;		
@@ -157,12 +157,16 @@ void bossFSM::newStMn(genericEvent * ev)
 		fsmEvent = new closeDisplayEv;
 	}
 	establisher->stopConnection();
-	netwReceiver->setConnector(nullptr);
-	emisor->setConnector(nullptr);
 	if (ev->getType() == OUT_EV)
 	{
 		cout << "Error: " << static_cast<outEv *>(ev)->getDetail() << endl;
 	}
+}
+void bossFSM::newStMn2(genericEvent * ev)
+{
+	newStMn1(ev);
+	netwReceiver->setConnector(nullptr);
+	emisor->setConnector(nullptr);
 }
 
 void bossFSM::closeWaiting(genericEvent * ev)
