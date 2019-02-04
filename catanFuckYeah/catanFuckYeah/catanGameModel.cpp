@@ -660,6 +660,7 @@ bool catanGameModel::preparePlayerTrade(resourceType resource, unsigned char pla
 		{
 			selecting = OFFER_TRADE;		//para avisar a los observers
 			notifyAllObservers();
+			ret = true;
 		}
 		else if (((player == 1) && (p1SelectedCardsForTrade.totalCardsCount() < 9)) || ((player == 2) && (p2SelectedCardsForTrade.totalCardsCount() < 9)))
 		{
@@ -805,6 +806,7 @@ bool catanGameModel::prepareBankTrade(resourceType resource, bool player)
 		{
 			selecting = BANK_TRADE;
 			notifyAllObservers();
+			ret = true;
 		}
 		else if (player)
 		{
