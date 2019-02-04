@@ -160,26 +160,48 @@ bool catanGameModel::construct()
 {
 	bool ret = false;
 	networkingEventTypes type;
-	unsigned char player = (player1Playing ? 1 : 2);
+	//unsigned char player = (player1Playing ? 1 : 2);
 	if (constructing)
 	{
+		bool initState = (player1Playing ? map.getP1Roads().size() < 2 : map.getP2Roads().size() < 2);	//si esta en el estado inicial, no necesita recursos para construir
+		string coords = map.getPendingConstruction().coords;
 		type = map.buildPendingConstruction();
-		switch (type)
+		if (!initState)
 		{
-		case SETTLEMENT:
-			getCurrentPlayer()->decResource(BRICK);
-			getCurrentPlayer()->decResource(WHEAT);
-			getCurrentPlayer()->decResource(WOOD);
-			getCurrentPlayer()->decResource(WOOL);
-			break;
-		case ROAD:
-			getCurrentPlayer()->decResource(BRICK);
-			getCurrentPlayer()->decResource(WOOD);
-			break;
-		case CITY:
-			getCurrentPlayer()->decResource(ORE,3);
-			getCurrentPlayer()->decResource(WHEAT,2);
-			break;
+			switch (type)
+			{
+			case SETTLEMENT:
+				getCurrentPlayer()->decResource(BRICK);
+				getCurrentPlayer()->decResource(WHEAT);
+				getCurrentPlayer()->decResource(WOOD);
+				getCurrentPlayer()->decResource(WOOL);
+				break;
+			case ROAD:
+				getCurrentPlayer()->decResource(BRICK);
+				getCurrentPlayer()->decResource(WOOD);
+				break;
+			case CITY:
+				getCurrentPlayer()->decResource(ORE, 3);
+				getCurrentPlayer()->decResource(WHEAT, 2);
+				break;
+			}
+		}
+		else if(type == SETTLEMENT)
+		{
+			if (player1Playing && map.getP1Settlements().size() == 2)
+			{
+				for (int i = 0; i < coords.length(); i++)
+				{
+					player1.incResource(map.getHexResource(coords[i]));
+				}
+			}
+			else if(!player1Playing && map.getP2Settlements().size() == 2)
+			{
+				for (int i = 0; i < coords.length(); i++)
+				{
+					player2.incResource(map.getHexResource(coords[i]));
+				}
+			}
 		}
 		if (type != NO_PCKG)
 		{
@@ -872,7 +894,7 @@ bool catanGameModel::hasToConstruct()
 		}
 		else
 		{
-			ret = (map.getP2Roads().size() == 1);
+			ret = (map.getP2Roads().size() == 1) && (map.getP1Roads().size() < 2);
 		}
 	}
 	else
@@ -887,7 +909,7 @@ bool catanGameModel::hasToConstruct()
 		}
 		else
 		{
-			ret = (map.getP1Roads().size() == 1);
+			ret = (map.getP1Roads().size() == 1) && (map.getP2Roads().size() < 2);
 		}
 	}
 	return ret;

@@ -188,15 +188,20 @@ void playingFSM::prepareOppRobber(genericEvent * ev)
 }
 */
 
-
 void playingFSM::passControllers(genericEvent * ev)
 {
 	currentInputControllers.clear();
 	currentNetworkingControllers.clear();
-	currentNetworkingControllers.push_back(getNetworkingController(CTRL_DICES));
 	if (gameModel->initState())
 	{
 		gameModel->dicesThrown(0, 0);
+		inputStateController *controllerToAdd = static_cast<inputStateController *>(getInputController(CTRL_STATE));
+		controllerToAdd->setEv(CHANGE_STATE);
+		currentInputControllers.push_back(controllerToAdd);
+	}
+	else
+	{
+		currentNetworkingControllers.push_back(getNetworkingController(CTRL_DICES));
 	}
 }
 
@@ -204,12 +209,15 @@ void playingFSM::oppTurnControllers(genericEvent * ev)
 {
 	currentInputControllers.clear();
 	currentNetworkingControllers.clear();
-	EDANetworkingController * controllerToAdd = getNetworkingController(GENERIC_NETW_CONTROLLER);	//agrega un controller de networking que solo espera que le manden PASS
-	controllerToAdd->setExpectedPackage(PASS);
-	currentNetworkingControllers.push_back(controllerToAdd);
 	currentNetworkingControllers.push_back(getNetworkingController(CTRL_CONSTRUCTION));
-	currentNetworkingControllers.push_back(getNetworkingController(CTRL_BANKTRADE));
-	currentNetworkingControllers.push_back(getNetworkingController(CTRL_OFFERTRADE));
+	if (!gameModel->initState())
+	{
+		EDANetworkingController * controllerToAdd = getNetworkingController(GENERIC_NETW_CONTROLLER);	//agrega un controller de networking que solo espera que le manden PASS
+		controllerToAdd->setExpectedPackage(PASS);
+		currentNetworkingControllers.push_back(controllerToAdd);
+		currentNetworkingControllers.push_back(getNetworkingController(CTRL_BANKTRADE));
+		currentNetworkingControllers.push_back(getNetworkingController(CTRL_OFFERTRADE));
+	}
 }
 
 void playingFSM::tradeControllers(genericEvent * ev)
@@ -287,7 +295,10 @@ void playingFSM::myTurnControllers(genericEvent * ev)
 	currentNetworkingControllers.clear();
 	currentInputControllers.clear();
 	currentInputControllers.push_back(getInputController(CTRL_EDGE_AND_VERTEX));
-	currentInputControllers.push_back(getInputController(CTRL_ACTION_BUTTON));
+	if (!gameModel->initState())
+	{
+		currentInputControllers.push_back(getInputController(CTRL_ACTION_BUTTON));
+	}
 }
 
 void playingFSM::finishedBuilding(genericEvent * ev)
@@ -330,11 +341,13 @@ void playingFSM::myTurnPassControllers(genericEvent * ev)
 {
 	if (!gameModel->initState())
 	{
+		currentInputControllers.clear();
+		currentNetworkingControllers.clear();
 		unsigned int dice1 = rand() % 6 + 1;
 		unsigned int dice2 = rand() % 6 + 1;
 		string info2send;
-		info2send += dice1;
-		info2send += dice2;
+		info2send += dice1 + '0';
+		info2send += dice2 + '0';
 		emisor->sendPackage(DICES_ARE, info2send);
 		if (gameModel->dicesThrown(dice1, dice2))
 		{
@@ -350,6 +363,7 @@ void playingFSM::myTurnPassControllers(genericEvent * ev)
 	else
 	{
 		myTurnControllers(ev);
+		
 		gameModel->dicesThrown(0, 0);	//cambia de turno
 	}
 }

@@ -60,7 +60,7 @@ void bossFSM::newEstablisher(genericEvent * ev)
 	graficador = new waitingGame;
 	if (static_cast<waitingGame *>(graficador)->getInitOk())
 	{
-		static_cast<waitingGame *>(graficador)->setMessage("Buscando oponente...");
+		static_cast<waitingGame *>(graficador)->setMessage("Searching opponent...");
 	}
 	else
 	{
@@ -128,7 +128,7 @@ void bossFSM::newHandshaking(genericEvent * ev)
 	}
 	evGen.detach(establisher);
 	evGen.attach(handFSM);
-	static_cast<waitingGame *>(graficador)->setMessage("Oponente encontrado!\nPreparando juego...");
+	static_cast<waitingGame *>(graficador)->setMessage("Opponent found!\nPreparing game...");
 
 	//crear/attachear/arrancar generador de eventos de timer de 2,5 minutos
 }
@@ -138,6 +138,18 @@ void bossFSM::newStMn(genericEvent * ev)
 	delete graficador;
 	graficador = new startMenu;		
 	quitController->toggleState();
+	if (handFSM != nullptr)
+	{
+		evGen.detach(handFSM);
+		delete handFSM;
+		handFSM = nullptr;
+	}
+	if (gameFSM != nullptr)
+	{
+		evGen.detach(gameFSM);
+		delete gameFSM;
+		gameFSM = nullptr;
+	}
 	if (!static_cast<startMenu *>(graficador)->getInitOk())
 	{
 		delete graficador;
@@ -252,7 +264,10 @@ void bossFSM::closeConnection(genericEvent * ev)
 		delete gameFSM;
 		gameFSM = nullptr;
 	}
-	cout << "Error: " << static_cast<outEv *>(ev)->getDetail() << endl;
+	if (ev->getType() == OUT_EV)
+	{
+		cout << "Error: " << static_cast<outEv *>(ev)->getDetail() << endl;
+	}
 }
 
 void bossFSM::finishHandshaking(genericEvent * ev)

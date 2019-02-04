@@ -21,7 +21,7 @@ bool EDANetworkingController::parseNetworkingEvent(networkingEv * ev)
 	bool ret = false;
 	if (ev->getHeader() == expectedPackage)
 	{
-//		controllerEvent = new ;	//despues ver que significa este evento
+		controllerEvent = new playingFSMEvent(CHANGE_STATE);
 		ret = true;
 	}
 	return ret;
