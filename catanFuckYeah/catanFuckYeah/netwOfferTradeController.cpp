@@ -18,10 +18,10 @@ bool netwOfferTradeController::parseNetworkingEvent(networkingEv * ev)
 		{
 			controllerEvent = new playingFSMEvent(CARDS_EV);
 		}
-		else
+		/*else
 		{
 			controllerEvent = new playingFSMErrorEv("Error en el trueque pedido");
-		}
+		}*/
 	}
 	return ret;
 }
