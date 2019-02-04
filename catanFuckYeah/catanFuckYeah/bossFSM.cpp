@@ -421,7 +421,9 @@ void bossFSM::destroyAll(genericEvent * ev)
 		delete emisor;
 		emisor = nullptr;
 	}
-	newStMn(ev);
+	delete graficador;
+	graficador = new startMenu;
+	quitController->toggleState();
 }
 
 void bossFSM::sendNetwEv(genericEvent * ev)
