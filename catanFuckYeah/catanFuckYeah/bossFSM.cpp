@@ -421,6 +421,7 @@ void bossFSM::destroyAll(genericEvent * ev)
 		delete emisor;
 		emisor = nullptr;
 	}
+	newStMn(ev);
 }
 
 void bossFSM::sendNetwEv(genericEvent * ev)

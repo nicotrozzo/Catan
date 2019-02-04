@@ -31,7 +31,7 @@ private:
 	{ { HANDSHAKING,TX(sendQuitController) },		{ PLAYING,TX(newGame) },		  { START_MENU,TX(newStMn) },{ WAITING_TO_QUIT,TX(finishHandshaking) },		  { HANDSHAKING,TX(closeHandshaking) },	{ HANDSHAKING,TX(sendToHandFSM) },	{ HANDSHAKING,TX(sendTimerEv) } },			//HANDSHAKING
 	{ { PLAYING,TX(sendInputEv) },			{ REMATCH,TX(doNothing/*NO VA ESTO*/) }, { START_MENU,TX(newStMn) },	{ WAITING_TO_QUIT,TX(finishGame) },		  { PLAYING,TX(closeGame) },			  { PLAYING,TX(sendNetwEv) },					{ PLAYING,TX(sendTimerEvent) } },				//PLAYING
 	{ { REMATCH,TX(sendInputEv) },			{ HANDSHAKING,TX(doNothing/*NO VA ESTO*/) }, { START_MENU,TX(newStMn) },	{ WAITING_TO_QUIT,TX(sendGameOver) },{ REMATCH,TX(closeRematch) },			  { REMATCH,TX(parseNetwEv) },					{ REMATCH,TX(sendTimerEv) } },				//REMATCH
-	{ { WAITING_TO_QUIT,TX(sendInputEv) },	{ START_MENU,TX(newStMn) },		  { START_MENU,TX(newStMn) },	{ WAITING_TO_QUIT,TX(doNothing) },		  { WAITING_TO_QUIT,TX(closeWaitingAck) },				{ WAITING_TO_QUIT,TX(destroyAll) },			{ WAITING_TO_QUIT,TX(sendTimerEv) } }		//WAITING_TO_QUIT
+	{ { WAITING_TO_QUIT,TX(sendInputEv) },	{ START_MENU,TX(newStMn) },		  { START_MENU,TX(newStMn) },	{ WAITING_TO_QUIT,TX(doNothing) },		  { WAITING_TO_QUIT,TX(closeWaitingAck) },				{ START_MENU,TX(destroyAll) },			{ WAITING_TO_QUIT,TX(sendTimerEv) } }		//WAITING_TO_QUIT
 	};
 
 	//The action routines for the FSM
