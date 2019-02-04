@@ -114,11 +114,16 @@ bool catanMapModel::setMap(string map_)
 			if (i < NUMBER_OF_OCEAN_PIECES)
 			{
 				oceanPieces[i].setResource(map_[i]);
+				oceanPieces[i].setResource(map_[i]);
 				oceanPiecesChars += map_[i];	//para verificar luego que esten todos los recursos en las oceanPieces
 			}
 			else
 			{
 				hexagons[i-NUMBER_OF_OCEAN_PIECES].hexResource = map_[i];
+				if (map_[i] == 7)
+				{
+					robberPos = i - NUMBER_OF_OCEAN_PIECES + 'A';
+				}
 			}
 		}
 		found = oceanPiecesChars.find_first_not_of(RESOURCES_STR);	//verifica que se hayan asignado todas piezas de mar distintas
