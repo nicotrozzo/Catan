@@ -22,7 +22,7 @@ public:
 	playingFSMEvent(playingFSMEvTypes type_, bool error_) : error(error_) { type = type_; }
 	virtual eventTypes getType() { return type; }
 	string getInfo() { return info; }
-	bool getError() { return false; }
+	bool getError() { return error; }
 private:
 	playingFSMEvTypes type;
 	string info;
