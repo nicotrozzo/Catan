@@ -10,7 +10,7 @@ class catanGameModel : public EDASubject
 public:
 	catanGameModel();
 	bool dicesThrown(unsigned char dice1, unsigned char dice2);	//modifica informacion del juego, cambia de turno
-	
+	bool mustThrowDices(); //devuelve true cuando se sale del initState
 	
 	bool validConstruction(networkingEventTypes type, string coords);	//devuelve true si la construccion solicitada es valida, y la almacena internamente hasta que le den la orden de construir
 	bool construct();		//construye la ultima construccion que se haya validado, devuelve false si la construccion no es valida, PUEDE MODIFICAR GAME OVER
@@ -79,6 +79,7 @@ public:
 	void notify();
 	~catanGameModel();
 protected:
+	bool throwDices;
 	bool player1Playing;	//true si es el turno del jugador 1, false si es el turno del jugador 2
 	bool player1Started;	//true si empezo jugando el jugador 1
 	catanPlayerModel player1;

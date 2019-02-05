@@ -13,6 +13,7 @@ catanGameModel::catanGameModel()
 	player1Playing = rand() % 2;
 	player1Started = player1Playing;
 	clearTrades();
+	throwDices = true;
 }
 
 bool catanGameModel::dicesThrown(unsigned char dice1, unsigned char dice2)
@@ -81,6 +82,13 @@ bool catanGameModel::dicesThrown(unsigned char dice1, unsigned char dice2)
 		}
 	}
 	notifyAllObservers();
+	return ret;
+}
+
+bool catanGameModel::mustThrowDices()
+{
+	bool ret = throwDices;
+	throwDices = false;
 	return ret;
 }
 
@@ -201,6 +209,14 @@ bool catanGameModel::construct()
 				{
 					player2.incResource(map.getHexResource(coords[i]));
 				}
+			}
+		}
+		else if (type == ROAD)
+		{
+			bool actualizedInitState = (player1Playing ? map.getP1Roads().size() < 2 : map.getP2Roads().size() < 2);;
+			if (initState && !actualizedInitState)	//si acaba de cambiar de estado, avisa que deben tirar los dados
+			{
+				throwDices = true;
 			}
 		}
 		if (type != NO_PCKG)

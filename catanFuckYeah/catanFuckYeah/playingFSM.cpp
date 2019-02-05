@@ -329,6 +329,25 @@ void playingFSM::finishedBuilding(genericEvent * ev)
 		controllerToAdd->setEv(CHANGE_STATE);
 		currentInputControllers.push_back(controllerToAdd);
 	}
+	else if (gameModel->mustThrowDices())	//si acaba de salir del estado inicial
+	{
+		unsigned int dice1 = rand() % 6 + 1;
+		unsigned int dice2 = rand() % 6 + 1;
+		string info2send;
+		info2send += dice1 + '0';
+		info2send += dice2 + '0';
+		emisor->sendPackage(DICES_ARE, info2send);
+		if (gameModel->dicesThrown(dice1, dice2))
+		{
+			myTurnControllers(ev);
+		}
+		else
+		{
+			inputStateController *controllerToAdd = static_cast<inputStateController *>(getInputController(CTRL_STATE));
+			controllerToAdd->setEv(ROBBER_EV);
+			currentInputControllers.push_back(controllerToAdd);
+		}
+	}
 }
 
 void playingFSM::netwYNControllers(genericEvent * ev)
@@ -345,6 +364,13 @@ void playingFSM::ackController(genericEvent * ev)
 	netwAckController * controllerToAdd = static_cast<netwAckController *>(getNetworkingController(CTRL_ACK));
 	controllerToAdd->setAction(OTHER_CASE);
 	currentNetworkingControllers.push_back(controllerToAdd);
+}
+
+void playingFSM::dicesController(genericEvent * ev)
+{
+	currentInputControllers.clear();
+	currentNetworkingControllers.clear();
+	currentNetworkingControllers.push_back(getNetworkingController(CTRL_DICES));
 }
 
 
