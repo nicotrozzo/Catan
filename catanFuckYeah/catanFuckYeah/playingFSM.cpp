@@ -331,8 +331,10 @@ void playingFSM::finishedBuilding(genericEvent * ev)
 	}
 	else if (gameModel->mustThrowDices())	//si acaba de salir del estado inicial
 	{
-		unsigned int dice1 = rand() % 6 + 1;
-		unsigned int dice2 = rand() % 6 + 1;
+		//unsigned int dice1 = rand() % 6 + 1;
+		//unsigned int dice2 = rand() % 6 + 1;
+		unsigned int dice1 = 6;
+		unsigned int dice2 = 1;
 		string info2send;
 		info2send += dice1 + '0';
 		info2send += dice2 + '0';

@@ -28,7 +28,9 @@ cycle(genericEvent * ev)
 genericEvent * genericFSM::
 getEvent()
 {
-	return fsmEvent;
+	genericEvent * temp = fsmEvent;
+	fsmEvent = nullptr;
+	return temp;
 }
 
 

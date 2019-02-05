@@ -84,12 +84,7 @@ bool handShakingServerFSM::clientFSM()
 
 catanGameModel * handShakingServerFSM::getCatanGame(void)
 {
-	catanGameModel * ret = nullptr;
-	if (fsmEvent != nullptr)
-	{
-		ret = static_cast<catanGameModel *>(game);
-	}
-	return ret;
+	return static_cast<catanGameModel *>(game);
 }
 
 

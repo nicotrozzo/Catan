@@ -117,12 +117,7 @@ void handShakingClientFSM::endHandshaking(genericEvent * ev)
 
 catanGameModel * handShakingClientFSM::getCatanGame(void)
 {
-	catanGameModel * ret = nullptr;
-	if (fsmEvent != nullptr)
-	{
-		ret = static_cast<catanGameModel *>(game);
-	}
-	return ret;
+	return static_cast<catanGameModel *>(game);
 }
 
 list<networkingEventTypes> handShakingClientFSM::getListOfAlternatePackages()
