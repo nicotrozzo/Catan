@@ -101,7 +101,9 @@ void playingFSM::sendToNetwControllers(networkingEv * netwPackage)
 	}
 	else if (!read)
 	{
-		fsmEvent = new outEv("Unexpected network event");
+		string errMessage = "Unexpected network event. Header: ";
+		errMessage += netwPackage->getHeader();
+		fsmEvent = new outEv(errMessage);
 		emisor->sendPackage(ERROR_PCKG);
 	}
 }
