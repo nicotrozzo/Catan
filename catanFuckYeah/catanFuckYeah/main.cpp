@@ -36,7 +36,7 @@ int main(int argc,char * argv[])
 			connectionEstablisher establisher(ip);
 			netwEventGenerator netwReceiver;
 			mainEventGenerator eventGen;	//generador de eventos de TODO el programa
-			eventGen.attach(&inputEvGen);	//registro fuente de eventos
+			eventGen.attach(&inputEvGen);	//registro fuentes de eventos
 			eventGen.attach(&timeout);
 			eventGen.attach(&quitButton);
 			eventGen.attach(&netwReceiver);
