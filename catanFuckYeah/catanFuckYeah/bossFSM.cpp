@@ -157,6 +157,7 @@ void bossFSM::newStMn1(genericEvent * ev)
 		fsmEvent = new closeDisplayEv;
 	}
 	establisher->stopConnection();
+	answerTimer->stopTimer();
 	if (ev->getType() == OUT_EV)
 	{
 		cout << "Error: " << static_cast<outEv *>(ev)->getDetail() << endl;
