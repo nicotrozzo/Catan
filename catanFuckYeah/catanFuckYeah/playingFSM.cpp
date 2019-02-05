@@ -240,6 +240,7 @@ void playingFSM::prepareRobbMove(genericEvent * ev)
 void playingFSM::waitRobbMove(genericEvent * ev)
 {
 	currentNetworkingControllers.push_back(getNetworkingController(CTRL_ROBBERMOVE));
+	emisor->sendPackage(ACK);
 }
 
 void playingFSM::error(genericEvent * ev)
