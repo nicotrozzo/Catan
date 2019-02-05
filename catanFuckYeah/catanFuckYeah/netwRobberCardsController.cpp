@@ -21,7 +21,6 @@ bool netwRobberCardsController::parseNetworkingEvent(networkingEv * package)
 		else
 		{
 			controllerEvent = new playingFSMEvent(CARDS_EV);
-			emisor->sendPackage(ACK);
 		}
 	}
 	return ret;
