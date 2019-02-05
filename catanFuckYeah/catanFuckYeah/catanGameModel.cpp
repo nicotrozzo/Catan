@@ -13,7 +13,7 @@ catanGameModel::catanGameModel()
 	player1Playing = rand() % 2;
 	player1Started = player1Playing;
 	clearTrades();
-	throwDices = true;
+	throwDices = false;
 }
 
 bool catanGameModel::dicesThrown(unsigned char dice1, unsigned char dice2)
