@@ -213,7 +213,7 @@ bool catanGameModel::construct()
 		}
 		else if ((type == ROAD) && ((player1Playing && player1Started) || ((!player1Playing && !player1Started))) )
 		{
-			bool actualizedInitState = (player1Playing ? map.getP1Roads().size() < 2 : map.getP2Roads().size() < 2);;
+			bool actualizedInitState = (player1Playing ? map.getP1Roads().size() < 2 : map.getP2Roads().size() < 2);
 			if (initState && !actualizedInitState)	//si acaba de cambiar de estado, avisa que deben tirar los dados
 			{
 				throwDices = true;
