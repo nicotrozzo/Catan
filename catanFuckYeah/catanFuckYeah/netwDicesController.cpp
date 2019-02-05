@@ -13,7 +13,7 @@ bool netwDicesController::parseNetworkingEvent(networkingEv * ev)
 	if (ev->getHeader() == DICES_ARE)
 	{
 		dicesArePckg dicesPckg = *static_cast<dicesArePckg *>(ev);
-		if (gameModel->dicesThrown(dicesPckg.getDice1(), dicesPckg.getDice2()))	//devuelve false si salio el rober
+		if (gameModel->dicesThrown(dicesPckg.getDice1(), dicesPckg.getDice2()))	//devuelve false si salio el robber
 		{
 			controllerEvent = new playingFSMEvent(CHANGE_STATE);
 		}
