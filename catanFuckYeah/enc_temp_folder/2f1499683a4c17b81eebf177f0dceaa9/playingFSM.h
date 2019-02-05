@@ -84,7 +84,7 @@ private:
 	const fsmCell fsmTable[8][5] = {
 	//			CHANGE_STATE							CARDS_EV									TICK_EV							ROBBER_EV							ERROR	
 																					//lo emite el edgeandvertex controller
-	{ { WAITING_DICES,TX(passControllers)},	{PREPARE_TRADE,TX(tradeControllers)},	{BUILDING,TX(buildControllers)},		{MY_ROBBER,TX(doNothing)},	{MY_TURN,TX(error)} },		 //MY_TURN
+	{ { WAITING_DICES,TX(passControllers)},	{PREPARE_TRADE,TX(tradeControllers)},	{BUILDING,TX(buildControllers)},		{MY_ROBBER,TX(myRobberControllers)},	{MY_TURN,TX(error)} },		 //MY_TURN
 																					//lo emite el tick controller																																	 //lo emite el tick controller																																	 //lo emite el tick controller									 	
 	{ { MY_TURN,TX(finishedBuilding) },	{BUILDING,TX(doNothing) },				{BUILDING,TX(ackController)},			{BUILDING,TX(doNothing)},				{BUILDING,TX(error)} },		 //BUILDING
 												//lo emite el tick controller			 //lo emite el tick controller

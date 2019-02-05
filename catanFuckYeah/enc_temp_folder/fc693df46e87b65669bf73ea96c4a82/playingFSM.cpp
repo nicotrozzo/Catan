@@ -257,6 +257,8 @@ void playingFSM::buildControllers(genericEvent * ev)
 
 void playingFSM::myRobberControllers(genericEvent * ev)
 {
+	currentNetworkingControllers.clear();
+	currentInputControllers.clear();
 	if (gameModel->getOtherPlayer()->getAmountOfCards() > 7)	//si el otro jugador tiene que mandar sus robberCards
 	{
 		currentNetworkingControllers.push_back(getNetworkingController(CTRL_ROBBERCARDS));
@@ -322,8 +324,7 @@ void playingFSM::myTurnControllers(genericEvent * ev)
 
 void playingFSM::finishedBuilding(genericEvent * ev)
 {
-	currentInputControllers.clear();
-	currentNetworkingControllers.clear();
+	myTurnControllers(ev);
 	if (gameModel->initState() && !gameModel->hasToConstruct())
 	{
 		inputStateController *controllerToAdd = static_cast<inputStateController *>(getInputController(CTRL_STATE));
@@ -349,15 +350,10 @@ void playingFSM::finishedBuilding(genericEvent * ev)
 			inputStateController *controllerToAdd = static_cast<inputStateController *>(getInputController(CTRL_STATE));
 			controllerToAdd->setEv(ROBBER_EV);
 			currentInputControllers.push_back(controllerToAdd);
-			/*netwAckController * controllerToAdd2 = static_cast<netwAckController *>(getNetworkingController(CTRL_ACK));
+			netwAckController * controllerToAdd2 = static_cast<netwAckController *>(getNetworkingController(CTRL_ACK));
 			controllerToAdd2->setAction(DICES_CASE);
-			currentNetworkingControllers.push_back(controllerToAdd2);*/
-			myRobberControllers(ev);
+			currentNetworkingControllers.push_back(controllerToAdd2);
 		}
-	}
-	else
-	{
-		myTurnControllers(ev);
 	}
 }
 
@@ -421,7 +417,6 @@ void playingFSM::myTurnPassControllers(genericEvent * ev)
 			inputStateController *controllerToAdd = static_cast<inputStateController *>(getInputController(CTRL_STATE));
 			controllerToAdd->setEv(ROBBER_EV);
 			currentInputControllers.push_back(controllerToAdd);
-			myRobberControllers(ev);
 		}
 	}
 	else
