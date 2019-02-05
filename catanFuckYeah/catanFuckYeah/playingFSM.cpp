@@ -211,6 +211,8 @@ void playingFSM::myRobberControllers(genericEvent * ev)
 
 void playingFSM::robbCardsReady(genericEvent * ev)
 {
+	currentInputControllers.clear();
+	currentNetworkingControllers.clear();
 	netwAckController * controllerToAdd = static_cast<netwAckController *>(getNetworkingController(CTRL_ACK));
 	controllerToAdd->setAction(ROBBER_CARDS_CASE);
 	currentNetworkingControllers.push_back(controllerToAdd);
