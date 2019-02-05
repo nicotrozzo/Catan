@@ -80,13 +80,13 @@ bool inputTickAndXController::selectionCall(bool yes)
 		case TICK_BANK_TRADE:
 			if (gameModel->bankTradeReady())
 			{
+				string message;
+				string myRes(1, gameModel->getPlayerSelectedResource().res);
+				string bankRes(1, gameModel->getBankSelectedResource());
 				ret = gameModel->bankTrade();
 				if (ret)
 				{
 					evType = CARDS_EV;
-					string message;
-					string myRes(1, gameModel->getPlayerSelectedResource().res);
-					string bankRes(1, gameModel->getBankSelectedResource());
 					for (int i = 0; i < gameModel->getPlayerSelectedResource().resCount; i++)
 					{
 						message += myRes;
