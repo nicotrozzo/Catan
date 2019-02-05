@@ -18,7 +18,7 @@ enum networkingEventTypes {
 	DICES_ARE = 0x20, ROBBER_CARDS, CARD_IS, ROBBER_MOVE, SETTLEMENT, ROAD, CITY, BANK_TRADE, OFFER_TRADE, PASS,
 	DEV_CARD = 0x30, MONOPOLY, YEARS_OF_PLENTY, ROAD_BUILDING, KNIGHT,
 	YES = 0x40, NO,
-	I_WON = 0x50, PLAY_AGAIN, GAME_OVER,
+	YOU_WON = 0x50, PLAY_AGAIN, GAME_OVER,
 	ERROR_PCKG = 0xFE, QUIT
 };
 
@@ -32,7 +32,12 @@ public:
 class doneEv : public genericEvent
 {
 public:
+	doneEv(void) : iWon(false) {}
+	doneEv(bool iwon) : iWon(iwon) {}
 	eventTypes getType(void) { return DONE_EV; }
+	bool iwon(void) { return iWon; }
+private:
+	bool iWon;	//para cuando termina el estado de playing, true si gano esta maquina, false sino
 };
 
 class outEv : public genericEvent

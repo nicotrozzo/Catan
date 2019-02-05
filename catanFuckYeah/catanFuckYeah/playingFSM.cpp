@@ -141,9 +141,13 @@ void playingFSM::passControllers(genericEvent * ev)
 		controllerToAdd->setEv(CHANGE_STATE);
 		currentInputControllers.push_back(controllerToAdd);
 	}
-	else
+	else if(!gameModel->gameOver())
 	{
 		currentNetworkingControllers.push_back(getNetworkingController(CTRL_DICES));
+	}
+	else
+	{
+		fsmEvent = new doneEv;
 	}
 }
 
@@ -310,9 +314,18 @@ void playingFSM::ackController(genericEvent * ev)
 {
 	currentNetworkingControllers.clear();
 	currentInputControllers.clear();
-	netwAckController * controllerToAdd = static_cast<netwAckController *>(getNetworkingController(CTRL_ACK));
-	controllerToAdd->setAction(OTHER_CASE);
-	currentNetworkingControllers.push_back(controllerToAdd);
+	if (!gameModel->gameOver())
+	{
+		netwAckController * controllerToAdd = static_cast<netwAckController *>(getNetworkingController(CTRL_ACK));
+		controllerToAdd->setAction(OTHER_CASE);
+		currentNetworkingControllers.push_back(controllerToAdd);
+	}
+	else
+	{
+		EDANetworkingController * controllerToAdd = getNetworkingController(GENERIC_NETW_CONTROLLER);	//agrega un controller de networking que solo espera que le manden PASS
+		controllerToAdd->setExpectedPackage(YOU_WON);
+		currentNetworkingControllers.push_back(controllerToAdd);
+	}
 }
 
 void playingFSM::dicesController(genericEvent * ev)

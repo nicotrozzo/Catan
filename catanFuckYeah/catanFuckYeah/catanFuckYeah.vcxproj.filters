@@ -194,6 +194,9 @@
     <ClCompile Include="netwAckController.cpp">
       <Filter>Archivos de origen\MVC: Controllers</Filter>
     </ClCompile>
+    <ClCompile Include="rematchFSM.cpp">
+      <Filter>Archivos de origen\FSM</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="catanGameModel.h">
@@ -354,6 +357,9 @@
     </ClInclude>
     <ClInclude Include="netwAckController.h">
       <Filter>Archivos de encabezado\MVC: Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="rematchFSM.h">
+      <Filter>Archivos de encabezado\FSM</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

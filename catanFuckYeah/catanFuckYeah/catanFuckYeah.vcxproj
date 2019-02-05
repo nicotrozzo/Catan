@@ -149,6 +149,7 @@
     <ClCompile Include="quitButton.cpp" />
     <ClCompile Include="quitButtonController.cpp" />
     <ClCompile Include="quitPackageReceiver.cpp" />
+    <ClCompile Include="rematchFSM.cpp" />
     <ClCompile Include="startMenu.cpp" />
     <ClCompile Include="bossFSM.cpp" />
     <ClCompile Include="bossFSMEvents.cpp" />
@@ -203,6 +204,7 @@
     <ClInclude Include="quitButton.h" />
     <ClInclude Include="quitButtonController.h" />
     <ClInclude Include="quitPackageReceiver.h" />
+    <ClInclude Include="rematchFSM.h" />
     <ClInclude Include="startMenu.h" />
     <ClInclude Include="bossFSM.h" />
     <ClInclude Include="bossFSMEvents.h" />
