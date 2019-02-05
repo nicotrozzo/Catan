@@ -10,6 +10,5 @@ public:
 	~netwOfferTradeController();
 private:
 	catanGameModel *gameModel;
-	netwEmisor * emisor;
 };
 
