@@ -21,7 +21,14 @@ bool catanGameModel::dicesThrown(unsigned char dice1, unsigned char dice2)
 	//tiene que cambiar el jugador que esta jugando
 	//tiene que asignar recursos a los player que esten en el casillero que haya salido
 	bool ret = false;
-	player1Playing = !player1Playing;
+	if (!throwDices)
+	{
+		player1Playing = !player1Playing;
+	}
+	else
+	{
+		throwDices = false;
+	}
 	if (dice1 != 0)
 	{
 		this->dice1 = dice1;
@@ -87,9 +94,7 @@ bool catanGameModel::dicesThrown(unsigned char dice1, unsigned char dice2)
 
 bool catanGameModel::mustThrowDices()
 {
-	bool ret = throwDices;
-	throwDices = false;
-	return ret;
+	return throwDices;
 }
 
 bool catanGameModel::validResourceForConstruct(networkingEventTypes type)
