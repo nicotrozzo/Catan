@@ -57,7 +57,7 @@ void inputTickAndXController::setActionToDo(tickActions_t action)
 
 bool inputTickAndXController::validAction(tickActions_t action)
 {
-	return (action >= TICK_OPP_TRADE) && (action <= TICK_ROBB_CARDS);
+	return (action >= TICK_OPP_TRADE) && (action <= TICK_INVALID_TRADE);
 }
 
 bool inputTickAndXController::selectionCall(bool yes)
@@ -176,6 +176,10 @@ bool inputTickAndXController::selectionCall(bool yes)
 				}
 			}
 			break;
+		case TICK_INVALID_TRADE:			//solo le aiso al jugador que el trueque no fue valido
+			netEmisorEv->sendPackage(NO);
+			ret = true;
+			break;
 		}
 	}
 	else
@@ -197,6 +201,10 @@ bool inputTickAndXController::selectionCall(bool yes)
 			break;
 		case TICK_ROBB_CARDS:
 			gameModel->clearRobberCards();
+			break;
+		case TICK_INVALID_TRADE:
+			netEmisorEv->sendPackage(NO);
+			ret = true;
 			break;
 		}
 	}
