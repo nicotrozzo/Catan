@@ -197,7 +197,6 @@ bool inputTickAndXController::selectionCall(bool yes)
 			break;
 		case TICK_ROBB_CARDS:
 			gameModel->clearRobberCards();
-			ret = true;
 			break;
 		}
 	}
