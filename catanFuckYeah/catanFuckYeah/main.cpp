@@ -13,10 +13,11 @@
 #include "gameCoords.h"
 
 #define TIMEOUT_SECS 150
-#define IP_LENGTH 12
+#define IP_MIN_LENGTH 10
 
 void deleteFrontEnd(void * display);
 void * initFrontEnd();
+bool parseCmdLine(int argc, char * argv[],string& IP, string& name);
 bool checkIP(char* IP);
 
 
@@ -26,17 +27,9 @@ int main(int argc,char * argv[])
 	void * info = initFrontEnd();
 	if (info != nullptr)
 	{
-		string name;
-		if (argc == 3)
-		{
-			name = argv[2];
-		}
-		else
-		{
-			name = nullptr;
-		}
-		if (checkIP(ip))
-		{
+		string name, ip;
+		if (parseCmdLine(argc,argv,ip, name))
+		{		
 			inputEventGenerator inputEvGen(static_cast<ALLEGRO_DISPLAY *>(info));	//mouse, teclado y refresh de pantalla
 			timerEventGenerator timeout(TIMEOUT_SECS);
 			quitButtonController quitButton;
@@ -64,7 +57,7 @@ int main(int argc,char * argv[])
 		}
 		else
 		{
-			cout << "IP incorrecta." << endl;
+			cout << ip.c_str() << endl;
 		}
 	}
 	else
@@ -74,15 +67,77 @@ int main(int argc,char * argv[])
 	return 0;
 }
 
-
-bool checkIP(char* IP)
+/*Recibe los argumentos de linea de comando, los interpreta, y si son correctos carga el primer argumento en el string ip y el segundo en el nombre
+Si no son correctos, deja un mensaje de error en IP
+Devuelve true si los argumentos estan bien, false si no lo estan.*/
+bool parseCmdLine(int argc, char * argv[], string& ip, string& name)
 {
-	bool ok = true;
-	for (int i = 0; IP[i] != '\0'; i++)
+	bool ret = false;
+	if (argc >= 2)
 	{
-		if (IP[i] != '.' && isalpha(IP[i]))
+		if (argc >= 3)
 		{
-			ok = false;
+			name = argv[2];
+		}
+		else
+		{
+			name = "Player1";
+		}
+		if (checkIP(argv[1]))
+		{
+			ret = true;
+			ip = argv[1];
+		}
+		else
+		{
+			ip = "IP incorrecta";
+		}
+	}
+	else
+	{
+		ip = "No hay suficientes argumentos de linea de comando.\n Ingrese como primer argumento la ip de su contrincante y como segundo su nombre (opcional).";
+	}
+	return ret;
+}
+
+bool checkIP(char * ip)
+{
+	bool ok = false, error = false;
+	int i = 0, dots = 0, numbers = 0;
+	if (strlen(ip) >= IP_MIN_LENGTH)
+	{
+		while (!error && (dots < 3))
+		{
+			for (int numbers = 0; numbers < 2; numbers++, i++)
+			{
+				if (!((ip[i] >= '0') && (ip[i] <= '9')))
+				{
+					error = true;
+				}
+			}
+			if (ip[i++] != '.')
+			{
+				error = true;
+			}
+			else
+			{
+				dots++;
+			}
+		}
+		if (dots == 3)
+		{
+			while (ip[i] != '\0')
+			{
+				if (!((ip[i] >= '0') && (ip[i] <= '9')))
+				{
+					error = true;
+				}
+				i++;
+			}
+			if (!error)
+			{
+				ok = true;
+			}
 		}
 	}
 	return ok;
