@@ -177,6 +177,7 @@ bool inputTickAndXController::selectionCall(bool yes)
 			}
 			break;
 		case TICK_INVALID_TRADE:			//solo le aiso al jugador que el trueque no fue valido
+			gameModel->clearTrades();
 			netEmisorEv->sendPackage(NO);
 			ret = true;
 			break;
@@ -203,6 +204,7 @@ bool inputTickAndXController::selectionCall(bool yes)
 			gameModel->clearRobberCards();
 			break;
 		case TICK_INVALID_TRADE:
+			gameModel->clearTrades();
 			netEmisorEv->sendPackage(NO);
 			ret = true;
 			break;
