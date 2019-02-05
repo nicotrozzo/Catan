@@ -236,7 +236,7 @@ void bossFSM::newGame(genericEvent * ev)
 			netwControllerToAdd = new netwOfferTradeController(temp);
 			break;
 		case 4:
-			netwControllerToAdd = new netwRobberCardsController(temp);
+			netwControllerToAdd = new netwRobberCardsController(temp,emisor);
 			break;
 		case 5:
 			netwControllerToAdd = new netwYNController(temp);

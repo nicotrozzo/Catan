@@ -2,9 +2,10 @@
 #include "playingFSM.h"
 
 
-netwRobberCardsController::netwRobberCardsController(catanGameModel * game)
+netwRobberCardsController::netwRobberCardsController(catanGameModel * game,netwEmisor * emisor_)
 {
 	gameModel = game;
+	emisor = emisor_;
 }
 
 bool netwRobberCardsController::parseNetworkingEvent(networkingEv * package)
@@ -20,6 +21,7 @@ bool netwRobberCardsController::parseNetworkingEvent(networkingEv * package)
 		else
 		{
 			controllerEvent = new playingFSMEvent(CARDS_EV);
+			emisor->sendPackage(ACK);
 		}
 	}
 	return ret;
