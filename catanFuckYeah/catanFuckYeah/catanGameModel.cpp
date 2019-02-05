@@ -624,9 +624,8 @@ bool catanGameModel::discardCurrentPlayer()
 		player1.decResource(BRICK,p1DiscardRobberCards.brick);
 		ret = true;
 		selecting = NO_PCKG;
-		notifyAllObservers();
+		clearRobberCards();
 	}
-
 	return ret;
 }
 
@@ -897,7 +896,7 @@ bool catanGameModel::bankTrade()
 		player1.decResource(playerSelectedResource.res, playerSelectedResource.resCount);	
 		player1.incResource(bankSelectedResource);
 		selecting = static_cast<networkingEventTypes>(0);
-		notifyAllObservers();
+		clearTrades();
 		ret = true;
 	}
 	return ret;
