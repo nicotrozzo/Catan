@@ -16,7 +16,11 @@ bool netwOfferTradeController::parseNetworkingEvent(networkingEv * ev)
 		offerTradePckg *offerPckg = static_cast<offerTradePckg *>(ev);
 		if (gameModel->playersTrade(offerPckg->getOppResources(), offerPckg->getOwnResources()))
 		{
-			controllerEvent = new playingFSMEvent(CARDS_EV);
+			controllerEvent = new playingFSMEvent(CARDS_EV,false);
+		}
+		else
+		{
+			controllerEvent = new playingFSMEvent(CARDS_EV,true);	//carga error en true, porque mandaron un trade invalido
 		}
 		/*else
 		{

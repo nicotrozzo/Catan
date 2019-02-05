@@ -1,5 +1,6 @@
 #pragma once
 #include "EDANetworkingController.h"
+
 class netwOfferTradeController : public EDANetworkingController
 {
 public:
@@ -9,5 +10,6 @@ public:
 	~netwOfferTradeController();
 private:
 	catanGameModel *gameModel;
+	netwEmisor * emisor;
 };
 

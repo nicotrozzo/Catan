@@ -455,7 +455,14 @@ void playingFSM::waitingControllers(genericEvent * ev)
 	currentNetworkingControllers.clear();
 	currentInputControllers.clear();
 	inputTickAndXController * controllerToAdd = static_cast<inputTickAndXController *>(getInputController(CTRL_TICKANDX));
-	controllerToAdd->setActionToDo(TICK_OPP_TRADE);
+	if (!static_cast<playingFSMEvent *>(ev)->getError())
+	{
+		controllerToAdd->setActionToDo(TICK_OPP_TRADE);
+	}
+	else	//si llego un trade invalido porque el jugador propio no tenia los recursos
+	{
+		controllerToAdd->setActionToDo(TICK_INVALID_TRADE);
+	}
 	currentInputControllers.push_back(controllerToAdd);
 }
 

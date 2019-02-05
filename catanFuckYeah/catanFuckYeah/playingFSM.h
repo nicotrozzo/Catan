@@ -19,6 +19,7 @@ class playingFSMEvent : public genericEvent
 public:
 	playingFSMEvent(string info_ = "") : error(false) { info = info_; }
 	playingFSMEvent(playingFSMEvTypes type_) : error(false) { type = type_; }
+	playingFSMEvent(playingFSMEvTypes type_, bool error_) : error(error_) { type = type_; }
 	virtual eventTypes getType() { return type; }
 	string getInfo() { return info; }
 	bool getError() { return false; }

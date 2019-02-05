@@ -455,6 +455,11 @@ bool catanGameModel::playersTrade(string cardsPlayer1, string cardsPlayer2)
 		selecting = OFFER_TRADE;
 		notifyAllObservers();
 	}
+	else
+	{
+		selecting = CARD_IS;
+		notifyAllObservers();
+	}
 	return ret;
 }
 
