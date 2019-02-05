@@ -4,7 +4,7 @@
 #include "netwEmisor.h"
 #include "timerEventGenerator.h"
 
-typedef enum tickActions_t{ TICK_OPP_TRADE, TICK_BANK_TRADE, TICK_OWN_TRADE, TICK_BUILD, TICK_ROBB_CARDS};
+typedef enum tickActions_t{ TICK_OPP_TRADE, TICK_BANK_TRADE, TICK_OWN_TRADE, TICK_BUILD, TICK_ROBB_CARDS, TICK_INVALID_TRADE };
 
 class inputTickAndXController :	public EDAInputController
 {
@@ -27,7 +27,6 @@ public:
 	virtual bool parseMouseEvent(mouseEvent * ev);
 	virtual bool parseKeyboardEvent(keyboardEvent * ev);
 	void setActionToDo(tickActions_t action);	
-	~inputTickAndXController();
 
 private:
 	catanGameModel * gameModel;
