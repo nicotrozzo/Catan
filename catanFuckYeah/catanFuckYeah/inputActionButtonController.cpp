@@ -53,7 +53,7 @@ bool inputActionButtonController::parseMouseEvent(mouseEvent * ev)
 					}
 					if (ret)
 					{
-						controllerEvent = new playingFSMCardsEv(tradeButtons[i] == "PLAYER_TRADE" ? true : false);
+						controllerEvent = new playingFSMCardsEv(tradeButtons[i] == "PLAYER_TRADE");
 					}
 				}
 			}
@@ -65,6 +65,28 @@ bool inputActionButtonController::parseMouseEvent(mouseEvent * ev)
 bool inputActionButtonController::parseKeyboardEvent(keyboardEvent * ev)
 {
 	bool ret = false;
+	if (!gameModel->initState())
+	{
+		switch (ev->getKey())
+		{
+		case 'P':
+			netEmisorEv->sendPackage(PASS);
+			controllerEvent = new playingFSMEvent(CHANGE_STATE);
+			answerTimer->startTimer();
+			ret = true;
+			break;
+		case 'B':
+			ret = gameModel->prepareBankTrade(DESSERT, 1);
+			break;
+		case 'O':
+			ret = gameModel->preparePlayerTrade(DESSERT, 1);
+			break;
+		}
+		if (ret && (ev->getKey() != 'P'))
+		{
+			controllerEvent = new playingFSMCardsEv(ev->getKey() == 'O');
+		}
+	}
 	return ret;
 }
 
