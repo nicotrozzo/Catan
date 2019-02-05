@@ -501,10 +501,7 @@ bool catanGameModel::bankTrade(string playerResource, resourceType bankResource)
 		}
 		if (strLenght == static_cast<size_t>(costRes))
 		{
-			for (; (strLenght != 0) && !ret; strLenght--)
-			{
-				ret = getCurrentPlayer()->decResource(res);
-			}
+			ret = getCurrentPlayer()->decResource(res,strLenght);
 			if (ret)
 			{
 				ret = getCurrentPlayer()->incResource(static_cast<unsigned char>(bankResource));
