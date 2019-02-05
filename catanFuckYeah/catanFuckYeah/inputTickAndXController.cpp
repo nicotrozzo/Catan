@@ -83,14 +83,14 @@ bool inputTickAndXController::selectionCall(bool yes)
 				string message;
 				string myRes(1, gameModel->getPlayerSelectedResource().res);
 				string bankRes(1, gameModel->getBankSelectedResource());
+				for (int i = 0; i < gameModel->getPlayerSelectedResource().resCount; i++)
+				{
+					message += myRes;
+				}
 				ret = gameModel->bankTrade();
 				if (ret)
 				{
-					evType = CARDS_EV;
-					for (int i = 0; i < gameModel->getPlayerSelectedResource().resCount; i++)
-					{
-						message += myRes;
-					}
+					evType = CARDS_EV;	
 					netEmisorEv->sendPackage(BANK_TRADE, message + bankRes);
 					answerTimer->startTimer();
 				}
