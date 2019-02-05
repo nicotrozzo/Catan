@@ -350,6 +350,9 @@ void playingFSM::finishedBuilding(genericEvent * ev)
 			inputStateController *controllerToAdd = static_cast<inputStateController *>(getInputController(CTRL_STATE));
 			controllerToAdd->setEv(ROBBER_EV);
 			currentInputControllers.push_back(controllerToAdd);
+			netwAckController * controllerToAdd2 = static_cast<netwAckController *>(getNetworkingController(CTRL_ACK));
+			controllerToAdd2->setAction(DICES_CASE);
+			currentNetworkingControllers.push_back(controllerToAdd2);
 		}
 	}
 }
