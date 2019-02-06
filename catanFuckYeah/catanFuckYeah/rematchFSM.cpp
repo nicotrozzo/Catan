@@ -7,6 +7,15 @@ rematchFSM::rematchFSM(bool iWon, netwRematchController * netwCont_, inputRematc
 	netwCont = netwCont_;
 	inputCont = inputCont_;
 	emisor = emisor_;
+	if (iWon)
+	{
+		inputCont->expectEvent();
+	}
+	else
+	{
+		netwCont->expectEvent();
+		netwCont->setPlayAgain(true);
+	}
 }
 
 void rematchFSM::netwController(genericEvent * ev)
