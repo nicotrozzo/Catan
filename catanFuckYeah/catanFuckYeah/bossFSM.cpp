@@ -371,7 +371,6 @@ void bossFSM::closeConnection(genericEvent * ev)
 void bossFSM::finishHandshaking(genericEvent * ev)
 {
 	emisor->sendPackage(QUIT);
-	fsmEvent = new outEv;
 }
 
 void bossFSM::closeHandshaking(genericEvent * ev)
