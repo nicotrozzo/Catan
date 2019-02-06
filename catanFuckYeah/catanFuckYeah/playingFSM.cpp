@@ -141,13 +141,9 @@ void playingFSM::passControllers(genericEvent * ev)
 		controllerToAdd->setEv(CHANGE_STATE);
 		currentInputControllers.push_back(controllerToAdd);
 	}
-	else if(!gameModel->gameOver())
-	{
-		currentNetworkingControllers.push_back(getNetworkingController(CTRL_DICES));
-	}
 	else
 	{
-		fsmEvent = new doneEv();
+		currentNetworkingControllers.push_back(getNetworkingController(CTRL_DICES));
 	}
 }
 
@@ -297,9 +293,13 @@ void playingFSM::finishedBuilding(genericEvent * ev)
 			myRobberControllers(ev);
 		}
 	}
-	else
+	else if(!gameModel->gameOver())
 	{
 		myTurnControllers(ev);
+	}
+	else
+	{
+		fsmEvent = new doneEv(true);
 	}
 }
 
@@ -353,10 +353,19 @@ void playingFSM::oppCardsReady(genericEvent * ev)
 
 void playingFSM::myTurnPassControllers(genericEvent * ev)
 {
-	if (!gameModel->initState())
+	currentInputControllers.clear();
+	currentNetworkingControllers.clear();	
+	if(gameModel->initState())
 	{
-		currentInputControllers.clear();
-		currentNetworkingControllers.clear();
+		myTurnControllers(ev);
+		gameModel->dicesThrown(0, 0);	//cambia de turno
+	}
+	else if (gameModel->gameOver())
+	{
+		fsmEvent = new doneEv(false);
+	}
+	else
+	{
 		unsigned int dice1 = rand() % 6 + 1;
 		unsigned int dice2 = rand() % 6 + 1;
 		string info2send;
@@ -374,12 +383,6 @@ void playingFSM::myTurnPassControllers(genericEvent * ev)
 			currentInputControllers.push_back(controllerToAdd);
 			myRobberControllers(ev);
 		}
-	}
-	else
-	{
-		myTurnControllers(ev);
-		
-		gameModel->dicesThrown(0, 0);	//cambia de turno
 	}
 }
 
