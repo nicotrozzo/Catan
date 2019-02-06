@@ -1,12 +1,13 @@
 #include "rematchFSM.h"
 #include "bossFSMEvents.h"
 
-rematchFSM::rematchFSM(bool iWon, netwRematchController * netwCont_, inputRematchController * inputCont_, netwEmisor * emisor_) :  genericFSM(&fsmTable[0][0], 2,2 ,iWon ? WAIT_INPUT: WAIT_NETW)
+rematchFSM::rematchFSM(bool iWon, netwRematchController * netwCont_, inputRematchController * inputCont_, netwEmisor * emisor_, rematchGraphicator * graficador_) :  genericFSM(&fsmTable[0][0], 2,2 ,iWon ? WAIT_INPUT: WAIT_NETW)
 {
 	iwon = iWon;
 	netwCont = netwCont_;
 	inputCont = inputCont_;
 	emisor = emisor_;
+	graficador = graficador_;
 	if (iWon)
 	{
 		inputCont->expectEvent();
@@ -24,6 +25,7 @@ void rematchFSM::netwController(genericEvent * ev)
 	{
 		inputCont->dontExpectEvent();
 		netwCont->expectEvent();
+		graficador->toggleState();
 		netwCont->setPlayAgain(true);
 	}
 	else
@@ -46,6 +48,7 @@ void rematchFSM::inputController(genericEvent * ev)
 	{
 		netwCont->dontExpectEvent();
 		inputCont->expectEvent();
+		graficador->toggleState();
 	}
 }
 

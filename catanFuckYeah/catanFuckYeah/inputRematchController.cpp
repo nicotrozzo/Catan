@@ -1,6 +1,7 @@
 #include "inputRematchController.h"
 #include "rematchFSM.h"
-
+#include "gameDefines.h"
+#include "gameCoords.h"
 
 inputRematchController::inputRematchController(netwEmisor * emisor_)
 {
@@ -14,15 +15,15 @@ bool inputRematchController::parseMouseEvent(mouseEvent * ev)
 	if (expectingEvent)
 	{
 		point clickCoords = ev->getClickCoords();
-		if( (clickCoords.y >= REMATCH_Y) && (clickCoords.y <= REMATCH_Y + OFFSET_REMATCH_Y) )
+		if( (clickCoords.y >= gameCoords::buttonCoords["REMATCH/PLAY_AGAIN"].yCoord ) && (clickCoords.y <= gameCoords::buttonCoords["REMATCH/PLAY_AGAIN"].yCoord + OFFSET_REMATCH_Y) )
 		{
-			if( (clickCoords.x >= TICK_REMATCH_X) && (clickCoords.x <= TICK_REMATCH_X + OFFSET_TICK_REMATCH_X) )
+			if( (clickCoords.x >= gameCoords::buttonCoords["REMATCH/PLAY_AGAIN"].xCoord) && (clickCoords.x <= gameCoords::buttonCoords["REMATCH/PLAY_AGAIN"].xCoord + OFFSET_PLAY_AGAIN_X) )
 			{
 				controllerEvent = new rematchEv(CHANGE);
 				emisor->sendPackage(PLAY_AGAIN);
 				ret = true;
 			}
-			else if ((clickCoords.x >= CROSS_REMATCH_X) && (clickCoords.x <= CROSS_REMATCH_X + OFFSET_CROSS_REMATCH_X))
+			else if ((clickCoords.x >= gameCoords::buttonCoords["SCAPE"].xCoord) && (clickCoords.x <= gameCoords::buttonCoords["SCAPE"].xCoord + OFFSET_SCAPE_X))
 			{
 				controllerEvent = new rematchEv(END);
 				emisor->sendPackage(GAME_OVER);
