@@ -431,6 +431,7 @@ void playingFSM::waitingControllers(genericEvent * ev)
 	{
 		controllerToAdd->setActionToDo(TICK_INVALID_TRADE);
 	}
+	messageDisp->setMessage(static_cast<playingFSMEvent *>(ev)->getMessage());
 	currentInputControllers.push_back(controllerToAdd);
 }
 
