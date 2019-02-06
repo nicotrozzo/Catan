@@ -64,6 +64,7 @@ bool inputTickAndXController::selectionCall(bool yes)
 {
 	bool ret = false;
 	playingFSMEvTypes evType = CHANGE_STATE;
+	string evMessage = "";
 	if (yes)
 	{
 		construction_t building; //para ver el building pendiente
@@ -129,6 +130,7 @@ bool inputTickAndXController::selectionCall(bool yes)
 				}
 				netEmisorEv->sendTrade(OFFER_TRADE, ownResCount, myRes, oppResCount, oppRes);
 				evType = TICK_EV;
+				evMessage = "Waiting opponent's answer";
 			}
 			break;
 		case TICK_BUILD:
@@ -212,7 +214,7 @@ bool inputTickAndXController::selectionCall(bool yes)
 	}
 	if (ret == true)
 	{
-		controllerEvent = new playingFSMEvent(evType);
+		controllerEvent = new playingFSMEvent(evType, evMessage);
 	}
 	return ret;
 }

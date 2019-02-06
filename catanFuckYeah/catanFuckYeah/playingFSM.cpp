@@ -160,6 +160,7 @@ void playingFSM::oppTurnControllers(genericEvent * ev)
 		currentNetworkingControllers.push_back(controllerToAdd);
 		currentNetworkingControllers.push_back(getNetworkingController(CTRL_BANKTRADE));
 		currentNetworkingControllers.push_back(getNetworkingController(CTRL_OFFERTRADE));
+		messageDisp->setMessage(static_cast<playingFSMEvent *>(ev)->getMessage());
 	}
 }
 
@@ -175,11 +176,13 @@ void playingFSM::tradeControllers(genericEvent * ev)
 	{
 		controllerToAdd->setActionToDo(TICK_BANK_TRADE);
 		cardsControllerToAdd->setFunction(BANK_TRADE);
+		messageDisp->setMessage("Prepare your bank trade");
 	}
 	else
 	{
 		controllerToAdd->setActionToDo(TICK_OWN_TRADE);
 		cardsControllerToAdd->setFunction(OFFER_TRADE);
+		messageDisp->setMessage("Prepare your trade offer");
 	}
 	currentInputControllers.push_back(controllerToAdd);
 	currentInputControllers.push_back(cardsControllerToAdd);	//espera que el usuario seleccione las cartas
@@ -194,6 +197,7 @@ void playingFSM::buildControllers(genericEvent * ev)
 	controllerToAdd->setActionToDo(TICK_BUILD);
 	currentInputControllers.push_back(controllerToAdd);
 	currentInputControllers.push_back(getInputController(CTRL_EDGE_AND_VERTEX));
+	messageDisp->setMessage(static_cast<playingFSMEvent *>(ev)->getMessage());
 }
 
 void playingFSM::myRobberControllers(genericEvent * ev)
@@ -201,6 +205,7 @@ void playingFSM::myRobberControllers(genericEvent * ev)
 	if (gameModel->getOtherPlayer()->getAmountOfCards() > 7)	//si el otro jugador tiene que mandar sus robberCards
 	{
 		currentNetworkingControllers.push_back(getNetworkingController(CTRL_ROBBERCARDS));
+		messageDisp->setMessage("Waiting opponent to discard");
 	}
 	else
 	{
@@ -224,10 +229,12 @@ void playingFSM::myCardsSent(genericEvent * ev)
 	if (gameModel->getCurrentPlayer()->getAmountOfCards() > 7)
 	{
 		currentNetworkingControllers.push_back(getNetworkingController(CTRL_ROBBERCARDS));
+		messageDisp->setMessage("Waiting opponent to discard");
 	}
 	else
 	{
 		currentNetworkingControllers.push_back(getNetworkingController(CTRL_ROBBERMOVE));
+		messageDisp->setMessage("Waiting opponent to move the robber");
 	}
 }
 
@@ -241,12 +248,13 @@ void playingFSM::prepareRobbMove(genericEvent * ev)
 void playingFSM::waitRobbMove(genericEvent * ev)
 {
 	currentNetworkingControllers.push_back(getNetworkingController(CTRL_ROBBERMOVE));
+	messageDisp->setMessage("Waiting opponent to move the robber");
 	emisor->sendPackage(ACK);
 }
 
 void playingFSM::error(genericEvent * ev)
 {
-	fsmEvent = new outEv(static_cast<playingFSMEvent *>(ev)->getInfo());
+	fsmEvent = new outEv(static_cast<playingFSMEvent *>(ev)->getMessage());
 	//destruir todo lo que tenga que destruir
 }
 
@@ -259,6 +267,7 @@ void playingFSM::myTurnControllers(genericEvent * ev)
 	{
 		currentInputControllers.push_back(getInputController(CTRL_ACTION_BUTTON));
 	}
+	messageDisp->setMessage(static_cast<playingFSMEvent *>(ev)->getMessage());
 }
 
 void playingFSM::finishedBuilding(genericEvent * ev)
@@ -288,9 +297,6 @@ void playingFSM::finishedBuilding(genericEvent * ev)
 			inputStateController *controllerToAdd = static_cast<inputStateController *>(getInputController(CTRL_STATE));
 			controllerToAdd->setEv(ROBBER_EV);
 			currentInputControllers.push_back(controllerToAdd);
-			/*netwAckController * controllerToAdd2 = static_cast<netwAckController *>(getNetworkingController(CTRL_ACK));
-			controllerToAdd2->setAction(DICES_CASE);
-			currentNetworkingControllers.push_back(controllerToAdd2);*/
 			myRobberControllers(ev);
 		}
 	}
@@ -309,12 +315,14 @@ void playingFSM::netwYNControllers(genericEvent * ev)
 	currentNetworkingControllers.clear();
 	currentInputControllers.clear();
 	currentNetworkingControllers.push_back(getNetworkingController(CTRL_YN));	
+	messageDisp->setMessage("Waiting opponent's answer");
 }
 
 void playingFSM::ackController(genericEvent * ev)
 {
 	currentNetworkingControllers.clear();
 	currentInputControllers.clear();
+	messageDisp->setMessage("");
 	if (!gameModel->gameOver())
 	{
 		netwAckController * controllerToAdd = static_cast<netwAckController *>(getNetworkingController(CTRL_ACK));
@@ -398,11 +406,13 @@ void playingFSM::oppRobberControllers(genericEvent * ev)
 	else if(gameModel->getCurrentPlayer()->getAmountOfCards() > 7)
 	{
 		currentNetworkingControllers.push_back(getNetworkingController(CTRL_ROBBERCARDS));
+		messageDisp->setMessage("Waiting opponent to discard");
 		emisor->sendPackage(ACK);
 	}
 	else
 	{
 		currentNetworkingControllers.push_back(getNetworkingController(CTRL_ROBBERMOVE));
+		messageDisp->setMessage("Waiting opponent to move the robber");
 		emisor->sendPackage(ACK);
 	}
 }
@@ -458,6 +468,7 @@ void playingFSM::myRobberCards()
 	EDAInputController * controllerToAdd = getInputController(CTRL_CARDS);
 	static_cast<inputCardsController *>(controllerToAdd)->setFunction(ROBBER_CARDS);	//le avisa al controller que espera cartas de robber
 	currentInputControllers.push_back(controllerToAdd);	//espera cartas
+	messageDisp->setMessage("Choose cards to discard");
 	controllerToAdd = getInputController(CTRL_TICKANDX);
 	static_cast<inputTickAndXController *>(controllerToAdd)->setActionToDo(TICK_ROBB_CARDS);
 	currentInputControllers.push_back(controllerToAdd);
@@ -471,4 +482,5 @@ void playingFSM::myRobberMove()
 	controllerToAdd->setAction(OTHER_CASE);
 	currentNetworkingControllers.push_back(controllerToAdd);
 	currentInputControllers.push_back(getInputController(CTRL_HEXAGON));
+	messageDisp->setMessage("Move the robber");
 }

@@ -43,7 +43,7 @@ void messageDisplayer::setMessage(string message)
 
 void messageDisplayer::showMessage()
 {
-	if (message == "Esperando para salir...")
+	if (message == "Waiting to quit...")
 	{
 		al_draw_scaled_rotated_bitmap(messageShowBitmap, 0, 0, 323 * PROP_X, 330 * PROP_Y, PROP_X, PROP_Y, 0, 0);
 		al_draw_text(fontForMessageShow, al_color_name("white"), 344 * PROP_X, 410 * PROP_Y, 0, message.c_str());

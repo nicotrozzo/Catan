@@ -22,16 +22,16 @@ bool inputEdgeAndVertexController::parseMouseEvent(mouseEvent * ev)
 			{
 				if (!gameModel->isConstructing())
 				{
-					if ((ret = gameModel->validConstruction(SETTLEMENT, x.first)) || (ret = gameModel->validConstruction(CITY, x.first)))
+					if( (ret = gameModel->validConstruction(SETTLEMENT, x.first)) || (ret = gameModel->validConstruction(CITY, x.first)) )
 					{
-						controllerEvent = new playingFSMEvent(TICK_EV);
+						controllerEvent = new playingFSMEvent(TICK_EV,"Do you want to build?");
 					}
 				}
 				else
 				{
 					if (!(ret = gameModel->validConstruction(SETTLEMENT, x.first)))	//no generera evento, solo cambia la construccion
 					{
-						ret = (ret = gameModel->validConstruction(CITY, x.first));
+						ret = gameModel->validConstruction(CITY, x.first);
 					}
 				}
 				break;
@@ -50,7 +50,7 @@ bool inputEdgeAndVertexController::parseMouseEvent(mouseEvent * ev)
 					{
 						if (ret = gameModel->validConstruction(ROAD, x.first))
 						{
-							controllerEvent = new playingFSMEvent(TICK_EV);
+							controllerEvent = new playingFSMEvent(TICK_EV,"Do you want to build?");
 						}
 					}
 					else
