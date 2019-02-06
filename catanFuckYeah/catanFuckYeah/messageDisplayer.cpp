@@ -11,7 +11,7 @@ messageDisplayer::messageDisplayer()
 	angle = 0;
 	if ((messageShowBitmap = al_load_bitmap("graficoCatan\\menues\\messageShow.png")) != NULL)
 	{
-		if ((fontForMessageShow = al_load_ttf_font("graficoCatan\\font\\TravelingTypewriter.ttf", 71 * PROP_X, 0)) != NULL)
+		if ((fontForMessageShow = al_load_ttf_font("graficoCatan\\font\\scribish.ttf", 71 * PROP_X, 0)) != NULL)
 		{
 			if ((refreshBitmap = al_load_bitmap("graficoCatan\\refresh.png")) != NULL)
 			{
