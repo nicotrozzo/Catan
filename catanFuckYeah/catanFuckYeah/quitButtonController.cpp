@@ -63,6 +63,11 @@ bool quitButtonController::parseKeyboardEvent(keyboardEvent * ev)
 			controllerEvent = new quitEv();
 			ret = true;
 		}
+		else if (startMenu && (keyPressed == 'p' || keyPressed == 'P'))
+		{
+			controllerEvent = new doneEv();
+			ret = true;
+		}
 	}
 	return ret;
 }

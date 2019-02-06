@@ -481,7 +481,7 @@ void bossFSM::finishGame(genericEvent * ev)
 		delete graficador;
 	}
 	graficador = new messageDisplayer;
-	static_cast<messageDisplayer *>(graficador)->setMessage("Esperando para salir...");
+	static_cast<messageDisplayer *>(graficador)->setMessage("Waiting to quit...");
 }
 
 void bossFSM::closeGame(genericEvent * ev)
