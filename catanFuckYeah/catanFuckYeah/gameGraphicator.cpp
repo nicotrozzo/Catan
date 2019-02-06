@@ -11,7 +11,7 @@ gameGraphicator::gameGraphicator()
 	initOk = false;
 	if ((backgroundBitmap = al_load_bitmap("graficoCatan\\menues\\messageBackground.png")) != NULL)
 	{
-		if ((fontForMessages = al_load_ttf_font("graficoCatan\\font\\scribish.ttf", 31 * PROP_Y, 0)) != NULL)
+		if ((fontForMessages = al_load_ttf_font("graficoCatan\\font\\DalekPinpointBold.ttf", 31 * PROP_Y, 0)) != NULL)
 		{
 			initOk = true;
 		}
