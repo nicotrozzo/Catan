@@ -1,9 +1,12 @@
 #pragma once
 #include "genericFSM.h"
+#include "netwRematchController.h"
+#include "inputRematchController.h"
+#include "netwEmisor.h"
 
-enum rematchStates : stateTypes { WAIT_NAME_S, WAIT_NAME_REQUEST_S, WAIT_NAME_ACK_S, MAP_ACK_S, CIRC_TOK_ACK_S, WAIT_START_ACK_S };
+enum rematchStates : stateTypes {WAIT_INPUT, WAIT_NETW };
 
-enum rematchEvTypes : eventTypes { NEXT, INVALID_EVENT };
+enum rematchEvTypes : eventTypes { CHANGE,END };
 
 class rematchEv : public genericEvent
 {
@@ -22,17 +25,26 @@ private:
 
 #define TX(x) (static_cast<void (genericFSM::* )(genericEvent *)>(&rematchFSM::x)) //casteo a funcion, por visual
 
-	const fsmCell fsmTable[][] = {
-	//				CHANGE						 	
-	{ { WAIT_NAME_REQUEST_S,TX(saveName) },{ WAIT_NAME_S,TX(error) } },			//WAIT_NAME_S			
-	{ { WAIT_NAME_ACK_S,TX(sendName) },{ WAIT_NAME_REQUEST_S,TX(error) } },	//WAIT_NAME_REQUEST_S	
+	const fsmCell fsmTable[2][2] = {
+	//			CHANGE						 	END
+	{ { WAIT_NETW, TX(netwController) },{ WAIT_NETW,TX(waitAck) } },		//WAIT_INPUT		
+	{ { WAIT_INPUT,TX(inputController) },{ WAIT_NETW,TX(finish) } }		//WAIT_NETW
 	};
 
 	//The action routines for the FSM
+	void netwController(genericEvent * ev);
+	void inputController(genericEvent * ev);
+	void waitAck(genericEvent * ev);
+	void finish(genericEvent * ev);
 
-
+	netwRematchController * netwCont;
+	inputRematchController * inputCont;
+	netwEmisor * emisor;
+	bool iwon;
 public:
-	rematchFSM(, const unsigned int rows, const unsigned int columns, stateTypes initState);
-	~rematchFSM();
+	rematchFSM(bool iWon, netwRematchController * netwCont_, inputRematchController * inputCont_, netwEmisor * emisor_);
+	void sendToInputController(inputEv *input);
+	void sendToNetwController(networkingEv *netwPackage);
+	bool iWon();
 };
 

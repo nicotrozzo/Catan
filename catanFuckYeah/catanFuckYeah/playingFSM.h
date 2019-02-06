@@ -8,6 +8,7 @@
 #include "mapViewer.h"
 #include "player1Viewer.h"
 #include "player2Viewer.h"
+#include "netwEmisor.h"
 #include <vector>
 
 enum netwStates : stateTypes { MY_TURN, BUILDING, PREPARE_TRADE , MY_ROBBER, WAITING_DICES, OPP_TURN, OPP_ROBBER, WAITING_PLAYER  };

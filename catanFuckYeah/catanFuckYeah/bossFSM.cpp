@@ -6,6 +6,7 @@
 #include "waitingGame.h"
 #include "gameGraphicator.h"
 #include "messageDisplayer.h"
+#include "rematchGraphicator.h"
 
 /*Para crear controllers de playingFSM*/
 #include "inputActionButtonController.h"
@@ -38,6 +39,7 @@ bossFSM::bossFSM(quitButtonController * qControl, connectionEstablisher * establ
 		graficador = nullptr;
 		fsmEvent = new closeDisplayEv;
 	}
+	fsmRematch = nullptr;
 }
 
 /*Action routines*/
@@ -115,6 +117,7 @@ void bossFSM::sendQuitController(genericEvent * ev)
 
 void bossFSM::newHandshaking(genericEvent * ev)
 {
+
 	connector * connect = establisher->getConnector();
 	netwReceiver->setConnector(connect);
 	emisor = new netwEmisor(connect);
@@ -191,6 +194,7 @@ void bossFSM::newGame(genericEvent * ev)
 	bool iStart = temp->isPlayer1Playing();
 	vector<EDAInputController *> playingFSMInpControllers;
 	EDAInputController * controllerToAdd = nullptr;
+	innerFSMEvGen.clear();
 	for (int i = 0; i < 6; i++)
 	{
 		switch (i)
@@ -214,7 +218,7 @@ void bossFSM::newGame(genericEvent * ev)
 			controllerToAdd = new inputTickAndXController(temp,emisor, answerTimer);
 			break;
 		}
-		playingFSMEvGen.attach(controllerToAdd);
+		innerFSMEvGen.attach(controllerToAdd);
 		playingFSMInpControllers.push_back(controllerToAdd);
 	}
 	EDANetworkingController * netwControllerToAdd = nullptr;
@@ -251,11 +255,91 @@ void bossFSM::newGame(genericEvent * ev)
 			netwControllerToAdd = new netwRobberMoveController(temp, emisor);
 			break;
 		}
-		playingFSMEvGen.attach(netwControllerToAdd);
+		innerFSMEvGen.attach(netwControllerToAdd);
 		playingFSMNetwControllers.push_back(netwControllerToAdd);
 	}
 	gameFSM = new playingFSM(iStart, temp, playingFSMInpControllers, playingFSMNetwControllers, emisor);
 	evGen.attach(gameFSM);
+}
+
+void bossFSM::rematch(genericEvent * ev)
+{
+	evGen.detach(gameFSM);
+	delete gameFSM;
+	gameFSM = nullptr;
+	delete graficador;
+	graficador = new rematchGraphicator;
+	innerFSMEvGen.clear();
+	netwRematchController * netwControllerToAdd = new netwRematchController(emisor);
+	inputRematchController * inpControllerToAdd = new inputRematchController(emisor);
+	innerFSMEvGen.attach(netwControllerToAdd);
+	innerFSMEvGen.attach(inpControllerToAdd);
+	fsmRematch = new rematchFSM(static_cast<doneEv *>(ev)->iwon(),netwControllerToAdd , inpControllerToAdd, emisor);
+	evGen.attach(fsmRematch);
+}
+
+void bossFSM::playAgain(genericEvent * ev)
+{
+	delete graficador;
+	graficador = new waitingGame;
+	if (fsmRematch->iWon())
+	{
+		handFSM = new handShakingServerFSM(name, emisor, answerTimer);
+	}
+	else
+	{
+		handFSM = new handShakingClientFSM(name, emisor, answerTimer);
+	}
+	evGen.detach(fsmRematch);
+	delete fsmRematch;
+	fsmRematch = nullptr;
+	evGen.attach(handFSM);
+	static_cast<waitingGame *>(graficador)->setMessage("Preparing game...");
+}
+
+void bossFSM::dontPlayAgain(genericEvent * ev)
+{
+	delete graficador;
+	graficador = new startMenu;
+	quitController->toggleState();
+	evGen.detach(fsmRematch);
+	delete fsmRematch;
+	fsmRematch = nullptr;
+	answerTimer->stopTimer();
+	establisher->stopConnection();
+	netwReceiver->setConnector(nullptr);
+	emisor->setConnector(nullptr);
+}
+
+void bossFSM::sendRematchInput(genericEvent * ev)
+{
+	fsmRematch->sendToInputController(static_cast<inputEv *>(ev));
+	if (static_cast<inputEv *>(ev)->getInputEvType() == INP_MOUSE_EVENT)
+	{
+		quitController->parseMouseEvent(static_cast<mouseEvent *>(ev));
+	}
+	else if (static_cast<inputEv *>(ev)->getInputEvType() == INP_KEYBOARD_EVENT)
+	{
+		quitController->parseKeyboardEvent(static_cast<keyboardEvent *>(ev));
+	}
+	rematchEv * evento = static_cast<rematchEv *>(innerFSMEvGen.getNextEvent());
+	if (evento != nullptr)
+	{
+		fsmRematch->cycle(evento);
+		delete evento;
+	}
+}
+
+void bossFSM::sendRematchNetw(genericEvent * ev)
+{
+	fsmRematch->sendToNetwController(static_cast<networkingEv *>(ev));
+	answerTimer->stopTimer();
+	rematchEv * evento = static_cast<rematchEv *>(innerFSMEvGen.getNextEvent());
+	if (evento != nullptr)
+	{
+		fsmRematch->cycle(evento);
+		delete evento;
+	}
 }
 
 void bossFSM::closeConnection(genericEvent * ev)
@@ -351,7 +435,7 @@ void bossFSM::sendTimerEv(genericEvent * ev)
 
 void bossFSM::sendTimerEvent(genericEvent * ev)
 {
-	playingFSMEvent * evento = static_cast<playingFSMEvent *>(playingFSMEvGen.getNextEvent());
+	playingFSMEvent * evento = static_cast<playingFSMEvent *>(innerFSMEvGen.getNextEvent());
 	if (evento != nullptr)
 	{
 		gameFSM->cycle(evento);
@@ -378,7 +462,7 @@ void bossFSM::sendInputEv(genericEvent * ev)
 	{
 		quitController->parseKeyboardEvent(static_cast<keyboardEvent *>(ev));
 	}
-	playingFSMEvent * evento = static_cast<playingFSMEvent *>(playingFSMEvGen.getNextEvent());
+	playingFSMEvent * evento = static_cast<playingFSMEvent *>(innerFSMEvGen.getNextEvent());
 	if (evento != nullptr)
 	{
 		gameFSM->cycle(evento);
@@ -432,13 +516,17 @@ void bossFSM::destroyAll(genericEvent * ev)
 	delete graficador;
 	graficador = new startMenu;
 	quitController->toggleState();
+	answerTimer->stopTimer();
+	establisher->stopConnection();
+	netwReceiver->setConnector(nullptr);
+	emisor->setConnector(nullptr);
 }
 
 void bossFSM::sendNetwEv(genericEvent * ev)
 {
 	gameFSM->sendToNetwControllers(static_cast<networkingEv *>(ev));
 	answerTimer->stopTimer();
-	playingFSMEvent * evento = static_cast<playingFSMEvent *>(playingFSMEvGen.getNextEvent());
+	playingFSMEvent * evento = static_cast<playingFSMEvent *>(innerFSMEvGen.getNextEvent());
 	if (evento != nullptr)
 	{
 		gameFSM->cycle(evento);
@@ -459,12 +547,24 @@ void bossFSM::parseNetwEv(genericEvent * ev)
 	}*/
 }
 
-void bossFSM::sendGameOver(genericEvent * ev)
+void bossFSM::sendQuit(genericEvent * ev)
 {
-	emisor->sendPackage(GAME_OVER);
+	evGen.detach(fsmRematch);
+	delete fsmRematch;
+	fsmRematch = nullptr;
+	answerTimer->startTimer();
+	emisor->sendPackage(QUIT);
 }
 
 void bossFSM::closeRematch(genericEvent * ev)
 {
+	delete graficador;
+	evGen.detach(fsmRematch);
+	delete fsmRematch;
+	fsmRematch = nullptr;
+	answerTimer->stopTimer();
+	establisher->stopConnection();
+	netwReceiver->setConnector(nullptr);
+	emisor->setConnector(nullptr);	
 	fsmEvent = new outEv;
 }

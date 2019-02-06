@@ -147,7 +147,7 @@ void playingFSM::passControllers(genericEvent * ev)
 	}
 	else
 	{
-		fsmEvent = new doneEv;
+		fsmEvent = new doneEv();
 	}
 }
 

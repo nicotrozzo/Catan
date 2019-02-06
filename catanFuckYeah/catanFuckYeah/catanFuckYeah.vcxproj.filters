@@ -197,6 +197,15 @@
     <ClCompile Include="rematchFSM.cpp">
       <Filter>Archivos de origen\FSM</Filter>
     </ClCompile>
+    <ClCompile Include="inputRematchController.cpp">
+      <Filter>Archivos de origen\MVC: Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="netwRematchController.cpp">
+      <Filter>Archivos de origen\MVC: Controllers</Filter>
+    </ClCompile>
+    <ClCompile Include="rematchGraphicator.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="catanGameModel.h">
@@ -360,6 +369,15 @@
     </ClInclude>
     <ClInclude Include="rematchFSM.h">
       <Filter>Archivos de encabezado\FSM</Filter>
+    </ClInclude>
+    <ClInclude Include="inputRematchController.h">
+      <Filter>Archivos de encabezado\MVC: Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="netwRematchController.h">
+      <Filter>Archivos de encabezado\MVC: Controllers</Filter>
+    </ClInclude>
+    <ClInclude Include="rematchGraphicator.h">
+      <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

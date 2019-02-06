@@ -1,8 +1,8 @@
 #pragma once
 #include "inputEventGenerator.h"
-#include "netwEmisor.h"
+//#include "netwEmisor.h"
 
-enum inputControllerTypes { CTRL_ACTION_BUTTON, CTRL_EDGE_AND_VERTEX, CTRL_CARDS, CTRL_HEXAGON, CTRL_TICKANDX , CTRL_STATE};
+enum inputControllerTypes { CTRL_ACTION_BUTTON, CTRL_EDGE_AND_VERTEX, CTRL_CARDS, CTRL_HEXAGON, CTRL_TICKANDX , CTRL_STATE, CTRL_REMATCH};
 
 class EDAInputController : public eventGenerator
 {
@@ -24,5 +24,5 @@ public:
 
 protected:
 	genericEvent * controllerEvent;
-	netwEmisor * netEmisorEv;		//ver que apunte al mismo que tiene hecha la conexion
+	//netwEmisor * netEmisorEv;		//ver que apunte al mismo que tiene hecha la conexion
 };

@@ -132,6 +132,7 @@
     <ClCompile Include="inputCardsController.cpp" />
     <ClCompile Include="inputEdgeAndVertexController.cpp" />
     <ClCompile Include="inputHexagonController.cpp" />
+    <ClCompile Include="inputRematchController.cpp" />
     <ClCompile Include="inputStateController.cpp" />
     <ClCompile Include="inputTickAndXController.cpp" />
     <ClCompile Include="mapViewer.cpp" />
@@ -141,6 +142,7 @@
     <ClCompile Include="netwConstructionController.cpp" />
     <ClCompile Include="netwDicesController.cpp" />
     <ClCompile Include="netwOfferTradeController.cpp" />
+    <ClCompile Include="netwRematchController.cpp" />
     <ClCompile Include="netwRobberCardsController.cpp" />
     <ClCompile Include="netwRobberMoveController.cpp" />
     <ClCompile Include="netwYNController.cpp" />
@@ -150,6 +152,7 @@
     <ClCompile Include="quitButtonController.cpp" />
     <ClCompile Include="quitPackageReceiver.cpp" />
     <ClCompile Include="rematchFSM.cpp" />
+    <ClCompile Include="rematchGraphicator.cpp" />
     <ClCompile Include="startMenu.cpp" />
     <ClCompile Include="bossFSM.cpp" />
     <ClCompile Include="bossFSMEvents.cpp" />
@@ -187,6 +190,7 @@
     <ClInclude Include="EDANetworkingController.h" />
     <ClInclude Include="inputEdgeAndVertexController.h" />
     <ClInclude Include="inputHexagonController.h" />
+    <ClInclude Include="inputRematchController.h" />
     <ClInclude Include="inputStateController.h" />
     <ClInclude Include="inputTickAndXController.h" />
     <ClInclude Include="mapViewer.h" />
@@ -196,6 +200,7 @@
     <ClInclude Include="netwConstructionController.h" />
     <ClInclude Include="netwDicesController.h" />
     <ClInclude Include="netwOfferTradeController.h" />
+    <ClInclude Include="netwRematchController.h" />
     <ClInclude Include="netwRobberCardsController.h" />
     <ClInclude Include="netwRobberMoveController.h" />
     <ClInclude Include="netwYNController.h" />
@@ -205,6 +210,7 @@
     <ClInclude Include="quitButtonController.h" />
     <ClInclude Include="quitPackageReceiver.h" />
     <ClInclude Include="rematchFSM.h" />
+    <ClInclude Include="rematchGraphicator.h" />
     <ClInclude Include="startMenu.h" />
     <ClInclude Include="bossFSM.h" />
     <ClInclude Include="bossFSMEvents.h" />

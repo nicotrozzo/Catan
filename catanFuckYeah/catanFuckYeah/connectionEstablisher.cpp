@@ -121,6 +121,7 @@ void connectionEstablisher::changeConnector()
 void connectionEstablisher::stopConnection()
 {
 	delete currentConnector;	//si deciden parar la conexion, hay que destruir al connector que estaba escuchando
+	currentConnector = nullptr;
 	connecting = false;
 	topEvent = nullptr;
 	al_stop_timer(timer);

@@ -46,3 +46,8 @@ detach(eventGenerator * evg)
 {
 	generators.remove(evg);
 }
+
+void mainEventGenerator::clear()
+{
+	generators.clear();
+}

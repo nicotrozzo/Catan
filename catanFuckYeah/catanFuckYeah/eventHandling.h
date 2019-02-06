@@ -27,7 +27,7 @@ class mainEventGenerator
 	genericEvent * getNextEvent(void);
 	void attach(eventGenerator * evg);
 	void detach(eventGenerator * evg);
-	
+	void clear();
 	private:
 	std::queue<genericEvent *>  eventQueue; //It can also be a priority_queue if events have got some sort of priority
 	std::list<eventGenerator *> generators; //It will contain all eventGenerators attached to the mainEventGenerator
