@@ -125,6 +125,7 @@
     <ClCompile Include="catanGameSetter.cpp" />
     <ClCompile Include="EDANetworkingController.cpp" />
     <ClCompile Include="gameCoords.cpp" />
+    <ClCompile Include="gameGraphicator.cpp" />
     <ClCompile Include="gameModelViewer.cpp" />
     <ClCompile Include="handShakingClientFSM.cpp" />
     <ClCompile Include="handShakingServerFSM.cpp" />
