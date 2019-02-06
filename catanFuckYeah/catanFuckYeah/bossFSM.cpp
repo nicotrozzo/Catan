@@ -262,7 +262,7 @@ void bossFSM::newGame(genericEvent * ev)
 		innerFSMEvGen.attach(netwControllerToAdd);
 		playingFSMNetwControllers.push_back(netwControllerToAdd);
 	}
-	gameFSM = new playingFSM(iStart, temp, playingFSMInpControllers, playingFSMNetwControllers, emisor, static_cast<messageDisplayer *>(graficador));
+	gameFSM = new playingFSM(iStart, temp, playingFSMInpControllers, playingFSMNetwControllers, emisor, static_cast<gameGraphicator *>(graficador));
 	evGen.attach(gameFSM);
 }
 
@@ -272,13 +272,13 @@ void bossFSM::rematch(genericEvent * ev)
 	delete gameFSM;
 	gameFSM = nullptr;
 	delete graficador;
-	graficador = new rematchGraphicator;
+	graficador = new rematchGraphicator(static_cast<doneEv *>(ev)->iwon());
 	innerFSMEvGen.clear();
 	netwRematchController * netwControllerToAdd = new netwRematchController(emisor);
 	inputRematchController * inpControllerToAdd = new inputRematchController(emisor);
 	innerFSMEvGen.attach(netwControllerToAdd);
 	innerFSMEvGen.attach(inpControllerToAdd);
-	fsmRematch = new rematchFSM(static_cast<doneEv *>(ev)->iwon(),netwControllerToAdd , inpControllerToAdd, emisor);
+	fsmRematch = new rematchFSM(static_cast<doneEv *>(ev)->iwon(),netwControllerToAdd , inpControllerToAdd, emisor, static_cast<rematchGraphicator *>(graficador));
 	evGen.attach(fsmRematch);
 }
 

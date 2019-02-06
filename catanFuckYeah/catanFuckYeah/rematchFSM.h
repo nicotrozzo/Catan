@@ -3,6 +3,7 @@
 #include "netwRematchController.h"
 #include "inputRematchController.h"
 #include "netwEmisor.h"
+#include "rematchGraphicator.h"
 
 enum rematchStates : stateTypes {WAIT_INPUT, WAIT_NETW };
 
@@ -40,9 +41,10 @@ private:
 	netwRematchController * netwCont;
 	inputRematchController * inputCont;
 	netwEmisor * emisor;
+	rematchGraphicator * graficador;
 	bool iwon;
 public:
-	rematchFSM(bool iWon, netwRematchController * netwCont_, inputRematchController * inputCont_, netwEmisor * emisor_);
+	rematchFSM(bool iWon, netwRematchController * netwCont_, inputRematchController * inputCont_, netwEmisor * emisor_, rematchGraphicator * graficador_);
 	void sendToInputController(inputEv *input);
 	void sendToNetwController(networkingEv *netwPackage);
 	bool iWon();

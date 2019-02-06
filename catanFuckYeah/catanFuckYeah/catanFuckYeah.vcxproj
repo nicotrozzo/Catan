@@ -151,7 +151,6 @@
     <ClCompile Include="player2Viewer.cpp" />
     <ClCompile Include="quitButton.cpp" />
     <ClCompile Include="quitButtonController.cpp" />
-    <ClCompile Include="quitPackageReceiver.cpp" />
     <ClCompile Include="rematchFSM.cpp" />
     <ClCompile Include="rematchGraphicator.cpp" />
     <ClCompile Include="startMenu.cpp" />
@@ -209,7 +208,6 @@
     <ClInclude Include="player2Viewer.h" />
     <ClInclude Include="quitButton.h" />
     <ClInclude Include="quitButtonController.h" />
-    <ClInclude Include="quitPackageReceiver.h" />
     <ClInclude Include="rematchFSM.h" />
     <ClInclude Include="rematchGraphicator.h" />
     <ClInclude Include="startMenu.h" />

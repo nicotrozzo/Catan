@@ -140,9 +140,6 @@
     <ClCompile Include="EDANetworkingController.cpp">
       <Filter>Archivos de origen\MVC: Controllers</Filter>
     </ClCompile>
-    <ClCompile Include="quitPackageReceiver.cpp">
-      <Filter>Archivos de origen</Filter>
-    </ClCompile>
     <ClCompile Include="netwDicesController.cpp">
       <Filter>Archivos de origen\MVC: Controllers</Filter>
     </ClCompile>
@@ -306,9 +303,6 @@
     </ClInclude>
     <ClInclude Include="quitButton.h">
       <Filter>Archivos de encabezado\MVC: Models</Filter>
-    </ClInclude>
-    <ClInclude Include="quitPackageReceiver.h">
-      <Filter>Archivos de encabezado</Filter>
     </ClInclude>
     <ClInclude Include="eventHandling.h">
       <Filter>Archivos de encabezado</Filter>
