@@ -161,6 +161,11 @@ void bossFSM::newStMn1(genericEvent * ev)
 	}
 	establisher->stopConnection();
 	answerTimer->stopTimer();
+	if (emisor != nullptr)
+	{
+		delete emisor;
+		emisor = nullptr;
+	}
 	if (ev->getType() == OUT_EV)
 	{
 		cout << "Error: " << static_cast<outEv *>(ev)->getDetail() << endl;
@@ -170,7 +175,6 @@ void bossFSM::newStMn2(genericEvent * ev)
 {
 	newStMn1(ev);
 	netwReceiver->setConnector(nullptr);
-	emisor->setConnector(nullptr);
 }
 
 void bossFSM::closeWaiting(genericEvent * ev)
@@ -519,7 +523,6 @@ void bossFSM::destroyAll(genericEvent * ev)
 	answerTimer->stopTimer();
 	establisher->stopConnection();
 	netwReceiver->setConnector(nullptr);
-	emisor->setConnector(nullptr);
 }
 
 void bossFSM::sendNetwEv(genericEvent * ev)
@@ -565,6 +568,7 @@ void bossFSM::closeRematch(genericEvent * ev)
 	answerTimer->stopTimer();
 	establisher->stopConnection();
 	netwReceiver->setConnector(nullptr);
-	emisor->setConnector(nullptr);	
+	delete emisor;
+	emisor = nullptr;
 	fsmEvent = new outEv;
 }
