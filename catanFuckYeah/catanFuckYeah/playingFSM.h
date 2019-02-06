@@ -20,11 +20,11 @@ enum playingFSMEvTypes : eventTypes {CHANGE_STATE, CARDS_EV, TICK_EV,ROBBER_EV, 
 class playingFSMEvent : public genericEvent
 {
 public:
-	playingFSMEvent(playingFSMEvTypes type_,string message_ = "") : error(false), message(message_) { type = type_; }
-	playingFSMEvent(playingFSMEvTypes type_, bool error_, string message_ = "") : error(error_), message(message_) { type = type_; }
-	virtual eventTypes getType() { return type; }
-	string getMessage() { return message; }
-	bool getError() { return error; }
+	playingFSMEvent(playingFSMEvTypes type_, string message_ = ""); 
+	playingFSMEvent(playingFSMEvTypes type_, bool error_, string message_ = ""); 
+	virtual eventTypes getType(); 
+	string getMessage(); 
+	bool getError(); 
 private:
 	playingFSMEvTypes type;
 	string message;

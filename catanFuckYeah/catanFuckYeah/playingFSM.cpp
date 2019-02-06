@@ -17,6 +17,7 @@
 
 using namespace std;
 
+
 playingFSM::playingFSM(bool iStart, catanGameModel * game, std::vector<EDAInputController *> inputControllers, std::vector<EDANetworkingController *> networkingControllers, netwEmisor * em, messageDisplayer * messageDisp_) : genericFSM(&fsmTable[0][0], 8, 5, iStart ? MY_TURN : OPP_TURN), allInputControllers(inputControllers) , allNetworkingControllers(networkingControllers)
 {
 	gameModel = game;
@@ -483,4 +484,34 @@ void playingFSM::myRobberMove()
 	currentNetworkingControllers.push_back(controllerToAdd);
 	currentInputControllers.push_back(getInputController(CTRL_HEXAGON));
 	messageDisp->setMessage("Move the robber");
+}
+
+
+playingFSMEvent::playingFSMEvent(playingFSMEvTypes type_, string message_)
+{ 
+	type = type_; 
+	error = false;
+	message = message_;
+}
+
+playingFSMEvent::playingFSMEvent(playingFSMEvTypes type_, bool error_, string message_)
+{
+	type = type_; 
+	error = error_;
+	message = message_;
+}
+
+eventTypes playingFSMEvent::getType()
+{
+	return type;
+}
+
+string playingFSMEvent::getMessage()
+{
+	return message;
+}
+
+bool playingFSMEvent::getError()
+{
+	return error;
 }
