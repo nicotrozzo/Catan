@@ -14,15 +14,15 @@ bool inputRematchController::parseMouseEvent(mouseEvent * ev)
 	if (expectingEvent)
 	{
 		point clickCoords = ev->getClickCoords();
-		if( (clickCoords.y >= REMATCH_Y_MIN) && (clickCoords.y <= REMATCH_Y_MAX) )
+		if( (clickCoords.y >= REMATCH_Y) && (clickCoords.y <= REMATCH_Y + OFFSET_REMATCH_Y) )
 		{
-			if( (clickCoords.x >= TICK_REMATCH_X_MIN) && (clickCoords.x <= TICK_REMATCH_X_MAX) )
+			if( (clickCoords.x >= TICK_REMATCH_X) && (clickCoords.x <= TICK_REMATCH_X + OFFSET_TICK_REMATCH_X) )
 			{
 				controllerEvent = new rematchEv(CHANGE);
 				emisor->sendPackage(PLAY_AGAIN);
 				ret = true;
 			}
-			else if ((clickCoords.x >= CROSS_REMATCH_X_MIN) && (clickCoords.x <= CROSS_REMATCH_X_MAX))
+			else if ((clickCoords.x >= CROSS_REMATCH_X) && (clickCoords.x <= CROSS_REMATCH_X + OFFSET_CROSS_REMATCH_X))
 			{
 				controllerEvent = new rematchEv(END);
 				emisor->sendPackage(GAME_OVER);

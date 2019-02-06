@@ -16,4 +16,4 @@ private:
 	bool expectingEvent;
 	bool waitingPlayAgain;
 	netwEmisor * emisor;
-}
+};

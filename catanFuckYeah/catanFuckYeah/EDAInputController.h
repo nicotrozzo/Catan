@@ -1,6 +1,5 @@
 #pragma once
 #include "inputEventGenerator.h"
-//#include "netwEmisor.h"
 
 enum inputControllerTypes { CTRL_ACTION_BUTTON, CTRL_EDGE_AND_VERTEX, CTRL_CARDS, CTRL_HEXAGON, CTRL_TICKANDX , CTRL_STATE, CTRL_REMATCH};
 
@@ -24,5 +23,4 @@ public:
 
 protected:
 	genericEvent * controllerEvent;
-	//netwEmisor * netEmisorEv;		//ver que apunte al mismo que tiene hecha la conexion
 };

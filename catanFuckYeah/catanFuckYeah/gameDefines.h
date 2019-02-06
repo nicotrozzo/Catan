@@ -34,6 +34,11 @@
 #define OFFSET_EDGE_Y (30*PROP_Y)
 #define OFFSET_PLAY_X (371*PROP_X)	
 #define OFFSET_PLAY_Y (136*PROP_Y)
-
+#define REMATCH_Y ( 1*PROP_Y)
+#define OFFSET_REMATCH_Y ( 1*PROP_Y)
+#define TICK_REMATCH_X (1 *PROP_X)
+#define OFFSET_TICK_REMATCH_X ( 1*PROP_X)
+#define CROSS_REMATCH_X ( 1*PROP_X)
+#define OFFSET_CROSS_REMATCH_X ( 1*PROP_X)
 typedef enum resourceType { BRICK = 'L', WOOD, DESSERT, WOOL, ORE, WHEAT = 'T'};
 
