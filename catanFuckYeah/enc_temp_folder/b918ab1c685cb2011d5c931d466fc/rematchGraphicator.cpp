@@ -17,9 +17,9 @@ rematchGraphicator::rematchGraphicator(bool p1Won)
 		{
 			if ((rematchButton = al_load_bitmap("graficoCatan\\buttons\\rematchButton.png")) != NULL)
 			{
-				if ((playAgainButton = al_load_bitmap("graficoCatan\\buttons\\playAgainButton.png")) != NULL)
+				if ((playAgainButton = al_load_bitmap("graficoCatan\\menues\\playAgainButton.png")) != NULL)
 				{
-					if ((scapeButton = al_load_bitmap("graficoCatan\\buttons\\finalExitButton.png")) != NULL)
+					if ((scapeButton = al_load_bitmap("graficoCatan\\menues\\finalExitButton.png")) != NULL)
 					{
 						if ((refreshBitmap = al_load_bitmap("graficoCatan\\refresh.png")) != NULL)
 						{
