@@ -40,7 +40,6 @@ int main(int argc,char * argv[])
 			eventGen.attach(&timeout);
 			eventGen.attach(&quitButton);
 			eventGen.attach(&netwReceiver);
-			eventGen.attach(&establisher);
 			bossFSM fsm(&quitButton, &establisher, &eventGen, &netwReceiver, name, &timeout);
 			do
 			{

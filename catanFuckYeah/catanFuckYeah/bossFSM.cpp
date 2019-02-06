@@ -57,6 +57,7 @@ void bossFSM::sendToStMnControllers(genericEvent * ev)
 
 void bossFSM::newEstablisher(genericEvent * ev)
 {	
+	evGen.attach(establisher);
 	establisher->startConnecting();
 	delete graficador;
 	graficador = new waitingGame;
@@ -117,7 +118,6 @@ void bossFSM::sendQuitController(genericEvent * ev)
 
 void bossFSM::newHandshaking(genericEvent * ev)
 {
-
 	connector * connect = establisher->getConnector();
 	netwReceiver->setConnector(connect);
 	emisor = new netwEmisor(connect);
