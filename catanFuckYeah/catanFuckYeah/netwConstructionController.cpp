@@ -53,6 +53,11 @@ bool netwConstructionController::parseNetworkingEvent(networkingEv * ev)
 				{
 					controllerEvent = new playingFSMEvent(TICK_EV);
 				}
+				else if (gameModel->gameOver())
+				{
+					controllerEvent = new playingFSMEvent(CHANGE_STATE);
+					emisor->sendPackage(YOU_WON);
+				}
 			}
 		}
 	}
