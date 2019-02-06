@@ -51,7 +51,9 @@ void messageDisplayer::showMessage()
 	}
 	else if(message.length() > 0)	//si se hace un setMessage("") no muestra nada
 	{
-		//texto normal con fondo abajo de la pantalla
+		//dibujar fondo
+		//dibujar texto
+		//mensaje mas largo: "Waiting opponent to move the robber"
 	}
 }
 
