@@ -76,7 +76,14 @@ bool parseCmdLine(int argc, char * argv[], string& ip, string& name)
 	{
 		if (argc >= 3)
 		{
-			name = argv[2];
+			string tempName = argv[2];
+			for (int i = 0; i < tempName.length(); i++)
+			{
+				if (isalpha(tempName[i]))
+				{
+					name += tempName[i];
+				}
+			}
 		}
 		else
 		{
