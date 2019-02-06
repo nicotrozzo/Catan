@@ -49,6 +49,7 @@ void rematchGraphicator::refresh()
 		{
 			waitingOpponent();
 		}
+		al_flip_display();
 	}
 	else
 	{
