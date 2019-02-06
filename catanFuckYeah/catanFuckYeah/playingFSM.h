@@ -1,5 +1,6 @@
 #pragma once
 
+#include <vector>
 #include "genericFSM.h"
 #include "networkingEvents.h"
 #include "EDAInputController.h"
@@ -9,7 +10,8 @@
 #include "player1Viewer.h"
 #include "player2Viewer.h"
 #include "netwEmisor.h"
-#include <vector>
+#include "messageDisplayer.h"
+
 
 enum netwStates : stateTypes { MY_TURN, BUILDING, PREPARE_TRADE , MY_ROBBER, WAITING_DICES, OPP_TURN, OPP_ROBBER, WAITING_PLAYER  };
 
@@ -110,8 +112,9 @@ private:
 	EDAInputController * getInputController(inputControllerTypes type);		//busca el controller de input solicitado en el vector de controllers de input
 	EDANetworkingController * getNetworkingController(netwControllerTypes type);	//busca el controller de networking solicitado en el vector de controller de networking
 	netwEmisor * emisor;
+	messageDisplayer * messageDisp;
 public:
-	playingFSM(bool iStart, catanGameModel * game, std::vector<EDAInputController *> inputControllers, std::vector<EDANetworkingController *> networkingControllers, netwEmisor * emisor );	//recibe como parametro true si le toca empezar al jugador propio	
+	playingFSM(bool iStart, catanGameModel * game, std::vector<EDAInputController *> inputControllers, std::vector<EDANetworkingController *> networkingControllers, netwEmisor * emisor, messageDisplayer * messageDis);	//recibe como parametro true si le toca empezar al jugador propio	
 	void sendToInputControllers(inputEv *input);
 	void sendToNetwControllers(networkingEv *netwPackage);
 	~playingFSM();

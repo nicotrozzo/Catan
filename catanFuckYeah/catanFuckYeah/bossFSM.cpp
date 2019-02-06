@@ -262,7 +262,7 @@ void bossFSM::newGame(genericEvent * ev)
 		innerFSMEvGen.attach(netwControllerToAdd);
 		playingFSMNetwControllers.push_back(netwControllerToAdd);
 	}
-	gameFSM = new playingFSM(iStart, temp, playingFSMInpControllers, playingFSMNetwControllers, emisor);
+	gameFSM = new playingFSM(iStart, temp, playingFSMInpControllers, playingFSMNetwControllers, emisor, static_cast<messageDisplayer *>(graficador));
 	evGen.attach(gameFSM);
 }
 
