@@ -13,10 +13,10 @@ class gameGraphicator : public graphicator
 public:
 	gameGraphicator();
 	void refresh();
-	void setMessage(string message_);
+	void setMessage(std::string message_);
 	~gameGraphicator();
 private:
-	string message;
+	std::string message;
 	bool initOk;
 	ALLEGRO_BITMAP * backgroundBitmap;
 	ALLEGRO_FONT * fontForMessages;
