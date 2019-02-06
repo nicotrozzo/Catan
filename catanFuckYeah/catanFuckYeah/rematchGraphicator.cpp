@@ -109,7 +109,7 @@ void rematchGraphicator::waitingOpponent()
 		}
 	}
 	al_draw_text(fontForWaiting, al_color_name("red"), 20 * PROP_X, 888 * PROP_Y, 0, "Waiting opponent...");
-	al_draw_rotated_bitmap(refreshBitmap, al_get_bitmap_width(refreshBitmap) / 2.0, al_get_bitmap_height(refreshBitmap) / 2.0, 1575 * PROP_X, 935 * PROP_Y, angle, 0);
+	al_draw_scaled_rotated_bitmap(refreshBitmap, al_get_bitmap_width(refreshBitmap) / 2.0, al_get_bitmap_height(refreshBitmap) / 2.0, 1575 * PROP_X, 935 * PROP_Y,PROP_X,PROP_Y, angle, 0);
 }
 
 rematchGraphicator::~rematchGraphicator()
