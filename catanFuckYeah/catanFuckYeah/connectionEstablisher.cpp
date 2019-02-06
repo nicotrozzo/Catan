@@ -129,14 +129,7 @@ void connectionEstablisher::stopConnection()
 
 connector *connectionEstablisher::getConnector()
 {
-	if (currentConnector->isConnected())
-	{
-		return currentConnector;
-	}
-	else
-	{
-		return nullptr;
-	}
+	return currentConnector;
 }
 connectionEstablisher::~connectionEstablisher()
 {
