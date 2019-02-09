@@ -18,7 +18,6 @@ public:
 private:
 	std::string message;
 	bool initOk;
-	void writeMessage();
 	ALLEGRO_BITMAP * backgroundBitmap;
 	ALLEGRO_FONT * fontForMessages;
 };

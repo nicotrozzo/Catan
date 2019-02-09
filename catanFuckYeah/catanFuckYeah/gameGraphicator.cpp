@@ -25,7 +25,7 @@ void gameGraphicator::refresh()
 		if (message.length() > 0)
 		{
 			al_draw_scaled_rotated_bitmap(backgroundBitmap, 0, 0, 456 * PROP_X, 0, PROP_X, PROP_Y, 0, 0);
-			writeMessage();
+			al_draw_text(fontForMessages, al_color_name("black"), 476 * PROP_X, 5 * PROP_Y, 0, message.c_str());
 		}
 		al_flip_display();
 	}
@@ -35,24 +35,6 @@ void gameGraphicator::refresh()
 	}
 }
 
-void gameGraphicator::writeMessage()
-{
-	if (message.length() < 15)
-	{
-		//message.insert(0, "\t\t\t");
-		al_draw_text(fontForMessages, al_color_name("black"), 476 * PROP_X, 5 * PROP_Y, 0, message.c_str());
-	}
-	else if(message.length() < 23)
-	{
-		//message.insert(0, "\t\t");
-		al_draw_text(fontForMessages, al_color_name("black"), 476 * PROP_X, 5 * PROP_Y, 0, message.c_str());
-	}
-	else
-	{
-		//message.insert(0, "\t");
-		al_draw_text(fontForMessages, al_color_name("black"), 476 * PROP_X, 5 * PROP_Y, 0, message.c_str());
-	}
-}
 
 void gameGraphicator::setMessage(string message_)
 {
