@@ -37,12 +37,12 @@ void gameGraphicator::refresh()
 
 void gameGraphicator::writeMessage()
 {
-	if (message.size() < 15)
+	if (message.length() < 15)
 	{
 		message.insert(0, "\t\t\t");
 		al_draw_text(fontForMessages, al_color_name("black"), 476 * PROP_X, 5 * PROP_Y, 0, message.c_str());
 	}
-	else if(message.size() < 23)
+	else if(message.length() < 23)
 	{
 		message.insert(0, "\t\t");
 		al_draw_text(fontForMessages, al_color_name("black"), 476 * PROP_X, 5 * PROP_Y, 0, message.c_str());
