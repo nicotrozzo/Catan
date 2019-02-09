@@ -11,7 +11,7 @@ gameModelViewer::gameModelViewer(catanGameModel *myGame)
 		{
 			if ((robberDiscardMenuBitmap = al_load_bitmap("graficoCatan\\menues\\menuDeLadron.png")) != NULL)
 			{
-				if ((fontForAmountOfCards = al_load_ttf_font("graficoCatan\\font\\scribish.ttf", 37 * PROP_Y, 0)) != NULL)
+				if ((fontForAmountOfCards = al_load_ttf_font("graficoCatan\\font\\PrinceValiant.ttf", 37 * PROP_Y, 0)) != NULL)
 				{
 					if ((fontForBankCosts = al_load_ttf_font("graficoCatan\\font\\scribish.ttf", 42 * PROP_Y, 0)) != NULL)
 					{
