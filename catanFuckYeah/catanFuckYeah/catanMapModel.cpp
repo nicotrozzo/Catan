@@ -1304,7 +1304,7 @@ bool catanMapModel::vertexAdjacentToRoad(string vertex, string road)
 	bool ret = false;
 	if (vertex.length() == 3)
 	{
-		if (!((vertex.find_first_of("012345") == string::npos) && (road.length() != 2)))
+		if (!((vertex.find_first_of("012345") == string::npos) && (road.length() != 2)))	//si tiene un numero el vertice o 2 letras el camino
 		{
 			matches = 0;
 			for (unsigned int i = 0; i < vertex.length(); i++)
@@ -1328,6 +1328,10 @@ bool catanMapModel::vertexAdjacentToRoad(string vertex, string road)
 				{
 					ret = true;
 				}
+			}
+			if ((vertex == "1CG") && (road == "1GL"))
+			{
+				ret = false;
 			}
 		}
 	}
