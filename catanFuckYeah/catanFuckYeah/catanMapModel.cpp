@@ -1228,6 +1228,20 @@ bool catanMapModel::roadPresent(road* actRoad, list<road*> adjacents)
 	return ret;
 }
 
+bool catanMapModel::onlyWayToFixTheBug(string vertex, string road)
+{
+	bool ret = false;
+	if( ((vertex == "1CG") && (road == "1GL")) || false )
+	{
+		ret = true;
+	}
+	else if (false)
+	{
+		ret = true;
+	}
+	return ret;
+}
+
 /*Devuelve nullptr si no tiene vecinos no visitados, sino devuelve un puntero a algun vecino visitado*/
 road * catanMapModel::hasUnvisitedNeighbours(road * actualRoad)
 {
@@ -1329,7 +1343,7 @@ bool catanMapModel::vertexAdjacentToRoad(string vertex, string road)
 					ret = true;
 				}
 			}
-			if ((vertex == "1CG") && (road == "1GL"))
+			if (onlyWayToFixTheBug(vertex,road))
 			{
 				ret = false;
 			}
@@ -1338,7 +1352,7 @@ bool catanMapModel::vertexAdjacentToRoad(string vertex, string road)
 	else if (vertex.length() == 2)		//en el caso de los vertices que comparten con el mar
 	{
 		ret = ((road.find(vertex) == 0) ? true : false);	//con la correccion de la nomenclatura se cumple esta condicion, el camino
-	}													//empieza con los dos caracteres de su vertice adyacente de dos caracteres		
+	}														//empieza con los dos caracteres de su vertice adyacente de dos caracteres		
 	return ret;
 }
 
