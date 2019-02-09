@@ -25,7 +25,7 @@ void gameGraphicator::refresh()
 		if (message.length() > 0)
 		{
 			al_draw_scaled_rotated_bitmap(backgroundBitmap, 0, 0, 456 * PROP_X, 0, PROP_X, PROP_Y, 0, 0);
-			al_draw_text(fontForMessages, al_color_name("black"), 476 * PROP_X, 5 * PROP_Y, 0, message.c_str());
+			al_draw_text(fontForMessages, al_color_name("black"), 476 * PROP_X, 2 * PROP_Y, 0, message.c_str());
 		}
 		al_flip_display();
 	}
