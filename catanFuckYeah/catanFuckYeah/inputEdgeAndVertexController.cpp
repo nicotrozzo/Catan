@@ -24,7 +24,7 @@ bool inputEdgeAndVertexController::parseMouseEvent(mouseEvent * ev)
 				{
 					if( (ret = gameModel->validConstruction(SETTLEMENT, x.first)) || (ret = gameModel->validConstruction(CITY, x.first)) )
 					{
-						string message = "       Do you want to build?";
+						string message = "                 Do you want to build?";
 						controllerEvent = new playingFSMEvent(TICK_EV,message);
 					}
 				}
@@ -51,7 +51,7 @@ bool inputEdgeAndVertexController::parseMouseEvent(mouseEvent * ev)
 					{
 						if (ret = gameModel->validConstruction(ROAD, x.first))
 						{
-							string message = "       Do you want to build?";
+							string message = "                Do you want to build?";
 							controllerEvent = new playingFSMEvent(TICK_EV,message);
 						}
 					}
