@@ -39,17 +39,17 @@ void gameGraphicator::writeMessage()
 {
 	if (message.length() < 15)
 	{
-		message.insert(0, "\t\t\t");
+		message.insert(0, "		a	");
 		al_draw_text(fontForMessages, al_color_name("black"), 476 * PROP_X, 5 * PROP_Y, 0, message.c_str());
 	}
 	else if(message.length() < 23)
 	{
-		message.insert(0, "\t\t");
+		message.insert(0, "		");
 		al_draw_text(fontForMessages, al_color_name("black"), 476 * PROP_X, 5 * PROP_Y, 0, message.c_str());
 	}
 	else
 	{
-		message.insert(0, "\t");
+		message.insert(0, "	");
 		al_draw_text(fontForMessages, al_color_name("black"), 476 * PROP_X, 5 * PROP_Y, 0, message.c_str());
 	}
 }

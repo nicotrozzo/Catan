@@ -262,7 +262,7 @@ void gameModelViewer::viewExitButton()
 void gameModelViewer::viewTurn()
 {
 	string text = myGame->getCurrentPlayer()->getName() + "'s turn";
-	al_draw_text(fontForAmountOfCards, al_color_name("black"), 660*PROP_X, 3, 0, text.c_str());
+	al_draw_text(fontForAmountOfCards, al_color_name("black"), 660*PROP_X, 0, 0, text.c_str());
 }
 
 gameModelViewer::~gameModelViewer()
