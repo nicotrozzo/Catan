@@ -11,7 +11,7 @@ gameModelViewer::gameModelViewer(catanGameModel *myGame)
 		{
 			if ((robberDiscardMenuBitmap = al_load_bitmap("graficoCatan\\menues\\menuDeLadron.png")) != NULL)
 			{
-				if ((fontForAmountOfCards = al_load_ttf_font("graficoCatan\\font\\PrinceValiant.ttf", 37 * PROP_Y, 0)) != NULL)
+				if ((fontForAmountOfCards = al_load_ttf_font("graficoCatan\\font\\scribish.ttf", 37 * PROP_Y, 0)) != NULL)
 				{
 					if ((fontForBankCosts = al_load_ttf_font("graficoCatan\\font\\scribish.ttf", 42 * PROP_Y, 0)) != NULL)
 					{
@@ -262,7 +262,7 @@ void gameModelViewer::viewExitButton()
 void gameModelViewer::viewTurn()
 {
 	string text = myGame->getCurrentPlayer()->getName() + "'s turn";
-	al_draw_text(fontForAmountOfCards, al_color_name("black"), 670*PROP_X, 0, 0, text.c_str());
+	al_draw_text(fontForAmountOfCards, al_color_name("black"), 690*PROP_X, 0, 0, text.c_str());
 }
 
 gameModelViewer::~gameModelViewer()

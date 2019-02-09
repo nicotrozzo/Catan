@@ -177,14 +177,14 @@ void playingFSM::tradeControllers(genericEvent * ev)
 	{
 		controllerToAdd->setActionToDo(TICK_BANK_TRADE);
 		cardsControllerToAdd->setFunction(BANK_TRADE);
-		messageDisp->setMessage("             Prepare your bank trade");
+		messageDisp->setMessage("                   Prepare your bank trade");
 	}
 	else
 	{
 		controllerToAdd->setActionToDo(TICK_OWN_TRADE);
 		cardsControllerToAdd->setFunction(OFFER_TRADE);
-		messageDisp->setMessage("             Prepare your trade offer");
-	}
+		messageDisp->setMessage("                   Prepare your trade offer");
+	}  
 	currentInputControllers.push_back(controllerToAdd);
 	currentInputControllers.push_back(cardsControllerToAdd);	//espera que el usuario seleccione las cartas
 
