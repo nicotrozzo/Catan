@@ -68,20 +68,23 @@ bool catanGameModel::dicesThrown(unsigned char dice1, unsigned char dice2)
 			cities = map.getP2Cities();
 			for (auto y : hexagonos)
 			{
-				for (auto x : vertex)
+				if (y.letter != map.getRobberPos())
 				{
-					found = x.find(y.letter);
-					if (found != string::npos)
+					for (auto x : vertex)
 					{
-						player2.incResource(y.hexResource);	//si tiene una construccion adyacente al hexagono
+						found = x.find(y.letter);
+						if (found != string::npos)
+						{
+							player2.incResource(y.hexResource);	//si tiene una construccion adyacente al hexagono
+						}
 					}
-				}
-				for (auto x : cities)
-				{
-					found = x.find(y.letter);
-					if (found != string::npos)
+					for (auto x : cities)
 					{
-						player2.incResource(y.hexResource);	//si tiene una citi adyacente al hexagono le asigno un recurso mas
+						found = x.find(y.letter);
+						if (found != string::npos)
+						{
+							player2.incResource(y.hexResource);	//si tiene una citi adyacente al hexagono le asigno un recurso mas
+						}
 					}
 				}
 			}

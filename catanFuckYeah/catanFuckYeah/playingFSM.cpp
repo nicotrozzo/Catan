@@ -269,6 +269,7 @@ void playingFSM::myTurnControllers(genericEvent * ev)
 		currentInputControllers.push_back(getInputController(CTRL_ACTION_BUTTON));
 	}
 	messageDisp->setMessage(static_cast<playingFSMEvent *>(ev)->getMessage());
+	gameModel->notify();
 }
 
 void playingFSM::finishedBuilding(genericEvent * ev)
