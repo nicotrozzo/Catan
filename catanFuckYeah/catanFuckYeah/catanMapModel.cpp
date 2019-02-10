@@ -1239,7 +1239,7 @@ bool catanMapModel::onlyWayToFixTheBug(string vertex, string road)
 	{
 		ret = true;
 	}
-	else if ( ((vertex == "4HM") && ((road == "4MQ") || (road == "5H4"))) || (false) ) 
+	else if ( ((vertex == "4HM") && ((road == "4MQ") || (road == "5H4"))) || ((vertex == "5AD")&&((road == "0A5")||(road == "5DH")||(road == "5HD"))) ) 
 	{
 		ret = true;
 	}
@@ -1342,7 +1342,7 @@ bool catanMapModel::vertexAdjacentToRoad(string vertex, string road)
 			}
 			if (matches >= 2)	//si dos letras del vertice coinciden con alguna del camino, son adyacentes
 			{
-				if (!( (vertex.find_first_of("012345") == 0) && (road.find(vertex.substr(0,2)) == 0) && (road != vertex) ) )
+				if (!( (vertex.find_first_of("012345") == 0) && (road.find(vertex.substr(0,2)) == 0) && (road != vertex) && (road.length() == 3) ) )
 				{
 					ret = true;
 				}
