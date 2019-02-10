@@ -1243,6 +1243,10 @@ bool catanMapModel::onlyWayToFixTheBug(string vertex, string road)
 	{
 		ret = true;
 	}
+	else if( ((vertex == "5DH") && (road == "5H4")) || ((vertex == "1GL") && (road == "2L1")) || ((vertex == "0AB")&&(road == "0BC")) || ((vertex == "05A")&&(road == "0AB")) )
+	{
+		ret = true;
+	}
 	return ret;
 }
 
@@ -1345,11 +1349,11 @@ bool catanMapModel::vertexAdjacentToRoad(string vertex, string road)
 				if (!( (vertex.find_first_of("012345") == 0) && (road.find(vertex.substr(0,2)) == 0) && (road != vertex) && (road.length() == 3) ) )
 				{
 					ret = true;
+					if (onlyWayToFixTheBug(vertex, road))
+					{
+						ret = false;
+					}
 				}
-			}
-			if (onlyWayToFixTheBug(vertex,road))
-			{
-				ret = false;
 			}
 		}
 	}
