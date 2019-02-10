@@ -1231,15 +1231,15 @@ bool catanMapModel::roadPresent(road* actRoad, list<road*> adjacents)
 bool catanMapModel::onlyWayToFixTheBug(string vertex, string road)
 {
 	bool ret = false;
-	if( ((vertex == "1CG") && (road == "1GL")) || ((vertex == "3RS") && (road == "3S2")) || ((vertex == "3QR") && (road == "3RS")))
+	if( ((vertex == "1CG") && (road == "1GL")) || ((vertex == "3RS") && (road == "3S2")) || ((vertex == "3QR") && ((road == "3RS") || (road == "3SR" )) ) )
 	{
 		ret = true;
 	}
-	else if ( ((vertex == "23S") && (road == "3S2")) || ((vertex == "2LP") && (road == "2PS")) || ((vertex == "3QR") && (road == "3SR")) || ((vertex == "23S") && (road == "3SR")))
+	else if ( ((vertex == "23S") && ((road == "3S2")||(road == "3SR")) ) || ((vertex == "2LP") && ((road == "2PS"))||(road == "") ) )
 	{
 		ret = true;
 	}
-	else if (((vertex == "23S") && (road == "3SR")) || ((vertex == "3QR") && (road == "3SR")) || ((vertex == "4HM") && (road == "4MQ")) || ((vertex == "4HM") && (road == "5H4")) )
+	else if ( ((vertex == "4HM") && ((road == "4MQ") || (road == "5H4"))) || (false) ) 
 	{
 		ret = true;
 	}
