@@ -1247,7 +1247,7 @@ bool catanMapModel::onlyWayToFixTheBug(string vertex, string road)
 	{
 		ret = true;
 	}
-	else if( ((vertex == "4MQ") && (road == "4Q3")) || ((vertex == "34Q") && (road == "4QM")))
+	else if( ((vertex == "4MQ") && (road == "4Q3")) || ((vertex == "34Q") && (road == "4QM")) || ((vertex == "45H")&&(road == "5HD")))
 	{
 		ret = true;
 	}

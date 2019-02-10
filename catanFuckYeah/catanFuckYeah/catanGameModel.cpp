@@ -143,7 +143,7 @@ bool catanGameModel::validConstruction(networkingEventTypes type, string coords)
 	{
 		if (initConstructionOk(player))
 		{
-			bool initState = (player1Playing ? map.getP1Roads().size() < 2 : map.getP2Roads().size() < 2);	//si esta en el estado inicial, no necesita recursos para construir
+			bool initState = true;//(player1Playing ? map.getP1Roads().size() < 2 : map.getP2Roads().size() < 2);	//si esta en el estado inicial, no necesita recursos para construir
 			if ((validResourceForConstruct(type)) || initState)
 			{
 				switch (type)
