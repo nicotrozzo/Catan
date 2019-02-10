@@ -1235,7 +1235,11 @@ bool catanMapModel::onlyWayToFixTheBug(string vertex, string road)
 	{
 		ret = true;
 	}
-	else if ( ((vertex == "23S") && (road == "3S2")) || ((vertex == "2LP") && (road == "2PS")) || ((vertex == "3QR") && (road == "3RS")) || ((vertex == "3QR") && (road == "3RS")))
+	else if ( ((vertex == "23S") && (road == "3S2")) || ((vertex == "2LP") && (road == "2PS")) || ((vertex == "3QR") && (road == "3SR")) || ((vertex == "23S") && (road == "3SR")))
+	{
+		ret = true;
+	}
+	else if (((vertex == "23S") && (road == "3SR")) || ((vertex == "3QR") && (road == "3SR")) || ((vertex == "4HM") && (road == "4MQ")) || ((vertex == "4HM") && (road == "5H4")) )
 	{
 		ret = true;
 	}
