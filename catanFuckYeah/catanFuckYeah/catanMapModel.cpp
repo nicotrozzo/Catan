@@ -1231,7 +1231,7 @@ bool catanMapModel::roadPresent(road* actRoad, list<road*> adjacents)
 bool catanMapModel::onlyWayToFixTheBug(string vertex, string road)
 {
 	bool ret = false;
-	if( ((vertex == "1CG") && (road == "1GL")) || ((vertex == "3RS") && (road == "3S2")) || ((vertex == "3QR") && ((road == "3RS") || (road == "3SR" )) ) )
+	if( ((vertex == "1CG") && (road == "1GL")) || ((vertex == "3RS") && (road == "3S2")) || ((vertex == "3QR") && ((road == "3RS") || (road == "3SR" ) || (road == "4Q3")) ) )
 	{
 		ret = true;
 	}
