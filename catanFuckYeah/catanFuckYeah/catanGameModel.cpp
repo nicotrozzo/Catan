@@ -268,10 +268,12 @@ void catanGameModel::updatePlayersVictoryPoints()
 		if ((longestRoad1 > longestRoad2) || ((longestRoad1 == longestRoad2) && (longestRoadPlayer == 1)))
 		{
 			vicPoints1++;
+			longestRoadPlayer = 1;
 		}
 		else
 		{
 			vicPoints2++;
+			longestRoadPlayer = 2;
 		}
 	}
 	vicPoints1 += map.getP1Settlements().size() + 2 * map.getP1Cities().size();
