@@ -77,10 +77,10 @@ void bossFSM::newEstablisher(genericEvent * ev)
 void bossFSM::stMnError(genericEvent * ev)
 {
 	closeStMn(ev);
-	if (ev->getType() == OUT_EV)
+	/*if (ev->getType() == OUT_EV)
 	{
 		cout << "Error: " << static_cast<outEv *>(ev)->getDetail() << endl;
-	}
+	}*/
 }
 
 void bossFSM::closeStMn(genericEvent * ev)
@@ -166,10 +166,10 @@ void bossFSM::newStMn1(genericEvent * ev)
 		delete emisor;
 		emisor = nullptr;
 	}
-	if (ev->getType() == OUT_EV)
+	/*if (ev->getType() == OUT_EV)
 	{
 		cout << "Error: " << static_cast<outEv *>(ev)->getDetail() << endl;
-	}
+	}*/
 }
 void bossFSM::newStMn2(genericEvent * ev)
 {
@@ -362,10 +362,10 @@ void bossFSM::closeConnection(genericEvent * ev)
 		delete gameFSM;
 		gameFSM = nullptr;
 	}
-	if (ev->getType() == OUT_EV)
+	/*if (ev->getType() == OUT_EV)
 	{
 		cout << "Error: " << static_cast<outEv *>(ev)->getDetail() << endl;
-	}
+	}*/
 }
 
 void bossFSM::finishHandshaking(genericEvent * ev)
