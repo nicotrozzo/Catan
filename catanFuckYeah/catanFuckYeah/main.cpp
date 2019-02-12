@@ -23,7 +23,6 @@ bool checkIP(char* IP);
 
 int main(int argc,char * argv[])
 {
-	char * ip = argv[1];
 	void * info = initFrontEnd();
 	if (info != nullptr)
 	{
